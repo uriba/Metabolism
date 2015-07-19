@@ -8,18 +8,24 @@ runtime: shiny
 
 We analyze the simple auto-catalytic cycle depicted below.
 
-![A simple auto-catalytic cycle](cycle3.png)
+![A simple auto-catalytic cycle](cycle4.png)
 
-The following plots show $f_a$ and $f_b$ as a function of $K_{m,a}$ and $K_{m,b}$.
-As $f_a$ represents the flux into $C$ and $f_b$ the flux out of $C$, any intersection between these two lines is a steady state point.
+Our analysis focuses on the concentration of the metabolite $C_1$, if it is at a steady state, and if the steady state is stable.
+We note that $f_i$ and $f_a$ increase the concentration of $C_1$, and $f_b$ decreases it.
+
+The following plot show $f_a$ and $f_b$ as a function of $K_{m,a}$,$K_{m,b}$,$V_{max,a}$ and $V_{max,b}$, and $f_i$ as a pre-set parameter.
+As $f_a+f_i$ represents the flux into $C_1$ and $f_b$ the flux out of $C_1$, any intersection between these two lines is a steady state point.
 The stability of the steady state point is determined by the dynamics around it.
-If, for $C=C_{st.st}+\delta C$, $f_b(C)>f_a(C)$, then the excess metaolite will be drained out of the cycle and the steady state point is stable.
-If $f_b(C)<f_a(C)$ then excess metabolite will feed back into the auto-catalytic cycle further increasing $C$, making the steady-state point unstable.
+If, for $C=C_{st.st}+\Delta C$, $f_b(C)>f_a(C)+f_i(C)$, then the excess metaolite will be drained out of the cycle and the steady state point is stable.
+If $f_b(C)<f_a(C)+f_i(C)$ then excess metabolite will feed back into the auto-catalytic cycle further increasing $C_1$, making the steady-state point unstable.
 
 ```{r, echo=FALSE}
 library(ggplot2)
+library(reshape2)
 
 inputPanel(
+  sliderInput("fi", label = "$$f_i$$",
+              min = 0, max = 1, value = 0.1, step = 0.1),
   sliderInput("Kma", label = "$$K_{m,a}$$",
               min = 0.1, max = 2, value = 0.5, step = 0.1),
   sliderInput("Kmb", label = "$$K_{m,b}$$",
@@ -32,58 +38,23 @@ inputPanel(
 
 renderPlot({
   xs <- seq(0,10,0.1)
+  fi <- input$fi
   fa <- input$Va*xs/(xs+input$Kma)
   fb <- input$Vb*xs/(xs+input$Kmb)
-  data <- data.frame(xs = xs, fa = fa, fb = fb)
-  ggplot(data)+xlab("[C]")+scale_y_continuous(limits=c(0,1))+ylab("flux")+
-    geom_line(aes(x=xs,y=fa),color="green")+
-    geom_line(aes(x=xs,y=fb),color="blue")
+  data <- data.frame(xs = xs, fb = fb, fa = fa, fin = fa+fi)
+  data <- melt(data,id=c("xs"))
+  size = element_text(size=18)
+  ssize = element_text(size=12)
+  ggplot(data = data,aes(x=xs,y=value,colour=variable)) + geom_line() +
+    xlab("[C]")+scale_y_continuous(limits=c(0,1))+ylab("flux")+
+    scale_color_manual(name="Fluxes",values = c("red","green","cyan"),labels=c(expression(f[b]),
+                                                                               expression(f[a]),
+                                                                               expression(f[a]+f[i])))+
+#    geom_line(aes(x=xs,y=fin),colour="cyan",name="influx")+
+#    geom_line(aes(x=xs,y=fa),colour="green",name="auto-catalytic flux")+
+#    geom_line(aes(x=xs,y=fb),colour="red",name="biomass flux")+
+    guides(colour= guide_legend())+theme(legend.text=size,legend.title=size,axis.text=ssize,axis.title=size)
 })
 ```
-This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
-
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
-
-## Inputs and Outputs
-
-You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
-
-```{r, echo=FALSE}
-inputPanel(
-  selectInput("n_breaks", label = "Number of bins:",
-              choices = c(10, 20, 35, 50), selected = 20),
-  
-  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-              min = 0.2, max = 2, value = 1, step = 0.2)
-)
-
-renderPlot({
-  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
-       xlab = "Duration (minutes)", main = "Geyser eruption duration")
-  
-  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
-  lines(dens, col = "blue")
-})
-```
-
-## Embedded Application
-
-It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
-
-```{r, echo=FALSE}
-shinyAppDir(
-  system.file("examples/06_tabsets", package="shiny"),
-  options=list(
-    width="100%", height=550
-  )
-)
-```
-
-Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
-
-You can also use the `shinyApp` function to define an application inline rather then in an external directory.
-
-In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
-
 
 
