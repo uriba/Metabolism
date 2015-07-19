@@ -13,11 +13,17 @@
 
 \begin{document}
 \abstract{
-    This document describes the dynamic analysis of a carbon fixating auto-catalytic cycle. The result of the analysis reveals that such an auto-catalytic cycle always has a steady state point when the concentrations along the cycle are all 0, and under some conditions may have another steady state point at a positive concentration.
+    This document describes the dynamic analysis of a carbon fixating auto-catalytic cycle (Figure \ref{fig:autocatal}). The result of the analysis reveals that such an auto-catalytic cycle always has a steady state point when the concentrations along the cycle are all 0, and under some conditions may have another steady state point at a positive concentration.
     Furhtermore, the conclusion of the analysis is that, in case two steady state points exists (at 0 and $C$), then the relation between $\frac{V_{\max,b}}{K_{m,b}}$ and $\frac{V_{\max,a}}{K_{m,a}}$, (where $V_{\max,b},K_{m,b}$ are the Michaelis-Menten parameters of the biomass reaction and $V_{\max,a},K_{m,a}$ are the parameters of the carbon-fixating auto-catalytic reaction) determine which of the two steady state points is stable.
     If $\frac{V_{\max,b}}{K_{m,b}} > \frac{V_{\max,a}}{K_{m,a}}$ then 0 is the stable steady state, and if $\frac{V_{\max,b}}{K_{m,b}} < \frac{V_{\max,a}}{K_{m,a}}$ then the non-zero point is the stable steady state of the system.
 }
 \section{Introduction}
+\begin{figure}[h]
+\centering
+\includegraphics{cycle3.pdf}
+\caption{A simple auto-catalytic cycle with extration of biomass reaction}
+\label{fig:autocatal}
+\end{figure}
 Biological systems are noisy by nature.
 Thus, in order for metabolic pathways and cycles to be viable, they must be resistant to noise (meaning they should be able to perform their action, maintaining fluxes and concentrations, where necessary, even under perturbations).
 
@@ -116,7 +122,7 @@ Therefore, in order for the real part of both eigenvalues to be negative (the co
 
 We now turn to see what possible combinations of kinetics can satisfy these conditions:
 \begin{itemize}
-\item We note that the case of both $V_2$ and $V_3$ being linear (meaning that $V_2(C_2)=a_2C_2;V_3(C_3)=a_3C_3)$ is unprobable as it requires that $a_2=a_3$ in order for an equilibrium point to exist.
+\item We note that the case of both $V_2$ and $V_3$ being linear (meaning that $V_2(C_2)=a_2C_2;V_3(C_2)=a_3C_2)$ is unprobable as it requires that $a_2=a_3$ in order for an equilibrium point to exist.
 \item If $V_2$ is linear and $V_3$ is MM, then they must intersect at an equilibrium point.
 They intersect at the trivial point where $C_2=0$.
 As MM is a concave function, if they intersect at a larger concentration point, then at the point of intersection $k_3$ will be smaller than $a_2=k_2$ making that point unstable.

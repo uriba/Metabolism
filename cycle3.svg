@@ -9,7 +9,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="158.89731"
+   width="159.54674"
    height="84.28186"
    id="svg2"
    version="1.1"
@@ -138,7 +138,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="-30.156829"
+     inkscape:cx="-28.72826"
      inkscape:cy="183.28552"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -164,7 +164,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -235,12 +235,12 @@
            ry="0"
            y="418.07648"
            x="91.428574"
-           height="53.571445"
-           width="47.142849"
+           height="61.111519"
+           width="47.142845"
            id="rect3099" /></flowRegion><flowPara
          id="flowPara3101">V<flowSpan
    id="flowSpan3103"
-   style="font-size:65.00091553%;baseline-shift:sub">1</flowSpan></flowPara></flowRoot>    <flowRoot
+   style="font-size:65.00091553%;baseline-shift:sub">a</flowSpan></flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3105"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -248,11 +248,11 @@
          id="flowRegion3107"><rect
            id="rect3109"
            width="48.571415"
-           height="57.142879"
+           height="50.85947"
            x="91.428574"
            y="418.07648"
            ry="0" /></flowRegion><flowPara
          id="flowPara3111">V<flowSpan
    style="font-size:65.00091553%;baseline-shift:sub"
-   id="flowSpan3113">2</flowSpan></flowPara></flowRoot>  </g>
+   id="flowSpan3113">b</flowSpan></flowPara></flowRoot>  </g>
 </svg>
