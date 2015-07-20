@@ -1,6 +1,6 @@
 ---
 title: "Autocatalytic cycle stability analysis"
-author: "Uri Barenholz"
+#author: "Uri Barenholz"
 date: "19/07/2015"
 output: html_document
 runtime: shiny
@@ -27,13 +27,13 @@ inputPanel(
   sliderInput("fi", label = "$$f_i$$",
               min = 0, max = 1, value = 0.1, step = 0.1),
   sliderInput("Kma", label = "$$K_{m,a}$$",
-              min = 0.1, max = 2, value = 0.5, step = 0.1),
+              min = 0.1, max = 2, value = 1, step = 0.1),
   sliderInput("Kmb", label = "$$K_{m,b}$$",
               min = 0.1, max = 2, value = 2, step = 0.1),
   sliderInput("Va", label = "$$V_{max,a}$$",
-              min = 0.1, max = 1, value = 0.7, step = 0.1),
+              min = 0.1, max = 2, value = 1, step = 0.1),
   sliderInput("Vb", label = "$$V_{max,b}$$",
-              min = 0.1, max = 1, value = 1, step = 0.1)
+              min = 0.1, max = 2, value = 1.5, step = 0.1)
 )
 
 renderPlot({
@@ -46,15 +46,44 @@ renderPlot({
   size = element_text(size=18)
   ssize = element_text(size=12)
   ggplot(data = data,aes(x=xs,y=value,colour=variable)) + geom_line() +
-    xlab("[C]")+scale_y_continuous(limits=c(0,1))+ylab("flux")+
+    xlab("[C]")+scale_y_continuous(limits=c(0,2))+ylab("flux")+
     scale_color_manual(name="Fluxes",values = c("red","green","cyan"),labels=c(expression(f[b]),
                                                                                expression(f[a]),
                                                                                expression(f[a]+f[i])))+
-#    geom_line(aes(x=xs,y=fin),colour="cyan",name="influx")+
-#    geom_line(aes(x=xs,y=fa),colour="green",name="auto-catalytic flux")+
-#    geom_line(aes(x=xs,y=fb),colour="red",name="biomass flux")+
     guides(colour= guide_legend())+theme(legend.text=size,legend.title=size,axis.text=ssize,axis.title=size)
 })
+
+is.stable <- function(x,v,k) {
+    if(!is.finite(x)) return(FALSE)
+    if(x<=0) return(FALSE)
+    return((v/(x+k)-v*x/((x+k)^2))>(1/(x+1)-1*x/((x+1)^2)))
+}
+
+renderPlot({
+  fi <- input$fi
+  Va <- 1
+  Kma <- 1
+  rc <- matrix(nrow=200,ncol=200)
+  vs = seq(200)
+  ks = seq(200)
+  for(V in vs) 
+      for(K in ks) {
+          Vb = V/10
+          Kmb = K/10
+          a <- fi+Va-Vb
+          b <- fi*(Kma+Kmb)+Va*Kmb-Vb*Kma
+          c <- fi*Kma*Kmb
+          x.st.st.1 <- (-b+sqrt(b^2-4*a*c))/2*a
+          x.st.st.2 <- (-b-sqrt(b^2-4*a*c))/2*a
+          if(is.stable(x.st.st.1,Vb,Kmb)) {
+              rc[V,K] <- 1 #x.st.st.1
+          } else if(is.stable(x.st.st.2,Vb,Kmb)) {
+              rc[V,K] <- 1 #x.st.st.2
+          } else rc[V,K] <- 0
+      }
+  image(x=vs/100,y=ks/100,rc,xlab = expression(V[max,b]),ylab = expression(K[m,b]))
+})
+
 ```
 
 
