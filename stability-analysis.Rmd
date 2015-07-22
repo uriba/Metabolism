@@ -58,12 +58,12 @@ renderPlot({
 ```
 
 Next we want to investigate the fitness landscape produced by this cycle in the experimental setup of a chemostat.
-Such a setup implies a constant growth rate, $f_b=g$.
+Such a setup implies a constant growth rate, $g$, which is reflected in our system by a constant biomass flux, $f_b=g$.
 The fitness in such a setup is determined by the concentration of the feeding metabolite, $X$, at which the pre-set growth rate is sustained.
 Stated differently, if two strains, $S_1$ and $S_2$, are both able to grow at rate $g$, but $S_1$ sustains this rate at an outside metabolite concentration $X_1<X_2$, then it follows that at $X_2$, $S_1$ will grow at a faster rate than $S_2$ and will thus out-compete it in the chemostat.
 
 We therefore replace the input flux, $f_i$, with the affinity of the transporter of $X$, $K_{m,i}$.
-We assume membrane area and transporter size remain constant and thus $V_{max,i}$ cannot change.
+We assume membrane economics remain constant, as well as the catalytic rate of the transporter, and thus $V_{max,i}$ does not change during the evolution.
 
 For simplicity, we set the units of measurement of flux and concentration in the system to be such that $K_{m,a}=1$ and $V_{max,a}=1$.
 We note that this implies that fluxes and concentrations of the other parameters in the system are now measured relative to $K_{m,a}$ and $V_{max,a}$.
@@ -74,7 +74,19 @@ The maximum transporter capacity is set to $V_{max,i}=1.5$ reflecting the fact t
 Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of the external metabolite, the biomass reaction is not saturated, meaning high concentrations of $X$ will not cause the cycle to explode.
 All of these parameters can be modified below to see their effect on the generated fitness landscape.
 
+For simplicity, a value of 50 indicates non-feasible solution (this will be corrected in future versions).
+
 ```{r, echo=FALSE}
+inputPanel(
+  sliderInput("g", label = "$$g$$",
+              min = 0, max = 2, value = 1, step = 0.1),
+  sliderInput("vi", label = "$$V_{max,i}$$",
+              min = 0, max = 2, value = 1, step = 0.1),
+  sliderInput("vb", label = "$$V_{max,b}$$",
+              min = 0.1, max = 2, value = 1.5, step = 0.1)
+)
+
+
 is.stable <- function(x,v,k) {
     if(!is.finite(x)) return(FALSE)
     if(x<=0) return(FALSE)
@@ -84,30 +96,28 @@ is.stable <- function(x,v,k) {
 renderPlot({
   matsize = 20
   scale = 10
-  fi <- input$fi
+  g <- input$g
+  Vi <- input$vi
+  Vb <- input$vb
   Va <- 1
   Kma <- 1
   rc <- matrix(nrow=matsize,ncol=matsize)
-  vs = seq(matsize)
   ks = seq(matsize)
-  for(V in vs) 
-      for(K in ks) {
-          Vb <- V/scale
-          Kmb <- K/scale
-          a <- fi+Va-Vb
-          b <- fi*(Kma+Kmb)+Va*Kmb-Vb*Kma
-          c <- fi*Kma*Kmb
-          x1 <- (-b+sqrt(b^2-4*a*c))/(2*a)
-          x2 <- (-b-sqrt(b^2-4*a*c))/(2*a)
-          if(is.stable(x1,Vb,Kmb)) {
-              rc[V,K] <- x1
-          } else if(is.stable(x2,Vb,Kmb)) {
-              rc[V,K] <- x2
-          } else rc[V,K] <- 50
+  for(ki in ks)
+      for(kb in ks) {
+          Kmi <- ki/scale
+          Kmb <- kb/scale
+          c <- g*Kmb/(Vb-g)
+          fa <- c*Va/(c+Kma)
+          fi <- g-fa
+          x <- fi*Kmi/(Vi-fi)
+          if(!is.finite(c)) { rc[ki,kb] <- 50
+          } else if(c<0) { rc[ki,kb] <- 50
+          } else if(fi<0) {rc[ki,kb] <- 50
+          } else if((Vb/(c+Kmb)-Vb*c/((c+Kmb)^2))<(1/(c+1)-1*c/((c+1)^2))) { rc[ki,kb] <- 50
+          } else rc[ki,kb] <-x
       }
-  image.plot(x=vs/scale,y=ks/scale,rc,xlab = expression(V[max,b]),ylab = expression(K[m,b]))
+  par(mar=c(4,6,4,4))
+  image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 2)
 })
-
 ```
-
-
