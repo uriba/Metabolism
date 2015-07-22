@@ -13,15 +13,17 @@ We analyze the simple auto-catalytic cycle depicted below.
 Our analysis focuses on the concentration of the metabolite $C_1$, if it is at a steady state, and if the steady state is stable.
 We note that $f_i$ and $f_a$ increase the concentration of $C_1$, and $f_b$ decreases it.
 
-The following plot show $f_a$ and $f_b$ as a function of $K_{m,a}$,$K_{m,b}$,$V_{max,a}$ and $V_{max,b}$, and $f_i$ as a pre-set parameter.
+The following plot shows $f_a$ and $f_b$ as a function of $K_{m,a}$,$K_{m,b}$,$V_{max,a}$, $V_{max,b}$, and $f_i$ as a pre-set parameter.
 As $f_a+f_i$ represents the flux into $C_1$ and $f_b$ the flux out of $C_1$, any intersection between these two lines is a steady state point.
+
 The stability of the steady state point is determined by the dynamics around it.
-If, for $C=C_{st.st}+\Delta C$, $f_b(C)>f_a(C)+f_i(C)$, then the excess metaolite will be drained out of the cycle and the steady state point is stable.
+For $C=C_{st.st}+\Delta C$, if $f_b(C)>f_a(C)+f_i(C)$, then the excess metabolite will be drained out of the cycle and the steady state point is stable.
 If $f_b(C)<f_a(C)+f_i(C)$ then excess metabolite will feed back into the auto-catalytic cycle further increasing $C_1$, making the steady-state point unstable.
 
 ```{r, echo=FALSE}
 library(ggplot2)
 library(reshape2)
+library(fields)
 
 inputPanel(
   sliderInput("fi", label = "$$f_i$$",
@@ -53,6 +55,26 @@ renderPlot({
     guides(colour= guide_legend())+theme(legend.text=size,legend.title=size,axis.text=ssize,axis.title=size)
 })
 
+```
+
+Next we want to investigate the fitness landscape produced by this cycle in the experimental setup of a chemostat.
+Such a setup implies a constant growth rate, $f_b=g$.
+The fitness in such a setup is determined by the concentration of the feeding metabolite, $X$, at which the pre-set growth rate is sustained.
+Stated differently, if two strains, $S_1$ and $S_2$, are both able to grow at rate $g$, but $S_1$ sustains this rate at an outside metabolite concentration $X_1<X_2$, then it follows that at $X_2$, $S_1$ will grow at a faster rate than $S_2$ and will thus out-compete it in the chemostat.
+
+We therefore replace the input flux, $f_i$, with the affinity of the transporter of $X$, $K_{m,i}$.
+We assume membrane area and transporter size remain constant and thus $V_{max,i}$ cannot change.
+
+For simplicity, we set the units of measurement of flux and concentration in the system to be such that $K_{m,a}=1$ and $V_{max,a}=1$.
+We note that this implies that fluxes and concentrations of the other parameters in the system are now measured relative to $K_{m,a}$ and $V_{max,a}$.
+
+The following plot shows the fitness landscape as a function of $K_{m,i}$ and $K_{m,b}$.
+For the growth rate, $g$, we pick an initial value of $1/2 < V_{max,a}$ to reflect the fact that semi-autotrophic strains can maintain growth in the chemostat even with no supplied carbon source $X$.
+The maximum transporter capacity is set to $V_{max,i}=1.5$ reflecting the fact that at high-enough external metabolite concentration, the growth rate can be higher than the one dictated by the chemostat, as well as the one allowed by the auto-catalytic cycle alone.
+Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of the external metabolite, the biomass reaction is not saturated, meaning high concentrations of $X$ will not cause the cycle to explode.
+All of these parameters can be modified below to see their effect on the generated fitness landscape.
+
+```{r, echo=FALSE}
 is.stable <- function(x,v,k) {
     if(!is.finite(x)) return(FALSE)
     if(x<=0) return(FALSE)
@@ -60,28 +82,30 @@ is.stable <- function(x,v,k) {
 }
 
 renderPlot({
+  matsize = 20
+  scale = 10
   fi <- input$fi
   Va <- 1
   Kma <- 1
-  rc <- matrix(nrow=200,ncol=200)
-  vs = seq(200)
-  ks = seq(200)
+  rc <- matrix(nrow=matsize,ncol=matsize)
+  vs = seq(matsize)
+  ks = seq(matsize)
   for(V in vs) 
       for(K in ks) {
-          Vb = V/10
-          Kmb = K/10
+          Vb <- V/scale
+          Kmb <- K/scale
           a <- fi+Va-Vb
           b <- fi*(Kma+Kmb)+Va*Kmb-Vb*Kma
           c <- fi*Kma*Kmb
-          x.st.st.1 <- (-b+sqrt(b^2-4*a*c))/2*a
-          x.st.st.2 <- (-b-sqrt(b^2-4*a*c))/2*a
-          if(is.stable(x.st.st.1,Vb,Kmb)) {
-              rc[V,K] <- 1 #x.st.st.1
-          } else if(is.stable(x.st.st.2,Vb,Kmb)) {
-              rc[V,K] <- 1 #x.st.st.2
-          } else rc[V,K] <- 0
+          x1 <- (-b+sqrt(b^2-4*a*c))/(2*a)
+          x2 <- (-b-sqrt(b^2-4*a*c))/(2*a)
+          if(is.stable(x1,Vb,Kmb)) {
+              rc[V,K] <- x1
+          } else if(is.stable(x2,Vb,Kmb)) {
+              rc[V,K] <- x2
+          } else rc[V,K] <- 50
       }
-  image(x=vs/100,y=ks/100,rc,xlab = expression(V[max,b]),ylab = expression(K[m,b]))
+  image.plot(x=vs/scale,y=ks/scale,rc,xlab = expression(V[max,b]),ylab = expression(K[m,b]))
 })
 
 ```
