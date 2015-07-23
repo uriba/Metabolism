@@ -60,7 +60,8 @@ renderPlot({
 Next we want to investigate the fitness landscape produced by this cycle in the experimental setup of a chemostat.
 Such a setup implies a constant growth rate, $g$, which is reflected in our system by a constant biomass flux, $f_b=g$.
 The fitness in such a setup is determined by the concentration of the feeding metabolite, $X$, at which the pre-set growth rate is sustained.
-Stated differently, if two strains, $S_1$ and $S_2$, are both able to grow at rate $g$, but $S_1$ sustains this rate at an outside metabolite concentration $X_1<X_2$, then it follows that at $X_2$, $S_1$ will grow at a faster rate than $S_2$ and will thus out-compete it in the chemostat.
+The lower the concentration of $X$ at which a strain can grow at rate $g$, the higher the fitness of that strain.
+To illustrate, if two strains, $S_1$ and $S_2$, are both able to grow at rate $g$, but $S_1$ sustains this rate at an outside metabolite concentration $X_1<X_2$, then it follows that at $X_2$, $S_1$ will grow at a faster rate than $S_2$ and will thus out-compete it in the chemostat.
 
 We therefore replace the input flux, $f_i$, with the affinity of the transporter of $X$, $K_{m,i}$.
 We assume membrane economics remain constant, as well as the catalytic rate of the transporter, and thus $V_{max,i}$ does not change during the evolution.
@@ -71,10 +72,10 @@ We note that this implies that fluxes and concentrations of the other parameters
 The following plot shows the fitness landscape as a function of $K_{m,i}$ and $K_{m,b}$.
 For the growth rate, $g$, we pick an initial value of $1/2 < V_{max,a}$ to reflect the fact that semi-autotrophic strains can maintain growth in the chemostat even with no supplied carbon source $X$.
 The maximum transporter capacity is set to $V_{max,i}=1.5$ reflecting the fact that at high-enough external metabolite concentration, the growth rate can be higher than the one dictated by the chemostat, as well as the one allowed by the auto-catalytic cycle alone.
-Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of the external metabolite, the biomass reaction is not saturated, meaning high concentrations of $X$ will not cause the cycle to explode.
-All of these parameters can be modified below to see their effect on the generated fitness landscape.
+Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of the external metabolite, the biomass reaction is not saturated, meaning high concentrations of $X$ will not cause the cycle to explode. All of these parameters can be modified below to see their effect on the generated fitness landscape.
 
-For simplicity, a value of 50 indicates non-feasible solution (this will be corrected in future versions).
+We plot the value of $-\log(X)$ to extend the dynamic range and make higher values represent higher fitness.
+Non-feasible solutions are painted white.
 
 ```{r, echo=FALSE}
 inputPanel(
@@ -111,11 +112,11 @@ renderPlot({
           fa <- c*Va/(c+Kma)
           fi <- g-fa
           x <- fi*Kmi/(Vi-fi)
-          if(!is.finite(c)) { rc[ki,kb] <- 50
-          } else if(c<0) { rc[ki,kb] <- 50
-          } else if(fi<0) {rc[ki,kb] <- 50
-          } else if((Vb/(c+Kmb)-Vb*c/((c+Kmb)^2))<(1/(c+1)-1*c/((c+1)^2))) { rc[ki,kb] <- 50
-          } else rc[ki,kb] <-x
+          if(!is.finite(c)) { rc[ki,kb] <- NaN
+          } else if(c<0) { rc[ki,kb] <- NaN
+          } else if(fi<0) {rc[ki,kb] <- NaN
+          } else if((Vb/(c+Kmb)-Vb*c/((c+Kmb)^2))<(1/(c+1)-1*c/((c+1)^2))) { rc[ki,kb] <- NaN
+          } else rc[ki,kb] <- -log(x)
       }
   par(mar=c(4,6,4,4))
   image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 2)
