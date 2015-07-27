@@ -77,7 +77,7 @@ Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of 
 We plot the value of $-\log(X)$ to extend the dynamic range and make higher values represent higher fitness.
 Non-feasible solutions are painted white.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,fig.width = 4, fig.height = 4}
 inputPanel(
   sliderInput("g", label = "$$g$$",
               min = 0, max = 2, value = 1, step = 0.1),
@@ -86,13 +86,6 @@ inputPanel(
   sliderInput("vb", label = "$$V_{max,b}$$",
               min = 0.1, max = 2, value = 1.5, step = 0.1)
 )
-
-
-is.stable <- function(x,v,k) {
-    if(!is.finite(x)) return(FALSE)
-    if(x<=0) return(FALSE)
-    return((v/(x+k)-v*x/((x+k)^2))>(1/(x+1)-1*x/((x+1)^2)))
-}
 
 renderPlot({
   matsize = 20
@@ -119,6 +112,87 @@ renderPlot({
           } else rc[ki,kb] <- -log(x)
       }
   par(mar=c(4,6,4,4))
-  image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 2)
-})
+  image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 1.5)
+  title("")
+  mtext("-log(X)",side = 3,adj=1.2)
+  mtext("Initial",side = 1,line = -2.5,adj = 0.9,cex = 1.5,col="white")
+  mtext("Final",side = 3,line = -2,adj = 0.1,cex = 1.5)
+},width = 600, height = 500)
 ```
+
+The preceding analysis shows that, in our simplified model, increasing $K_{m,b}$ may be necessary to achieve autotrophic growth, and that it increases fitness in chemostat conditions.
+However, experimental evidence shows that this is not a sufficient condition for autotrophic growth.
+We therefore extend our model to reflect more complexity of the metabolic network.
+To begin, we consider the following metabolic network:
+
+![An extended auto-catalytic cycle](cycle5.png)
+
+This extended model includes an intermediate metabolite in the cycle.
+We explore how $K_{m,b}$ affects the ratio between $C_1$ and $C_2$ in the figure below.
+
+```{r, echo=FALSE}
+maxb = 5
+inputPanel(
+  sliderInput("fi2", label = "$$f_i$$",
+              min = 0, max = 1, value = 0.1, step = 0.1),
+  sliderInput("Kmc", label = "$$K_{m,c}$$",
+              min = 0.1, max = 2, value = 2, step = 0.1),
+  sliderInput("Vb2", label = "$$V_{max,b}$$",
+              min = 0.1, max = 2, value = 1, step = 0.1),
+  sliderInput("Vc", label = "$$V_{max,c}$$",
+              min = 0.1, max = 2, value = 1.5, step = 0.1)
+)
+
+is.stable <- function(x,kb) {
+    if(!is.finite(x)) return(FALSE)
+    if(x<=0) return(FALSE)
+    vb <- input$Vb
+    va = 1
+    ka = 1
+    return((vb/(x+kb)-vb*x/((x+kb)^2))>(va/(x+ka)-va*x/((x+ka)^2)))
+}
+
+renderPlot({
+  kbs <- seq(0,maxb,0.1)
+  fi <- input$fi2
+  vb <- input$Vb2
+  vc <- input$Vc
+  kc <- input$Kmc
+  va <- 1
+  ka <- 1
+  c1s <- c()
+  c2s <- c()
+  for(kb in kbs) {
+      a <- fi + va - vb
+      b <- fi*(ka+kb)+va*kb-vb*ka
+      c <- fi*ka*kb
+      c1 <- (-b+sqrt(b^2-4*a*c))/(2*a)
+      c2 <- (-b-sqrt(b^2-4*a*c))/(2*a)
+      if(is.stable(c1,kb)) {
+          c1s <- append(c1s,c1)
+      } else if(is.stable(c2,kb)) {
+          c1s <- append(c1s,c2)
+      } else {
+          c1s <- append(c1s,-1)
+      }
+      c1 <- c1s[-1]
+      fa <- va*c1/(c1+ka)
+      c2 <- fa*kc/(vc-fa)
+      c2s <- append(c2s,c2)
+  }
+  data <- data.frame(xs = kbs, c1s = c1s, c2s = c2s)
+  data <- melt(data,id=c("xs"))
+  size = element_text(size=18)
+  ssize = element_text(size=12)
+  ggplot(data = data,aes(x=xs,y=value,colour=variable)) + geom_line() +
+    #xlab("[C]")+scale_y_continuous(limits=c(0,2))+ylab("flux")+
+    xlab(expression(k[b]))+ylab("[C]")+
+    scale_color_manual(name="Concentrations",values = c("red","green"),labels=c(expression(c[1]),
+                                                                               expression(c[2])))+
+    guides(colour= guide_legend())+theme(legend.text=size,legend.title=size,axis.text=ssize,axis.title=size)
+})
+
+```
+
+
+
