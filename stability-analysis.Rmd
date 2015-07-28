@@ -20,7 +20,7 @@ The stability of the steady state point is determined by the dynamics around it.
 For $C=C_{st.st}+\Delta C$, if $f_b(C)>f_a(C)+f_i(C)$, then the excess metabolite will be drained out of the cycle and the steady state point is stable.
 If $f_b(C)<f_a(C)+f_i(C)$ then excess metabolite will feed back into the auto-catalytic cycle further increasing $C_1$, making the steady-state point unstable.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,message = FALSE}
 library(ggplot2)
 library(reshape2)
 library(fields)
@@ -78,46 +78,54 @@ We plot the value of $-\log(X)$ to extend the dynamic range and make higher valu
 Non-feasible solutions are painted white.
 
 ```{r, echo=FALSE,fig.width = 4, fig.height = 4}
-inputPanel(
-  sliderInput("g", label = "$$g$$",
-              min = 0, max = 2, value = 1, step = 0.1),
-  sliderInput("vi", label = "$$V_{max,i}$$",
-              min = 0, max = 2, value = 1, step = 0.1),
-  sliderInput("vb", label = "$$V_{max,b}$$",
-              min = 0.1, max = 2, value = 1.5, step = 0.1)
-)
-
-renderPlot({
-  matsize = 20
-  scale = 10
-  g <- input$g
-  Vi <- input$vi
-  Vb <- input$vb
-  Va <- 1
-  Kma <- 1
-  rc <- matrix(nrow=matsize,ncol=matsize)
-  ks = seq(matsize)
-  for(ki in ks)
-      for(kb in ks) {
-          Kmi <- ki/scale
-          Kmb <- kb/scale
-          c <- g*Kmb/(Vb-g)
-          fa <- c*Va/(c+Kma)
-          fi <- g-fa
-          x <- fi*Kmi/(Vi-fi)
-          if(!is.finite(c)) { rc[ki,kb] <- NaN
-          } else if(c<0) { rc[ki,kb] <- NaN
-          } else if(fi<0) {rc[ki,kb] <- NaN
-          } else if((Vb/(c+Kmb)-Vb*c/((c+Kmb)^2))<(1/(c+1)-1*c/((c+1)^2))) { rc[ki,kb] <- NaN
-          } else rc[ki,kb] <- -log(x)
-      }
-  par(mar=c(4,6,4,4))
-  image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 1.5)
-  title("")
-  mtext("-log(X)",side = 3,adj=1.2)
-  mtext("Initial",side = 1,line = -2.5,adj = 0.9,cex = 1.5,col="white")
-  mtext("Final",side = 3,line = -2,adj = 0.1,cex = 1.5)
-},width = 600, height = 500)
+shinyUI(fluidPage(
+sidebarLayout(
+    sidebarPanel(
+      sliderInput("g", label = "$$g$$",
+                  min = 0, max = 2, value = 1, step = 0.1),
+      sliderInput("vi", label = "$$V_{max,i}$$",
+                  min = 0, max = 2, value = 1, step = 0.1),
+      sliderInput("vb", label = "$$V_{max,b}$$",
+                  min = 0.1, max = 2, value = 1.5, step = 0.1)
+    ),
+    mainPanel(
+        renderPlot({
+          matsize = 20
+          scale = 10
+          g <- input$g
+          Vi <- input$vi
+          Vb <- input$vb
+          Va <- 1
+          Kma <- 1
+          rc <- matrix(nrow=matsize,ncol=matsize)
+          ks = seq(matsize)
+          for(ki in ks)
+              for(kb in ks) {
+                  Kmi <- ki/scale
+                  Kmb <- kb/scale
+                  c <- g*Kmb/(Vb-g)
+                  fa <- c*Va/(c+Kma)
+                  fi <- g-fa
+                  x <- fi*Kmi/(Vi-fi)
+                  if(!is.finite(c)) { rc[ki,kb] <- NaN
+                  } else if(c<0) { rc[ki,kb] <- NaN
+                  } else if(fi<0) {rc[ki,kb] <- NaN
+                  } else if((Vb/(c+Kmb)-Vb*c/((c+Kmb)^2))<(1/(c+1)-1*c/((c+1)^2))) { rc[ki,kb] <- NaN
+                  } else rc[ki,kb] <- -log(x)
+              }
+          par(mar=c(4,6,4,4))
+          image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 1.5)
+          title("")
+          mtext("-log(X)",side = 3,adj=1.2)
+          mtext("Initial",side = 1,line = -2.5,adj = 0.9,cex = 1.5,col="white")
+          mtext("Final",side = 3,line = -2,adj = 0.1,cex = 1.5)
+          kbthres = Vb
+          if(Vb>1) {
+              abline(h=Vb)
+              text(x = 1,y=Vb+0.05,labels = "Semi-autotrophism threshold",cex = 1.5)
+          }
+        },width = 600, height = 500))
+    )))
 ```
 
 The preceding analysis shows that, in our simplified model, increasing $K_{m,b}$ may be necessary to achieve autotrophic growth, and that it increases fitness in chemostat conditions.
@@ -193,6 +201,4 @@ renderPlot({
 })
 
 ```
-
-
 
