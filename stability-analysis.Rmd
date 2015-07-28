@@ -136,7 +136,7 @@ To begin, we consider the following metabolic network:
 ![An extended auto-catalytic cycle](cycle5.png)
 
 This extended model includes an intermediate metabolite in the cycle.
-We explore how $K_{m,b}$ affects the ratio between $C_1$ and $C_2$ in the figure below.
+We explore how $K_{m,b}$ affects the values of $C_1$ and $C_2$ at the stable steady state in the figure below.
 
 ```{r, echo=FALSE}
 maxb = 5
@@ -146,7 +146,7 @@ inputPanel(
   sliderInput("Kmc", label = "$$K_{m,c}$$",
               min = 0.1, max = 2, value = 2, step = 0.1),
   sliderInput("Vb2", label = "$$V_{max,b}$$",
-              min = 0.1, max = 2, value = 1, step = 0.1),
+              min = 0.1, max = 2, value = 1.5, step = 0.1),
   sliderInput("Vc", label = "$$V_{max,c}$$",
               min = 0.1, max = 2, value = 1.5, step = 0.1)
 )
@@ -181,9 +181,9 @@ renderPlot({
       } else if(is.stable(c2,kb)) {
           c1s <- append(c1s,c2)
       } else {
-          c1s <- append(c1s,-1)
+          c1s <- append(c1s,NaN)
       }
-      c1 <- c1s[-1]
+      c1 <- c1s[length(c1s)]
       fa <- va*c1/(c1+ka)
       c2 <- fa*kc/(vc-fa)
       c2s <- append(c2s,c2)
@@ -201,4 +201,3 @@ renderPlot({
 })
 
 ```
-
