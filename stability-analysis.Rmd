@@ -131,10 +131,123 @@ sidebarLayout(
 The preceding analysis shows that, in our simplified model, increasing $K_{m,b}$ may be necessary to achieve autotrophic growth, and that it increases fitness in chemostat conditions.
 However, experimental evidence shows that this is not a sufficient condition for autotrophic growth to emerge.
 We therefore extend our model to reflect more complexity of the metabolic network.
-To begin, we consider the following metabolic network:
+Our extended model represents the following metabolic network:
 
-![An extended auto-catalytic cycle](cycle5.png)
+![An extended auto-catalytic cycle](cyclewithenergy.png)
 
+In this network we add Pyruvate, $P$, which is essentially unlimited in the media.
+Therefore its transport reaction, $f_p$ is assumed to be adjustable up to some large constant value.
+Pyruvate is used both as the energy source to power the auto-catalytic flux, $f_a$, and as the source for materials and energy in the biomass reaction $f_b$.
+
+Multiple substrate reactions are modelled using a simple operational extension of the Michaelis Menten equation:
+$$ f = \frac{V_\max \Pi_{i=1}^n S_i}{\Pi_{i=1}^n (K_{m,i}+S_i)} $$
+Below we plot how, for a given set of kinetic parameters, the solution space of concentrations of $P$ and $C$ that satisfy a given growth rate, $g$ looks.
+These concentrations satisfy the following equation:
+$$
+C=\frac{K_c}{\frac{V_bP}{g(K_p+P)}-1}
+$$
+
+Next we plot what the auto-catalytic cycle flux, $f_a$ is for each such solution.
+We note that at steady state $f_i = g-f_a$ (and also that $f_p=f_a+g$, thought this is irrelevant at this point), so the higher the auto-catalytic flux, the lower the Xylose input flux, implying a lower concentration at which the phenotype can grow at the specified growth rate.
+
+Finally, we plot a heat map that shows, for any combination of kinetic parameters, the minimum input flux of Xylose needed to support the pre-defined growth rate. Areas where the Xylose input flux is 0 represent semi-autotrophic growth.
+
+```{r, echo=FALSE}
+vb = 10
+maxc = 10
+size = element_text(size=18)
+ssize = element_text(size=12)
+
+sidebarLayout(
+    sidebarPanel(
+      sliderInput("kc", label = "$$k_c$$",
+                  min = 0, max = 2, value = 1, step = 0.01),
+      sliderInput("kp", label = "$$k_p$$",
+                  min = 0.1, max = 2, value = 0.5, step = 0.01),
+      sliderInput("kap", label = "$$k_{a,p}$$",
+                  min = 0.1, max = 2, value = 1, step = 0.01),
+      sliderInput("gr", label = "$$g$$",
+                  min = 0.1, max = 2, value = 1, step = 0.1)
+    ),
+    mainPanel(
+        renderPlot({
+            ps <- seq(0.01,maxc,0.01)
+            kc <- input$kc
+            kp <- input$kp
+            gr <- input$gr
+            cs <- kc/(vb*ps/(gr*(kp+ps))-1)
+
+            data <- data.frame(xs = ps, ys = cs)
+            ggplot(data = data,aes(x=xs,y=ys)) + geom_line() +
+                xlab("[P]")+ylab("[C]")+
+                scale_y_continuous(limits=c(0,10))+
+                theme(axis.text=ssize,axis.title=size)
+        },height = 400),
+        renderPlot({
+            ps <- seq(0.01,maxc,0.01)
+            kc <- input$kc
+            kp <- input$kp
+            gr <- input$gr
+            va <- 3
+            kac <- 1
+            kap <- input$kap
+            cs <- kc/(vb*ps/(gr*(kp+ps))-1)
+            ps <- ps[cs>0]
+            cs <- cs[cs>0]
+            fas <- va*cs*ps/((kac+cs)*(kap+ps))
+
+            data <- data.frame(xs = ps, ys = fas)
+            ggplot(data = data,aes(x=xs,y=ys)) + geom_line() +
+                xlab("[P]")+ylab(expression(f[a]))+
+                scale_y_continuous(limits=c(0,5))+
+                theme(axis.text=ssize,axis.title=size)
+        },height = 400),
+        renderPlot({
+            matsize <- 20
+            scale <- 10
+            ks = seq(matsize)
+            ps <- seq(0.01,maxc,0.01)
+            kac <- 1
+            va <- 3
+            gr <- input$gr
+            kp <- input$kp
+            rc <- matrix(ncol = matsize,nrow = matsize)
+            
+            for(kcbi in ks)
+                for(kapi in ks) {
+                    kcb <- kcbi/scale
+                    kap <- kapi/scale
+                    cs <- kcb/(vb*ps/(gr*(kp+ps))-1)
+                    ps <- ps[cs>0]
+                    cs <- cs[cs>0]
+                    fas <- va*cs*ps/((kac+cs)*(kap+ps))
+                    if(max(fas)>=gr) rc[kcbi,kapi] = 0
+                    else rc[kcbi,kapi] = gr-max(fas)
+                }
+
+            par(mar=c(4,6,4,4))
+            image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["bm,c"]),ylab = expression(K["am,p"]), cex.lab = 3)
+            title("")
+            mtext(expression("f[i]"),side = 3,adj=1.2)
+            mtext("Initial",side = 3,line = -2,adj = 0.1,cex = 2)
+            mtext("Final",side = 1,line = -2.5,adj = 0.9,cex = 2,col="white")
+        },height = 700)
+    )
+)
+
+```
+
+We plot the fitness landscape according to two parameters, $V_{\max,e}$ and $K_{m,b_c}$, the affinity of the biomass reaction to $C$.
+
+Our equations demand that:
+$$
+f_i+f_a = f_b
+f_p=f_e+f_b
+f_e = f_a+f_b
+f_p=2f_a+f_i
+
+----------------------------------------------------------
+An alternative extension:
 This extended model includes an intermediate metabolite in the cycle.
 We explore how $K_{m,b}$ affects the values of $C_1$ and $C_2$ at the stable steady state in the figure below.
 
