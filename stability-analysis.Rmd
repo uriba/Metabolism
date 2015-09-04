@@ -147,8 +147,8 @@ $$
 C=\frac{K_c}{\frac{V_bP}{g(K_p+P)}-1}
 $$
 
-Next we plot what the auto-catalytic cycle flux, $f_a$ is for each such solution.
-We note that at steady state $f_i = g-f_a$ (and also that $f_p=f_a+g$, thought this is irrelevant at this point), so the higher the auto-catalytic flux, the lower the Xylose input flux, implying a lower concentration at which the phenotype can grow at the specified growth rate.
+Next we plot what the auto-catalytic cycle flux, $f_a$, is for each such solution.
+We note that at steady state $f_i = g-f_a$ (and also that $f_p=f_a+g$, though this is irrelevant at this point), so the higher the auto-catalytic flux, the lower the Xylose input flux, implying a lower concentration at which the phenotype can grow at the specified growth rate.
 
 Finally, we plot a heat map that shows, for any combination of kinetic parameters, the minimum input flux of Xylose needed to support the pre-defined growth rate. Areas where the Xylose input flux is 0 represent semi-autotrophic growth.
 
@@ -236,4 +236,47 @@ sidebarLayout(
 )
 
 ```
-``
+
+Next we turn our focus to stability analysis of autotrophic growth in this network.
+For simplicity we define: $\alpha \equiv \frac{\partial f_a}{\partial C}$, $\beta \equiv \frac{\partial f_a}{\partial P}$, $\gamma \equiv \frac{\partial f_b}{\partial C}$, $\delta \equiv \frac{\partial f_b}{\partial P}$.
+Using these definitions, and noting that in our system:
+$$
+\begin{aligned}
+& \dot C = f_a-f_b \\
+& \dot P = f_p-f_a-f_b
+\end{aligned}
+$$
+We can write the Jacobian matrix for the dynamics of the system as:
+$$
+J=
+\begin{pmatrix}
+\alpha - \gamma & \beta - \delta \\
+-(\alpha+\gamma) & -(\beta+\delta)
+\end{pmatrix}
+$$
+To ensure stability we need to have negative real parts for the eigenvalues of this matrix.
+
+The characteristic polynomial of this matrix is:
+$$
+\begin{aligned}
+&-(\alpha-\gamma-\lambda)(\beta + \delta+\lambda)+(\beta-\delta)(\alpha+\gamma)=0 \Rightarrow\\
+&\lambda^2+(\beta+\gamma+\delta-\alpha)\lambda+2\beta\gamma-2\alpha\delta=0 \\
+\end{aligned}
+$$
+When considering an quadratic equation of the form $x^2+bx+c$, then the conditions for two negative real parts of the roots are:
+$$
+\begin{aligned}
+b>0 \\
+c>0
+\end{aligned}
+$$
+Which in our case result in requiring that at the steady state point $(C^*,P^*)$:
+$$
+\begin{aligned}
+&\beta+\gamma+\delta>\alpha \\
+&\beta\gamma>\alpha\delta
+\end{aligned}
+$$
+
+To observe whether stability plays a role in allowing semi-autotrophic growth we plot the following heat-map, using the same parameters as in the previous plot, where 0 denotes non-stable points and 1 denotes stable points.
+As the values of the steady state points depend on $f_p$, it is now another input parameter.
