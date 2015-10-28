@@ -31,10 +31,10 @@
      inkscape:snap-bbox="false"
      inkscape:bbox-nodes="false"
      inkscape:bbox-paths="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1031"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-width="1615"
+     inkscape:window-height="1026"
+     inkscape:window-x="1345"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -342,7 +342,7 @@
      inkscape:groupmode="layer"
      inkscape:label="Layer 1">
     <flowRoot
-       transform="matrix(0.56838968,0,0,0.56838968,85.42915,365.87489)"
+       transform="matrix(0.56838968,0,0,0.56838968,89.714864,367.30346)"
        xml:space="preserve"
        id="flowRoot2995"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
@@ -353,9 +353,7 @@
            x="91.428574"
            y="418.07648"
            ry="0" /></flowRegion><flowPara
-         id="flowPara3001">C<flowSpan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="flowSpan3003" /></flowPara></flowRoot>    <path
+         id="flowPara3001">X</flowPara></flowRoot>    <path
        sodipodi:open="true"
        transform="matrix(0.52484653,0,0,0.56938164,-4.8739481,344.52658)"
        sodipodi:end="5.9640656"

@@ -1,24 +1,36 @@
 ---
 title: "Autocatalytic cycle stability analysis"
 #author: "Uri Barenholz"
-date: "19/07/2015"
+date: "09/09/2015"
 output: html_document
 runtime: shiny
 ---
+In this document we model and analyze auto-catalytic cycles to demonstrate how mutations observed in the chemostat evolution experiment both increase fitness in the context of chemostat growth, and give rise to semi-autotrophism phenotypes.
+We analyze two models:
 
-We analyze the simple auto-catalytic cycle depicted below.
+* A simple model with one metabolite, predicting that a decreased affinity of *prs* both increases fitness in the chemostat and is required to allow stable semi-autotrophic growth.
+This model is also useful as an introduction to the more complicated model.
+
+* An elaborate model integrating energetic considerations, demonstrating why changes in *ppsR*, or other changes affecting the distribution of Pyruvate between auto-catalytic cycle fueling and biomass generating reactions, also play a role both in chemostat fitness and semi-autotrophic growth. 
+
+Our analysis concludes that achieving semi-autotrophic growth coincides with maximizing fitness in the chemostat, and that these outcomes are achieved under relatively strict conditions on the kinetic parameters involved.
+
+Simple auto catalytic cycle
+------------------------------
+
+We start by presenting the simple auto-catalytic cycle depicted below.
 
 ![A simple auto-catalytic cycle](cycle4.png)
 
-Our analysis focuses on the concentration of the metabolite $C_1$, if it is at a steady state, and if the steady state is stable.
-We note that $f_i$ and $f_a$ increase the concentration of $C_1$, and $f_b$ decreases it.
+In this model, our analysis focuses on the concentration of the metabolite $X$ (for Xylose), if it is at a steady state, and if the steady state is stable.
+We note that $f_i$ and $f_a$ increase the concentration of $X$, and $f_b$ decreases it.
 
 The following plot shows $f_a$ and $f_b$ as a function of $K_{m,a}$,$K_{m,b}$,$V_{max,a}$, $V_{max,b}$, and $f_i$ as a pre-set parameter.
-As $f_a+f_i$ represents the flux into $C_1$ and $f_b$ the flux out of $C_1$, any intersection between these two lines is a steady state point.
+As $f_a+f_i$ represents the flux into $X$ and $f_b$ the flux out of $X$, any intersection between their corresponding two lines is a steady state point.
 
 The stability of the steady state point is determined by the dynamics around it.
-For $C=C_{st.st}+\Delta C$, if $f_b(C)>f_a(C)+f_i(C)$, then the excess metabolite will be drained out of the cycle and the steady state point is stable.
-If $f_b(C)<f_a(C)+f_i(C)$ then excess metabolite will feed back into the auto-catalytic cycle further increasing $C_1$, making the steady-state point unstable.
+For $X=X_{st.st}+\Delta X$, if $f_b(X)>f_a(X)+f_i(X)$, then the excess metabolite will be drained out of the cycle and the steady state point is stable.
+If $f_b(X)<f_a(X)+f_i(X)$, then excess metabolite will feed back into the auto-catalytic cycle further increasing $X$, making the steady-state point unstable.
 
 ```{r, echo=FALSE,message = FALSE}
 library(ggplot2)
@@ -31,7 +43,7 @@ inputPanel(
   sliderInput("Kma", label = "$$K_{m,a}$$",
               min = 0.1, max = 2, value = 1, step = 0.1),
   sliderInput("Kmb", label = "$$K_{m,b}$$",
-              min = 0.1, max = 2, value = 2, step = 0.1),
+              min = 0.1, max = 4, value = 2, step = 0.1),
   sliderInput("Va", label = "$$V_{max,a}$$",
               min = 0.1, max = 2, value = 1, step = 0.1),
   sliderInput("Vb", label = "$$V_{max,b}$$",
@@ -48,19 +60,39 @@ renderPlot({
   size = element_text(size=18)
   ssize = element_text(size=12)
   ggplot(data = data,aes(x=xs,y=value,colour=variable)) + geom_line() +
-    xlab("[C]")+scale_y_continuous(limits=c(0,2))+ylab("flux")+
+    xlab("[X]")+scale_y_continuous(limits=c(0,2))+ylab("flux")+
     scale_color_manual(name="Fluxes",values = c("red","green","cyan"),labels=c(expression(f[b]),
                                                                                expression(f[a]),
                                                                                expression(f[a]+f[i])))+
     guides(colour= guide_legend())+theme(legend.text=size,legend.title=size,axis.text=ssize,axis.title=size)
 })
 
+renderPlot({
+  xs <- seq(-10,10,0.1)
+  kma = input$Kma
+  kmb = input$Kmb
+  va = input$Va
+  vb = input$Vb
+  fa <- va*xs/(xs+kma)
+  fb <- vb*xs/(xs+kmb)
+  ft <- fa-fb
+  xstst = (vb*kma-va*kmb)/(va-vb)
+  data <- data.frame(xs = xs, xdot = ft)
+  data <- melt(data,id=c("xs"))
+  p1 = data.frame(x=c(0,xstst),y=c(0,0),c=c('green','red'))
+
+  size = element_text(size=18)
+  ssize = element_text(size=12)
+  ggplot()+geom_line(data = data,aes(x=xs,y=value)) +
+    geom_point(data=p1,aes(x=x,y=y))+#scale_color_manual(values=c('blue','red','green'))+
+    xlab("[X]")+scale_y_continuous(limits=c(-1,1))+ylab("x'")
+})
 ```
 
-Next we want to investigate the fitness landscape produced by this cycle in the experimental setup of a chemostat.
+We next investigate the fitness landscape produced by this cycle in the experimental setup of a chemostat.
 Such a setup implies a constant growth rate, $g$, which is reflected in our system by a constant biomass flux, $f_b=g$.
-The fitness in such a setup is determined by the concentration of the feeding metabolite, $X$, at which the pre-set growth rate is sustained.
-The lower the concentration of $X$ at which a strain can grow at rate $g$, the higher the fitness of that strain.
+The fitness in such a setup is determined by the outside concentration of the feeding metabolite, $X_\text{out}$, at which the pre-set growth rate is sustained.
+The lower the concentration of $X_\text{out}$ at which a strain can grow at rate $g$, the higher the fitness of that strain.
 To illustrate, if two strains, $S_1$ and $S_2$, are both able to grow at rate $g$, but $S_1$ sustains this rate at an outside metabolite concentration $X_1<X_2$, then it follows that at $X_2$, $S_1$ will grow at a faster rate than $S_2$ and will thus out-compete it in the chemostat.
 
 We therefore replace the input flux, $f_i$, with the affinity of the transporter of $X$, $K_{m,i}$.
@@ -70,11 +102,11 @@ For simplicity, we set the units of measurement of flux and concentration in the
 We note that this implies that fluxes and concentrations of the other parameters in the system are now measured relative to $K_{m,a}$ and $V_{max,a}$.
 
 The following plot shows the fitness landscape as a function of $K_{m,i}$ and $K_{m,b}$.
-For the growth rate, $g$, we pick an initial value of $1/2 < V_{max,a}$ to reflect the fact that semi-autotrophic strains can maintain growth in the chemostat even with no supplied carbon source $X$.
+For the growth rate, $g$, we pick an initial value of $1/2 < V_{max,a}$ to reflect the fact that semi-autotrophic strains can maintain growth in the chemostat even with no supplied carbon source $X_\text{out}$.
 The maximum transporter capacity is set to $V_{max,i}=1.5$ reflecting the fact that at high-enough external metabolite concentration, the growth rate can be higher than the one dictated by the chemostat, as well as the one allowed by the auto-catalytic cycle alone.
-Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of the external metabolite, the biomass reaction is not saturated, meaning high concentrations of $X$ will not cause the cycle to explode. All of these parameters can be modified below to see their effect on the generated fitness landscape.
+Initially, $V_{max,b}=2>V_{max,i}$, implying that even at high concentration of the external metabolite, the biomass reaction is not saturated, meaning high concentrations of $X_\text{out}$ will not cause the cycle to explode. All of these parameters can be modified below to see their effect on the generated fitness landscape.
 
-We plot the value of $-\log(X)$ to extend the dynamic range and make higher values represent higher fitness.
+We plot the value of $-\log(X_\text{out})$ to extend the dynamic range and make higher values represent higher fitness.
 Non-feasible solutions are painted white.
 
 ```{r, echo=FALSE,fig.width = 4, fig.height = 4}
@@ -116,7 +148,7 @@ sidebarLayout(
           par(mar=c(4,6,4,4))
           image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["m,i"]),ylab = expression(K["m,b"]), cex.lab = 1.5)
           title("")
-          mtext("-log(X)",side = 3,adj=1.2)
+          mtext(expression(-log(X[out])),side = 3,adj=1.2)
           mtext("Initial",side = 1,line = -2.5,adj = 0.9,cex = 1.5,col="white")
           mtext("Final",side = 3,line = -2,adj = 0.1,cex = 1.5)
           kbthres = Vb
@@ -128,7 +160,10 @@ sidebarLayout(
     )))
 ```
 
-The preceding analysis shows that, in our simplified model, increasing $K_{m,b}$ may be necessary to achieve autotrophic growth, and that it increases fitness in chemostat conditions.
+Auto-catalytic model with energetic considerations
+---------------------------------------------------
+
+The preceding analysis shows that, in our simplified model, increasing $K_{m,b}$ may be necessary to achieve semi-autotrophic growth, and that it increases fitness in chemostat conditions.
 However, experimental evidence shows that this is not a sufficient condition for autotrophic growth to emerge.
 We therefore extend our model to reflect more complexity of the metabolic network.
 Our extended model represents the following metabolic network:
@@ -141,112 +176,92 @@ Pyruvate is used both as the energy source to power the auto-catalytic flux, $f_
 
 Multiple substrate reactions are modelled using a simple operational extension of the Michaelis Menten equation:
 $$ f = \frac{V_\max \Pi_{i=1}^n S_i}{\Pi_{i=1}^n (K_{m,i}+S_i)} $$
-Below we plot how, for a given set of kinetic parameters, the solution space of concentrations of $P$ and $C$ that satisfy a given growth rate, $g$ looks.
-These concentrations satisfy the following equation:
+For a given growth rate, $g$, the biomass reaction must satisfy $f_b=g$, which implies that:
 $$
-C=\frac{K_c}{\frac{V_bP}{g(K_p+P)}-1}
+\frac{V_bXP}{(K_{bm,x}+X)(K_{bm,p}+P)}=g \Rightarrow X=\frac{K_{bm,x}}{\frac{V_bP}{g(K_{bm,p}+P)}-1}
 $$
+Below we plot how, for a given set of kinetic parameters, this solution space looks.
+Furthermore, we plot what the auto-catalytic cycle flux, $f_a$, is for each such solution, and what the input fluxes, $f_i$ and $f_p$, that maintain a steady state solution are.
+We note that at steady state $f_i = g-f_a$ and that $f_p=g+f_a$.
+Therefore, the higher the auto-catalytic flux, the lower the Xylose input flux, $f_i$, implying a lower concentration at which the phenotype can grow at the specified growth rate.
 
-Next we plot what the auto-catalytic cycle flux, $f_a$, is for each such solution.
-We note that at steady state $f_i = g-f_a$ (and also that $f_p=f_a+g$, though this is irrelevant at this point), so the higher the auto-catalytic flux, the lower the Xylose input flux, implying a lower concentration at which the phenotype can grow at the specified growth rate.
-
-Finally, we plot a heat map that shows, for any combination of kinetic parameters, the minimum input flux of Xylose needed to support the pre-defined growth rate. Areas where the Xylose input flux is 0 represent semi-autotrophic growth.
 
 ```{r, echo=FALSE}
 vb = 10
 maxc = 10
 size = element_text(size=18)
 ssize = element_text(size=12)
+matsize = 50
+scale <- function(x) {
+                return(10^(2*(2*x/matsize-1)))
+}
 
 sidebarLayout(
     sidebarPanel(
-      sliderInput("kc", label = "$$k_c$$",
-                  min = 0, max = 2, value = 1, step = 0.01),
-      sliderInput("kp", label = "$$k_p$$",
-                  min = 0.1, max = 2, value = 0.5, step = 0.01),
-      sliderInput("kap", label = "$$k_{a,p}$$",
-                  min = 0.1, max = 2, value = 1, step = 0.01),
+      sliderInput("kbx", label = "$$k_{bm,x}$$",
+                  min = -2, max = 2, value = 0, step = 0.01),
+      sliderInput("kbp", label = "$$k_{bm,p}$$",
+                  min = -2, max = 2, value = 0, step = 0.01),
+      sliderInput("kap", label = "$$k_{am,p}$$",
+                  min = -2, max = 2, value = 1, step = 0.01),
       sliderInput("gr", label = "$$g$$",
                   min = 0.1, max = 2, value = 1, step = 0.1)
     ),
     mainPanel(
         renderPlot({
             ps <- seq(0.01,maxc,0.01)
-            kc <- input$kc
-            kp <- input$kp
+            kbx <- 10^input$kbx
+            kbp <- 10^input$kbp
             gr <- input$gr
-            cs <- kc/(vb*ps/(gr*(kp+ps))-1)
-
-            data <- data.frame(xs = ps, ys = cs)
+            xs <- kbx/(vb*ps/(gr*(kbp+ps))-1)
+            data <- data.frame(xs = ps, ys = xs)
             ggplot(data = data,aes(x=xs,y=ys)) + geom_line() +
-                xlab("[P]")+ylab("[C]")+
+                xlab("[P]")+ylab("[X]")+
                 scale_y_continuous(limits=c(0,10))+
                 theme(axis.text=ssize,axis.title=size)
         },height = 400),
         renderPlot({
             ps <- seq(0.01,maxc,0.01)
-            kc <- input$kc
-            kp <- input$kp
+            kbx <- 10^input$kbx
+            kbp <- 10^input$kbp
             gr <- input$gr
             va <- 3
-            kac <- 1
-            kap <- input$kap
-            cs <- kc/(vb*ps/(gr*(kp+ps))-1)
-            ps <- ps[cs>0]
-            cs <- cs[cs>0]
-            fas <- va*cs*ps/((kac+cs)*(kap+ps))
+            kax <- 1
+            kap <- 10^input$kap
+            xs <- kbx/(vb*ps/(gr*(kbp+ps))-1)
+            ps <- ps[xs>0]
+            xs <- xs[xs>0]
+            fas <- va*xs*ps/((kax+xs)*(kap+ps))
 
-            data <- data.frame(xs = ps, ys = fas)
-            ggplot(data = data,aes(x=xs,y=ys)) + geom_line() +
-                xlab("[P]")+ylab(expression(f[a]))+
+            data <- data.frame(xs = ps, fa = fas)
+            data$fi <- gr-data$fa
+            data$fp <- gr+data$fa
+            data <- melt(data,id.vars = 'xs')
+            ggplot(data = data,aes(x=xs,y=value,colour=variable)) + geom_line() +
+                xlab("[P]")+ylab("flux")+
                 scale_y_continuous(limits=c(0,5))+
-                theme(axis.text=ssize,axis.title=size)
-        },height = 400),
-        renderPlot({
-            matsize <- 20
-            scale <- 10
-            ks = seq(matsize)
-            ps <- seq(0.01,maxc,0.01)
-            kac <- 1
-            va <- 3
-            gr <- input$gr
-            kp <- input$kp
-            rc <- matrix(ncol = matsize,nrow = matsize)
-            
-            for(kcbi in ks)
-                for(kapi in ks) {
-                    kcb <- kcbi/scale
-                    kap <- kapi/scale
-                    cs <- kcb/(vb*ps/(gr*(kp+ps))-1)
-                    ps <- ps[cs>0]
-                    cs <- cs[cs>0]
-                    fas <- va*cs*ps/((kac+cs)*(kap+ps))
-                    if(max(fas)>=gr) rc[kcbi,kapi] = 0
-                    else rc[kcbi,kapi] = gr-max(fas)
-                }
-
-            par(mar=c(4,6,4,4))
-            image.plot(x=ks/scale,y=ks/scale,rc,xlab = expression(K["bm,c"]),ylab = expression(K["am,p"]), cex.lab = 3)
-            title("")
-            mtext(expression("f[i]"),side = 3,adj=1.2)
-            mtext("Initial",side = 3,line = -2,adj = 0.1,cex = 2)
-            mtext("Final",side = 1,line = -2.5,adj = 0.9,cex = 2,col="white")
-        },height = 700)
+                scale_color_manual(name="Fluxes",values = c("red","green","cyan"),labels=c(expression(f[a]), expression(f[i]), expression(f[p])))+
+                guides(colour= guide_legend())+
+                theme(legend.text=size,legend.title=size,axis.text=ssize,axis.title=size)
+        },height = 400)
     )
 )
 
 ```
 
-Next we turn our focus to stability analysis of autotrophic growth in this network.
-For simplicity we define: $\alpha \equiv \frac{\partial f_a}{\partial C}$, $\beta \equiv \frac{\partial f_a}{\partial P}$, $\gamma \equiv \frac{\partial f_b}{\partial C}$, $\delta \equiv \frac{\partial f_b}{\partial P}$.
+We now evaluate how well do different sets of parameters perform in a chemostat setting, and if and how well they can grow autotrophically.
+We plot a heat map that shows, for any combination of kinetic parameters, the minimum input flux of Xylose needed to support the pre-defined growth rate. Areas where the Xylose input flux is 0 represent semi-autotrophic growth.
+
+Next we turn our attention to stability analysis of the system, both under chemostat growth and under semi-autotrophic growth in this model.
+For simplicity we define: $\alpha \equiv \frac{\partial f_a}{\partial X}$, $\beta \equiv \frac{\partial f_a}{\partial P}$, $\gamma \equiv \frac{\partial f_b}{\partial X}$, $\delta \equiv \frac{\partial f_b}{\partial P}$.
 Using these definitions, and noting that in our system:
 $$
 \begin{aligned}
-& \dot C = f_a-f_b \\
+& \dot X = f_i + f_a-f_b \\
 & \dot P = f_p-f_a-f_b
 \end{aligned}
 $$
-We can write the Jacobian matrix for the dynamics of the system as:
+And that $f_i$ and $f_p$ are independent of $X$ and $P$, we can write the Jacobian matrix for the dynamics of the system as:
 $$
 J=
 \begin{pmatrix}
@@ -263,14 +278,14 @@ $$
 &\lambda^2+(\beta+\gamma+\delta-\alpha)\lambda+2\beta\gamma-2\alpha\delta=0 \\
 \end{aligned}
 $$
-When considering an quadratic equation of the form $x^2+bx+c$, then the conditions for two negative real parts of the roots are:
+When considering a quadratic equation of the form $x^2+bx+c$, the conditions for two negative real parts of the roots are:
 $$
 \begin{aligned}
 b>0 \\
 c>0
 \end{aligned}
 $$
-Which in our case result in requiring that at the steady state point $(C^*,P^*)$:
+Which in our case result in requiring that at the steady state point $(X^*,P^*)$:
 $$
 \begin{aligned}
 &\beta+\gamma+\delta>\alpha \\
@@ -278,5 +293,273 @@ $$
 \end{aligned}
 $$
 
-To observe whether stability plays a role in allowing semi-autotrophic growth we plot the following heat-map, using the same parameters as in the previous plot, where 0 denotes non-stable points and 1 denotes stable points.
+To observe whether stability plays a role in allowing semi-autotrophic growth we plot the following heat-map, using the same parameters as in the previous plot, where negative values denote the different causes for non-feasible solutions and positive values denote the semi-autotrophic growth rate.
 As the values of the steady state points depend on $f_p$, it is now another input parameter.
+
+```{r, echo=FALSE}
+vb = 10
+maxc = 5
+size = element_text(size=18)
+ssize = element_text(size=12)
+matsize = 100
+scale <- function(x) {
+                return(10^(2*(2*x/matsize-1)))
+}
+kax <- 1
+va <- 3
+
+sidebarLayout(
+    sidebarPanel(
+      sliderInput("kbp2", label = "$$k_{b,p}$$",
+                  min = 0.1, max = 2, value = 0.5, step = 0.01),
+      sliderInput("fp", label = "$$f_p$$",
+                  min = 0.1, max = 4, value = 2, step = 0.1)
+    ),
+    mainPanel(
+        renderPlot({
+            ks = seq(matsize)
+            ps <- seq(0.01,maxc,0.01)
+            gr <- input$gr
+            kbp <- input$kbp2
+            rc <- matrix(ncol = matsize,nrow = matsize)
+            HIGH_AC = -4
+            for(kbxi in ks)
+                for(kapi in ks) {
+                    ps <- seq(0.01,maxc,0.01)
+                    kbx <- scale(kbxi)
+                    kap <- scale(kapi)
+                    xs <- kbx/(vb*ps/(gr*(kbp+ps))-1)
+                    ps <- ps[xs>0]
+                    xs <- xs[xs>0]
+                    if(length(xs) == 0) {
+                        rc[kbxi,kapi] = -3 
+                    } else {
+                      ps <- ps[xs<maxc]
+                      xs <- xs[xs<maxc]
+                      if(length(xs) == 0) {
+                          rc[kbxi,kapi] = -2 
+                      } else {
+                        fas <- va*xs*ps/((kax+xs)*(kap+ps))
+
+                        alpha = va*ps*kax/((kap+ps)*(kax+xs)^2)
+                        beta = va*xs*kap/((kap+ps)^2*(kax+xs))
+                        gamma = vb*ps*kbx/((kbp+ps)*(kbx+xs)^2)
+                        delta = vb*xs*kbp/((kbp+ps)^2*(kbx+xs))
+                        s1 = (beta+gamma+delta>alpha)
+                        s2 = (beta*gamma>alpha*delta)
+                        fas = fas[s1 & s2]
+                        if(length(fas) == 0) {
+                            rc[kbxi,kapi] = -1 
+                        } else if(max(fas)>=gr) {
+                            if(min(fas) > gr) {
+                                rc[kbxi,kapi] = HIGH_AC
+                            } else {
+                                rc[kbxi,kapi] = 0
+                            }
+                        } else {
+                            rc[kbxi,kapi] = gr-max(fas)
+                        }
+                      }
+                    }
+                }
+            levels = 4
+            levelcolors = c('green4','red4','blue4','darkslategray')
+            leveldescs = c('High AC','Neg conc.','Hi Conc','Unstable')
+            ncolors = 60
+            m = max(rc)
+            scale = m/levels
+            rc[rc<0] = scale*rc[rc<0]
+            posbreaks = seq(0,m,m/5)
+            breaks = append(rev(-tail(seq(0,m,m/levels),levels))+0.5*scale,posbreaks)
+            colors = append(rep(levelcolors,each=ncolors/(2*levels)),rainbow(ncolors/2))
+ 
+            par(mar=c(4,6,4,4))
+            image.plot(x=(2*(2*ks/matsize-1)),y=(2*(2*ks/matsize-1)),rc,xlab = expression(K["bm,c"]),ylab = expression(K["am,p"]), cex.lab = 3,zlim = c(-m,m),
+             col = colors,nlevel = ncolors, axis.args = list(at=breaks, labels=append(leveldescs,posbreaks)))
+            title("")
+            mtext(expression("f[i]"),side = 3,adj=1.2)
+            mtext("Initial",side = 3,line = -2,adj = 0.1,cex = 2)
+            mtext("Final",side = 1,line = -2.5,adj = 0.9,cex = 2,col="white")
+        },width = 700,height = 700),
+        renderPlot({
+            ks = seq(matsize)
+            fp <- input$fp
+            kbp <- input$kbp2
+            rc <- matrix(ncol = matsize,nrow = matsize)
+            #neg = NA
+            #for(fpi in ks)
+            fpi <- 0
+            for(kbci in ks)
+                for(kapi in ks) {
+                    kbc <- scale(kbci)
+                    kap <- scale(kapi)
+                    fp <- scale(fpi)
+                    ps = c(0,0)
+                    cs = c(0,0)
+                    solutions = c(FALSE,FALSE)
+                    NO_STST = -1
+                    SING_NEG = -2
+                    NEG_PYR = -3
+                    NEG_XYL = -4
+                    HIGH_PYR = -5
+                    HIGH_XYL = -6
+                    UNST_FST = -7
+                    UNST_SND = -8
+                    UNST_BOTH = -9
+                    NO_INTERSECT = -10
+                    if(vb > va) {
+                        # first check if there are possible solutions with positive concentrations:
+                        if(va/kap<vb/kbp && va/kax<vb/kbc && va/(kap*kax)<vb/(kbp*kbc)) {
+                            if(is.na(rc[kbci,kapi]))
+                                rc[kbci,kapi] = NO_INTERSECT
+                        }
+                        # if so, check if they can sustain the input flux.
+                    }
+                    if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] != NO_INTERSECT) {
+                        t1 <- fp*(kax-kbc)
+                        a1 = t1-2*(vb*kax-va*kbc)
+                        a2 = t1*(kap+kbp)-2*(kap*vb*kax-kbp*va*kbc)
+                        a3 = t1*kap*kbp
+                        if(a1 == 0) {
+                            ps[1] = -a3/a2
+                            solutions = c(ps[1]>0,FALSE)
+                            #print("single")
+                            if(ps[1]<0 && is.na(rc[kbci,kapi]) ) 
+                                rc[kbci,kapi] = SING_NEG 
+                        } else {
+                            if(a2^2-4*a1*a3 >0) {
+                                ps[1] = (-a2+sqrt(a2^2-4*a1*a3))/(2*a1)
+                                ps[2] = (-a2-sqrt(a2^2-4*a1*a3))/(2*a1)
+                                solutions = c(ps[1]>0,ps[2]>0)
+                                if(! any(solutions)) {
+                                    cs = ((kap+ps)*vb*kax-(kbp+ps)*va*kbc) / ((kbp+ps)*va-(kap+ps)*vb)
+                                    fas = va*ps*cs/((kap+ps)*(kax+cs))
+                                    fbs = vb*ps*cs/((kbp+ps)*(kbc+cs))
+                                    #if(is.na(neg)) neg = data.frame(kbc = kbci,kap = kapi, p1 = ps[1],p2 = ps[2],x1 = cs[1],x2 = cs[2],fas1 = fas[1],fas2 = fas[2],fbs1 = fbs[1],fbs2 = fbs[2])
+                                    #else  neg = rbind(neg,c(kbci,kapi,ps[1],ps[2],cs[1],cs[2],fas[1],fas[2],fbs[1],fbs[2]))
+                                    if(is.na(rc[kbci,kapi])) rc[kbci,kapi] = NEG_PYR
+                                }
+                            } else {
+                                solutions = c(FALSE,FALSE)
+                                if(is.na(rc[kbci,kapi])) rc[kbci,kapi] = NO_STST
+                            }
+                        }
+                    }
+                    if (any(solutions)) {
+                        if(solutions[1] && ps[1]>maxc) {
+                            solutions[1] = F
+                            if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = HIGH_PYR
+                        }
+                        if(solutions[2] && ps[2]>maxc) {
+                            solutions[2] = F
+                            if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = HIGH_PYR
+                        }
+                        if(solutions[1] && cs[1]>maxc) {
+                            solutions[1] = F
+                            if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = HIGH_XYL
+                        }
+                        if(solutions[2] && cs[2]>maxc) {
+                            solutions[2] = F
+                            if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = HIGH_XYL
+                        }
+                        if(solutions[1]) {
+                            p = ps[1]
+                            cs[1] = ((kap+p)*vb*kax-(kbp+p)*va*kbc) / ((kbp+p)*va-(kap+p)*vb)
+                            #if(is.na(cs[1] )) print("c1")
+                            if(is.na(cs[1]) || cs[1]<0) {
+                                solutions[1] = FALSE
+                                if(is.na(rc[kbci,kapi])) rc[kbci,kapi] = NEG_XYL
+                            }
+                            if(is.na(cs[1]) || cs[1]>maxc) {
+                                solutions[1] = FALSE
+                            if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = HIGH_XYL
+                            }
+                        }
+                        if(solutions[2]) {
+                            p = ps[2]
+                            cs[2] = ((kap+p)*vb*kax-(kbp+p)*va*kbc) / ((kbp+p)*va-(kap+p)*vb)
+                            #if(is.na(cs[2] )) print("c2")
+                            if(is.na(cs[2]) || cs[2]<0) {
+                                solutions[2] = FALSE
+                                if(is.na(rc[kbci,kapi])) rc[kbci,kapi] = NEG_XYL
+                            }
+                            if(is.na(cs[2]) || cs[2]>maxc) {
+                                solutions[2] = FALSE
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = HIGH_XYL
+                            }
+                        }
+                        if(any(solutions)) {
+                            s11 = FALSE
+                            s12 = FALSE
+                            s21 = FALSE
+                            s22 = FALSE
+                            if(solutions[1]) {
+                                p = ps[1]
+                                c = cs[1]
+                                alpha = va*p*kax/((kap+p)*(kax+c)^2)
+                                beta = va*c*kap/((kap+p)^2*(kax+c))
+                                gamma = vb*p*kbc/((kbp+p)*(kbc+c)^2)
+                                delta = vb*c*kbp/((kbp+p)^2*(kbc+c))
+                                s11 = (beta+gamma+delta>alpha)
+                                s12 = (beta*gamma>alpha*delta)
+                            }
+                            if(solutions[2]) {
+                                p = ps[2]
+                                c = cs[2]
+                                alpha = va*p*kax/((kap+p)*(kax+c)^2)
+                                beta = va*c*kap/((kap+p)^2*(kax+c))
+                                gamma = vb*p*kbc/((kbp+p)*(kbc+c)^2)
+                                delta = vb*c*kbp/((kbp+p)^2*(kbc+c))
+                                s21 = (beta+gamma+delta>alpha)
+                                s22 = (beta*gamma>alpha*delta)
+                            }
+                            #if(all(solutions)) print("Two solutions")
+                            if(solutions[1] && !s12) 
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = UNST_SND
+                            if(solutions[2] && !s22) 
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = UNST_SND
+                            if(solutions[1] && !s11) 
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = UNST_FST
+                            if(solutions[2] && !s21) 
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = UNST_FST
+                            if(solutions[2] && !s22 && !s21) 
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = UNST_BOTH
+                            if(solutions[1] && !s12 && !s11) 
+                                if(is.na(rc[kbci,kapi]) || rc[kbci,kapi] == NEG_PYR || rc[kbci,kapi] == NEG_XYL) rc[kbci,kapi] = UNST_BOTH
+                            gr1 = 0
+                            gr2 = 0
+                            if(solutions[1] && s11 && s12) {
+                                gr1 = vb*cs[1]*ps[1]/((kbp+ps[1])*(kbc+cs[1]))
+                            }
+                            if (solutions[2] && s21 && s22) {
+                                gr2 = vb*cs[2]*ps[2]/((kbp+ps[2])*(kbc+cs[2]))
+                            }
+                            if(max(gr1,gr2)>0) {
+                                rc[kbci,kapi] = max(gr1,gr2)
+                            } else if(rc[kbci,kapi] == 0) {
+                                rc[kbci,kapi] = UNKNOWN
+                            }
+                        }
+                    }
+                }
+            #print(neg)
+            levels = 10
+            levelcolors = c('blue4','gray2','cyan4','magenta4','red4','green4','blue2','gray2','cyan2','magenta2')
+            leveldescs = c('NoInter','Unst.Both','Unst.2nd','Unst.1st','HighXyl','HighPyr','NegXyl','NegPyr','SingNeg','NoStSt')
+            m = max(rc)
+            scale = m/levels
+            ncolors = 100
+            rc[rc<0] = scale*rc[rc<0]
+            posbreaks = seq(0,m,scale)
+            breaks = append(rev(-tail(seq(0,m,m/levels),levels))+0.5*scale,posbreaks)
+            colors = append(rep(levelcolors,each=ncolors/(2*levels)),rainbow(ncolors/2))
+            par(mar=c(4,6,4,4))
+            image.plot(x=(2*(2*ks/matsize-1)),y=(2*(2*ks/matsize-1)),rc,xlab = expression(K["bm,c"]),ylab = expression(K["am,p"]), cex.lab = 3,zlim = c(-m,m),
+             col = colors,nlevel = ncolors, axis.args = list(at=breaks, labels=append(leveldescs,posbreaks)))
+            title("")
+            mtext(expression("g"),side = 3,adj=1.2)
+        },width = 700,height = 700)
+    )
+)
+
+```

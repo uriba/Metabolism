@@ -31,10 +31,10 @@
      inkscape:snap-bbox="false"
      inkscape:bbox-nodes="false"
      inkscape:bbox-paths="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1031"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-width="1615"
+     inkscape:window-height="1026"
+     inkscape:window-x="1345"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -288,7 +288,7 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot2985"
-       style="font-size:40px;font-family:Sans;fill-opacity:1;letter-spacing:0px;line-height:125%;word-spacing:0px;stroke:none;font-weight:normal;font-style:normal;fill:#000000"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        transform="matrix(0.56838968,0,0,0.56838968,139.60836,232.30347)"><flowRegion
          id="flowRegion2987"><rect
            id="rect2989"
@@ -297,9 +297,7 @@
            x="91.428574"
            y="418.07648"
            ry="0" /></flowRegion><flowPara
-         id="flowPara2991">C<flowSpan
-   style="font-size:65.00091553%;baseline-shift:sub"
-   id="flowSpan2993">1</flowSpan></flowPara></flowRoot>    <path
+         id="flowPara2991">X</flowPara></flowRoot>    <path
        sodipodi:type="arc"
        style="stroke-linejoin:miter;marker-end:url(#TriangleOutMS);stroke-opacity:1;fill-opacity:1;stroke:#00fb00;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:3.00003246;fill:#ffffff"
        id="path3027"
@@ -327,16 +325,16 @@
        sodipodi:open="true" />
     <path
        sodipodi:open="true"
-       transform="matrix(0,0.52484653,0.56938164,0,-64.635112,453.41171)"
+       transform="matrix(0,0.52484653,0.56938164,0,-69.635112,453.41171)"
        sodipodi:end="2.9641866"
        sodipodi:start="2.0335526"
-       d="M 126.6085,539.02215 C 95.511012,529.75398 73.573782,512.25181 67.440754,491.81639"
+       d="M 126.6085,539.02215 A 110,65.714287 0 0 1 67.440754,491.81639"
        sodipodi:ry="65.714287"
        sodipodi:rx="110"
        sodipodi:cy="480.21933"
        sodipodi:cx="175.71428"
        id="path3093"
-       style="stroke-linejoin:miter;marker-end:none;stroke-opacity:1;marker-start:url(#TriangleInM5i);stroke:#ff0000;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:3;marker-mid:none;fill:none"
+       style="fill:none;stroke:#ff0000;stroke-width:3;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#TriangleInM5i);marker-mid:none;marker-end:none"
        sodipodi:type="arc" />
     <flowRoot
        transform="matrix(0.56838968,0,0,0.56838968,80.101256,255.83145)"
