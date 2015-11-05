@@ -15,7 +15,7 @@
 \abstract{
     Auto-catalytic cycles are an important part of metabolic networks.
     As the flux in auto-catalytic cycles both depends on the concentration of intermediate metabolites, and affects it, they present unique features and characteristics.
-    An understanding of the constraints under which metabolic auto-catalytic cycles operate is essential both for understaning limitations of existing metabolic networks, and to successfully modify them in synthetic biology metabolic engineering applications.
+    An understanding of the constraints under which metabolic auto-catalytic cycles operate is essential for realizing limitations of existing metabolic networks, as well as to successfully modify them in synthetic biology metabolic engineering applications.
 
     We analyze two simple metabolic auto-catalytic cycles, presenting the mathematical tools and techniques needed in order to gain insights about their operation.
     We show that even for very simple cycles, specific constraints on the kinetic parameters of the enzymes are needed in order to allow a stable flux through the cycle.
@@ -23,10 +23,70 @@
 }
 
 \section{Introduction}
+    Metabolic networks topology and function are limited by numerous constrainst.
+    Stochiometies must be maintained and reactions must be balanced, reactions sharing the same substrates or procucts must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions.
+    Autocatalytic cycles present specific challanges as their inherent feed-back nature makes them suceptible to divergence or drainage.
 
-    This document describes the dynamic analysis of a carbon fixating auto-catalytic cycle (Figure \ref{fig:autocatal}). The result of the analysis reveals that such an auto-catalytic cycle always has a steady state point when the concentrations along the cycle are all 0, and under some conditions may have another steady state point at a positive concentration.
-    Furhtermore, the conclusion of the analysis is that, in case two steady state points exists (at 0 and $C$), then the relation between $\frac{V_{\max,b}}{K_{m,b}}$ and $\frac{V_{\max,a}}{K_{m,a}}$, (where $V_{\max,b},K_{m,b}$ are the Michaelis-Menten parameters of the biomass reaction and $V_{\max,a},K_{m,a}$ are the parameters of the carbon-fixating auto-catalytic reaction) determine which of the two steady state points is stable.
-    If $\frac{V_{\max,b}}{K_{m,b}} > \frac{V_{\max,a}}{K_{m,a}}$ then 0 is the stable steady state, and if $\frac{V_{\max,b}}{K_{m,b}} < \frac{V_{\max,a}}{K_{m,a}}$ then the non-zero point is the stable steady state of the system.
+    In this work we present the specific requirements auto-catalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes. (B) To be stable for fluctuations at the steady state point(s).
+    The mathematical tools we define and use are widely known and applicable in various fields.
+    Our analysis demonstrates how such tools can be used to gain insights about the operation, limitations, and various modifications available to metabolic auto-catalytic cycles in vivo.
+\section{A simple auto-catalytic cycle}
+    We consider the simple auto-catalytic cycle depicted in Figure \ref{fig:autocatal}.
+    This cycle has a single intermediate metabolite, $X$, one auto-catalytic reaction with flux $f_a$, and one outgoing reaction using the cycle substrate, $f_b$.
+    We assume simple, irreversible Michaelis-Menten kinetics for the two reactions, namely:
+    \begin{eqnarray*}
+      f_a = \frac{V_{\max,a}X}{K_{m,a}+X} \\
+      f_b = \frac{V_{\max,b}X}{K_{m,b}+X}
+    \end{eqnarray*}
+    where all the kinetic parameters are positive.
+
+    We define the metabolic state as the set of concentrations of all the metabolites in the system which, in this simple cycle, is just the concentration of $X$.
+    We note that knowing the concentration of all of the metabolites suffices in order to calculate the fluxes originating from those metabolites, $f_a$ and $f_b$.
+    A steady state is defined as a concentration (or set of concentrations) which induces fluxes that keep the concentrations steady i.e. that the total in-flux to any intermediate metabolite is exactly equal to the total out-flux from that metabolite.
+    In our example, a steady state must therefore satisfy:
+    \begin{equation*}
+      \dot X = \frac{dX}{dt} = 2f_a - f_b - f_a = 0
+    \end{equation*}
+    where the autocatalytic reaction produces two units of $X$ for any unit consumed.
+
+    Expanding this condition results in getting that:
+    \begin{equation*}
+      \dot X = 0 \Rightarrow f_a = f_b = 0 \Rightarrow \frac{V_{\max,a}X}{K_{m,a}+X}=\frac{V_{\max,b}X}{K_{m,b}+X}
+    \end{equation*}
+    which is satisfied either if $X=0$ or if:
+    \begin{equation*}
+      X=\frac{V_{\max,b}*K_{m,a}-V_{\max,a}*K_{m,b}}{V_{\max,a}-V_{\max,b}}
+    \end{equation*}
+    As physiologically the concentration of $X$ can only be positive, we get a constraint on the kinetic parameters for which a non-zero steady state may exist which can be intuitively understood in Figure \ref{fig:michmenintercept}.
+    Mathematically the constraint states the the sign of $V_{\max,a}-V_{\max,b}$ must be the same as the sign of $V_{\max,b}*K_{m,a}-V_{\max,a}*K_{m,b}$.
+
+    While having a non-zero concentration steady state is an essential condition to sustain flux, but it is not sufficient.
+    The non-zero concentration steady state must also be stable to small perturbations.
+    Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$.
+    In the single intermediate metabolite case (one dimentional case) stability dictates that at $X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that for points with a small deviation from the steady state: $X = X^*+dX$ the net flux $\dot X$ will oppose the direction of the deviation.
+    If $dX$ is positive then $\dot X$ will be negative at $X^*+dx$, reducing $X$ back to $X^*$, and if $dX$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
+
+    In our case, this condition implies that:
+    \begin{equation*}
+      \frac{\dot X}{dX} = \frac{V_{\max,a}*K_{m,a}}{(K_{m,a}+X^*)^2}-\frac{V_{\max,b}K_{m,b}}{(K_{m,b}+X^*)^2}<0
+    \end{equation*}
+    Substituting for $X^*=0$ gives that $0$ is a stable steady state point if $\frac{V_{\max,a}}{K_{m,a}}<\frac{V_{\max,b}}{K_{m,b}}$ and is unstable otherwise.
+    For $X^*=\frac{V_{\max,b}*K_{m,a}-V_{\max,a}*K_{m,b}}{V_{\max,a}-V_{\max,b}}$ we get the oposite condition, i.e. that it is stable if $\frac{V_{\max,a}}{K_{m,a}}>\frac{V_{\max,b}}{K_{m,b}}$ and unstable otherwise.
+    
+    These results can be intuitively understood with the help of Figure \ref{fig:michmenintercept}.
+    For Michaelis Menten kinetics, $\frac{V_\max}{K_m}$ is the slope at $X=0$.
+    Therefore, if one reaction has both a larger slope and a higher maximal flux value, then for any positive concentration of $X$ it will have a higher flux, and thus no positive concentration will result in equal fluxes for the two reactions.
+    Otherwise (i.e. in case the reaction with larger slope at $X=0$ has a smaller maximal flux) an intersection must occure for some positive concentration of $X$.
+    In this case, that concentration will be stable if and only if for a larger concentration than the steady state one $V_{\max,b}>V_{\max,a}$ as that is the case where small deviations from the steady state point will result in the fluxes operating in the opposite direction to the direction of the deviation.
+
+    To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist, two conditions must be satisfied:
+    \begin{eqnarray*}
+        V_{\max,b}>V_{\max,a}
+        \frac{V_{\max,a}}{K_{m,a}}>\frac{V_{\max,b}}{K_{m,b}}
+    \end{eqnarray*}
+    Interestingly, these conditions imply that if $K_{m,b}<K_{m,a}$ then no positive stable steady state can be achieved, even when allowing for  changes the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which affect $V_{\max,a}$ and $V_{\max,b}$.
+    
+
 \section{Introduction}
 \begin{figure}[h]
 \centering
