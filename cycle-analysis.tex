@@ -80,11 +80,12 @@
     Stochiometries must be maintained and reactions must be balanced, reactions sharing the same substrates or products must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions.
     Auto catalytic cycles present specific challenges as their inherent feed-back nature makes them susceptible to divergence or drainage.
 
-    In this work we present the specific requirements auto-catalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes. (B) To be stable for fluctuations at the steady state point(s).
+    In this work we present the specific requirements auto-catalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
+    (B) To be stable for fluctuations at the steady state point(s).
     The mathematical tools we define and use are widely known and applicable in various fields.
-    Our analysis demonstrates the use of such tools to gain insights about the operation, limitations, and various modifications available to metabolic auto-catalytic cycles in vivo.
+    Our analysis demonstrates the use of these tools to gain insights about the operation, limitations, and various modifications available to metabolic auto-catalytic cycles in vivo.
 \section{A simple auto-catalytic cycle}
-    We consider the simple auto-catalytic cycle depicted in Figure \ref{fig:autocatal}.
+    We consider the simple auto-catalytic cycle depicted in Figure \ref{fig:simplecycle}A.
     This cycle has a single intermediate metabolite, $X$, one auto-catalytic reaction with flux $f_a$ (implying that for any unit of $X$ consumed, it produces two units of $X$), and one outgoing reaction using the cycle substrate with flux $f_b$.
     We assume simple, irreversible Michaelis-Menten kinetics for the two reactions such that:
     \begin{eqnarray*}
@@ -92,79 +93,83 @@
       f_b = \frac{V_{\max,b}X}{K_{m,b}+X}
     \end{eqnarray*}
     where all the kinetic parameters are positive.
-    \begin{figure}[h]
-        %\pushfigure[c]{.3\linewidth}%
+    \begin{figure}[h!]
       \begin{minipage}[c]{.3\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
             \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
             \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
-            \begin{customlegend}[legend entries={$f_a$,$f_b$,$\dot{X}=f_a-f_b$},legend style={below=2.5cm of fa,anchor=west,name=legend1}]
+            \node [above of=fa,yshift=-1cm] (A) {(A)};
+            \begin{customlegend}[legend entries={$f_a$,$f_b$,$\dot{X}=f_a-f_b$},legend style={below=2cm of fa,anchor=west,name=legend1}]
               \addlegendimage{blue,fill=black!50!red,sharp plot}
               \addlegendimage{red,fill=black!50!red,sharp plot}
               \addlegendimage{cyan,fill=black!50!red,sharp plot}
             \end{customlegend}
-            \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{m,b}}{K_{m,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1cm]
+            \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{m,b}}{K_{m,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm]
             \addplot[domain=0:4,dashed,gray,thick] {x};
             \addplot[dashed,gray,thick] coordinates {(1,0) (1,2)};
             \node (one) at (axis cs:0.5,1.5) {I};
             \node (two) at (axis cs:1.25,1.5) {II};
             \node (three) at (axis cs:0.75,0.5) {III};
-            \node (four) at (axis cs:1.5,0.5) {VI};
+            \node (four) at (axis cs:1.5,0.5) {IV};
           \end{axis}
+          \node [at=(legend1.south west),yshift=-0.8cm] (B) {(B)};
          \end{tikzpicture}}%
        \end{minipage}
        \hfill
-        %{\subcaption{Auto-catalytic cycle\label{fig:autocatal}}}
-        %\pushfigure[c]{.65\linewidth}
        \begin{minipage}[c]{.65\linewidth}
-        {\begin{tikzpicture}[scale=0.7]
-            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,width=7cm,height=8cm]
+        {\begin{tikzpicture}
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
             \addplot[domain=0:4,blue,thick] {5*x/(0.2+x)};
             \addplot[domain=0:4,red,thick] {4*x/(1+x)};
             \addplot[domain=0:4,cyan,thick] {5*x/(0.2+x)-4*x/(1+x)};
-            \node (one) at (axis cs:0.5,5.5) {I};
+            \node (one) at (axis cs:0.5,5.5) { I};
           \end{axis}
 
-          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=7cm,height=8cm]
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
             \addplot[domain=0:4,blue,thick] {3*x/(0.1+x)};
             \addplot[domain=0:4,red,thick] {5*x/(1+x)};
             \addplot[domain=0:4,cyan,thick] {3*x/(0.1+x)-5*x/(1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
-            \node (two) at (axis cs:0.5,5.5) {II};
+            \node (two) at (axis cs:0.5,5.5) { II};
           \end{axis}
 
-          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=7cm,height=8cm]
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm]
             \addplot[domain=0:4,blue,thick] {5*x/(1+x)};
             \addplot[domain=0:4,red,thick] {3*x/(0.1+x)};
             \addplot[domain=0:4,cyan,thick] {5*x/(1+x)-3*x/(0.1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
-            \node (three) at (axis cs:0.5,5.5) {III};
+            \node (three) at (axis cs:0.5,5.5) { III};
           \end{axis}
 
-          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=7cm,height=8cm]
+          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm]
             \addplot[domain=0:4,blue,thick] {4*x/(1+x)};
             \addplot[domain=0:4,red,thick] {5*x/(0.2+x)};
             \addplot[domain=0:4,cyan,thick] {4*x/(1+x)-5*x/(0.2+x)};
-            \node (four) at (axis cs:0.5,5.5) {VI};
+            \node (four) at (axis cs:0.5,5.5) { IV};
          \end{axis}
         \end{tikzpicture}}
        \end{minipage}
-        %{\subcaption{Flux response to substrate concentration when $V_{\max,a}<V_{\max,b}$ and $\frac{V_{\max,a}}{K_{m,a}}<\frac{V_{\max,b}}{K_{m,b}}$ \label{fig:michmennointerceptstable}}}
-        %\popfigures\par
-
-        \caption{A simple auto-catalytic cycle (\subref{fig:autocatal}) induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
-        When the reaction with higher flux has a steeper slope at $X=0$, no positive concentration steady state point exists ((\subref{fig:michmennointerceptstable}) and (\subref{fig:michmennointerceptunstable})).
-        A non zero steady state occurs where the fluxes are equal, implying that $\dot{X}=0$ ((\subref{fig:michmeninterceptstable}) and (\subref{fig:michmeninterceptunstable})).
-        The steady state is stable if at the steady state point $\frac{d\dot{X}}{dX}<0$ (at $X=0$ in (\subref{fig:michmennointerceptstable}) and (\subref{fig:michmeninterceptunstable}) and at $X>0$ at (\subref{fig:michmeninterceptstable})).}
+      e\caption{\label{fig:simplecycle}
+       A simple auto-catalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$ (A).
+        These fluxes follow simple Michaelis Menten kinetics.
+        A steady state occures when $f_a=f_b$, implying that $\dot{X}=0$.
+        The cycle always has a steady state at $X=0$.
+        The slope of each reaction at $X=0$ is $V_{\max}/K_m$.
+        A steady state is stable if at the steady state point $\frac{d\dot{X}}{dX}<0$.
+        Each combination of kinetic parameters, $V_{\max,a},V_{\max,b},K_{m,a},K_{m,b}$ results in one of four cases (B): 
+       (I) zero is the only non-negative steady state and it is unstable; 
+       (II) there is a stable positive steady state and zero is an unstable steady state; 
+       (III) zero is a stable steady state and there is a positive, non-stable steady state; 
+       (IV) zero is the only non-negative steady state, and it is stable.}
     \end{figure}
 
     We charecterize the metabolic state of this system by the concentration of the metabolite $X$.
     We note that knowing the concentration of $X$ suffices in order to calculate the fluxes originating from it, $f_a$ and $f_b$, thus fully defining the state of the system.
-    A steady state of the system is defined as a concentration, $X^*$, which induces fluxes that keep the concentration steady, i.e. that the total in-flux to $X$ is exactly equal to the total out-flux from it.
-    In our example, a steady state must therefore satisfy:
+    A steady state of the system is defined as a concentration, $X^*$, which induces fluxes that keep the concentration steady, such that the total in-flux to $X$ is exactly equal to the total out-flux from it.
+    In our example, the outgoing flux from $X$ is $f_a+f_b$ and the incoming flux to $X$ is $2f_a$, so at steady state it holds that:
     \begin{equation*}
-      \dot X = \frac{dX}{dt} = 2f_a - f_b - f_a = 0
+      \dot X = \frac{dX}{dt} = 2f_a - (f_a + f_b) = 0
     \end{equation*}
 
     Expanding this condition results in getting that:
@@ -175,9 +180,13 @@
     \begin{equation*}
       X=\frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}
     \end{equation*}
-    As physiologically the concentration of $X$ cannot be negative, we get a constraint on the kinetic parameters for which a non-zero steady state may exist.
-    This constraint is graphically illustrated in Figures \ref{fig:michmeninterceptstable} and \ref{fig:michmeninterceptunstable}.
-    Mathematically the constraint states the sign of $V_{\max,a}-V_{\max,b}$ must be the same as the sign of $V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}$, implying that the reaction with higher maximal flux must have a shallower slope at $X=0$.
+    As physiologically the concentration of $X$ cannot be negative, we get a constraint on the kinetic parameters for which a positive steady state exists:
+    \begin{equation*}
+      \frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{m,b}}-\frac{V_{\max,a}}{K_{m,a}}}{V_{\max,a}-V_{\max,b}}>0
+    \end{equation*}
+    The constraint states that if $V_{\max,a}>V_{\max,b}$ then $\frac{V_{\max,b}}{K_{m,b}}>\frac{V_{\max,a}}{K_{m,a}}$ and that if $V_{\max,a}<V_{\max,b}$ then $\frac{V_{\max,b}}{K_{m,b}}<\frac{V_{\max,a}}{K_{m,a}}$.
+    As $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$, the constraint implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
+    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B where cases (I) and (IV) have no non-zero steady state, and cases (II) and (III) have a non-zero steady state.
 
     While having a non-zero concentration steady state is an essential condition to sustain flux, it is not sufficient.
     The non-zero concentration steady state must also be stable to small perturbations.
@@ -189,14 +198,14 @@
     \begin{equation*}
       \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{m,a}}{(K_{m,a}+X^*)^2}-\frac{V_{\max,b}K_{m,b}}{(K_{m,b}+X^*)^2}<0
     \end{equation*}
-    Substituting for $X^*=0$ gives that $0$ is a stable steady state point if $\frac{V_{\max,a}}{K_{m,a}}<\frac{V_{\max,b}}{K_{m,b}}$ and is unstable otherwise.
-    For $X^*=\frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}$ we get the opposite condition, i.e. that it is stable if $\frac{V_{\max,a}}{K_{m,a}}>\frac{V_{\max,b}}{K_{m,b}}$ and unstable otherwise.
+    Substituting for $X^*=0$ gives that $0$ is a stable steady state point if $\frac{V_{\max,a}}{K_{m,a}}<\frac{V_{\max,b}}{K_{m,b}}$ (corresponding to the area below the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{m,b}}{K_{m,a}}$ resulting in cases (III) and (IV)) and is unstable otherwise.
+    For $X^*=\frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}$ we get the opposite condition, i.e. that it is stable if $\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{m,b}}{K_{m,a}}$ and unstable otherwise.
     
-    These results can be intuitively understood with the help of Figures \ref{fig:michmeninterceptstable} and \ref{fig:michmeninterceptunstable}.
-    For Michaelis Menten kinetics, $\frac{V_{\max}}{K_m}$ is the slope at $X=0$.
-    Therefore, if one reaction has both a larger slope and a higher maximal flux value, then for any positive concentration of $X$ it will have a higher flux, and thus no positive concentration will result in equal fluxes for the two reactions.
-    Otherwise (i.e. in case the reaction with larger slope at $X=0$ has a smaller maximal flux) an intersection must occur for some positive concentration of $X$.
-    In this case, that concentration will be stable if and only if for a larger concentration than the steady state one $V_{\max,b}>V_{\max,a}$ as that is the case where small deviations from the steady state point will result in the fluxes operating in the opposite direction to the direction of the deviation.
+    The complete analysis is summed up in Figure \ref{fig:simplecycle}B.
+    Areas (II) and (III) represent cases where a non-zero steady state point exists.
+    The areas below the diagonal represent cases where $X^*=0$ is a stable steady state point, and the other steady state, if it exists is unstable (cases (III) and (IV)).
+    The areas above the diagonal represent cases where $X^*=0$ is an unstable steady state point, and the other steady state, if it exists is stable (cases (I) and (II)).
+    
 
     To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist, two conditions must be satisfied:
     $$
@@ -260,7 +269,7 @@
     \end{equation*}
 
     To determine whether there exist positive concentrations $(X^*,R^*)$ that satisfy this equation, we look at two cases:
-    (A) at least one of the asymptotic lines is non-negative, implying that part of the upper-right branch of the hyperbola lies in the region of positive $X$ and positive $R$.
+    (A) at least one of the asymptotic lines is non-negative, implying that part of the upper-right branch of the hyperbola lies in the region of positive $X$ and positive $R$;
     (B) if for $X=0$, $R>0$ or if for $R=0$, $X>0$, implying that some part of the hyperbola lies in the region of positive $X$ and positive $R$.
     We note that there are cases where one condition is met and the other not.
     For example if the hyperbola axes coincide with $X=0$ and $R=0$, then the first condition is met but the second is not, and if both the asympthotes are negative but small (close to the origin) then the first condition is not met, but the second one is, as can be seen in Figure \ref{fig:hyperbola-analysis}.
