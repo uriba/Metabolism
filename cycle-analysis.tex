@@ -1,10 +1,12 @@
 \documentclass[a4page,notitlepage]{article}
 \usepackage{color,amsmath,graphicx,subcaption,geometry}
 \usepackage[citestyle=authoryear]{biblatex}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{stackengine,ifthen}
 \usetikzlibrary{arrows,positioning,calc}
+\newcommand\influx{0.5}
 \newcounter{figstack}
 \newcounter{figindex}
 \newlength\fight
@@ -151,13 +153,13 @@
         \end{tikzpicture}}
        \end{minipage}
       e\caption{\label{fig:simplecycle}
-       A simple auto-catalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$ (A).
+        (A) A simple auto-catalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
         These fluxes follow simple Michaelis Menten kinetics.
         A steady state occures when $f_a=f_b$, implying that $\dot{X}=0$.
         The cycle always has a steady state at $X=0$.
         The slope of each reaction at $X=0$ is $V_{\max}/K_m$.
         A steady state is stable if at the steady state point $\frac{d\dot{X}}{dX}<0$.
-        Each combination of kinetic parameters, $V_{\max,a},V_{\max,b},K_{m,a},K_{m,b}$ results in one of four cases (B): 
+        (B) Each combination of kinetic parameters, $V_{\max,a},V_{\max,b},K_{m,a},K_{m,b}$ results in one of four cases: 
        (I) zero is the only non-negative steady state and it is unstable; 
        (II) there is a stable positive steady state and zero is an unstable steady state; 
        (III) zero is a stable steady state and there is a positive, non-stable steady state; 
@@ -216,20 +218,74 @@
     $$
     Interestingly, these conditions imply that if $K_{m,b}<K_{m,a}$ then no positive stable steady state can be achieved, even when allowing changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which only affect $V_{\max,a}$ and $V_{\max,b}$.
     
-    \subsection{Input flux increases the range of parameters for which a stable steady state solution exists}
+\subsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Real auto-catalytic cycles are not stand-alone constructs and specifically, all such cycles have some input flux to their intermediate metabolite.
-    When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:autocatal}) the steady state condition changes to include this flux, giving:
+    When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
     \begin{equation*}
       \dot X = \frac{dX}{dt} = f_i + f_a - f_b = 0
     \end{equation*}
     In this model, at $X=0$, $\dot X=f_i>0$ so the concentration of $X$ increases. 
-    If $V_{\max,b}>f_i+V_{\max,a}$ then at large enough a concentration $\dot X$ will be negative, so we can conclude that under this condition a stable steady state point will exist.
-    As this condition can be achieved by modifying only $V_{\max,a}$ or $V_{\max,b}$, in this setup cells can calibrate the expression levels of enzymes to meet the needs of a stable steady state flux.
-    Even if $V_{\max,b}<f_i+V_{\max,a}$ a stable steady state point may exist if there exists a positive concentration, $X$ that satisfies:
+    If $V_{\max,b}>f_i+V_{\max,a}$ then at large enough a concentration $\dot X$ will be negative, implying that under this condition a positive stable steady state point exists (Figure \ref{fig:inputcycle} (II)).
+    This case therefore differs from the case with no input flux as now a positive stable steady state can always be achieved by modifying only $V_{\max,a}$ and/or $V_{\max,b}$.
+    In this setup cells can therefore calibrate the expression levels of enzymes to meet the needs of a stable steady state flux.
+
+    In cases where $V_{\max,b}<f_i+V_{\max,a}$ either no steady states exist (Figure \ref{fig:inputcycle} (I)), or two positive steady states exist.
+    The latter case implies that there exists a positive concentration $X$ that satisfies:
     \begin{equation*}
         \dot X = 0 \Rightarrow f_i + f_a(X) - f_b(X) = 0 \Rightarrow f_i+\frac{V_{\max,a}X}{K_{m,a}+X} = \frac{V_{\max,b}X}{K_{m,b}+X} 
     \end{equation*}
-    (In such a case two steady state positive concentrations will exist, with the one achieved at a lower concentration being stable).
+  In this case, the lower concentration steady state will be stable (Figure \ref{fig:inputcycle} (III)).
+    \begin{figure}[h!]
+      \centering
+      \begin{minipage}[c]{0.8\linewidth}%
+        {\begin{tikzpicture}[>=latex',node distance = 2cm]
+            \node (X) {$X$};
+            \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
+            \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \draw [<-,line width=1pt,ForestGreen] (X.east) arc (-90:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
+            \node [above of=fa,yshift=-1cm] (A) {(A)};
+            \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of fi,anchor=west,name=legend1}]
+              \addlegendimage{BlueViolet,fill=black!50!red,sharp plot}
+              \addlegendimage{red,fill=black!50!red,sharp plot}
+              \addlegendimage{cyan,fill=black!50!red,sharp plot}
+            \end{customlegend}
+         \end{tikzpicture}}%
+       \end{minipage}
+
+       \begin{minipage}[c]{\linewidth}%
+        {\begin{tikzpicture}
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
+            \addplot[domain=0:4,BlueViolet,thick] {5*x/(1+x)+\influx};
+            \addplot[domain=0:4,red,thick] {4*x/(1+x)};
+            \addplot[domain=0:4,cyan,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
+            \node (one) at (axis cs:0.5,5.5) { I};
+          \end{axis}
+
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
+            \addplot[domain=0:4,BlueViolet,thick] {3*x/(0.5+x)+\influx};
+            \addplot[domain=0:4,red,thick] {5*x/(1+x)};
+            \addplot[domain=0:4,cyan,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
+            \addplot[dashed,gray,thick] coordinates {(1,0) (1,2.5)};
+            \node (two) at (axis cs:0.5,5.5) { II};
+          \end{axis}
+
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm]
+            \addplot[domain=0:4,BlueViolet,thick] {6*x/(2+x)+1.5*\influx};
+            \addplot[domain=0:4,red,thick] {4*x/(0.4+x)};
+            \addplot[domain=0:4,cyan,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
+            \addplot[dashed,gray,thick] coordinates {(1.2,0) (1.2,3)};
+            \addplot[dashed,gray,thick] coordinates {(0.182,0) (0.182,1.25)};
+            \node (three) at (axis cs:0.5,5.5) { III};
+          \end{axis}
+        \end{tikzpicture}}
+       \end{minipage}
+      \caption{\label{fig:inputcycle}
+        (A) A simple auto-catalytic cycle with a fixed input flux, $f_i$.
+        A steady state occures when $f_a+f_i=f_b$.
+        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (I), or two steady states where the smaller one is stable (III).
+      If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (II).}
+    \end{figure}
+
 
 \section{Modeling use of cofactors increases model complexity}
     As conservation of mass dictates, real auto-catalytic cycles must use cofactors to catalyze their activity.
