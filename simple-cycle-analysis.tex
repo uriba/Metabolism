@@ -166,7 +166,7 @@
     Mathematically, stability dictates that at $X=X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that for points with a small deviation from the steady state: $X = X^*+\Delta X$ the net flux $\dot X$ will oppose the direction of the deviation.
     If $\Delta X$ is positive then $\dot X$ will be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
 
-    For the simple kinetics we chose the stability condition requires:
+    For the simple kinetics we chose the stability condition requires that:
     \begin{equation*}
       \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
     \end{equation*}
@@ -186,7 +186,7 @@
       & \frac{V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}
     \end{aligned}
     $$
-    Meaning that for high enough a concentration of $X$ the biomass generating flux should be higher than the autocatalytic flux, ensuring stability, and that at zero concentration of $X$, the slope of the autocatalytic reaction is steeper than the slope of the biomass generating reaction, ensuring that the two fluxes will be equal at some positive concentration of $X$.
+    meaning that for high enough a concentration of $X$ the biomass generating flux should be higher than the auto-catalytic flux, ensuring stability, and that at zero concentration of $X$, the slope of the auto-catalytic reaction is steeper than the slope of the biomass generating reaction, ensuring that the two fluxes will be equal for some positive concentration of $X$.
 
     Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved, even when allowing changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which only affect $V_{\max,a}$ and $V_{\max,b}$.
     
