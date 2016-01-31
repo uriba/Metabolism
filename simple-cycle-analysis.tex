@@ -7,45 +7,6 @@
 \usepackage{stackengine,ifthen}
 \usetikzlibrary{arrows,positioning,calc}
 \newcommand\influx{0.5}
-\newcounter{figstack}
-\newcounter{figindex}
-\newlength\fight
-\newcommand\pushfigure[4][b]{%
-  \stepcounter{figstack}%
-  \expandafter\def\csname %
-    figalign\romannumeral\value{figstack}\endcsname{#1}%
-  \expandafter\def\csname %
-    figwd\romannumeral\value{figstack}\endcsname{#2}%
-  \expandafter\def\csname %
-    figcontent\romannumeral\value{figstack}\endcsname{#3}%
-  \expandafter\def\csname %
-    figcap\romannumeral\value{figstack}\endcsname{#4}%
-  \setbox0 = \hbox{%
-    \begin{minipage}{#2}#3\end{minipage}}%
-  \ifdim\dimexpr\ht0+\dp0\relax>\fight\global\setlength{\fight}{%
-  \dimexpr\ht0+\dp0\relax}\fi%
-}
-
-\newcommand\popfigures{%
-  \setcounter{figindex}{0}%
-  \hfill%
-  \whiledo{\value{figindex}<\value{figstack}}{%
-    \stepcounter{figindex}%
-    \def\tmp{\csname figwd\romannumeral\value{figindex}\endcsname}%
-    \begin{minipage}[t]{\tmp}%
-      \centering%
-      \stackinset{c}{}%
-      {\csname figalign\romannumeral\value{figindex}\endcsname}{}%
-      {\csname figcontent\romannumeral\value{figindex}\endcsname}%
-      {\rule{0pt}{\fight}}\par%
-      \csname figcap\romannumeral\value{figindex}\endcsname%
-    \end{minipage}%
-    \hfill%
-  }%
-  \setcounter{figstack}{0}%
-  \setlength{\fight}{0pt}%
-  \hfill%
-}
 
 \newenvironment{customlegend}[1][]{
   \begingroup
@@ -62,8 +23,8 @@
 \providecommand{\norm}[1]{\lVert#1\rVert}
 
 
-\title{Analyzing stability of very simple metabolic cycles}
-\author{Uri Barenholz}
+\title{Requirements on kinetic parameters and enzyme levels for stability of simple metabolic auto-catalytic cycles}
+\author{Uri Barenholz, Ron Milo}
 \date{}
 
 \begin{document}
@@ -71,29 +32,31 @@
 \abstract{
     Auto-catalytic cycles are an important part of metabolic networks.
     As the flux in auto-catalytic cycles both depends on the concentration of intermediate metabolites, and affects it, they present unique features and characteristics.
-    An understanding of the constraints under which metabolic auto-catalytic cycles operate is essential for realizing limitations of existing metabolic networks, as well as to successfully modify them in synthetic biology metabolic engineering applications.
+    We show that even very simple cycles impose specific constraints on the kinetic parameters of the enzymes composing them and their levels, in order to allow stable, non-zero, fluxes.
 
     We analyze a simple metabolic auto-catalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
-    We show that even for very simple cycles, specific constraints on the kinetic parameters of the enzymes are needed in order to allow a stable flux through the cycle.
-    This work thus serves as an approachable introduction to the analysis of auto-catalytic metabolic cycles and to derive specific insights about the cycles we analyze.
+    We derive the relationships between two global traits of the cycle: having a non-zero flux steady state, and requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
+    We show that the auto-catalytic reaction must have higher affinity and lower maximal flux than the reaction outgoing from the cycle, for stable fluxes through cycle to occur.
+    This work thus serves as an approachable introduction to the analysis of auto-catalytic metabolic cycles and as a demonstration of the insights one can get by such analysis.
 }
 
 \section{Introduction}
     Metabolic networks topology and function are limited by numerous constraints.
-    Stochiometries must be maintained and reactions must be balanced, reactions sharing the same substrates or products must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions.
+    Stochiometries must be maintained and reactions must be balanced, reactions sharing the same substrates or products must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions and fluctuations in components levels.
     Auto catalytic cycles present specific challenges as their inherent feed-back nature makes them susceptible to divergence or drainage.
+    An understanding of the specific constraints which metabolic auto-catalytic cycles induce is essential for realizing limitations of existing metabolic networks, as well as to successfully modify them in synthetic biology metabolic engineering applications.
 
     In this work we present the specific requirements auto-catalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
     (B) To be stable for fluctuations at the steady state point(s).
     The mathematical tools we define and use are widely known and applicable in various fields.
     Our analysis demonstrates the use of these tools to gain insights about the operation, limitations, and various modifications available to metabolic auto-catalytic cycles in vivo.
-\section{Modifying enzyme levels may not suffice to stabilize a simple auto-catalytic cycle}
+\section{Analysis of a simple auto-catalytic cycle}
     We consider the simple auto-catalytic cycle depicted in Figure \ref{fig:simplecycle}A.
-    This cycle has a single intermediate metabolite, $X$, one auto-catalytic reaction with flux $f_a$ (implying that for any unit of $X$ consumed, it produces two units of $X$), and one outgoing reaction using the cycle substrate with flux $f_b$.
+    This cycle has a single intermediate metabolite, $X$, one auto-catalytic reaction with flux $f_a$, such that for any unit of $X$ consumed, it produces two units of $X$, and one outgoing reaction using the cycle substrate with flux $f_b$.
     We assume simple, irreversible Michaelis-Menten kinetics for the two reactions such that:
     \begin{eqnarray*}
-      f_a = \frac{V_{\max,a}X}{K_{m,a}+X} \\
-      f_b = \frac{V_{\max,b}X}{K_{m,b}+X}
+      f_a = \frac{V_{\max,a}X}{K_{M,a}+X} \\
+      f_b = \frac{V_{\max,b}X}{K_{M,b}+X}
     \end{eqnarray*}
     where all the kinetic parameters are positive.
     \begin{figure}[h!]
@@ -106,15 +69,15 @@
             \begin{customlegend}[legend entries={$f_a$,$f_b$,$\dot{X}=f_a-f_b$},legend style={below=2cm of fa,anchor=west,name=legend1}]
               \addlegendimage{blue,fill=black!50!red,sharp plot}
               \addlegendimage{red,fill=black!50!red,sharp plot}
-              \addlegendimage{cyan,fill=black!50!red,sharp plot}
+              \addlegendimage{green,fill=black!50!red,sharp plot}
             \end{customlegend}
-            \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{m,b}}{K_{m,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm]
-            \addplot[domain=0:4,dashed,gray,thick] {x};
-            \addplot[dashed,gray,thick] coordinates {(1,0) (1,2)};
-            \node (one) at (axis cs:0.5,1.5) {I};
-            \node (two) at (axis cs:1.25,1.5) {II};
+            \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm]
+            \addplot[domain=0:4,dotted,black,thick] {x};
+            \addplot[dotted,black,thick] coordinates {(1,0) (1,2)};
+            \node (one) at (axis cs:1.25,1.5) {I};
+            \node (two) at (axis cs:1.25,0.5) {II};
             \node (three) at (axis cs:0.75,0.5) {III};
-            \node (four) at (axis cs:1.5,0.5) {IV};
+            \node (four) at (axis cs:0.75,1.5)(axis cs:1.25,0.5) {IV};
           \end{axis}
           \node [at=(legend1.south west),yshift=-0.8cm] (B) {(B)};
          \end{tikzpicture}}%
@@ -122,34 +85,39 @@
        \hfill
        \begin{minipage}[c]{.65\linewidth}
         {\begin{tikzpicture}
-            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {5*x/(0.2+x)};
-            \addplot[domain=0:4,red,thick] {4*x/(1+x)};
-            \addplot[domain=0:4,cyan,thick] {5*x/(0.2+x)-4*x/(1+x)};
-            \node (one) at (axis cs:0.5,5.5) { I};
-          \end{axis}
-
-          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {3*x/(0.1+x)};
-            \addplot[domain=0:4,red,thick] {5*x/(1+x)};
-            \addplot[domain=0:4,cyan,thick] {3*x/(0.1+x)-5*x/(1+x)};
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,clip=false]
+            \addplot[domain=0:2.9,blue,thick] {3*x/(0.1+x)};
+            \addplot[domain=0:2.9,red,thick] {5*x/(1+x)};
+            \addplot[domain=0:2.9,green,thick] {3*x/(0.1+x)-5*x/(1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
-            \node (two) at (axis cs:0.5,5.5) { II};
+            \node[right] (one) at (axis cs:0.1,5.5) {I};
+            \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
+          \node [at=(plot1.north west),xshift=-0.5cm,yshift=0.3cm] (C) {(C)};
 
-          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {5*x/(1+x)};
-            \addplot[domain=0:4,red,thick] {3*x/(0.1+x)};
-            \addplot[domain=0:4,cyan,thick] {5*x/(1+x)-3*x/(0.1+x)};
-            \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
-            \node (three) at (axis cs:0.5,5.5) { III};
-          \end{axis}
-
-          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm]
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
             \addplot[domain=0:4,blue,thick] {4*x/(1+x)};
             \addplot[domain=0:4,red,thick] {5*x/(0.2+x)};
-            \addplot[domain=0:4,cyan,thick] {4*x/(1+x)-5*x/(0.2+x)};
-            \node (four) at (axis cs:0.5,5.5) { IV};
+            \addplot[domain=0:4,green,thick] {4*x/(1+x)-5*x/(0.2+x)};
+            \node[right] (two) at (axis cs:0.1,5.5) {II};
+            \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize stable zero steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm,yshift=-0.5cm]
+            \addplot[domain=0:4,blue,thick] {5*x/(1+x)};
+            \addplot[domain=0:4,red,thick] {3*x/(0.1+x)};
+            \addplot[domain=0:4,green,thick] {5*x/(1+x)-3*x/(0.1+x)};
+            \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
+            \node[right] (three) at (axis cs:0.1,5.5) {III};
+            \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm]
+            \addplot[domain=0:2.9,blue,thick] {5*x/(0.2+x)};
+            \addplot[domain=0:2.9,red,thick] {4*x/(1+x)};
+            \addplot[domain=0:2.9,green,thick] {5*x/(0.2+x)-4*x/(1+x)};
+            \node[right] (four) at (axis cs:0.1,5.5) {IV};
+            \node[right,align=left] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
          \end{axis}
         \end{tikzpicture}}
        \end{minipage}
@@ -160,11 +128,11 @@
         The cycle always has a steady state at $X=0$.
         The slope of each reaction at $X=0$ is $V_{\max}/K_m$.
         A steady state is stable if at the steady state point $\frac{d\dot{X}}{dX}<0$.
-        (B) Each combination of kinetic parameters, $V_{\max,a},V_{\max,b},K_{m,a},K_{m,b}$ results in one of four cases: 
-       (I) zero is the only non-negative steady state and it is unstable; 
-       (II) there is a stable positive steady state and zero is an unstable steady state; 
+        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ results in one of four cases (C): 
+       (I) there is a stable positive steady state and zero is an unstable steady state; 
+       (II) zero is the only non-negative steady state, and it is stable;
        (III) zero is a stable steady state and there is a positive, non-stable steady state; 
-       (IV) zero is the only non-negative steady state, and it is stable.}
+       (IV) zero is the only non-negative steady state and it is unstable.}
     \end{figure}
 
     We characterize the metabolic state of this system by the concentration of the metabolite $X$.
@@ -175,21 +143,22 @@
       \dot X = \frac{dX}{dt} = 2f_a - (f_a + f_b) = 0
     \end{equation*}
 
-    Expanding this condition results in getting that:
+    Expanding this condition we get:
     \begin{equation*}
-      \dot X = 0 \Rightarrow f_a = f_b \Rightarrow \frac{V_{\max,a}X}{K_{m,a}+X}=\frac{V_{\max,b}X}{K_{m,b}+X}
+      \dot X = 0 \Rightarrow f_a = f_b \Rightarrow \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
     which is satisfied either if $X=0$ or if:
     \begin{equation*}
-      X=\frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}
+      X=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}
     \end{equation*}
     As physiologically the concentration of $X$ cannot be negative, we get a constraint on the kinetic parameters for which a positive steady state exists:
     \begin{equation*}
-      \frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{m,b}}-\frac{V_{\max,a}}{K_{m,a}}}{V_{\max,a}-V_{\max,b}}>0
+      \frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{M,b}}-\frac{V_{\max,a}}{K_{M,a}}}{V_{\max,a}-V_{\max,b}}>0
     \end{equation*}
-    The constraint states that if $V_{\max,a}>V_{\max,b}$ then $\frac{V_{\max,b}}{K_{m,b}}>\frac{V_{\max,a}}{K_{m,a}}$ and that if $V_{\max,a}<V_{\max,b}$ then $\frac{V_{\max,b}}{K_{m,b}}<\frac{V_{\max,a}}{K_{m,a}}$.
+    The constraint states that if $V_{\max,a}>V_{\max,b}$ then it must be that $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$ and that if $V_{\max,a}<V_{\max,b}$ then $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$.
     As $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$, the constraint implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
-    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B where cases (I) and (IV) have no non-zero steady state, and cases (II) and (III) have a non-zero steady state.
+    This condition can be intuitively understood as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$, compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will not intersect.
+    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B where cases (II) and (IV) have no non-zero steady state, and cases (I) and (III) have a non-zero steady state.
 
     While having a non-zero concentration steady state is an essential condition to sustain flux, it is not sufficient.
     The non-zero concentration steady state must also be stable to small perturbations.
@@ -197,43 +166,45 @@
     Mathematically, stability dictates that at $X=X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that for points with a small deviation from the steady state: $X = X^*+\Delta X$ the net flux $\dot X$ will oppose the direction of the deviation.
     If $\Delta X$ is positive then $\dot X$ will be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
 
-    This condition implies that:
+    For the simple kinetics we chose the stability condition requires:
     \begin{equation*}
-      \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{m,a}}{(K_{m,a}+X^*)^2}-\frac{V_{\max,b}K_{m,b}}{(K_{m,b}+X^*)^2}<0
+      \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
     \end{equation*}
-    Substituting for $X^*=0$ gives that $0$ is a stable steady state point if $\frac{V_{\max,a}}{K_{m,a}}<\frac{V_{\max,b}}{K_{m,b}}$ (corresponding to the area below the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{m,b}}{K_{m,a}}$ resulting in cases (III) and (IV)) and is unstable otherwise.
-    For $X^*=\frac{V_{\max,b}K_{m,a}-V_{\max,a}K_{m,b}}{V_{\max,a}-V_{\max,b}}$ we get the opposite condition, i.e. that it is stable if $\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{m,b}}{K_{m,a}}$ and unstable otherwise.
+    Substituting for $X^*=0$ gives that $0$ is a stable steady state point if $\frac{V_{\max,a}}{K_{M,a}}<\frac{V_{\max,b}}{K_{M,b}}$ (corresponding to the area below the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}$ resulting in cases (II) and (III)) and is unstable otherwise.
+    For  the non-zero steady state, $X^*=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}$, we get the opposite condition, i.e. that it is stable if $\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{M,b}}{K_{M,a}}$ and unstable otherwise.
     
     The complete analysis is summed up in Figure \ref{fig:simplecycle}B.
-    Areas (II) and (III) represent cases where a non-zero steady state point exists.
-    The areas below the diagonal represent cases where $X^*=0$ is a stable steady state point, and the other steady state, if it exists is unstable (cases (III) and (IV)).
-    The areas above the diagonal represent cases where $X^*=0$ is an unstable steady state point, and the other steady state, if it exists is stable (cases (I) and (II)).
+    Domains (I) and (III) represent cases where a non-zero steady state point exists.
+    The domains below the diagonal represent cases where $X^*=0$ is a stable steady state point, and the other steady state, if it exists is unstable (cases (II) and (III)).
+    The domains above the diagonal represent cases where $X^*=0$ is an unstable steady state point, and the other steady state, if it exists is stable (cases (I) and (IV)).
     
 
     To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist, two conditions must be satisfied:
     $$
     \begin{aligned}
       & V_{\max,b}>V_{\max,a} \text{ and,}\\
-      & \frac{V_{\max,a}}{K_{m,a}}>\frac{V_{\max,b}}{K_{m,b}}
+      & \frac{V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}
     \end{aligned}
     $$
-    Interestingly, these conditions imply that if $K_{m,b}<K_{m,a}$ then no positive stable steady state can be achieved, even when allowing changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which only affect $V_{\max,a}$ and $V_{\max,b}$.
+    Meaning that for high enough a concentration of $X$ the biomass generating flux should be higher than the autocatalytic flux, ensuring stability, and that at zero concentration of $X$, the slope of the autocatalytic reaction is steeper than the slope of the biomass generating reaction, ensuring that the two fluxes will be equal at some positive concentration of $X$.
+
+    Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved, even when allowing changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which only affect $V_{\max,a}$ and $V_{\max,b}$.
     
 \subsection{Input flux increases the range of parameters for which a stable steady state solution exists}
-    Real auto-catalytic cycles are not stand-alone constructs and specifically, all such cycles have some input flux to their intermediate metabolite.
+    Real auto-catalytic cycles are not stand-alone constructs and specifically, such cycles generally have some feuling reactions with input flux to their intermediate metabolite.
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
     \begin{equation*}
       \dot X = \frac{dX}{dt} = f_i + f_a - f_b = 0
     \end{equation*}
-    In this model, at $X=0$, $\dot X=f_i>0$ so the concentration of $X$ increases. 
-    If $V_{\max,b}>f_i+V_{\max,a}$ then at large enough a concentration $\dot X$ will be negative, implying that under this condition a positive stable steady state point exists (Figure \ref{fig:inputcycle} (II)).
-    This case therefore differs from the case with no input flux as now a positive stable steady state can always be achieved by modifying only $V_{\max,a}$ and/or $V_{\max,b}$.
-    In this setup cells can therefore calibrate the expression levels of enzymes to meet the needs of a stable steady state flux.
+    In this model, at $X=0$, $\dot X=f_i>0$ so the concentration of $X$ increases and there is no steady state at zero.
+    If $V_{\max,b}>f_i+V_{\max,a}$ then at large enough value of $X$, $\dot X$ will be negative, implying that at some value of $X$ between these two extremes $\dot{X}$ attains the value of zero, such that under this condition a positive stable steady state point exists (Figure \ref{fig:inputcycle} (I)).
+    This case therefore differs from the case with no input flux analyzed above, as now a positive stable steady state can always be achieved by modifying only $V_{\max,a}$ and/or $V_{\max,b}$.
+    In this setup cells can therefore tune the expression levels of enzymes to meet the needs of a stable steady state flux.
 
-    In cases where $V_{\max,b}<f_i+V_{\max,a}$ either no steady states exist (Figure \ref{fig:inputcycle} (I)), or two positive steady states exist (Figure \ref{fig:inputcycle} (III)).
+    In cases where $V_{\max,b}<f_i+V_{\max,a}$ either no steady states exist (Figure \ref{fig:inputcycle} (II)), or two positive steady states exist (Figure \ref{fig:inputcycle} (III)).
     The latter case implies that there exists a positive concentration $X$ that satisfies:
     \begin{equation*}
-        \dot X = 0 \Rightarrow f_i + f_a(X) - f_b(X) = 0 \Rightarrow f_i+\frac{V_{\max,a}X}{K_{m,a}+X} = \frac{V_{\max,b}X}{K_{m,b}+X} 
+        \dot X = 0 \Rightarrow f_i + f_a(X) - f_b(X) = 0 \Rightarrow f_i+\frac{V_{\max,a}X}{K_{M,a}+X} = \frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
   In this case, the lower concentration steady state will be stable.
     \begin{figure}[h!]
@@ -243,48 +214,52 @@
             \node (X) {$X$};
             \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
             \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
-            \draw [<-,line width=1pt,ForestGreen] (X.east) arc (-90:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
+            \draw [<-,line width=1pt,ForestGreen] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
             \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of fi,anchor=west,name=legend1}]
               \addlegendimage{BlueViolet,fill=black!50!red,sharp plot}
               \addlegendimage{red,fill=black!50!red,sharp plot}
-              \addlegendimage{cyan,fill=black!50!red,sharp plot}
+              \addlegendimage{green,fill=black!50!red,sharp plot}
             \end{customlegend}
          \end{tikzpicture}}%
        \end{minipage}
 
        \begin{minipage}[c]{\linewidth}%
         {\begin{tikzpicture}
-            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
-            \addplot[domain=0:4,BlueViolet,thick] {5*x/(1+x)+\influx};
-            \addplot[domain=0:4,red,thick] {4*x/(1+x)};
-            \addplot[domain=0:4,cyan,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
-            \node (one) at (axis cs:0.5,5.5) { I};
-          \end{axis}
-
-          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
             \addplot[domain=0:4,BlueViolet,thick] {3*x/(0.5+x)+\influx};
             \addplot[domain=0:4,red,thick] {5*x/(1+x)};
-            \addplot[domain=0:4,cyan,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
+            \addplot[domain=0:4,green,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
             \addplot[dashed,gray,thick] coordinates {(1,0) (1,2.5)};
-            \node (two) at (axis cs:0.5,5.5) { II};
+            \node[right] (one) at (axis cs:0.1,5.5) {I};
+            \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
 
-          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=3,ymax=6,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm]
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
+            \addplot[domain=0:4,BlueViolet,thick] {5*x/(1+x)+\influx};
+            \addplot[domain=0:4,red,thick] {4*x/(1+x)};
+            \addplot[domain=0:4,green,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
+            \node[right] (two) at (axis cs:0.1,5.5) {II};
+            \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm]
             \addplot[domain=0:4,BlueViolet,thick] {6*x/(2+x)+1.5*\influx};
             \addplot[domain=0:4,red,thick] {4*x/(0.4+x)};
-            \addplot[domain=0:4,cyan,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
+            \addplot[domain=0:4,green,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
             \addplot[dashed,gray,thick] coordinates {(1.2,0) (1.2,3)};
             \addplot[dashed,gray,thick] coordinates {(0.182,0) (0.182,1.25)};
-            \node (three) at (axis cs:0.5,5.5) { III};
+            \node[right] (three) at (axis cs:0.1,5.5) {III};
+            \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize two non-zero\\[-0.4em]\scriptsize steady states};
           \end{axis}
         \end{tikzpicture}}
        \end{minipage}
       \caption{\label{fig:inputcycle}
         (A) A simple auto-catalytic cycle with a fixed input flux, $f_i$.
         A steady state occurs when $f_a+f_i=f_b$.
-        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (I), or two steady states where the smaller one is stable (III).
-      If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (II).}
+        If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
+        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
+      }
     \end{figure}
 
 
