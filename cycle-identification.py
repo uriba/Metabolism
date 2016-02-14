@@ -14,8 +14,8 @@
 ## remove X and all reactions consuming it from network and repeat for next metabolite.
 
 #demo graph to test on:
-n=4
-E=[(0,1),(1,2),(2,3),(3,1),(3,0)]
+n=7
+E=[(0,1),(1,2),(2,3),(3,1),(2,4),(4,5),(5,6),(6,4)]
 
 blocked = set([])
 B={}
@@ -102,6 +102,7 @@ def find_cycles(n,E): # n is the number of vertices in the graph. E is the set o
             for w in Ak[v]:
                 if w == s:
                     write_cycle(stack+[s])
+                    found = True
                 elif w not in blocked:
                     if circuit(w):
                         found = True
