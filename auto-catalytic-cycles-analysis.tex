@@ -1,6 +1,7 @@
 \documentclass[a4page,notitlepage]{article}
 \usepackage{color,amsmath,graphicx,subcaption,geometry,mathtools}
 \usepackage{cite}
+\usepackage{mhchem}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -32,9 +33,9 @@
 \abstract{
     Auto-catalytic cycles are an important part of metabolic networks.
     As the flux in auto-catalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
-    We show that even very simple cycles impose specific constraints on the kinetic parameters of the enzymes composing them and their expression levels, in order to allow stable, non-zero, fluxes.
+    We show that even very simple cycles impose specific constraints on the kinetic parameters of the enzymes composing them and their expression levels, in order to allow stable, non-zero fluxes.
 
-    We analyze a simple, generic, metabolic auto-catalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
+    We analyze a simple, generic metabolic auto-catalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
     We derive the relationships between two global traits of the cycle: having a non-zero flux steady state, and requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
     We show that the auto-catalytic reaction must have higher affinity and lower maximal flux than the reaction branching out of the cycle, for stable fluxes through the cycle to occur.
     This work thus serves as an approachable introduction to the analysis of auto-catalytic metabolic cycles and as a demonstration of the insights one can get by such analysis.
@@ -44,16 +45,16 @@
     Metabolic networks topology and function are limited by numerous constraints.
     Stoichiometries must be maintained and reactions must be balanced, reactions sharing the same substrates or products must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions and fluctuations in components levels.
 
-    Auto-catalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled, reaction (see, for example, \cite{Steinfeld1999-iw}).
+    Auto-catalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled reaction (see, for example, \cite{Steinfeld1999-iw}).
     A metabolic cycle is a set of reactions and metabolites such that the reactions form a cycle with respect to the metabolites, allowing metabolites external to the cycle to serve as additional reactants or products of the reactions.
     A metabolic cycle is auto-catalytic if traversing the reactions that form the cycle increases the amount of the metabolites forming it.
 
     The importance of auto catalytic cycles in metabolism is demonstrated by one of its most prominent exmaples, the Calvin Benson Bassham cycle (CBB) \cite{Benson1950-cl}.
-    The CBB cycle converts 5-carbon sugars to 2 3-carbon compounds (Glycerate-3-phosphate), by assimilating $CO_2$.
+    The CBB cycle converts 5-carbon sugars to 2 3-carbon compounds (Glycerate-3-phosphate), by assimilating \ce{CO2}.
     The 3-carbon compounds, in turn, are converted into 6-carbon sugars which are then recycled back into 5 carbon sugars using the Pentose Phosphate pathway.
-    This cycle is the main gateway for converting inorganic carbon to organic compounds in nature (ref).
+    The CBB cycle is the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
 
-    Auto catalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to divergence or drainage \cite{Reznik2010-te}.
+    Auto catalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to divergence or drainage \cite{Fell1999,Reznik2010-te}.
     An understanding of the unique constraints that metabolic auto-catalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
 
     In this work we present the specific requirements auto-catalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
@@ -170,7 +171,7 @@
     \end{equation*}
     The constraint states that if $V_{\max,a}>V_{\max,b}$ then it must be that $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$ and that if $V_{\max,a}<V_{\max,b}$ then $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$.
     As $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$, the constraint implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
-    This condition can be intuitively understood as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$, compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will not intersect.
+    This condition can be intuitively understood, as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$, compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will not intersect.
     This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B where cases (II) and (IV) have no positive steady states, and cases (I) and (III) have a positive steady state.
 
     While having a positive concentration steady state is an essential condition to sustain flux, it is not sufficient.
@@ -186,7 +187,7 @@
     Substituting for $X^*=0$ gives that $0$ is a stable steady state point if $\frac{V_{\max,a}}{K_{M,a}}<\frac{V_{\max,b}}{K_{M,b}}$ (corresponding to the area below the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}$ resulting in cases (II) and (III)) and is unstable otherwise.
     For  the non-zero steady state, $X^*=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}$, we get the opposite condition, i.e. that it is stable if $\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{M,b}}{K_{M,a}}$ and unstable otherwise.
 
-    It is worthwhile noting that the stability criteria can be stated in metabolic control terms \cite{Fell1997} as requiring that the elasticity of the biomass reaction at the positive steady state be greater than the elasticity of the autocatalytic reaction:
+    It is worthwhile noting that the stability criteria can be stated in metabolic control terms \cite{Fell1997-bp} as requiring that the elasticity of the biomass reaction at the positive steady state be greater than the elasticity of the autocatalytic reaction:
     \begin{equation*}
       \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow \epsilon^X_b>\epsilon^X_a
     \end{equation*}
@@ -230,7 +231,7 @@
       \begin{minipage}[c]{0.8\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
-            \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
+            \draw [->,line width=1pt,BlueViolet] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
             \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
             \draw [<-,line width=1pt,ForestGreen] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
@@ -304,14 +305,14 @@
       & \frac{\alpha V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}
     \end{dcases}
     \end{equation*}
-    So the qualitative conditions and observations from the $2:1$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
+    So the qualitative conditions and observations from the $1:2$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
 
 \section{Discussion}
 A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in a target organizm.
 Here we show that in the specific context of the newly introduced enzymes being involved in auto-catalytic cycles, such a successful expression may not suffice.
 Specifically, changes to some of the kinetic parametars of the enzymes may be required in order for the novel pathway to function.
 
-Another aspect of our findings is that while generally, increased affinity and catalytic rate are economically beneficial for enzymes, in the specific context of auto-catalytic cycles constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in only some of them destructive for the functioning of the cycle.
+Another aspect of our findings is that while generally, increased affinity and catalytic rate are economically beneficial for enzymes, in the specific context of auto-catalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in only some of them destructive for the functioning of the cycle.
 
 A recent example of these two conclusions in vivo is the implementation of a functional CBB cycle in \emph{e.coli} by introducing the two genes missing for its functioning.
 The successful introduction of the genes did not suffice to make the cycle functioning and further directed evolution was needed in order to achieve non-zero flux.
