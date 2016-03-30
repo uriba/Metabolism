@@ -25,46 +25,48 @@
 
 
 \title{Requirements on kinetic parameters and enzyme levels for stability of simple metabolic auto-catalytic cycles}
-\author{Uri Barenholz, Ron Milo, \dots}
+\author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Ron Milo, \dots}
 \date{}
 
 \begin{document}
 \maketitle
 \abstract{
-    Auto-catalytic cycles are an important part of metabolic networks.
-    As the flux in auto-catalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
+    Autocatalytic cycles are an important part of metabolic networks.
+    As the flux in autocatalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
     We show that even very simple cycles impose specific constraints on the kinetic parameters of the enzymes composing them and their expression levels, in order to allow stable, non-zero fluxes.
 
-    We analyze a simple, generic metabolic auto-catalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
-    We derive the relationships between two global traits of the cycle: having a non-zero flux steady state, and requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
-    We show that the auto-catalytic reaction must have higher affinity and lower maximal flux than the reaction branching out of the cycle, for stable fluxes through the cycle to occur.
-    This work thus serves as an approachable introduction to the analysis of auto-catalytic metabolic cycles and as a demonstration of the insights one can get by such analysis.
+    We analyze a simple, generic metabolic autocatalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
+    We derive the relationships between two global traits of the cycle: (1) having a non-zero flux steady state, and (2) requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
+    We show that the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation, for stable fluxes through the cycle to occur.
+    We give a few examples of autocatalytic cycles occuring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
+    This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis.
 }
 
 \section{Introduction}
     Metabolic networks topology and function are limited by numerous constraints.
-    Stoichiometries must be maintained and reactions must be balanced, reactions sharing the same substrates or products must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions and fluctuations in components levels.
+    Stoichiometry must be maintained and reactions must be balanced, reactions sharing the same substrates or products must operate at correct ratios, and the entire metabolic network must be stable under noisy environmental conditions and fluctuations in components levels.
 
-    Auto-catalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled reaction (see, for example, \cite{Steinfeld1999-iw}).
+    Autocatalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled reaction (see, for example, \cite{Steinfeld1999-iw}).
     A metabolic cycle is a set of reactions and metabolites such that the reactions form a cycle with respect to the metabolites, allowing metabolites external to the cycle to serve as additional reactants or products of the reactions.
-    A metabolic cycle is auto-catalytic if traversing the reactions that form the cycle increases the amount of the metabolites forming it.
+    A metabolic cycle is autocatalytic if traversing the reactions that form the cycle increases the amount of the metabolites forming it.
+    Surprisingly, autocatalytic cycles can be an essential building block of optimal metabolic networks \cite{Riehl2010-yh}.
 
-    The importance of auto catalytic cycles in metabolism is demonstrated by one of its most prominent exmaples, the Calvin Benson Bassham cycle (CBB) \cite{Benson1950-cl}.
+    The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin Benson Bassham cycle (CBB) \cite{Benson1950-cl}.
     The CBB cycle converts 5-carbon sugars to 2 3-carbon compounds (Glycerate-3-phosphate), by assimilating \ce{CO2}.
     The 3-carbon compounds, in turn, are converted into 6-carbon sugars which are then recycled back into 5 carbon sugars using the Pentose Phosphate pathway.
     The CBB cycle is the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
 
-    Auto catalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to divergence or drainage \cite{Fell1999,Reznik2010-te}.
-    An understanding of the unique constraints that metabolic auto-catalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
+    Autocatalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to divergence or drainage \cite{Fell1999,Reznik2010-te}.
+    An understanding of the unique constraints that metabolic autocatalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
 
-    In this work we present the specific requirements auto-catalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
+    In this work we present the specific requirements autocatalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
     (B) To be stable for fluctuations at the steady state point(s).
     The mathematical tools we define and use are widely known and applicable in various fields (see, for example \cite{Strogatz2014-hp}).
-    Our analysis demonstrates the use of these tools to gain insights about the operation, limitations, and various modifications available to metabolic auto-catalytic cycles in vivo.
+    Our analysis demonstrates the use of these tools to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
 
-\section{Analysis of a simple auto-catalytic cycle}
-    We consider the simple auto-catalytic cycle depicted in Figure \ref{fig:simplecycle}A.
-    This cycle has a single intermediate metabolite, $X$, one auto-catalytic reaction with flux $f_a$, such that for any unit of $X$ consumed, it produces two units of $X$, and one outgoing reaction using the cycle substrate with flux $f_b$.
+\section{Analysis of a simple autocatalytic cycle}
+    We consider the simple autocatalytic cycle depicted in Figure \ref{fig:simplecycle}A.
+    This cycle has a single intermediate metabolite, $X$, one autocatalytic reaction with flux $f_a$, such that for any unit of $X$ consumed, it produces two units of $X$ (this reaction obviously consumes some external metabolite, which we assume to be at a constant concentration), and one outgoing reaction using the cycle substrate with flux $f_b$.
     We assume simple, irreversible Michaelis-Menten kinetics for the two reactions such that:
     \begin{eqnarray*}
       f_a = \frac{V_{\max,a}X}{K_{M,a}+X} \\
@@ -134,7 +136,7 @@
         \end{tikzpicture}}
        \end{minipage}
       \caption{\label{fig:simplecycle}
-        (A) A simple auto-catalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
+        (A) A simple autocatalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
         These fluxes follow simple Michaelis Menten kinetics.
         A steady state occurs when $f_a=f_b$, implying that $\dot{X}=0$.
         The cycle always has a steady state at $X=0$.
@@ -189,7 +191,7 @@
 
     It is worthwhile noting that the stability criteria can be stated in metabolic control terms \cite{Fell1997-bp} as requiring that the elasticity of the biomass reaction at the positive steady state be greater than the elasticity of the autocatalytic reaction:
     \begin{equation*}
-      \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow \epsilon^X_b>\epsilon^X_a
+      \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow \varepsilon^X_b>\varepsilon^X_a
     \end{equation*}
     
     The complete analysis is summed up in Figure \ref{fig:simplecycle}B.
@@ -205,12 +207,13 @@
       & \frac{V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}
     \end{dcases}
     \end{equation}
-    meaning that for high enough a concentration of $X$, the biomass generating flux should be higher than the auto-catalytic flux, ensuring stability, and that at zero concentration of $X$, the slope of the auto-catalytic reaction is steeper than the slope of the biomass generating reaction, ensuring that the two fluxes will be equal for some positive concentration of $X$.
+    meaning that for high enough a concentration of $X$, the biomass generating flux should be higher than the autocatalytic flux, ensuring stability, and that at zero concentration of $X$, the slope of the autocatalytic reaction is steeper than the slope of the biomass generating reaction, ensuring that the two fluxes will be equal for some positive concentration of $X$.
 
     Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved, even when allowing changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which only affect $V_{\max,a}$ and $V_{\max,b}$.
     
 \subsection{Input flux increases the range of parameters for which a stable steady state solution exists}
-    Real auto-catalytic cycles are not stand-alone constructs and specifically, such cycles generally have some fueling reactions with input flux to at least some of their intermediate metabolites.
+    Autocatalytic cycles are not stand-alone constructs, but are rather embedded in a larger metabolic network.
+    Specifically, such cycles generally have some fueling reactions with input flux to at least some of their intermediate metabolites.
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
     \begin{equation*}
       \dot X = \frac{dX}{dt} = f_i + f_a - f_b = 0
@@ -274,51 +277,90 @@
         \end{tikzpicture}}
        \end{minipage}
       \caption{\label{fig:inputcycle}
-        (A) A simple auto-catalytic cycle with a fixed input flux, $f_i$.
+        (A) A simple autocatalytic cycle with a fixed input flux, $f_i$.
         A steady state occurs when $f_a+f_i=f_b$.
         If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
         If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
       }
     \end{figure}
-    \subsection{Generalizing for different auto-catalytic stoichiometries}
-    Our initial analysis considered an auto-catalytic reaction with $1:2$ stoichiometry, such that for every substrate molecule consumed, two were produced.
-    Real-world auto-catalytic cycles may have different stoichiometries.
-    For example, the CBB cycle has a stoichiometry of $5:6$ so that for every 5 molecules of 5-carbon sugars that the auto-catalytic reaction consumes, 6 5-carbon sugars are produced.
-    We can generalize our analysis by defining $\alpha$ such that for every molecule of $X$ that $f_a$ consumes, it produces $1+\alpha$ molecules of $X$, where $\alpha$ may be a fraction.
+    \subsection{Generalizing for different autocatalytic stoichiometries}
+    Our initial analysis considered an autocatalytic reaction with $1:2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
+    Real-world autocatalytic cycles may have different stoichiometries.
+    For example, the CBB cycle has a stoichiometry of $5:6$ so that for every 5 molecules of 5-carbon sugars that the autocatalytic reaction consumes, 6 5-carbon sugars are produced.
+    We can generalize our analysis by defining $\gamma$ such that for every molecule of $X$ that $f_a$ consumes, it produces $1+\gamma$ molecules of $X$, where $\gamma$ may be a fraction.
     This extension implies that equation \eqref{eq:xdyna} becomes:
 
     \begin{equation*}
-      \dot X = \frac{dX}{dt} = (1+\alpha)f_a - (f_a + f_b) = 0 \Rightarrow \alpha f_a = f_b \Rightarrow \frac{\alpha V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
+      \dot X = \frac{dX}{dt} = (1+\gamma)f_a - (f_a + f_b) = 0 \Rightarrow \gamma f_a = f_b \Rightarrow \frac{\gamma V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
 
-    Therefore, all of the mathematical derivations conducted above can be repeated, replacing $V_{\max,a}$ by $\alpha V_{\max,a}$.
+    Therefore, all of the mathematical derivations conducted above can be extended to different stoichiometries by replacing $V_{\max,a}$ with $\gamma V_{\max,a}$.
 
     The steady states of this system are thus $X=0$ and (from equation \eqref{eq:xstst}):
     \begin{equation*}
-      X=\frac{V_{\max,b}K_{M,a}-\alpha V_{\max,a}K_{M,b}}{\alpha V_{\max,a}-V_{\max,b}}
+      X=\frac{V_{\max,b}K_{M,a}-\gamma V_{\max,a}K_{M,b}}{\gamma V_{\max,a}-V_{\max,b}}
     \end{equation*}
 
     The stability criteria from equation \eqref{eq:stabconds} become:
     \begin{equation*}
     \begin{dcases}
-      & V_{\max,b}>\alpha V_{\max,a} \\
-      & \frac{\alpha V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}
+      & V_{\max,b}>\gamma V_{\max,a} \\
+      & \frac{\gamma V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}
     \end{dcases}
     \end{equation*}
     So the qualitative conditions and observations from the $1:2$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
 
+    \subsection{Stability analysis for longer simple cycles (optional)}
+    It is useful to extend the simple criteria we derived for more complex autocatalytic cycles.
+    The most straightforward extension is for cycles with more than one intermediate metabolite.
+    We start by writing the relevant equations for a two-metabolite autocatalytic cycle depicted in figure \ref{fig:longcycle}.
+    In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two biomass generating reactions, $f_{b_1}$ and $f_{b_2}$.
+    We arbitrarily assume that the autocatalytic reaction is $f_{a_1}$ and that the autocaltalysis is in a $1:2$ ratio.
+    Given that a steady state of the system exists for some value $X_1^*,X_2^*$ we can evaluate the expression for stability.
+    In multi-variable system stability dictates that the real part of the eigenvalues of the jacobian matrix must all be negative for a steady state to be stable.
+    We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$ and get that:
+    \begin{equation*}
+        J=
+        \begin{pmatrix}
+            -(\alpha_1+\beta_1) & \alpha_2 \\
+            2\alpha_1 & -(\alpha_2+\beta_2)
+        \end{pmatrix}
+    \end{equation*}
+    Solving for the characteristic polynomial gives:
+    \begin{align}
+        0 & =(\lambda+\alpha_1+\beta_1)(\lambda+\alpha_2+\beta_2)-2\alpha_1\alpha_2 \\
+        & = \lambda^2+(\alpha_1+\beta_1+\alpha_2+\beta_2)\lambda+(\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2
+    \end{align}
+    which has two negative roots when:
+    \begin{equation}
+        (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
+    \end{equation}
+    The condition is strongly met if $\beta_1\geq \alpha_1$ and $\beta_2\geq\alpha_2$.
+    
+    The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions giving a general characteristic polynomial of:
+    \begin{equation}
+        0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
+    \end{equation}
+
 \section{Discussion}
-A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in a target organizm.
-Here we show that in the specific context of the newly introduced enzymes being involved in auto-catalytic cycles, such a successful expression may not suffice.
-Specifically, changes to some of the kinetic parametars of the enzymes may be required in order for the novel pathway to function.
+A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in the target organism.
+Here we show that in the specific context of the newly introduced enzymes being involved in autocatalytic cycles, such a successful expression may not suffice.
+Specifically, changes to some of the kinetic parameters of enzymes may be required in order for the novel pathway to function.
 
-Another aspect of our findings is that while generally, increased affinity and catalytic rate are economically beneficial for enzymes, in the specific context of auto-catalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in only some of them destructive for the functioning of the cycle.
+Another aspect of our findings is that while generally, high affinity and catalytic rate are desirable traits for enzymes, in the specific context of autocatalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in only some of them deleterious for the functioning of the cycle.
 
-A recent example of these two conclusions in vivo is the implementation of a functional CBB cycle in \emph{e.coli} by introducing the two genes missing for its functioning.
-The successful introduction of the genes did not suffice to make the cycle functioning and further directed evolution was needed in order to achieve non-zero flux.
-A key change in the evolution was the decrease of the affinity of PRS, the enzyme responsible for the flux out of the CBB cycle, corresponding to the biomass reaction in our simple model.
+A recent demonstration of these principles in vivo is the implementation of a functional CBB cycle in \emph{e.coli} by introducing the two genes missing for its functioning.
+The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve non-zero flux.
+A key change in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for the flux out of the CBB cycle, corresponding to the biomass reaction in our simple model.
+
+Qualitatively, whereas in usual metabolic context a higher flux through a reaction will not decrease the flux into any of its reactants (it may increase this flux if one of the reactions feeding into the reactant is reversible), in setups involving autocatalytic cycles, such negative feedback exists as an inherent structural feature of the system.
+
+While autocatalytic cycles are usually considered a small part of metabolism, with less than a handful of examples, we note that by the definition presented here, such cycles are abundant even in central carbon metabolism.
+A few examples of autocatalytic cycles that are usually not considered as such are: A cycle using phosphoenolpyruvate (PEP) to transport glucose using the phosphotransferase system (PTS), then converting the imported glucose into two PEP molecules; The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh}; Various parts of the pentose phosphate cycle assimilating either erythrose-4P or sedoheptulose-7P (or both) to produce 5, 3 and 6 carbon compounds at higher stoichiometries.
+Such examples suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+
 \section{Acknowledgments}
-We would like to thank Elad Noor, Arren Bar-Even, Dan Davidi, Yinon Bar-On, Katja Tummler, Daniel Segre, Niv Antonovsky, Matthias Heinemann and \dots for fruitful discussions and valuable insights contributing to this work.
+We would like to thank Elad Noor, Arren Bar-Even, Katja Tummler, Daniel Segre, Niv Antonovsky, Matthias Heinemann, David Fell and \dots for fruitful discussions and valuable insights contributing to this work.
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
 \end{document}
