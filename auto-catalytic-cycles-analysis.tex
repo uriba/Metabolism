@@ -38,7 +38,8 @@
     We analyze a simple, generic metabolic autocatalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
     We derive the relationships between two global traits of the cycle: (A) having a non-zero flux steady state, and (B) requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
     We show that the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation, for stable fluxes through the cycle to occur.
-    We give a few examples of autocatalytic cycles occuring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
+    We give a few examples of autocatalytic cycles occurring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
+    We discuss various extensions of the simple model including different kinetic functions and external fluxes into the cycle.
     This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis.
 }
 
@@ -62,16 +63,31 @@
 
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
 
-While a few autocatalytic cycles are widely known, the definition we use for autocatalysis yields several autocatalytic cycles in central carbon metabolims that are not usually considered as such.
+While a few autocatalytic cycles are widely known, the definition we use for autocatalysis yields several autocatalytic cycles in central carbon metabolism that are not usually considered as such.
 
-We identified 4 autocatalytic cycles in central carbon metabolism.
+We identified 4 classes of autocatalytic cycles in central carbon metabolism (where for some classes a few different variations are possible).
 These cycles (presented in figure \ref{fig:realautocatal}) are:
 (A) A cycle using phosphoenolpyruvate (PEP) to transport glucose using the phosphotransferase system (PTS), then converting the imported glucose into two PEP molecules;
 (B) The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh};
 (C) Various parts of the pentose phosphate cycle assimilating either erythrose-4P or sedoheptulose-7P (or both) to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
-(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, produceing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate using the pentose phosphate pathway.
+(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate.
 Such examples suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=1]{central-carbon-met-take2.pdf}
+    \caption {
+    Examples of 4 autocatalytic cycles in central carbon metabolism.
+    The reactions forming each cycle are highlighted in blue.
+    The metabolite colored in magenta is the metabolite more molecules of which are produced when the cycle is traversed.
+    The metabolite colored in teal is the metabolite assimilated by the cycle.
+    The reaction colored in red is the dominant reaction branching out of the cycle.
+(A) The glyoxylate cycle, producing two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA;
+(B) A cycle using PEP to transport glucose using the PTS, then converting the imported glucose into two PEP molecules;
+(C) A representative of a class of autocatalytic cycles using parts of the pentose phosphate cycle, the presented variant assimilates sedoheptulose-7P to produce fructose 6 phosphate from glyceraldehyde 3 phosphate;
+(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate.}
+    \label{fig:realautocatal}
+\end{figure}
 
 \section{Analysis of a simple autocatalytic cycle}
     We consider the simple autocatalytic cycle depicted in Figure \ref{fig:simplecycle}A.
@@ -251,7 +267,7 @@ Such examples suggest that the constraints we find on the kinetic parameters of 
 \subsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Autocatalytic cycles are not stand-alone constructs, but are rather embedded in a larger metabolic network.
     Specifically, such cycles generally have some fueling reactions with input flux to at least some of their intermediate metabolites.
-    For example, the CBB cycle can have input flux of fructose 6 phophate from the catabolism of starch.
+    For example, the CBB cycle can have input flux of fructose 6 phosphate from the catabolism of starch.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
     \begin{equation*}
@@ -337,7 +353,7 @@ Such examples suggest that the constraints we find on the kinetic parameters of 
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two biomass generating reactions, $f_{b_1}$ and $f_{b_2}$.
     We arbitrarily assume that the autocatalytic reaction is $f_{a_1}$ and that the autocaltalysis is in a $1:2$ ratio.
     Given that a steady state of the system exists for some value $X_1^*,X_2^*$ we can evaluate the expression for stability.
-    In multi-variable system stability dictates that the real part of the eigenvalues of the jacobian matrix must all be negative for a steady state to be stable.
+    In multi-variable system stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative for a steady state to be stable.
     We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$ and get that:
     \begin{equation*}
         J=
@@ -379,7 +395,7 @@ While autocatalytic cycles are usually considered a small part of metabolism, wi
 The examples of autocatalytic cycles we provide suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \section{Acknowledgments}
-We would like to thank Elad Noor, Arren Bar-Even, Katja Tummler, Daniel Segre, Niv Antonovsky, Matthias Heinemann, David Fell and \dots for fruitful discussions and valuable insights contributing to this work.
+We would like to thank Elad Noor, Arren Bar-Even, Katja Tummler, Daniel Segre, Niv Antonovsky, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
 \end{document}
