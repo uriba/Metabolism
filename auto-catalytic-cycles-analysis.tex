@@ -64,28 +64,39 @@
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
 
 While a few autocatalytic cycles are widely known, the definition we use for autocatalysis yields several autocatalytic cycles in central carbon metabolism that are not usually considered as such.
+In this work, we define an autocatalytic cycle as a set of reactions and metabolites that satisfy the following conditions:
+(A) Cyclicity w.r.t. the metabolites, namely that each metabolite serves both as a substrate of at least one reaction of the cycle and as a product of at least one reaction of the cycle.
+(B) Cyclicity w.r.t. the reactions, namely that at least one substrate of each reaction, and one product of each reaction are metabolites of the cycle.
+(C) Autocatalysis, namely that there is a set of positive integers corresponding to the reactions forming the cycle, such that the result of applying all of the reactions in the cycle, each at its corresponding integer number of times, will overall increase the amount of at least one metabolite in the cycle, and will not decrease the amount of any of the other metabolites in the cycle.
 
-We identified 4 classes of autocatalytic cycles in central carbon metabolism (where for some classes a few different variations are possible).
-These cycles (presented in figure \ref{fig:realautocatal}) are:
-(A) A cycle using phosphoenolpyruvate (PEP) to transport glucose using the phosphotransferase system (PTS), then converting the imported glucose into two PEP molecules;
-(B) The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh};
+We implemented an algorithm to search for autocatalytic cycles in central carbon metabolism.
+The algorithm identified 4 classes of autocatalytic cycles, where for some classes a few different variations were identified.
+We note that our algorithm is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism.
+Moreover, our algorithm is not optimized, resulting in an exponential increase in identified cycles when executed on the full metabolic network of \emph{E.coli} due to combinatorial combinations of elementary cycles to composite ones.
+Further work will enable a more robust algorithm to identify more autocatalytic cycles in the metabolic network.
+
+Representatives of the different classes of cycles identified  are presented in figure \ref{fig:realautocatal}.
+These classes are:
+(A) The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh};
+(B) A cycle using phosphoenolpyruvate (PEP) to transport glucose using the phosphotransferase system (PTS), then converting the imported glucose into two PEP molecules;
 (C) Various parts of the pentose phosphate cycle assimilating either erythrose-4P or sedoheptulose-7P (or both) to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
-(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate.
-Such examples suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}.
+
+The amount of autocatalytic cycles we identified suggests that the unique features of autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=1]{central-carbon-met-take2.pdf}
+\includegraphics[scale=0.86]{central-carbon-met-fig1.pdf}
     \caption {
-    Examples of 4 autocatalytic cycles in central carbon metabolism.
+    Examples of 5 autocatalytic cycles in central carbon metabolism.
     The reactions forming each cycle are highlighted in blue.
     The metabolite colored in magenta is the metabolite more molecules of which are produced when the cycle is traversed.
     The metabolite colored in teal is the metabolite assimilated by the cycle.
-    The reaction colored in red is the dominant reaction branching out of the cycle.
 (A) The glyoxylate cycle, producing two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA;
 (B) A cycle using PEP to transport glucose using the PTS, then converting the imported glucose into two PEP molecules;
 (C) A representative of a class of autocatalytic cycles using parts of the pentose phosphate cycle, the presented variant assimilates sedoheptulose-7P to produce fructose 6 phosphate from glyceraldehyde 3 phosphate;
-(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate.}
+(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate;
+(E) The Calvin Benson Bassham cycle assimilating \ce{CO2} to convert ribulose bis phosphate to two glycerate 3 phosphate, then recycling the 3 carbon substrate through the pentose phosphate cycle back to ribulose.}
     \label{fig:realautocatal}
 \end{figure}
 
@@ -378,6 +389,24 @@ Such examples suggest that the constraints we find on the kinetic parameters of 
         0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
     \end{equation}
 
+    \section{Testing the predictions of the analysis on the identified autocatalytic cycles}
+    To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux.
+    We used recent in-vivo flux measurements from \cite{Gerosa2015-oq}.
+    The glyoxilate cycle carries significant flux at growth in galactose and acetate.
+    The PTS using cycle carries significant flux at growth in glucose.
+    The pentose-phosphate cycle variants do not carry flux in any of the tested conditions, which is not surprising given the non-standard metabolites they assimilate.
+    The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions. It is interesting to note that glycerol could have been a good carbon source to use this pathway, but the metabolic network allows for a more energy efficient growth by following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
+    Finally, the CBB cycle has been recently introduced into synthetic \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
+
+    In the cycles for which we were able to identify growth conditions under which substantial flux flows through the autocatalytic cycles we again used the data from \cite{Gerosa2015-oq} to identify the major branching points in the cycle \ref{fig:branch}.
+    For each such growth condition and branching point we checked which of the two reactions - the branching reaction or the cycle reaction, carried a larger flux compared with the reaction capacity, given the $k_\text{cat}$ values of the reactions and the amount of enzymes expressed at that condition.
+
+    We used data from \cite{Schmidt2015} for the expression level, and data from \cite{BRENDA/Davidi} for the $k_\text{cat}$ values.
+    In all 6 cases observed there was an agreement between the calculated capacity usage relationships and the predictions based on the stability criteria of lower capacity usage for the branching reaction compared with the cycle reaction ($P=1/2^6=0.015$).
+
+    For the CBB cycle we restate the observation made in \cite{Antonovski2016} according to which changes in the kinetic properties of the main branching reaction out of the CBB pathway, PRS, were essential to produce a hemi-autotrophic strain relying on flux through the CBB pathway.
+
+    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is still sparse, we were able to verify that existing data supports preditions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
 \section{Discussion}
 A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in the target organism.
 Here we show that in the specific context of the newly introduced enzymes being involved in autocatalytic cycles, such a successful expression may not suffice.
@@ -385,14 +414,16 @@ Specifically, changes to some of the kinetic parameters of enzymes may be requir
 
 Another aspect of our findings is that while generally, high affinity and catalytic rate are desirable traits for enzymes, in the specific context of autocatalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in only some of them deleterious for the functioning of the cycle.
 
-A recent demonstration of these principles in vivo is the implementation of a functional CBB cycle in \emph{e.coli} by introducing the two genes missing for its functioning.
+A recent demonstration of these principles in vivo is the implementation of a functional CBB cycle in \emph{e.coli} by introducing the two genes missing for its functioning \cite{Antonovski2016}.
 The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve non-zero flux.
 A key change in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for the flux out of the CBB cycle, corresponding to the biomass reaction in our simple model.
+
+Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle may provide some means to mitigate the stability issue allowing for a pathway to gradually evolve towards sustainable flux.
 
 Qualitatively, whereas in usual metabolic context a higher flux through a reaction will not decrease the flux into any of its reactants (it may increase this flux if one of the reactions feeding into the reactant is reversible), in setups involving autocatalytic cycles, such negative feedback exists as an inherent structural feature of the system.
 
 While autocatalytic cycles are usually considered a small part of metabolism, with less than a handful of examples, we note that by the definition presented here, such cycles are abundant even in central carbon metabolism.
-The examples of autocatalytic cycles we provide suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+The examples of autocatalytic cycles we provide, as well as our verified predictions on the economical usage of enzymes catalyzing reactions branching out of such cycles suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \section{Acknowledgments}
 We would like to thank Elad Noor, Arren Bar-Even, Katja Tummler, Daniel Segre, Niv Antonovsky, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
