@@ -25,7 +25,7 @@
 
 
 \title{Requirements on kinetic parameters and enzyme levels for stability of simple metabolic auto-catalytic cycles}
-\author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Ron Milo, \dots}
+\author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
 \date{}
 
 \begin{document}
@@ -78,9 +78,9 @@ Further work will enable a more robust algorithm to identify more autocatalytic 
 Representatives of the different classes of cycles identified  are presented in figure \ref{fig:realautocatal}.
 These classes are:
 (A) The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh};
-(B) A cycle using phosphoenolpyruvate (PEP) to transport glucose using the phosphotransferase system (PTS), then converting the imported glucose into two PEP molecules;
-(C) Various parts of the pentose phosphate cycle assimilating either erythrose-4P or sedoheptulose-7P (or both) to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
-(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}.
+(B) Cycles using phosphoenolpyruvate (PEP) to transport substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules;
+(C) Various parts of the pentose phosphate cycle assimilating either erythrose-4P, sedoheptulose-7P, or both, to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
+(D) Cycles assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}.
 
 The amount of autocatalytic cycles we identified suggests that the unique features of autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
@@ -92,6 +92,8 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     The reactions forming each cycle are highlighted in blue.
     The metabolite colored in magenta is the metabolite more molecules of which are produced when the cycle is traversed.
     The metabolite colored in teal is the metabolite assimilated by the cycle.
+    Upper panel represents the cycles on top of the central carbon metabolism network.
+    Lower panel represents the isolated cycles, with dashed blue arrows indicating the omission of intermediate metabolites and reactions.
 (A) The glyoxylate cycle, producing two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA;
 (B) A cycle using PEP to transport glucose using the PTS, then converting the imported glucose into two PEP molecules;
 (C) A representative of a class of autocatalytic cycles using parts of the pentose phosphate cycle, the presented variant assimilates sedoheptulose-7P to produce fructose 6 phosphate from glyceraldehyde 3 phosphate;
@@ -392,17 +394,50 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \section{Testing the predictions of the analysis on the identified autocatalytic cycles}
     To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux.
     We used recent in-vivo flux measurements from \cite{Gerosa2015-oq}.
-    The glyoxilate cycle carries significant flux at growth in galactose and acetate.
-    The PTS using cycle carries significant flux at growth in glucose.
-    The pentose-phosphate cycle variants do not carry flux in any of the tested conditions, which is not surprising given the non-standard metabolites they assimilate.
-    The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions. It is interesting to note that glycerol could have been a good carbon source to use this pathway, but the metabolic network allows for a more energy efficient growth by following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
-    Finally, the CBB cycle has been recently introduced into synthetic \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
+    According to the data, two autocatalytic cycles carry substantial flux under at least one of the growth conditions:
+    the glyoxilate cycle carries significant flux at growth in galactose and acetate;
+    the PTS using cycle carries significant flux at growth in glucose.
+    As for the other classes of autocatalytic cycles we note that the pentose-phosphate cycle variants do not carry flux in any of the tested conditions, which is not surprising given the non-standard metabolites they assimilate.
+    The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions either.
+    Although glycerol could have been a good carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
+    The CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli},  has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
 
-    In the cycles for which we were able to identify growth conditions under which substantial flux flows through the autocatalytic cycles we again used the data from \cite{Gerosa2015-oq} to identify the major branching points in the cycle \ref{fig:branch}.
-    For each such growth condition and branching point we checked which of the two reactions - the branching reaction or the cycle reaction, carried a larger flux compared with the reaction capacity, given the $k_\text{cat}$ values of the reactions and the amount of enzymes expressed at that condition.
+    In the two cycles for which we were able to identify growth conditions under which substantial flux flows through the autocatalytic cycles we again used the data from \cite{Gerosa2015-oq} to identify the major branching points in the cycle.
+    The branching points are highlighted in figure \ref{fig:branch}.
+
+    Having identified the relevant growth conditions and branching points, we tested, for each combination of growth condition, active cycle, and major branching point, whether the stability criteria holds.
+    To that end we checked which of the two reactions - the branching reaction or the cycle reaction, carried a larger flux compared with the reaction capacity, given the $k_\text{cat}$ values of the reactions and the amount of enzymes expressed at that condition.
 
     We used data from \cite{Schmidt2015} for the expression level, and data from \cite{BRENDA/Davidi} for the $k_\text{cat}$ values.
     In all 6 cases observed there was an agreement between the calculated capacity usage relationships and the predictions based on the stability criteria of lower capacity usage for the branching reaction compared with the cycle reaction ($P=1/2^6=0.015$).
+    Our results are summarized in table \ref{tab1}
+    growth condition    | branch-point substrate    | branching enzyme | cycle enzyme   | branching enzyme vmax* | cycle enzyme vmax* | branching enzyme km | cycle enzyme km   | branching enzyme vmax/km | cycle enzyme vmax/km |
+    Galactoes           | isocitrate                | icd              | aceA/glcB      |                        |                    | 0.029 (brd 1.1.1.42)| non-available     |
+    Galactoes           | oxaloacetate              | pck              | glt            |                        |                    | 670 (brd 4.1.1.49)  |
+    Acetate             | isocitrate                | icd              | aceA/glcB      |                        |                    | 0.029               | non-available     |
+    Acetate             | oxaloacetate              | ppck             | glt            |                        |                    |
+    Glucose             | glucose 6 phospate        | zwf              | pgi            |                        |                    |
+    
+
+    name km kcat ec
+
+    Glyoxilate cycle, bottom:
+    icd, 0.029 (conditions?), 106 kcat, 11kmax, 1.1.1.42 (km from brnd, kcat from davidi)
+    aceA, 0.015/0.09, not available, 4.1.3.1
+
+    Glyoxilate cycle, top:
+    pck, 0.67 , 0.67?, 4.1.1.49
+    glt, 0.02, 81 kcat, 58 kmax, 2.3.3.16
+
+    PTS cycle, glucose, top:
+    zwf, 0.174, 174, 1.1.1.49, reversible, from bar-even/flamholz
+    pgi, 0.28, 120, 5.3.1.9, reversible, from bar-even/flamholz
+
+    PTS cycle, fructose, top (ask elad how to consolidate more than 100\% and the two fructose PTS's:
+    fbp
+    fba/B, 0.17, 10, 4.1.2.13, reversible, from bar-even/flamholz
+
+    PTS cycle: ppc+pyk vs. PTS
 
     For the CBB cycle we restate the observation made in \cite{Antonovski2016} according to which changes in the kinetic properties of the main branching reaction out of the CBB pathway, PRS, were essential to produce a hemi-autotrophic strain relying on flux through the CBB pathway.
 
