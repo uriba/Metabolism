@@ -44,6 +44,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
 \colorlet{ptsinit}{cyan}
 \definecolor{ptsmed}{rgb}{-0.5,-0.5,1}
 \colorlet{ptsext}{green}
+\colorlet{gluccol}{green!50!black}
 %gencolors
 \colorlet{genmed}{red}
 \colorlet{genext}{green}
@@ -64,7 +65,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \node[rectangle,draw,below=of 3pg.center] (2pg) {2pg};
   \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
   \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
-  \node[rectangle,draw,below=of pyr.center] (aca) {aca};
+  \node[rectangle,draw,below=of pyr.center,glyext] (aca) {aca};
   \node[shape=coordinate,below=of aca] (dummyglta) {};
   \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
   \node[rectangle,draw,right=of dummyglta] (cit) {cit};
@@ -84,7 +85,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \node[rectangle,draw,] at (fbp.center -| s7p.center) (e4p) {e4p};
   \node[rectangle,draw,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
   \node[rectangle,draw,] at(3pg.center -| ru5p.center) (rub) {rub};
-  \node[rectangle,draw,] at(bpg -| xu5p.center) (co2) {co2};
+  \node[rectangle,draw,cbbext] at(2pg -| xu5p.center) (co2) {co2};
   \draw[->] (g6p) -- (f6p);
   \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
   \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
@@ -99,7 +100,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[->] (pep) -- (pyr);
   \draw[->] (pyr) -- (aca);
   \draw[->] (oaa) -- (cit) node [pos=0.9] (midglta) {};
-  \draw [] (aca) [out=-70,in=180] to (midglta);
+  \draw [glyext] (aca) [out=-70,in=180] to (midglta);
   \draw[->] (cit) -- (icit);
   \draw[->] (icit) -- (suc) node [pos=0.3] (midacea) {};
   \draw[->] (midacea) [out=220,in=0] to (glx);
@@ -110,7 +111,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[->] (fum) -- (mal);
   \draw[->] (glx) -- (mal) node [pos=0.9] (midaceb) {};
   \draw[->] (mal) -- (oaa);
-  \draw[] (aca) [out=-90,in=0] to (midaceb);
+  \draw[glyext] (aca) [out=-90,in=0] to (midaceb);
   \draw[->] (g6p) -- (6pgi);
   \draw[->] (6pgi) -- (6pgc);
   \draw[->] (6pgc) -- (ru5p);
@@ -132,21 +133,21 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[] (midtal) [out=-90,in=180] to (e4p);
   \draw[<-] (gap) [out=55,in=-90] to (midtal);
   \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
-  \node[rectangle,draw,left=of 2pg.center] (gluc) {gluc};
+  \node[rectangle,draw,gluccol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
   \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
   \draw[] (pep) [out=180,in=0] to (pts3);
-  \draw[] (gluc) [out=-90,in=0] to (pts3);
+  \draw[gluccol] (gluc) [out=90,in=0] to (pts3);
   \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
   \draw[] (pts3) [out=180,in=180] to (pts5);
   \draw[->] (pts5) [out=0,in=180] to (pyr);
   \node[rectangle,draw,shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
-  \node[rectangle,draw,shape=coordinate,left=2.1cm of gluc.center] (ptsbottom) {};
+  \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
   \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
   \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
   \draw[->] (ptstop) [in=180,out=90] to (g6p);
   \draw[->] (ru5p) [out=-90,in=90] to (rub);
   \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
-  \draw[] (co2) [out=-90,in=0] to (rubisco);
+  \draw[cbbext] (co2) [out=90,in=0] to (rubisco);
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
 
@@ -342,7 +343,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
 }
 \caption{
 (A) A basic autocatalytic cycle uses the internal metabolite, M, in order to assimilate an external metabolite, E, into the cycle, increasing the amount of M.
-(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bessahm cycle; (II) The glyoxilate cycle; (III) A cycle using the PTS system to assimilate glucose.
+(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bassham cycle; (II) The glyoxilate cycle; (III) A cycle using the PTS system to assimilate glucose.
 }
 \end{figure}
 \end{document}

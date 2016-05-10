@@ -24,7 +24,7 @@
 \providecommand{\norm}[1]{\lVert#1\rVert}
 
 
-\title{Requirements on kinetic parameters and enzyme levels for stability of simple metabolic auto-catalytic cycles}
+\title{Kinetic parameters of enzymes are constrained by stable functioning of autocatalytic cycles}
 \author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
 \date{}
 
@@ -33,14 +33,17 @@
 \abstract{
     Autocatalytic cycles are an important part of metabolic networks.
     As the flux in autocatalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
+    We use an automated process to identify autocatalytic cycles in central carbon metabolism.
     We show that even very simple cycles impose specific constraints on the kinetic parameters of the enzymes composing them and their expression levels, in order to allow stable, non-zero fluxes.
+    We find these constraints to hold for functioning autocatalytic cycles for which data is available.
 
     We analyze a simple, generic metabolic autocatalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
     We derive the relationships between two global traits of the cycle: (A) having a non-zero flux steady state, and (B) requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
     We show that the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation, for stable fluxes through the cycle to occur.
-    We give a few examples of autocatalytic cycles occurring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
     We discuss various extensions of the simple model including different kinetic functions and external fluxes into the cycle.
-    This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis.
+    We give examples of autocatalytic cycles occurring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
+    We find our analysis to be valid on cases for which sufficient data is available.
+    This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis on real networks.
 }
 
 \section{Introduction}
@@ -473,7 +476,7 @@ While autocatalytic cycles are usually considered a small part of metabolism, wi
 The examples of autocatalytic cycles we provide, as well as our verified predictions on the economical usage of enzymes catalyzing reactions branching out of such cycles suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \section{Acknowledgments}
-We would like to thank Elad Noor, Arren Bar-Even, Katja Tummler, Daniel Segre, Niv Antonovsky, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
+We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
 \end{document}
