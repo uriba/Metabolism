@@ -6,7 +6,8 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{stackengine,ifthen}
-\usetikzlibrary{arrows,positioning,calc}
+\usetikzlibrary{arrows,positioning,calc,arrows.meta}
+\tikzset{>=Latex}
 \newcommand\influx{0.5}
 
 \newenvironment{customlegend}[1][]{
@@ -23,6 +24,175 @@
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \providecommand{\norm}[1]{\lVert#1\rVert}
 
+\def\blendfrac{0.5}
+\tikzset{>=latex}
+\def\deltaang{-155}
+\def\fromang{180}
+\def\inputang{-40}
+\def\protrude{7}
+\def\arcwidth{0.3cm}
+\def\highlightrad{0.2cm}
+\def\autocatalrad{1.5cm}
+\def\autocatalscale{1.5}
+\definecolor{cyan}{RGB}{100,181,205}
+\definecolor{blue}{RGB}{76,114,176}
+\definecolor{green}{RGB}{85,168,104}
+\definecolor{magenta}{RGB}{129,114,178}
+\definecolor{yellow}{RGB}{204,185,116}
+\definecolor{red}{RGB}{196,78,82}
+
+\newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+  \pgfmathsetmacro\arcrange{#3-#2}
+  \pgfmathsetmacro\radrange{#5-#4}
+  \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+  \foreach \i in {#2,...,\numexpr#3-1\relax} {
+    \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+    \pgfmathsetmacro\col{\fracprog*100}
+    \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
+arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+  }
+}
+
+\newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+  \pgfmathsetmacro\arcrange{#3-#2}
+  \pgfmathsetmacro\radrange{#5-#4}
+  \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+  \foreach \i in {#2,...,\numexpr#3-1\relax} {
+    \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+    \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
+      arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+  }
+}
+
+\colorlet{assimcol}{green}
+%cbbcolors
+\colorlet{cbbinit}{yellow}
+\colorlet{cbbmed}{blue}
+\colorlet{cbbext}{assimcol}
+%glycolors
+\colorlet{glyinit}{magenta}
+\colorlet{glymed}{blue}
+\colorlet{glyext}{assimcol}
+\colorlet{glyinter}{blue}
+%ptscolors
+\colorlet{ptsinit}{cyan}
+\colorlet{ptsmed}{blue}
+\colorlet{ptsext}{assimcol}
+%gencolors
+\colorlet{genext}{assimcol}
+\colorlet{genmed}{blue}
+\colorlet{geninit}{blue}
+
+\colorlet{sumcolor}{magenta}
+
+\colorlet{inputcol}{green}
+\colorlet{branchout}{red}
+\colorlet{autocatacyc}{blue}
+\colorlet{autocataby}{cyan}
+%glucose data
+\def\glucmaxflux{0.2mm}
+\def\glucpgi{5.7*\glucmaxflux}
+\def\gluccapvalpgi{1}
+\def\gluccappgi{\glucpgi}
+\def\glucpfk{7.06*\glucmaxflux}
+\def\glucfba{7.06*\glucmaxflux}
+\def\gluctpi{7.06/2*\glucmaxflux}
+\def\glucgap{15.71/2*\glucmaxflux}
+\def\glucpgk{15.71/2*\glucmaxflux}
+\def\glucgpm{14.56/2*\glucmaxflux}
+\def\gluceno{14.56/2*\glucmaxflux}
+\def\glucpyk{2.49/2*\glucmaxflux}
+\def\gluccapvalpyk{0.33}
+\def\gluccappyk{\glucpyk/\gluccapvalpyk}
+\def\glucppc{2.45/2*\glucmaxflux}
+\def\gluccapvalppc{0.47}
+\def\gluccapppc{\glucppc/\gluccapvalppc}
+\def\gluczwf{3.92*\glucmaxflux}
+\def\gluccapvalzwf{0.547}
+\def\gluccapzwf{\gluczwf/\gluccapvalzwf}
+\def\glucpts{9.65*\glucmaxflux}
+\def\gluccapvalpts{1}
+\def\gluccappts{\glucpts}
+%\def\glucrpi{1.43*\glucmaxflux}
+%\def\gluccaprpi{\glucrpi/0.47}
+%\def\glucrpe{1.4*\glucmaxflux}
+%\def\gluccaprpe{\glucrpe/0.26}
+%\def\glucgnd{2.83*\glucmaxflux}
+%\def\gluccapgnd{\glucgnd/0.32}
+%\def\glucedd{1.09*\glucmaxflux}
+%\def\gluccapedd{\glucedd/0.58}
+%fructose data
+\def\frucmaxflux{0.2mm}
+%\def\frucpgi{5.7*\frucmaxflux} needs update and descision if relevant
+%\def\fruccappgi{\frucpgi}
+\def\frucfbp{2.46*\frucmaxflux}
+\def\fruccapvalfbp{1}
+\def\fruccapfbp{\frucfbp}
+\def\frucfba{5.87*\frucmaxflux}
+\def\fruccapvalfba{0.71}
+\def\fruccapfba{\frucfba/\fruccapvalfba}
+\def\fructpi{5.87/2*\frucmaxflux}
+\def\frucgap{13.46/2*\frucmaxflux}
+\def\frucpgk{13.46/2*\frucmaxflux}
+\def\frucgpm{12.6/2*\frucmaxflux}
+\def\fruceno{12.6/2*\frucmaxflux}
+\def\frucpyk{0.67/2*\frucmaxflux}
+\def\fruccapvalpyk{0.064}
+\def\fruccappyk{\frucpyk/\fruccapvalpyk}
+\def\frucppc{3.55/2*\frucmaxflux}
+\def\fruccapvalppc{0.5}
+\def\fruccapppc{\frucppc/\fruccapvalppc}
+%\def\fruczwf{3.92*\frucmaxflux}
+%\def\fruccapzwf{\fruczwf/0.547}
+\def\frucpts{8.33*\frucmaxflux}
+\def\fruccapvalpts{1}
+\def\fruccappts{\frucpts}
+
+%Galactose data
+\def\galmaxflux{0.5mm}
+\def\galglt{1.52*\galmaxflux}
+\def\galcapvalglt{0.21}
+\def\galcapglt{\galglt/\galcapvalglt}
+\def\galacn{1.52*\galmaxflux*1.5}
+\def\galacea{1.02*\galmaxflux}
+\def\galcapvalacea{0.29}
+\def\galcapacea{\galacea/\galcapvalacea}
+\def\galaceb{1.02*\galmaxflux}
+\def\galsdh{1.26*\galmaxflux}
+\def\galfum{1.26*\galmaxflux}
+\def\galmdh{2.28*\galmaxflux}
+\def\galpck{0.85*\galmaxflux}
+\def\galcapvalpck{0.26}
+\def\galcappck{\galpck/\galcapvalpck}
+\def\galicd{0.5*\galmaxflux}
+\def\galcapvalicd{0.09}
+\def\galcapicd{\galicd/\galcapvalicd}
+%\def\galx{0.29*\galmaxflux}%% name reaction and find capacity
+%acetate data
+\def\acemaxflux{0.2mm}
+\def\aceglt{8.83*\acemaxflux}
+\def\acecapvalglt{0.68}
+\def\acecapglt{\aceglt/\acecapvalglt}
+\def\aceacn{8.83*\acemaxflux*1.5}
+\def\aceacea{4.14*\acemaxflux}
+\def\acecapacea{\aceacea}
+\def\aceaceb{4.14*\acemaxflux}
+\def\acesdh{8.4*\acemaxflux}
+\def\acefum{8.4*\acemaxflux}
+\def\acemdh{10.67*\acemaxflux}
+%\def\acex{0.5*\acemaxflux}
+\def\acemae{1.87*\acemaxflux}
+\def\acecapvalmae{0.13}
+\def\acecapmae{\acemae/\acecapvalmae}
+\def\acepck{3.11*\acemaxflux}
+\def\acecapvalpck{0.75}
+\def\acecappck{\acepck/\acecapvalpck}
+\def\aceicd{4.7*\acemaxflux}
+\def\acecapvalicd{0.63}
+\def\acecapicd{\aceicd/\acecapvalicd}
+%mal=oaa=4c
+%cit=icit=6c
+%gly=2cj
 
 \title{Kinetic parameters of enzymes are constrained by stable functioning of autocatalytic cycles}
 \author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
@@ -42,7 +212,7 @@
     We show that the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation, for stable fluxes through the cycle to occur.
     We discuss various extensions of the simple model including different kinetic functions and external fluxes into the cycle.
     We give examples of autocatalytic cycles occurring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
-    We find our analysis to be valid on cases for which sufficient data is available.
+    We find our analysis to be valid on cases of autocatalytic cycles functioning in central carbon metabolism, for which sufficient data is available.
     This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis on real networks.
 }
 
@@ -57,12 +227,14 @@
 
     The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin Benson Bassham cycle (CBB) \cite{Benson1950-cl}.
     The CBB cycle, assimilating \ce{CO2} to convert 5-carbon compounds to 6-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
-    As we observe below, more autocatalytic cycles exist in central carbon metabolism suggesting important biological insights can be gained by understanding the constraints underlying their stable operation.
+    As we show below, more autocatalytic cycles exist in central carbon metabolism suggesting important biological insights can be gained by understanding the constraints underlying their stable operation.
 
     In this work we present the specific requirements autocatalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
     (B) To be stable for fluctuations at the steady state point(s).
     The mathematical tools we define and use are widely known and applicable in various fields (see, for example \cite{Strogatz2014-hp}).
     Our analysis demonstrates the use of these tools to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
+
+
 
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
 
@@ -88,21 +260,304 @@ These classes are:
 The amount of autocatalytic cycles we identified suggests that the unique features of autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \begin{figure}[h!]
-\centering
-\includegraphics[scale=0.86]{central-carbon-met-fig1.pdf}
-    \caption {
-    Examples of 5 autocatalytic cycles in central carbon metabolism.
-    The reactions forming each cycle are highlighted in blue.
-    The metabolite colored in magenta is the metabolite more molecules of which are produced when the cycle is traversed.
-    The metabolite colored in teal is the metabolite assimilated by the cycle.
-    Upper panel represents the cycles on top of the central carbon metabolism network.
-    Lower panel represents the isolated cycles, with dashed blue arrows indicating the omission of intermediate metabolites and reactions.
-(A) The glyoxylate cycle, producing two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA;
-(B) A cycle using PEP to transport glucose using the PTS, then converting the imported glucose into two PEP molecules;
-(C) A representative of a class of autocatalytic cycles using parts of the pentose phosphate cycle, the presented variant assimilates sedoheptulose-7P to produce fructose 6 phosphate from glyceraldehyde 3 phosphate;
-(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate;
-(E) The Calvin Benson Bassham cycle assimilating \ce{CO2} to convert ribulose bis phosphate to two glycerate 3 phosphate, then recycling the 3 carbon substrate through the pentose phosphate cycle back to ribulose.}
+\resizebox{1\linewidth}{!}{
+\begin{tikzpicture}
+  \node[rectangle,draw] (g6p) {g6p};
+  \node[rectangle,draw,below=of g6p.center] (f6p) {f6p};
+  \node[rectangle,draw,below=of f6p] (fbp) {fbp};
+  \node[rectangle,draw,shape=coordinate,below=of fbp.center](fbamid) {};
+  \node[rectangle,draw,below left=of fbamid.center] (dhap) {dhap};
+  \node[rectangle,draw,below right=of fbamid] (gap) {gap};
+  \node[rectangle,draw,below=of gap.center] (bpg) {bpg};
+  \node[rectangle,draw,below=of bpg.center] (3pg) {3pg};
+  \node[rectangle,draw,below=of 3pg.center] (2pg) {2pg};
+  \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
+  \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
+  \node[rectangle,draw,below=of pyr.center,assimcol] (aca) {aca};
+  \node[shape=coordinate,below=of aca] (dummyglta) {};
+  \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
+  \node[rectangle,draw,right=of dummyglta] (cit) {cit};
+  \node[rectangle,draw,right=of cit] (icit) {icit};
+  \node[rectangle,draw,below=of icit.center] (akg) {akg};
+  \node[rectangle,draw,below=of akg.center] (sca) {sca};
+  \node[rectangle,draw,below=of oaa.center] (mal) {mal};
+  \node[rectangle,draw,below=of mal.center] (fum) {fum};
+  \node[rectangle,draw,right=of mal] (glx) {glx};
+  \node[rectangle,draw,right=of fum] (suc) {suc};
+  \node[rectangle,draw,right=of g6p] (6pgi) {6pgi};
+  \node[rectangle,draw,shape=coordinate,right=of f6p] (s7pspace) {};
+  \node[rectangle,draw,right=of s7pspace] (s7p) {s7p};
+  \node[rectangle,draw,right=of s7p] (r5p) {r5p};
+  \node[rectangle,draw,right=of r5p] (ru5p) {ru5p};
+  \node[rectangle,draw,above=of ru5p.center] (6pgc) {6pgc};
+  \node[rectangle,draw,] at (fbp.center -| s7p.center) (e4p) {e4p};
+  \node[rectangle,draw,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
+  \node[rectangle,draw,] at(3pg.center -| ru5p.center) (rub) {rub};
+  \node[rectangle,draw,assimcol] at(2pg -| xu5p.center) (co2) {co2};
+  \draw[->] (g6p) -- (f6p);
+  \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
+  \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
+  \draw [<-] (fbp) [out=-90,in=90] to (fbamid);
+  \draw [->] (fbamid) [out=-90,in=45] to (dhap);
+  \draw [->] (fbamid) [out=-90,in=135] to (gap);
+  \draw [<->] (dhap) -- (gap);
+  \draw[<->] (gap) -- (bpg);
+  \draw[<->] (bpg) -- (3pg);
+  \draw[->] (3pg) -- (2pg);
+  \draw[->] (2pg) -- (pep);
+  \draw[->] (pep) -- (pyr);
+  \draw[->] (pyr) -- (aca);
+  \draw[->] (oaa) -- (cit) node [pos=0.9] (midglta) {};
+  \draw [assimcol] (aca) [out=-70,in=180] to (midglta);
+  \draw[->] (cit) -- (icit);
+  \draw[->] (icit) -- (suc) node [pos=0.3] (midacea) {};
+  \draw[->] (midacea) [out=220,in=0] to (glx);
+  \draw[->] (icit) -- (akg);
+  \draw[->] (akg) -- (sca);
+  \draw[->] (sca) -- (suc);
+  \draw[->] (suc) -- (fum);
+  \draw[->] (fum) -- (mal);
+  \draw[->] (glx) -- (mal) node [pos=0.9] (midaceb) {};
+  \draw[->] (mal) -- (oaa);
+  \draw[assimcol] (aca) [out=-90,in=0] to (midaceb);
+  \draw[->] (g6p) -- (6pgi);
+  \draw[->] (6pgi) -- (6pgc);
+  \draw[->] (6pgc) -- (ru5p);
+  \draw[<-] (ru5p) -- (xu5p);
+  \draw[<-] (ru5p) -- (r5p);
+  \path[] (r5p) -- (gap) coordinate [pos=0.2] (midtkt1) {};
+  \draw[<-] (xu5p) [out=180,in=-90] to (midtkt1);
+  \draw[] (midtkt1) [out=90,in=0] to (s7p);
+  \draw[<-] (r5p) [out=180,in=90] to (midtkt1);
+  \draw[] (midtkt1) [out=270,in=0] to (gap);
+  \path[] (e4p) -- (gap) coordinate [pos=0.4] (midtkt2) {};
+  \draw[<-] (e4p) [out=-60,in=0] to (midtkt2);
+  \draw[] (midtkt2) [out=180,in=90] to (gap);
+  \draw[<-] (xu5p) [out=245,in=0] to (midtkt2);
+  \draw[] (midtkt2) [out=180,in=-30] to (f6p);
+  \path[] (e4p) -- (s7pspace) coordinate [pos=0.5] (midtal) {};
+  \draw[] (midtal) [out=90,in=0] to (f6p);
+  \draw[<-] (s7p) [out=180,in=90] to (midtal);
+  \draw[] (midtal) [out=-90,in=180] to (e4p);
+  \draw[<-] (gap) [out=55,in=-90] to (midtal);
+  \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
+  \node[rectangle,draw,assimcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
+  \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+  \draw[] (pep) [out=180,in=0] to (pts3);
+  \draw[assimcol] (gluc) [out=90,in=0] to (pts3);
+  \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+  \draw[] (pts3) [out=180,in=180] to (pts5);
+  \draw[->] (pts5) [out=0,in=180] to (pyr);
+  \node[rectangle,draw,shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
+  \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+  \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
+  \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
+  \draw[->] (ptstop) [in=180,out=90] to (g6p);
+  \draw[->] (ru5p) [out=-90,in=90] to (rub);
+  \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
+  \draw[assimcol] (co2) [out=90,in=0] to (rubisco);
+  \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
+  \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
+
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- (ptstoplimit) -- cycle;
+
+  \draw[very thick,dashed,cyan,->] (ptsbottomlimit) -- ++(-1.5cm,-1.5cm); 
+
+  \draw[opacity=0.2,fill=glyinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2*\highlightrad)}]oaa.west) -- ([shift={(\highlightrad,2*\highlightrad)}]icit.east) -- node[midway] (glyshadedmid) {}([shift={(\highlightrad,-0.5*\highlightrad)}]icit.south east) -- ([shift={(0.5*\highlightrad,-2*\highlightrad)}]suc.east) -- ([shift={(-\highlightrad,-2*\highlightrad)}]fum.west) -- cycle;
+
+  \draw[very thick,dashed,magenta,->] (glyshadedmid) -- ++(1.5cm,0cm); 
+
+  \node[shape=coordinate] at (dhap.south -| gap.west) (cbbmid) {};
+  \draw[opacity=0.2,fill=cbbinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2.2*\highlightrad)}]f6p.west) -- ([shift={(3*\highlightrad,2.2*\highlightrad)}]ru5p.center) -- node[midway] (cbbshadedmid) {} ([shift={(3*\highlightrad,-2*\highlightrad)}]rub.center) -- ([shift={(-\highlightrad,-2*\highlightrad)}]3pg.west) -- ([shift={(-\highlightrad,-\highlightrad)}]cbbmid) -- ([shift={(-0.5*\highlightrad,-\highlightrad)}]dhap.south west) -- ([shift={(-0.5*\highlightrad,0.5*\highlightrad)}]dhap.north west) -- ([xshift=-\highlightrad]fbp.west) -- cycle;
+
+  \draw[very thick,dashed,cbbinit,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
+
+    \newlength\imrad;
+    \newlength\ierad;
+    \newlength\esrad;
+    \newlength\emrad;
+    \newlength\eerad;
+    \pgfmathsetlength{\imrad}{\autocatalrad-\blendfrac*\arcwidth};
+    \pgfmathsetlength{\ierad}{\autocatalrad-0.5*\arcwidth};
+    \pgfmathsetlength{\esrad}{\autocatalrad+\arcwidth};
+    \pgfmathsetlength{\emrad}{\autocatalrad+\arcwidth-\blendfrac*\arcwidth};
+    \pgfmathsetlength{\eerad}{\autocatalrad+0.5*\arcwidth};
+
+  %% CBB cycle
+  \begin{scope} [shift={(11cm,-4cm)},radius=2cm]
+    \newlength\cbbimrad;
+    \newlength\cbbierad;
+    \newlength\cbbesrad;
+    \newlength\cbbemrad;
+    \newlength\cbbeerad;
+    \newlength\cbbwidth;
+    \newlength\cbbtotwidth;
+    \pgfmathsetlength{\cbbwidth}{\arcwidth*0.2};
+    \pgfmathsetlength{\cbbtotwidth}{\cbbwidth+\arcwidth};
+    \pgfmathsetlength{\cbbimrad}{\autocatalrad-\blendfrac*0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbierad}{\autocatalrad-0.5*\cbbwidth};
+    \pgfmathsetlength{\cbbesrad}{\autocatalrad+0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbemrad}{\autocatalrad+0.5*\cbbtotwidth-\blendfrac*0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbeerad}{\autocatalrad+0.5*\arcwidth};
+
+    \shadedarc{-20}{-180}{\autocatalrad}{\autocatalrad}{cbbmed}{cbbinit};
+    \shadedarc{100}{180}{\cbbimrad}{\autocatalrad}{cbbmed}{cbbinit};
+    \coloredarc{25}{100}{\cbbierad}{\cbbimrad}{cbbinit};
+    \shadedarc[\cbbwidth]{100}{180}{\cbbemrad}{\cbbesrad}{cbbext}{cbbinit};
+    \coloredarc[\cbbwidth]{25}{100}{\cbbeerad}{\cbbemrad}{cbbinit};
+
+%% \assimilatedcol input arc
+        \draw[color=cbbext,line width=\cbbwidth]
+        (\fromang:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+        arc (0:\inputang:2cm)
+        node [pos=0.5,color=black,anchor=east] (co2c) {co2};
+%% arrowhead
+    \fill[cbbinit]
+      (\fromang+\deltaang+1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
+      arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
+      -- (\fromang+\deltaang-1-\protrude:\autocatalrad)
+      -- (\fromang+\deltaang-1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+      arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+      -- cycle;
+
+%% metabolites
+        \node at (0:\autocatalrad) (3pgc) {3pg};
+        \node at (220:\autocatalrad-4.5mm) (rubc) {rub};
+
+  \end{scope}
+
+  %glyoxilate cycle
+\begin{scope} [shift={(9cm,-14cm)},radius=2cm]
+    \newlength\glyimrad;
+    \newlength\glyierad;
+    \newlength\glyesrad;
+    \newlength\glyemrad;
+    \newlength\glyeerad;
+    \newlength\glywidth;
+    \newlength\glytotwidth;
+    \newlength\glyfinwidth;
+    \newlength\glyimmrad;
+    \newlength\glyemmrad;
+    \newlength\glyemmmrad;
+    \newlength\glyeamrad;
+    \pgfmathsetlength{\glywidth}{\arcwidth*0.5};
+    \pgfmathsetlength{\glytotwidth}{\glywidth+\arcwidth};
+    \pgfmathsetlength{\glyfinwidth}{\glytotwidth+\glywidth};
+    \pgfmathsetlength{\glyimrad}{\autocatalrad-\blendfrac*0.5*\glywidth};
+    \pgfmathsetlength{\glyimmrad}{\autocatalrad-0.5*\glywidth};
+    \pgfmathsetlength{\glyemmrad}{\glyimmrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyemmmrad}{\glyemmrad+0.5*\glywidth};
+    \pgfmathsetlength{\glyeamrad}{\autocatalrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyierad}{\autocatalrad-0.5*\glywidth};
+    \pgfmathsetlength{\glyesrad}{\autocatalrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyemrad}{\autocatalrad+0.5*\glyfinwidth-\blendfrac*0.5*\glywidth};
+    \pgfmathsetlength{\glyeerad}{\autocatalrad+0.5*\glytotwidth};
+
+    \shadedarc{-20}{-90}{\autocatalrad}{\autocatalrad}{glymed}{glyinit};
+    \shadedarc{-150}{-90}{\glyimmrad}{\autocatalrad}{glymed}{glyinter};
+    \shadedarc[\glywidth]{-150}{-90}{\glyemmrad}{\glyeamrad}{glyext}{glyinter};
+
+    \draw[color=glyext,line width=\glywidth] (-90:\autocatalrad+0.5*\glytotwidth) arc(90:50:2cm) node [pos=0.5,color=black,anchor=north] (acac) {aca};
+
+    \coloredarc[\glytotwidth]{160}{90}{\glyimmrad}{\glyimmrad}{glyinter};
+
+    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south] (acac) {aca};
+
+    \shadedarc[\glytotwidth]{50}{90}{\glyimrad}{\glyimmrad}{glyinter}{glyinit};
+    \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyinit};
+
+    \shadedarc[\glywidth]{90}{50}{\glyemmmrad}{\glyemrad}{glyinit}{glyext};
+    \coloredarc[\glywidth]{50}{25}{\glyemrad}{\glyeerad}{glyinit};
+
+
+    \node at (0:\autocatalrad) (malc) {mal};
+    \node at (180:\autocatalrad) (glxc) {glx+fum};
+    \node at (-50:\autocatalrad-4.5mm) (oaa) {oaa};
+
+  \fill[glyinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
+       -- cycle;
+
+  \fill[glyinter] (-149:\autocatalrad-\arcwidth+0.5*\glywidth) arc (-149:-161:\autocatalrad-\arcwidth+0.5*\glywidth)
+       -- (-161-\protrude:\autocatalrad) -- (-161:\autocatalrad+\arcwidth-0.5*\glywidth) arc (-161:-149:\autocatalrad+\arcwidth-0.5*\glywidth)
+       -- cycle;
+  \end{scope}
+
+
+  %pts cycle
+ \begin{scope} [shift={(-6cm,-14cm)},radius=2cm]
+    \newlength\ptsierad;
+    \newlength\ptsimrad;
+    \newlength\ptsarcwidth;
+    \newlength\ptsesrad;
+    \newlength\ptsemrad;
+    \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
+    \pgfmathsetlength{\ptsimrad}{\autocatalrad-0.5*\arcwidth};
+    \pgfmathsetlength{\ptsarcwidth}{2*\arcwidth};
+    \pgfmathsetlength{\ptsesrad}{\autocatalrad+0.5*\arcwidth+0.5*\ptsarcwidth};
+    \pgfmathsetlength{\ptsemrad}{\autocatalrad+0.5*\ptsarcwidth};
+
+    \shadedarc{-20}{-120}{\autocatalrad}{\autocatalrad}{ptsmed}{ptsinit};
+    \shadedarc{160}{240}{\ptsimrad}{\autocatalrad}{ptsmed}{ptsinit};
+    \shadedarc{70}{160}{\ptsierad}{\ptsimrad}{ptsinit}{white};
+    \shadedarc[\ptsarcwidth]{160}{240}{\ptsemrad}{\ptsesrad}{ptsext}{ptsinit};
+    \coloredarc[\ptsarcwidth]{25}{160}{\autocatalrad}{\ptsemrad}{ptsinit};
+
+  \fill[ptsinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black] (glucc) {gluc};
+    \node at (0:\autocatalrad) (gapc) {gap};
+    \node at (270:\autocatalrad-4.5mm) (pepc) {pep};
+    \node at (70:\ptsierad) (pyrc) {pyr};
+  \end{scope}
+
+  %generic cycle
+\begin{scope} [shift={(-6.6cm,-4cm)}]
+    \shadedarc[\autocatalscale*\arcwidth]{-20}{-180}{\autocatalscale*\autocatalrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\imrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\emrad}{\autocatalscale*\esrad}{genext}{geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\eerad}{\autocatalscale*\emrad}{genext!0.5!geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\ierad}{\autocatalscale*\imrad}{genext!0.5!geninit};
+
+  \fill[genext!0.5!geninit] (\fromang+\deltaang+1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalscale*\autocatalrad) -- (\fromang+\deltaang-1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=genext!99.5!geninit,line width=\autocatalscale*\arcwidth] (180:\autocatalscale*\esrad) arc(0:-40:2cm) node [pos=0.5,color=black] (ext) {E};
+    \node at (0:\autocatalscale*\autocatalrad) (int) {\large M};
+  \end{scope}
+  %\draw[lightgray,rounded corners=\highlightrad] (-10.3,-8) rectangle +(6.8,8.5);
+  \node at (-10cm,0) (A) {\large \textbf A};
+  \node at (-3cm,0) (B) {\large  \textbf B};
+  \draw[lightgray,rounded corners=\highlightrad] (8.5,-6.1) rectangle +(4.5,4.5);
+  \node at (9cm,-2cm) (I) {\large  \textbf{I}};
+  \draw[lightgray,rounded corners=\highlightrad] (6.6,-17) rectangle +(4.5,5.5);
+  \node at (7cm,-11.8cm) (II) {\large  \textbf {II}};
+  \draw[lightgray,rounded corners=\highlightrad] (-8.5,-17) rectangle +(4.5,5.5);
+  \node at (-8cm,-11.8cm) (III) {\large  \textbf {III}};
+
+\end{tikzpicture}
+}
+\caption{
     \label{fig:realautocatal}
+(A) A basic autocatalytic cycle uses the internal metabolite, M, in order to assimilate an external metabolite, E, into the cycle, increasing the amount of M.
+(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bassham cycle; (II) The glyoxilate cycle; (III) A cycle using the PTS system to assimilate glucose.
+}
+%Examples of 5 autocatalytic cycles in central carbon metabolism.
+%    The reactions forming each cycle are highlighted in blue.
+%    The metabolite colored in magenta is the metabolite more molecules of which are produced when the cycle is traversed.
+%    The metabolite colored in teal is the metabolite assimilated by the cycle.
+%    Upper panel represents the cycles on top of the central carbon metabolism network.
+%    Lower panel represents the isolated cycles, with dashed blue arrows indicating the omission of intermediate metabolites and reactions.
+%(A) The glyoxylate cycle, producing two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA;
+%(B) A cycle using PEP to transport glucose using the PTS, then converting the imported glucose into two PEP molecules;
+%(C) A representative of a class of autocatalytic cycles using parts of the pentose phosphate cycle, the presented variant assimilates sedoheptulose-7P to produce fructose 6 phosphate from glyceraldehyde 3 phosphate;
+%(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate;
+%(E) The Calvin Benson Bassham cycle assimilating \ce{CO2} to convert ribulose bis phosphate to two glycerate 3 phosphate, then recycling the 3 carbon substrate through the pentose phosphate cycle back to ribulose.}
 \end{figure}
 
 \section{Analysis of a simple autocatalytic cycle}
@@ -124,7 +579,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
             \begin{customlegend}[legend entries={$f_a$,$f_b$,$\dot{X}=f_a-f_b$},legend style={below=2cm of fa,anchor=west,name=legend1}]
               \addlegendimage{blue,fill=black!50!red,sharp plot}
               \addlegendimage{red,fill=black!50!red,sharp plot}
-              \addlegendimage{green,fill=black!50!red,sharp plot}
+              \addlegendimage{sumcolor,fill=black!50!red,sharp plot}
             \end{customlegend}
             \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm]
             \addplot[domain=0:4,dotted,black,thick] {x};
@@ -143,7 +598,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
             \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,clip=false]
             \addplot[domain=0:2.9,blue,thick] {3*x/(0.1+x)};
             \addplot[domain=0:2.9,red,thick] {5*x/(1+x)};
-            \addplot[domain=0:2.9,green,thick] {3*x/(0.1+x)-5*x/(1+x)};
+            \addplot[domain=0:2.9,sumcolor,thick] {3*x/(0.1+x)-5*x/(1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right] (one) at (axis cs:0.1,5.5) {I};
             \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
@@ -153,7 +608,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
           \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
             \addplot[domain=0:4,blue,thick] {4*x/(1+x)};
             \addplot[domain=0:4,red,thick] {5*x/(0.2+x)};
-            \addplot[domain=0:4,green,thick] {4*x/(1+x)-5*x/(0.2+x)};
+            \addplot[domain=0:4,sumcolor,thick] {4*x/(1+x)-5*x/(0.2+x)};
             \node[right] (two) at (axis cs:0.1,5.5) {II};
             \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize stable zero steady state};
           \end{axis}
@@ -161,7 +616,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
           \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm,yshift=-0.5cm]
             \addplot[domain=0:4,blue,thick] {5*x/(1+x)};
             \addplot[domain=0:4,red,thick] {3*x/(0.1+x)};
-            \addplot[domain=0:4,green,thick] {5*x/(1+x)-3*x/(0.1+x)};
+            \addplot[domain=0:4,sumcolor,thick] {5*x/(1+x)-3*x/(0.1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right] (three) at (axis cs:0.1,5.5) {III};
             \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
@@ -170,7 +625,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
           \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm]
             \addplot[domain=0:2.9,blue,thick] {5*x/(0.2+x)};
             \addplot[domain=0:2.9,red,thick] {4*x/(1+x)};
-            \addplot[domain=0:2.9,green,thick] {5*x/(0.2+x)-4*x/(1+x)};
+            \addplot[domain=0:2.9,sumcolor,thick] {5*x/(0.2+x)-4*x/(1+x)};
             \node[right] (four) at (axis cs:0.1,5.5) {IV};
             \node[right,align=left] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
          \end{axis}
@@ -308,14 +763,14 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
       \begin{minipage}[c]{0.8\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
-            \draw [->,line width=1pt,BlueViolet] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
+            \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
             \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
-            \draw [<-,line width=1pt,ForestGreen] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
+            \draw [<-,line width=1pt,green] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
             \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of fi,anchor=west,name=legend1}]
-              \addlegendimage{BlueViolet,fill=black!50!red,sharp plot}
+              \addlegendimage{blue,fill=black!50!red,sharp plot}
               \addlegendimage{red,fill=black!50!red,sharp plot}
-              \addlegendimage{green,fill=black!50!red,sharp plot}
+              \addlegendimage{sumcolor,fill=black!50!red,sharp plot}
             \end{customlegend}
          \end{tikzpicture}}%
        \end{minipage}
@@ -323,26 +778,26 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
        \begin{minipage}[c]{\linewidth}%
         {\begin{tikzpicture}
             \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
-            \addplot[domain=0:4,BlueViolet,thick] {3*x/(0.5+x)+\influx};
+            \addplot[domain=0:4,blue,thick] {3*x/(0.5+x)+\influx};
             \addplot[domain=0:4,red,thick] {5*x/(1+x)};
-            \addplot[domain=0:4,green,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
+            \addplot[domain=0:4,sumcolor,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
             \addplot[dashed,gray,thick] coordinates {(1,0) (1,2.5)};
             \node[right] (one) at (axis cs:0.1,5.5) {I};
             \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
 
           \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:4,BlueViolet,thick] {5*x/(1+x)+\influx};
+            \addplot[domain=0:4,blue,thick] {5*x/(1+x)+\influx};
             \addplot[domain=0:4,red,thick] {4*x/(1+x)};
-            \addplot[domain=0:4,green,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
+            \addplot[domain=0:4,sumcolor,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
             \node[right] (two) at (axis cs:0.1,5.5) {II};
             \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
           \end{axis}
 
           \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:4,BlueViolet,thick] {6*x/(2+x)+1.5*\influx};
+            \addplot[domain=0:4,blue,thick] {6*x/(2+x)+1.5*\influx};
             \addplot[domain=0:4,red,thick] {4*x/(0.4+x)};
-            \addplot[domain=0:4,green,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
+            \addplot[domain=0:4,sumcolor,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
             \addplot[dashed,gray,thick] coordinates {(1.2,0) (1.2,3)};
             \addplot[dashed,gray,thick] coordinates {(0.182,0) (0.182,1.25)};
             \node[right] (three) at (axis cs:0.1,5.5) {III};
@@ -447,12 +902,194 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is still sparse, we were able to verify that existing data supports preditions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.86]{central-carbon-met-fig2.pdf}
-    \caption {
-        Major branching points of the autocatalytic cycles under growth conditions where they carry flux.
-        The branching reactions are marked in red.
-(A) The glyoxylate cycle carries substantial flux under growth in galactose or acetate.
-(B) The PTS using cycle carries substantial flux under grwoth in glucose.}
+\resizebox{1\linewidth}{!}{
+\begin{tikzpicture}
+  \begin{scope}[shift={(-6cm,-7.5cm)}]
+    \node[] (galactose) {galactose};
+    \node[rectangle,draw,inputcol,below=of galactose] (aca) {aca};
+    \node[shape=coordinate,below=of aca] (dummyglta) {};
+    \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
+    \node[rectangle,draw] at (aca -| oaa) (pep) {pep};
+    \node[rectangle,draw,right=of dummyglta] (cit) {cit};
+    \node[rectangle,draw,right=of cit] (icit) {icit};
+    \node[rectangle,draw,below=of icit.center] (akg) {akg};
+    \node[rectangle,draw,below=of akg.center] (sca) {sca};
+    \node[rectangle,draw,below=of oaa.center] (mal) {mal};
+    \node[rectangle,draw,below=of mal.center] (fum) {fum};
+    \node[rectangle,draw,right=of mal] (glx) {glx};
+    \node[rectangle,draw,right=of fum] (suc) {suc};
+    \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
+    %\draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- node [above,color=blue] {\galcapvalglt} ([yshift=-0.35*\galglt]midglta) ;
+    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta) ;
+    \draw[line width=\galglt,autocatacyc] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galglt*1.5,autocatacyc] (midglta) -- (cit);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcappck,branchout!40] (oaa) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galpck,branchout] (oaa) -- (pep);
+    \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacn,autocatacyc] (cit) -- (icit);
+    \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
+    \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[line width=\galacea*1.5,autocatacyc] (icit.south west) -- (midacea);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacea,autocatacyc] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacea*0.5,autocatacyc] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galicd*1.5,branchout] (icit) -- (akg);
+    \draw[->] (akg) -- (sca);
+    \draw[->] (sca) -- (suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galsdh,autocatacyc] (suc) -- (fum);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galfum,autocatacyc](fum) -- (mal);
+    \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
+    \draw[line width=\galaceb*0.5,autocatacyc] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
+    \draw[inputcol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galaceb,autocatacyc] (midaceb) -- (mal);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galmdh,autocatacyc] (mal) -- (oaa);
+  \end{scope}
+  \begin{scope}[shift={(-6cm,0cm)}]
+    \node[] (acetate) {acetate};
+    \node[rectangle,draw,inputcol,below=of acetate] (aca) {aca};
+    \node[shape=coordinate,below=of aca] (dummyglta) {};
+    \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
+    \node[rectangle,draw] at (aca -| oaa) (pep) {pep};
+    \node[rectangle,draw,right=of dummyglta] (cit) {cit};
+    \node[rectangle,draw,right=of cit] (icit) {icit};
+    \node[rectangle,draw,below=of icit.center] (akg) {akg};
+    \node[rectangle,draw,below=of akg.center] (sca) {sca};
+    \node[rectangle,draw,below=of oaa.center] (mal) {mal};
+    \node[rectangle,draw,below=of mal.center] (fum) {fum};
+    \node[rectangle,draw,right=of mal] (glx) {glx};
+    \node[rectangle,draw,left=of mal] (pyr) {pyr};
+    \node[rectangle,draw,right=of fum] (suc) {suc};
+    \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
+    \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \draw[line width=\aceglt,autocatacyc] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceglt*1.5,autocatacyc] (midglta) -- (cit);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecappck,branchout!40] (oaa) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acepck,branchout] (oaa) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapmae,branchout!40] (mal) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemae,branchout] (mal) -- (pyr);
+    \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\galglt]midglta);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacn,autocatacyc] (cit) -- (icit);
+    \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
+    \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea,autocatacyc!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[line width=\aceacea*1.5,autocatacyc] (icit.south west) -- (midacea);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacea,autocatacyc] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacea*0.5,autocatacyc] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceicd*1.5,branchout] (icit) -- (akg);
+    \draw[->] (akg) -- (sca);
+    \draw[->] (sca) -- (suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acesdh,autocatacyc] (suc) -- (fum);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acefum,autocatacyc](fum) -- (mal);
+    \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
+    \draw[line width=\aceaceb*0.5,autocatacyc] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
+    \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceaceb,autocatacyc] (midaceb) -- (mal);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemdh,autocatacyc] (mal) -- (oaa);
+ 
+  \end{scope}
+  %glucose
+  \begin{scope}[shift={(0.5cm,0cm)}]
+    \node[] (glucose) {glucose};
+    \node[rectangle,draw,below= of glucose] (g6p) {g6p};
+    \node[rectangle,draw,below=of g6p.center] (f6p) {f6p};
+    \node[rectangle,draw,below=of f6p] (fbp) {fbp};
+    \node[rectangle,draw,shape=coordinate,below=of fbp.center](fbamid) {};
+    \node[rectangle,draw,below left=of fbamid.center] (dhap) {dhap};
+    \node[rectangle,draw,below right=of fbamid] (gap) {gap};
+    \node[rectangle,draw,below=of gap.center] (bpg) {bpg};
+    \node[rectangle,draw,below=of bpg.center] (3pg) {3pg};
+    \node[rectangle,draw,below=of 3pg.center] (2pg) {2pg};
+    \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
+    \node[rectangle,draw,right=of pep] (oaa) {oaa};
+    \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
+    \node[rectangle,draw,right=of g6p] (6pgi) {6pgi};
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgi,autocatacyc] (g6p) -- (f6p);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpfk,autocatacyc] (f6p.south) -- (fbp.north);
+    \draw [line width=\glucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\glucfba/2,autocatacyc] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\glucfba/2,autocatacyc] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\gluctpi,autocatacyc] (dhap) -- (gap);
+
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucgap,autocatacyc] (gap) -- (bpg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgk,autocatacyc] (bpg) -- (3pg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucgpm,autocatacyc] (3pg) -- (2pg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluceno,autocatacyc] (2pg) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpyk,branchout] (pep) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucppc,branchout] (pep) -- (oaa);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluczwf,branchout] (g6p) -- (6pgi);
+    \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
+    \node[rectangle,draw,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
+    \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+    \draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep) [out=180,in=0] to ([yshift=\glucpts/4]pts3);
+    \draw[inputcol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
+    \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+    \draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    \node[rectangle,draw,shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
+    \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+    \draw[line width=\glucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\glucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpts,autocatacyc] (ptstop) [in=180,out=90] to (g6p);
+  \end{scope}
+  %fructose
+  \begin{scope}[shift={(8cm,0cm)}]
+    \node[] (fructose) {fructose};
+    \node[rectangle,draw,below=of fructose] (f6p) {f6p};
+    \node[rectangle,draw,below=of f6p] (fbp) {fbp};
+    \node[rectangle,draw,shape=coordinate,below=of fbp.center](fbamid) {};
+    \node[rectangle,draw,below left=of fbamid.center] (dhap) {dhap};
+    \node[rectangle,draw,below right=of fbamid] (gap) {gap};
+    \node[rectangle,draw,below=of gap.center] (bpg) {bpg};
+    \node[rectangle,draw,below=of bpg.center] (3pg) {3pg};
+    \node[rectangle,draw,below=of 3pg.center] (2pg) {2pg};
+    \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
+    \node[rectangle,draw,right=of pep] (oaa) {oaa};
+    \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucfbp,branchout] (fbp.north)-- (f6p.south) ;
+    \draw [line width=\fruccapfba,autocatacyc!40] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [line width=\frucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\frucfba/2,autocatacyc] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\frucfba/2,autocatacyc] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [-{Latex[scale=0.25,angle'=60]},line width=\fructpi,autocatacyc] (dhap) -- (gap);
+
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucgap,autocatacyc] (gap) -- (bpg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpgk,autocatacyc] (bpg) -- (3pg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucgpm,autocatacyc] (3pg) -- (2pg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruceno,autocatacyc] (2pg) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpyk,branchout] (pep) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucppc,branchout] (pep) -- (oaa);
+    \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
+    \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+    \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep) [out=180,in=0] to ([yshift=\frucpts/4]pts3);
+    \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+    \draw[line width=\frucpts/2,autocataby] ([yshift=-3*\frucpts/4]pts3) [out=180,in=180] to (pts5);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    \node[rectangle,draw,shape=coordinate,left=2.1cm of fbamid] (ptstop) {};
+    \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+    \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
+    \node[rectangle,draw,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (fruc) {fruc};
+    \draw[inputcol,line width=\frucpts] ([yshift=-\frucpts/2]fruc) [out=90,in=0] to ([yshift=-\frucpts/2]pts3);
+    \draw[line width=\frucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\frucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpts,autocatacyc] (ptstop) [in=180,out=90] to (fbp);
+  \end{scope}
+  \end{tikzpicture}
+}
+\caption{
+  Major branch points and relative enzyme saturation in operating autocatalytic cycles.
+}
     \label{fig:branch}
 \end{figure}
 
@@ -475,8 +1112,11 @@ Qualitatively, whereas in usual metabolic context a higher flux through a reacti
 While autocatalytic cycles are usually considered a small part of metabolism, with less than a handful of examples, we note that by the definition presented here, such cycles are abundant even in central carbon metabolism.
 The examples of autocatalytic cycles we provide, as well as our verified predictions on the economical usage of enzymes catalyzing reactions branching out of such cycles suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
+  Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to energy, non-carbon atoms, or more complex molecules and constructs (refs\dots).
+  The mathematical analysis we present can technically apply for such definitions as well and may thus be used beyond the context presented in this work.
 \section{Acknowledgments}
 We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
+(Acknowledge tikz/latex/pgf/xcolor/stackexchange community for supporting free software tools)
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
 \end{document}

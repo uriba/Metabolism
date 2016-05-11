@@ -4,28 +4,21 @@
 \usepackage{graphicx}
 \usetikzlibrary{positioning,arrows.meta}
 \tikzset{>=Latex}
+\definecolor{cyan}{RGB}{100,181,205}
+\definecolor{blue}{RGB}{76,114,176}
+\definecolor{green}{RGB}{85,168,104}
+\definecolor{magenta}{RGB}{129,114,178}
+\definecolor{yellow}{RGB}{204,185,116}
+\definecolor{red}{RGB}{196,78,82}
 
-%cbbcolors
-\colorlet{cbbinit}{green}
-\definecolor{cbbmed}{rgb}{1,1,-1}
-\definecolor{cbbext}{rgb}{-0.5,-0.5,1}
-%glycolors
-\colorlet{glyinit}{magenta}
-\definecolor{glymed}{rgb}{-0.5,-0.5,1}
-\definecolor{glyext}{rgb}{1,-0.5,-0.5}
-\colorlet{glyinter}{glymed!50!glyext}
-%ptscolors
-\colorlet{ptsinit}{cyan}
-\definecolor{ptsmed}{rgb}{-0.5,-0.5,1}
-\colorlet{ptsext}{green}
-\colorlet{gluccol}{green!50!black}
-\def\highlightrad{0.2cm}
-%glucose data
+\colorlet{inputcol}{green}
 \colorlet{branchout}{red}
 \colorlet{autocatacyc}{blue}
-\colorlet{autocataby}{cyan!50}
+\colorlet{autocataby}{cyan}
+%glucose data
 \def\glucmaxflux{0.2mm}
 \def\glucpgi{5.7*\glucmaxflux}
+\def\gluccapvalpgi{1}
 \def\gluccappgi{\glucpgi}
 \def\glucpfk{7.06*\glucmaxflux}
 \def\glucfba{7.06*\glucmaxflux}
@@ -35,12 +28,16 @@
 \def\glucgpm{14.56/2*\glucmaxflux}
 \def\gluceno{14.56/2*\glucmaxflux}
 \def\glucpyk{2.49/2*\glucmaxflux}
-\def\gluccappyk{\glucpyk/0.33}
+\def\gluccapvalpyk{0.33}
+\def\gluccappyk{\glucpyk/\gluccapvalpyk}
 \def\glucppc{2.45/2*\glucmaxflux}
-\def\gluccapppc{\glucppc/0.47}
+\def\gluccapvalppc{0.47}
+\def\gluccapppc{\glucppc/\gluccapvalppc}
 \def\gluczwf{3.92*\glucmaxflux}
-\def\gluccapzwf{\gluczwf/0.547}
+\def\gluccapvalzwf{0.547}
+\def\gluccapzwf{\gluczwf/\gluccapvalzwf}
 \def\glucpts{9.65*\glucmaxflux}
+\def\gluccapvalpts{1}
 \def\gluccappts{\glucpts}
 %\def\glucrpi{1.43*\glucmaxflux}
 %\def\gluccaprpi{\glucrpi/0.47}
@@ -55,43 +52,53 @@
 %\def\frucpgi{5.7*\frucmaxflux} needs update and descision if relevant
 %\def\fruccappgi{\frucpgi}
 \def\frucfbp{2.46*\frucmaxflux}
+\def\fruccapvalfbp{1}
 \def\fruccapfbp{\frucfbp}
 \def\frucfba{5.87*\frucmaxflux}
-\def\fruccapfba{\frucfba/0.71}
+\def\fruccapvalfba{0.71}
+\def\fruccapfba{\frucfba/\fruccapvalfba}
 \def\fructpi{5.87/2*\frucmaxflux}
 \def\frucgap{13.46/2*\frucmaxflux}
 \def\frucpgk{13.46/2*\frucmaxflux}
 \def\frucgpm{12.6/2*\frucmaxflux}
 \def\fruceno{12.6/2*\frucmaxflux}
 \def\frucpyk{0.67/2*\frucmaxflux}
-\def\fruccappyk{\frucpyk/0.064}
+\def\fruccapvalpyk{0.064}
+\def\fruccappyk{\frucpyk/\fruccapvalpyk}
 \def\frucppc{3.55/2*\frucmaxflux}
-\def\fruccapppc{\frucppc/0.5}
+\def\fruccapvalppc{0.5}
+\def\fruccapppc{\frucppc/\fruccapvalppc}
 %\def\fruczwf{3.92*\frucmaxflux}
 %\def\fruccapzwf{\fruczwf/0.547}
 \def\frucpts{8.33*\frucmaxflux}
+\def\fruccapvalpts{1}
 \def\fruccappts{\frucpts}
 
 %Galactose data
 \def\galmaxflux{0.5mm}
 \def\galglt{1.52*\galmaxflux}
-\def\galcapglt{\galglt/0.21}
+\def\galcapvalglt{0.21}
+\def\galcapglt{\galglt/\galcapvalglt}
 \def\galacn{1.52*\galmaxflux*1.5}
 \def\galacea{1.02*\galmaxflux}
-\def\galcapacea{\galacea/0.29}
+\def\galcapvalacea{0.29}
+\def\galcapacea{\galacea/\galcapvalacea}
 \def\galaceb{1.02*\galmaxflux}
 \def\galsdh{1.26*\galmaxflux}
 \def\galfum{1.26*\galmaxflux}
 \def\galmdh{2.28*\galmaxflux}
 \def\galpck{0.85*\galmaxflux}
-\def\galcappck{\galpck/0.26}
+\def\galcapvalpck{0.26}
+\def\galcappck{\galpck/\galcapvalpck}
 \def\galicd{0.5*\galmaxflux}
-\def\galcapicd{\galicd/0.09}
+\def\galcapvalicd{0.09}
+\def\galcapicd{\galicd/\galcapvalicd}
 %\def\galx{0.29*\galmaxflux}%% name reaction and find capacity
 %acetate data
 \def\acemaxflux{0.2mm}
 \def\aceglt{8.83*\acemaxflux}
-\def\acecapglt{\aceglt/0.68}
+\def\acecapvalglt{0.68}
+\def\acecapglt{\aceglt/\acecapvalglt}
 \def\aceacn{8.83*\acemaxflux*1.5}
 \def\aceacea{4.14*\acemaxflux}
 \def\acecapacea{\aceacea}
@@ -101,11 +108,14 @@
 \def\acemdh{10.67*\acemaxflux}
 %\def\acex{0.5*\acemaxflux}
 \def\acemae{1.87*\acemaxflux}
-\def\acecapmae{\acemae/0.13}
+\def\acecapvalmae{0.13}
+\def\acecapmae{\acemae/\acecapvalmae}
 \def\acepck{3.11*\acemaxflux}
-\def\acecappck{\acepck/0.75}
+\def\acecapvalpck{0.75}
+\def\acecappck{\acepck/\acecapvalpck}
 \def\aceicd{4.7*\acemaxflux}
-\def\acecapicd{\aceicd/0.63}
+\def\acecapvalicd{0.63}
+\def\acecapicd{\aceicd/\acecapvalicd}
 %mal=oaa=4c
 %cit=icit=6c
 %gly=2cj
@@ -116,7 +126,7 @@
 \begin{tikzpicture}
   \begin{scope}[shift={(-6cm,-7.5cm)}]
     \node[] (galactose) {galactose};
-    \node[rectangle,draw,gluccol,below=of galactose] (aca) {aca};
+    \node[rectangle,draw,inputcol,below=of galactose] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
     \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
     \node[rectangle,draw] at (aca -| oaa) (pep) {pep};
@@ -129,12 +139,13 @@
     \node[rectangle,draw,right=of mal] (glx) {glx};
     \node[rectangle,draw,right=of fum] (suc) {suc};
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
-    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
+    %\draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- node [above,color=blue] {\galcapvalglt} ([yshift=-0.35*\galglt]midglta) ;
+    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta) ;
     \draw[line width=\galglt,autocatacyc] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galglt*1.5,autocatacyc] (midglta) -- (cit);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcappck,branchout!40] (oaa) -- (pep);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galpck,branchout] (oaa) -- (pep);
-    \draw [gluccol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
+    \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacn,autocatacyc] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
@@ -151,13 +162,13 @@
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galfum,autocatacyc](fum) -- (mal);
     \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
     \draw[line width=\galaceb*0.5,autocatacyc] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
-    \draw[gluccol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
+    \draw[inputcol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galaceb,autocatacyc] (midaceb) -- (mal);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galmdh,autocatacyc] (mal) -- (oaa);
   \end{scope}
   \begin{scope}[shift={(-6cm,0cm)}]
     \node[] (acetate) {acetate};
-    \node[rectangle,draw,gluccol,below=of acetate] (aca) {aca};
+    \node[rectangle,draw,inputcol,below=of acetate] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
     \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
     \node[rectangle,draw] at (aca -| oaa) (pep) {pep};
@@ -178,7 +189,7 @@
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acepck,branchout] (oaa) -- (pep);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapmae,branchout!40] (mal) -- (pyr);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemae,branchout] (mal) -- (pyr);
-    \draw [gluccol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\galglt]midglta);
+    \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\galglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacn,autocatacyc] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
@@ -195,7 +206,7 @@
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acefum,autocatacyc](fum) -- (mal);
     \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
     \draw[line width=\aceaceb*0.5,autocatacyc] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
-    \draw[gluccol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
+    \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceaceb,autocatacyc] (midaceb) -- (mal);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemdh,autocatacyc] (mal) -- (oaa);
  
@@ -234,10 +245,10 @@
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluczwf,branchout] (g6p) -- (6pgi);
     \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
-    \node[rectangle,draw,gluccol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
+    \node[rectangle,draw,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
     \draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep) [out=180,in=0] to ([yshift=\glucpts/4]pts3);
-    \draw[gluccol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
+    \draw[inputcol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
@@ -288,8 +299,8 @@
     \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
-    \node[rectangle,draw,gluccol,shift={(-1.5,-0.8)}] at (pep.center) (fruc) {fruc};
-    \draw[gluccol,line width=\frucpts] ([yshift=-\frucpts/2]fruc) [out=90,in=0] to ([yshift=-\frucpts/2]pts3);
+    \node[rectangle,draw,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (fruc) {fruc};
+    \draw[inputcol,line width=\frucpts] ([yshift=-\frucpts/2]fruc) [out=90,in=0] to ([yshift=-\frucpts/2]pts3);
     \draw[line width=\frucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[line width=\frucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpts,autocatacyc] (ptstop) [in=180,out=90] to (fbp);

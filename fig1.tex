@@ -4,7 +4,6 @@
 \usepackage{tikz}
 \usepackage{graphicx}
 \usetikzlibrary{arrows,positioning}
-\def\subdivisions{50}
 \def\blendfrac{0.5}
 \tikzset{>=latex}
 \def\deltaang{-155}
@@ -15,40 +14,54 @@
 \def\highlightrad{0.2cm}
 \def\autocatalrad{1.5cm}
 \def\autocatalscale{1.5}
+\definecolor{cyan}{RGB}{100,181,205}
+\definecolor{blue}{RGB}{76,114,176}
+\definecolor{green}{RGB}{85,168,104}
+\definecolor{magenta}{RGB}{129,114,178}
+\definecolor{yellow}{RGB}{204,185,116}
+\definecolor{red}{RGB}{196,78,82}
+
 \newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
-  \foreach \i[evaluate={\col=(\i+0.5)/\subdivisions*100}] in {0,...,\numexpr\subdivisions-1\relax}
-  \draw[color={#6!\col!#7},line width=#1] 
-    (\i*#3/\subdivisions-\i*#2/\subdivisions+#2:#4+#5*\i/\subdivisions-#4*\i/\subdivisions)
-arc[start angle=\i*#3/\subdivisions-\i*#2/\subdivisions+#2,
-end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i/\subdivisions-#4*\i/\subdivisions];
-
+  \pgfmathsetmacro\arcrange{#3-#2}
+  \pgfmathsetmacro\radrange{#5-#4}
+  \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+  \foreach \i in {#2,...,\numexpr#3-1\relax} {
+    \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+    \pgfmathsetmacro\col{\fracprog*100}
+    \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
+arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+  }
 }
+
 \newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
-  \foreach \i in {0,...,\numexpr\subdivisions-1\relax}
-  \draw[color={#6},line width=#1] 
-    (\i*#3/\subdivisions-\i*#2/\subdivisions+#2:#4+#5*\i/\subdivisions-#4*\i/\subdivisions)
-arc[start angle=\i*#3/\subdivisions-\i*#2/\subdivisions+#2,
-end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i/\subdivisions-#4*\i/\subdivisions];
-
+  \pgfmathsetmacro\arcrange{#3-#2}
+  \pgfmathsetmacro\radrange{#5-#4}
+  \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+  \foreach \i in {#2,...,\numexpr#3-1\relax} {
+    \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+    \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
+      arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+  }
 }
+
+\colorlet{assimcol}{green}
 %cbbcolors
-\colorlet{cbbinit}{green}
-\definecolor{cbbmed}{rgb}{1,1,-1}
-\definecolor{cbbext}{rgb}{-0.5,-0.5,1}
+\colorlet{cbbinit}{yellow}
+\colorlet{cbbmed}{blue}
+\colorlet{cbbext}{assimcol}
 %glycolors
 \colorlet{glyinit}{magenta}
-\definecolor{glymed}{rgb}{-0.5,-0.5,1}
-\definecolor{glyext}{rgb}{1,-0.5,-0.5}
-\colorlet{glyinter}{glymed!50!glyext}
+\colorlet{glymed}{blue}
+\colorlet{glyext}{assimcol}
+\colorlet{glyinter}{blue}
 %ptscolors
 \colorlet{ptsinit}{cyan}
-\definecolor{ptsmed}{rgb}{-0.5,-0.5,1}
-\colorlet{ptsext}{green}
-\colorlet{gluccol}{green!50!black}
+\colorlet{ptsmed}{blue}
+\colorlet{ptsext}{assimcol}
 %gencolors
-\colorlet{genmed}{red}
-\colorlet{genext}{green}
-\colorlet{geninit}{red!50!green}
+\colorlet{genext}{assimcol}
+\colorlet{genmed}{blue}
+\colorlet{geninit}{blue}
 \begin{document}
 
 \begin{figure}
@@ -65,7 +78,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \node[rectangle,draw,below=of 3pg.center] (2pg) {2pg};
   \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
   \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
-  \node[rectangle,draw,below=of pyr.center,glyext] (aca) {aca};
+  \node[rectangle,draw,below=of pyr.center,assimcol] (aca) {aca};
   \node[shape=coordinate,below=of aca] (dummyglta) {};
   \node[rectangle,draw,left=of dummyglta] (oaa) {oaa};
   \node[rectangle,draw,right=of dummyglta] (cit) {cit};
@@ -85,7 +98,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \node[rectangle,draw,] at (fbp.center -| s7p.center) (e4p) {e4p};
   \node[rectangle,draw,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
   \node[rectangle,draw,] at(3pg.center -| ru5p.center) (rub) {rub};
-  \node[rectangle,draw,cbbext] at(2pg -| xu5p.center) (co2) {co2};
+  \node[rectangle,draw,assimcol] at(2pg -| xu5p.center) (co2) {co2};
   \draw[->] (g6p) -- (f6p);
   \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
   \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
@@ -100,7 +113,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[->] (pep) -- (pyr);
   \draw[->] (pyr) -- (aca);
   \draw[->] (oaa) -- (cit) node [pos=0.9] (midglta) {};
-  \draw [glyext] (aca) [out=-70,in=180] to (midglta);
+  \draw [assimcol] (aca) [out=-70,in=180] to (midglta);
   \draw[->] (cit) -- (icit);
   \draw[->] (icit) -- (suc) node [pos=0.3] (midacea) {};
   \draw[->] (midacea) [out=220,in=0] to (glx);
@@ -111,7 +124,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[->] (fum) -- (mal);
   \draw[->] (glx) -- (mal) node [pos=0.9] (midaceb) {};
   \draw[->] (mal) -- (oaa);
-  \draw[glyext] (aca) [out=-90,in=0] to (midaceb);
+  \draw[assimcol] (aca) [out=-90,in=0] to (midaceb);
   \draw[->] (g6p) -- (6pgi);
   \draw[->] (6pgi) -- (6pgc);
   \draw[->] (6pgc) -- (ru5p);
@@ -133,10 +146,10 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[] (midtal) [out=-90,in=180] to (e4p);
   \draw[<-] (gap) [out=55,in=-90] to (midtal);
   \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
-  \node[rectangle,draw,gluccol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
+  \node[rectangle,draw,assimcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
   \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
   \draw[] (pep) [out=180,in=0] to (pts3);
-  \draw[gluccol] (gluc) [out=90,in=0] to (pts3);
+  \draw[assimcol] (gluc) [out=90,in=0] to (pts3);
   \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
   \draw[] (pts3) [out=180,in=180] to (pts5);
   \draw[->] (pts5) [out=0,in=180] to (pyr);
@@ -147,7 +160,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \draw[->] (ptstop) [in=180,out=90] to (g6p);
   \draw[->] (ru5p) [out=-90,in=90] to (rub);
   \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
-  \draw[cbbext] (co2) [out=90,in=0] to (rubisco);
+  \draw[assimcol] (co2) [out=90,in=0] to (rubisco);
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
 
@@ -162,7 +175,7 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
   \node[shape=coordinate] at (dhap.south -| gap.west) (cbbmid) {};
   \draw[opacity=0.2,fill=cbbinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2.2*\highlightrad)}]f6p.west) -- ([shift={(3*\highlightrad,2.2*\highlightrad)}]ru5p.center) -- node[midway] (cbbshadedmid) {} ([shift={(3*\highlightrad,-2*\highlightrad)}]rub.center) -- ([shift={(-\highlightrad,-2*\highlightrad)}]3pg.west) -- ([shift={(-\highlightrad,-\highlightrad)}]cbbmid) -- ([shift={(-0.5*\highlightrad,-\highlightrad)}]dhap.south west) -- ([shift={(-0.5*\highlightrad,0.5*\highlightrad)}]dhap.north west) -- ([xshift=-\highlightrad]fbp.west) -- cycle;
 
-  \draw[very thick,dashed,green,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
+  \draw[very thick,dashed,cbbinit,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
 
     \newlength\imrad;
     \newlength\ierad;
@@ -194,17 +207,17 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
 
     \shadedarc{-20}{-180}{\autocatalrad}{\autocatalrad}{cbbmed}{cbbinit};
     \shadedarc{100}{180}{\cbbimrad}{\autocatalrad}{cbbmed}{cbbinit};
-    \coloredarc{25}{100}{\cbbierad}{\cbbimrad}{cbbmed!0.5!cbbinit};
+    \coloredarc{25}{100}{\cbbierad}{\cbbimrad}{cbbinit};
     \shadedarc[\cbbwidth]{100}{180}{\cbbemrad}{\cbbesrad}{cbbext}{cbbinit};
-    \coloredarc[\cbbwidth]{25}{100}{\cbbeerad}{\cbbemrad}{cbbext!0.5!cbbinit};
+    \coloredarc[\cbbwidth]{25}{100}{\cbbeerad}{\cbbemrad}{cbbinit};
 
 %% \assimilatedcol input arc
-        \draw[color=cbbext!99.5!cbbinit,line width=\cbbwidth]
+        \draw[color=cbbext,line width=\cbbwidth]
         (\fromang:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
         arc (0:\inputang:2cm)
         node [pos=0.5,color=black,anchor=east] (co2c) {co2};
 %% arrowhead
-    \fill[cbbext!0.5!cbbinit]
+    \fill[cbbinit]
       (\fromang+\deltaang+1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
       arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
       -- (\fromang+\deltaang-1-\protrude:\autocatalrad)
@@ -217,13 +230,6 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
         \node at (220:\autocatalrad-4.5mm) (rubc) {rub};
 
   \end{scope}
-%%%%%%%%%%%%%%%%%%%%%
-%Todo:
-% add dashed lines from highlighted cycles in central metabolism to specific cycles
-% add generic autocatalytic cycle as panel A at top left
-% send to ron
-%%%%%%%%%%%%%%%%%%%%
-
 
   %glyoxilate cycle
 \begin{scope} [shift={(9cm,-14cm)},radius=2cm]
@@ -256,24 +262,24 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
     \shadedarc{-150}{-90}{\glyimmrad}{\autocatalrad}{glymed}{glyinter};
     \shadedarc[\glywidth]{-150}{-90}{\glyemmrad}{\glyeamrad}{glyext}{glyinter};
 
-    \draw[color=glyext!99.5!glyinit,line width=\glywidth] (-90:\autocatalrad+0.5*\glytotwidth) arc(90:50:2cm) node [pos=0.5,color=black,anchor=north] (acac) {aca};
+    \draw[color=glyext,line width=\glywidth] (-90:\autocatalrad+0.5*\glytotwidth) arc(90:50:2cm) node [pos=0.5,color=black,anchor=north] (acac) {aca};
 
     \coloredarc[\glytotwidth]{160}{90}{\glyimmrad}{\glyimmrad}{glyinter};
 
-    \draw[color=glyext!99.5!glyinit,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south] (acac) {aca};
+    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south] (acac) {aca};
 
     \shadedarc[\glytotwidth]{50}{90}{\glyimrad}{\glyimmrad}{glyinter}{glyinit};
-    \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyext!0.5!glyinit};
+    \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyinit};
 
-    \shadedarc[\glywidth]{90}{50}{\glyemmmrad}{\glyemrad}{glyext!0.5!glyinit}{glyext};
-    \coloredarc[\glywidth]{50}{25}{\glyemrad}{\glyeerad}{glyext!0.5!glyinit};
+    \shadedarc[\glywidth]{90}{50}{\glyemmmrad}{\glyemrad}{glyinit}{glyext};
+    \coloredarc[\glywidth]{50}{25}{\glyemrad}{\glyeerad}{glyinit};
 
 
     \node at (0:\autocatalrad) (malc) {mal};
     \node at (180:\autocatalrad) (glxc) {glx+fum};
     \node at (-50:\autocatalrad-4.5mm) (oaa) {oaa};
 
-  \fill[glyext!0.5!glyinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+  \fill[glyinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
        -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
        -- cycle;
 
@@ -298,16 +304,16 @@ end angle=(\i+1.1)*#3/\subdivisions-(\i+1.1)*#2/\subdivisions+#2,radius=#4+#5*\i
 
     \shadedarc{-20}{-120}{\autocatalrad}{\autocatalrad}{ptsmed}{ptsinit};
     \shadedarc{160}{240}{\ptsimrad}{\autocatalrad}{ptsmed}{ptsinit};
-    \shadedarc{70}{160}{\ptsierad}{\ptsimrad}{ptsext!0.5!ptsinit}{white};
+    \shadedarc{70}{160}{\ptsierad}{\ptsimrad}{ptsinit}{white};
     \shadedarc[\ptsarcwidth]{160}{240}{\ptsemrad}{\ptsesrad}{ptsext}{ptsinit};
-    \coloredarc[\ptsarcwidth]{25}{160}{\autocatalrad}{\ptsemrad}{ptsext!0.5!ptsinit};
+    \coloredarc[\ptsarcwidth]{25}{160}{\autocatalrad}{\ptsemrad}{ptsinit};
 
-  \fill[ptsext!0.5!ptsinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+  \fill[ptsinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
        -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
        -- cycle;
 
        %% \assimilatedcol input arc
-       \draw[color=ptsext!99.5!ptsinit,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black] (glucc) {gluc};
+       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black] (glucc) {gluc};
     \node at (0:\autocatalrad) (gapc) {gap};
     \node at (270:\autocatalrad-4.5mm) (pepc) {pep};
     \node at (70:\ptsierad) (pyrc) {pyr};
