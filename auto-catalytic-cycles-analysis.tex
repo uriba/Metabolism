@@ -24,16 +24,7 @@
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \providecommand{\norm}[1]{\lVert#1\rVert}
 
-\def\blendfrac{0.5}
 \tikzset{>=latex}
-\def\deltaang{-155}
-\def\fromang{180}
-\def\inputang{-40}
-\def\protrude{7}
-\def\arcwidth{0.3cm}
-\def\highlightrad{0.2cm}
-\def\autocatalrad{1.5cm}
-\def\autocatalscale{1.5}
 \definecolor{cyan}{RGB}{100,181,205}
 \definecolor{blue}{RGB}{76,114,176}
 \definecolor{green}{RGB}{85,168,104}
@@ -41,159 +32,13 @@
 \definecolor{yellow}{RGB}{204,185,116}
 \definecolor{red}{RGB}{196,78,82}
 
-\newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
-  \pgfmathsetmacro\arcrange{#3-#2}
-  \pgfmathsetmacro\radrange{#5-#4}
-  \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
-  \foreach \i in {#2,...,\numexpr#3-1\relax} {
-    \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
-    \pgfmathsetmacro\col{\fracprog*100}
-    \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
-arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
-  }
-}
-
-\newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
-  \pgfmathsetmacro\arcrange{#3-#2}
-  \pgfmathsetmacro\radrange{#5-#4}
-  \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
-  \foreach \i in {#2,...,\numexpr#3-1\relax} {
-    \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
-    \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
-      arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
-  }
-}
-
 \colorlet{assimcol}{green}
-%cbbcolors
-\colorlet{cbbinit}{yellow}
-\colorlet{cbbmed}{blue}
-\colorlet{cbbext}{assimcol}
-%glycolors
-\colorlet{glyinit}{magenta}
-\colorlet{glymed}{blue}
-\colorlet{glyext}{assimcol}
-\colorlet{glyinter}{blue}
-%ptscolors
-\colorlet{ptsinit}{cyan}
-\colorlet{ptsmed}{blue}
-\colorlet{ptsext}{assimcol}
-%gencolors
-\colorlet{genext}{assimcol}
-\colorlet{genmed}{blue}
-\colorlet{geninit}{blue}
-
 \colorlet{sumcolor}{magenta}
 
 \colorlet{inputcol}{green}
 \colorlet{branchout}{red}
 \colorlet{autocatacyc}{blue}
 \colorlet{autocataby}{cyan}
-%glucose data
-\def\glucmaxflux{0.2mm}
-\def\glucpgi{5.7*\glucmaxflux}
-\def\gluccapvalpgi{1}
-\def\gluccappgi{\glucpgi}
-\def\glucpfk{7.06*\glucmaxflux}
-\def\glucfba{7.06*\glucmaxflux}
-\def\gluctpi{7.06/2*\glucmaxflux}
-\def\glucgap{15.71/2*\glucmaxflux}
-\def\glucpgk{15.71/2*\glucmaxflux}
-\def\glucgpm{14.56/2*\glucmaxflux}
-\def\gluceno{14.56/2*\glucmaxflux}
-\def\glucpyk{2.49/2*\glucmaxflux}
-\def\gluccapvalpyk{0.33}
-\def\gluccappyk{\glucpyk/\gluccapvalpyk}
-\def\glucppc{2.45/2*\glucmaxflux}
-\def\gluccapvalppc{0.47}
-\def\gluccapppc{\glucppc/\gluccapvalppc}
-\def\gluczwf{3.92*\glucmaxflux}
-\def\gluccapvalzwf{0.547}
-\def\gluccapzwf{\gluczwf/\gluccapvalzwf}
-\def\glucpts{9.65*\glucmaxflux}
-\def\gluccapvalpts{1}
-\def\gluccappts{\glucpts}
-%\def\glucrpi{1.43*\glucmaxflux}
-%\def\gluccaprpi{\glucrpi/0.47}
-%\def\glucrpe{1.4*\glucmaxflux}
-%\def\gluccaprpe{\glucrpe/0.26}
-%\def\glucgnd{2.83*\glucmaxflux}
-%\def\gluccapgnd{\glucgnd/0.32}
-%\def\glucedd{1.09*\glucmaxflux}
-%\def\gluccapedd{\glucedd/0.58}
-%fructose data
-\def\frucmaxflux{0.2mm}
-%\def\frucpgi{5.7*\frucmaxflux} needs update and descision if relevant
-%\def\fruccappgi{\frucpgi}
-\def\frucfbp{2.46*\frucmaxflux}
-\def\fruccapvalfbp{1}
-\def\fruccapfbp{\frucfbp}
-\def\frucfba{5.87*\frucmaxflux}
-\def\fruccapvalfba{0.71}
-\def\fruccapfba{\frucfba/\fruccapvalfba}
-\def\fructpi{5.87/2*\frucmaxflux}
-\def\frucgap{13.46/2*\frucmaxflux}
-\def\frucpgk{13.46/2*\frucmaxflux}
-\def\frucgpm{12.6/2*\frucmaxflux}
-\def\fruceno{12.6/2*\frucmaxflux}
-\def\frucpyk{0.67/2*\frucmaxflux}
-\def\fruccapvalpyk{0.064}
-\def\fruccappyk{\frucpyk/\fruccapvalpyk}
-\def\frucppc{3.55/2*\frucmaxflux}
-\def\fruccapvalppc{0.5}
-\def\fruccapppc{\frucppc/\fruccapvalppc}
-%\def\fruczwf{3.92*\frucmaxflux}
-%\def\fruccapzwf{\fruczwf/0.547}
-\def\frucpts{8.33*\frucmaxflux}
-\def\fruccapvalpts{1}
-\def\fruccappts{\frucpts}
-
-%Galactose data
-\def\galmaxflux{0.5mm}
-\def\galglt{1.52*\galmaxflux}
-\def\galcapvalglt{0.21}
-\def\galcapglt{\galglt/\galcapvalglt}
-\def\galacn{1.52*\galmaxflux*1.5}
-\def\galacea{1.02*\galmaxflux}
-\def\galcapvalacea{0.29}
-\def\galcapacea{\galacea/\galcapvalacea}
-\def\galaceb{1.02*\galmaxflux}
-\def\galsdh{1.26*\galmaxflux}
-\def\galfum{1.26*\galmaxflux}
-\def\galmdh{2.28*\galmaxflux}
-\def\galpck{0.85*\galmaxflux}
-\def\galcapvalpck{0.26}
-\def\galcappck{\galpck/\galcapvalpck}
-\def\galicd{0.5*\galmaxflux}
-\def\galcapvalicd{0.09}
-\def\galcapicd{\galicd/\galcapvalicd}
-%\def\galx{0.29*\galmaxflux}%% name reaction and find capacity
-%acetate data
-\def\acemaxflux{0.2mm}
-\def\aceglt{8.83*\acemaxflux}
-\def\acecapvalglt{0.68}
-\def\acecapglt{\aceglt/\acecapvalglt}
-\def\aceacn{8.83*\acemaxflux*1.5}
-\def\aceacea{4.14*\acemaxflux}
-\def\acecapacea{\aceacea}
-\def\aceaceb{4.14*\acemaxflux}
-\def\acesdh{8.4*\acemaxflux}
-\def\acefum{8.4*\acemaxflux}
-\def\acemdh{10.67*\acemaxflux}
-%\def\acex{0.5*\acemaxflux}
-\def\acemae{1.87*\acemaxflux}
-\def\acecapvalmae{0.13}
-\def\acecapmae{\acemae/\acecapvalmae}
-\def\acepck{3.11*\acemaxflux}
-\def\acecapvalpck{0.75}
-\def\acecappck{\acepck/\acecapvalpck}
-\def\aceicd{4.7*\acemaxflux}
-\def\acecapvalicd{0.63}
-\def\acecapicd{\aceicd/\acecapvalicd}
-%mal=oaa=4c
-%cit=icit=6c
-%gly=2cj
-
 \title{Kinetic parameters of enzymes are constrained by stable functioning of autocatalytic cycles}
 \author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
 \date{}
@@ -262,6 +107,43 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 \begin{figure}[h!]
 \resizebox{1\linewidth}{!}{
 \begin{tikzpicture}
+  \def\blendfrac{0.5}
+  \def\deltaang{-155}
+  \def\fromang{180}
+  \def\inputang{-40}
+  \def\protrude{7}
+  \def\arcwidth{0.3cm}
+  \def\highlightrad{0.2cm}
+  \def\autocatalrad{1.5cm}
+  \def\autocatalscale{1.5}
+  \colorlet{ptsinit}{cyan}
+  \colorlet{cbbinit}{yellow}
+  \colorlet{glyinit}{magenta}
+
+  \newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+    \pgfmathsetmacro\arcrange{#3-#2}
+    \pgfmathsetmacro\radrange{#5-#4}
+    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+    \foreach \i in {#2,...,\numexpr#3-1\relax} {
+      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+      \pgfmathsetmacro\col{\fracprog*100}
+      \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
+  arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+    }
+  }
+
+  \newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+    \pgfmathsetmacro\arcrange{#3-#2}
+    \pgfmathsetmacro\radrange{#5-#4}
+    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+    \foreach \i in {#2,...,\numexpr#3-1\relax} {
+      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+      \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
+        arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+    }
+  }
+
+
   \node[rectangle,draw] (g6p) {g6p};
   \node[rectangle,draw,below=of g6p.center] (f6p) {f6p};
   \node[rectangle,draw,below=of f6p] (fbp) {fbp};
@@ -385,6 +267,10 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 
   %% CBB cycle
   \begin{scope} [shift={(11cm,-4cm)},radius=2cm]
+    \colorlet{cbbmed}{blue}
+    \colorlet{cbbext}{assimcol}
+  
+
     \newlength\cbbimrad;
     \newlength\cbbierad;
     \newlength\cbbesrad;
@@ -428,6 +314,10 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 
   %glyoxilate cycle
 \begin{scope} [shift={(9cm,-14cm)},radius=2cm]
+  \colorlet{glymed}{blue}
+  \colorlet{glyext}{assimcol}
+  \colorlet{glyinter}{blue}
+  
     \newlength\glyimrad;
     \newlength\glyierad;
     \newlength\glyesrad;
@@ -485,7 +375,10 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 
 
   %pts cycle
- \begin{scope} [shift={(-6cm,-14cm)},radius=2cm]
+\begin{scope} [shift={(-6cm,-14cm)},radius=2cm]
+    \colorlet{ptsmed}{blue}
+    \colorlet{ptsext}{assimcol}
+
     \newlength\ptsierad;
     \newlength\ptsimrad;
     \newlength\ptsarcwidth;
@@ -516,6 +409,10 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 
   %generic cycle
 \begin{scope} [shift={(-6.6cm,-4cm)}]
+  \colorlet{genext}{assimcol}
+  \colorlet{genmed}{blue}
+  \colorlet{geninit}{blue}
+
     \shadedarc[\autocatalscale*\arcwidth]{-20}{-180}{\autocatalscale*\autocatalrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
     \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\imrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
     \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\emrad}{\autocatalscale*\esrad}{genext}{geninit};
@@ -904,7 +801,27 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 \centering
 \resizebox{1\linewidth}{!}{
 \begin{tikzpicture}
+  %Galactose
   \begin{scope}[shift={(-6cm,-7.5cm)}]
+    \def\galmaxflux{0.5mm}
+    \def\galglt{1.52*\galmaxflux}
+    \def\galcapvalglt{21}
+    \def\galcapglt{\galglt/\galcapvalglt*100}
+    \def\galacn{1.52*\galmaxflux*1.5}
+    \def\galacea{1.02*\galmaxflux}
+    \def\galcapvalacea{29}
+    \def\galcapacea{\galacea/\galcapvalacea*100}
+    \def\galaceb{1.02*\galmaxflux}
+    \def\galsdh{1.26*\galmaxflux}
+    \def\galfum{1.26*\galmaxflux}
+    \def\galmdh{2.28*\galmaxflux}
+    \def\galpck{0.85*\galmaxflux}
+    \def\galcapvalpck{26}
+    \def\galcappck{\galpck/\galcapvalpck*100}
+    \def\galicd{0.5*\galmaxflux}
+    \def\galcapvalicd{9}
+    \def\galcapicd{\galicd/\galcapvalicd*100}
+
     \node[] (galactose) {galactose};
     \node[rectangle,draw,inputcol,below=of galactose] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
@@ -919,22 +836,21 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \node[rectangle,draw,right=of mal] (glx) {glx};
     \node[rectangle,draw,right=of fum] (suc) {suc};
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
-    %\draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- node [above,color=blue] {\galcapvalglt} ([yshift=-0.35*\galglt]midglta) ;
-    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta) ;
+    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- node [above,color=autocatacyc,pos=0.3] {\galcapvalglt\%} ([yshift=-0.35*\galglt]midglta) ;
     \draw[line width=\galglt,autocatacyc] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galglt*1.5,autocatacyc] (midglta) -- (cit);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcappck,branchout!40] (oaa) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcappck,branchout!40] (oaa) -- node [left,color=branchout] {\galcapvalpck\%}(pep);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galpck,branchout] (oaa) -- (pep);
     \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacn,autocatacyc] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- node [right,color=autocatacyc] {\galcapvalacea\%}([xshift=\galcapacea*0.4]suc);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
     \draw[line width=\galacea*1.5,autocatacyc] (icit.south west) -- (midacea);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacea,autocatacyc] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacea*0.5,autocatacyc] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapicd*1.5,branchout!40] (icit) -- node [right,color=branchout] {\galcapvalicd\%}(akg);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galicd*1.5,branchout] (icit) -- (akg);
     \draw[->] (akg) -- (sca);
     \draw[->] (sca) -- (suc);
@@ -946,7 +862,32 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galaceb,autocatacyc] (midaceb) -- (mal);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\galmdh,autocatacyc] (mal) -- (oaa);
   \end{scope}
+
+  %acetate
   \begin{scope}[shift={(-6cm,0cm)}]
+    \def\acemaxflux{0.2mm}
+    \def\aceglt{8.83*\acemaxflux}
+    \def\acecapvalglt{68}
+    \def\acecapglt{\aceglt/\acecapvalglt*100}
+    \def\aceacn{8.83*\acemaxflux*1.5}
+    \def\aceacea{4.14*\acemaxflux}
+    \def\acecapvalacea{100}
+    \def\acecapacea{\aceacea}
+    \def\aceaceb{4.14*\acemaxflux}
+    \def\acesdh{8.4*\acemaxflux}
+    \def\acefum{8.4*\acemaxflux}
+    \def\acemdh{10.67*\acemaxflux}
+    \def\acecapvalmdh{100}
+    \def\acemae{1.87*\acemaxflux}
+    \def\acecapvalmae{13}
+    \def\acecapmae{\acemae/\acecapvalmae*100}
+    \def\acepck{3.11*\acemaxflux}
+    \def\acecapvalpck{75}
+    \def\acecappck{\acepck/\acecapvalpck*100}
+    \def\aceicd{4.7*\acemaxflux}
+    \def\acecapvalicd{63}
+    \def\acecapicd{\aceicd/\acecapvalicd*100}
+
     \node[] (acetate) {acetate};
     \node[rectangle,draw,inputcol,below=of acetate] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
@@ -962,23 +903,23 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \node[rectangle,draw,left=of mal] (pyr) {pyr};
     \node[rectangle,draw,right=of fum] (suc) {suc};
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
-    \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) --  node [above,color=autocatacyc,pos=0.3] {\acecapvalglt\%}([yshift=-0.25*\aceglt]midglta);
     \draw[line width=\aceglt,autocatacyc] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceglt*1.5,autocatacyc] (midglta) -- (cit);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecappck,branchout!40] (oaa) -- (pep);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecappck,branchout!40] (oaa) -- node [left,color=branchout] {\acecapvalpck\%}(pep);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acepck,branchout] (oaa) -- (pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapmae,branchout!40] (mal) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapmae,branchout!40] (mal) --  node [below,color=branchout] {\acecapvalmae\%}(pyr);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemae,branchout] (mal) -- (pyr);
-    \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\galglt]midglta);
+    \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\aceglt]midglta);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacn,autocatacyc] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea,autocatacyc!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea,autocatacyc!40] ([xshift=\acecapacea*0.35]midacea) -- node [right,color=autocatacyc] {\acecapvalacea\%}([xshift=\acecapacea*0.4]suc);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
     \draw[line width=\aceacea*1.5,autocatacyc] (icit.south west) -- (midacea);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacea,autocatacyc] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacea*0.5,autocatacyc] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapicd*1.5,branchout!40] (icit) --  node [right,color=branchout] {\acecapvalicd\%}(akg);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceicd*1.5,branchout] (icit) -- (akg);
     \draw[->] (akg) -- (sca);
     \draw[->] (sca) -- (suc);
@@ -988,11 +929,36 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \draw[line width=\aceaceb*0.5,autocatacyc] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
     \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceaceb,autocatacyc] (midaceb) -- (mal);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemdh,autocatacyc] (mal) -- (oaa);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemdh,autocatacyc] (mal) -- node [left,color=autocatacyc] {\acecapvalmdh\%}(oaa);
  
   \end{scope}
-  %glucose
+
+  %Glucose
   \begin{scope}[shift={(0.5cm,0cm)}]
+    \def\glucmaxflux{0.35mm}
+    \def\glucpgi{5.7*\glucmaxflux}
+    \def\gluccapvalpgi{100}
+    \def\gluccappgi{\glucpgi}
+    \def\glucpfk{7.06*\glucmaxflux}
+    \def\glucfba{7.06*\glucmaxflux}
+    \def\gluctpi{7.06/2*\glucmaxflux}
+    \def\glucgap{15.71/2*\glucmaxflux}
+    \def\glucpgk{15.71/2*\glucmaxflux}
+    \def\glucgpm{14.56/2*\glucmaxflux}
+    \def\gluceno{14.56/2*\glucmaxflux}
+    \def\glucpyk{2.49/2*\glucmaxflux}
+    \def\gluccapvalpyk{33}
+    \def\gluccappyk{\glucpyk/\gluccapvalpyk*100}
+    \def\glucppc{2.45/2*\glucmaxflux}
+    \def\gluccapvalppc{47}
+    \def\gluccapppc{\glucppc/\gluccapvalppc*100}
+    \def\gluczwf{3.92*\glucmaxflux}
+    \def\gluccapvalzwf{55}
+    \def\gluccapzwf{\gluczwf/\gluccapvalzwf*100}
+    \def\glucpts{9.65*\glucmaxflux}
+    \def\gluccapvalpts{100}
+    \def\gluccappts{\glucpts}
+
     \node[] (glucose) {glucose};
     \node[rectangle,draw,below= of glucose] (g6p) {g6p};
     \node[rectangle,draw,below=of g6p.center] (f6p) {f6p};
@@ -1007,7 +973,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \node[rectangle,draw,right=of pep] (oaa) {oaa};
     \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
     \node[rectangle,draw,right=of g6p] (6pgi) {6pgi};
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgi,autocatacyc] (g6p) -- (f6p);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgi,autocatacyc] (g6p) -- node [right,color=autocatacyc] {\gluccapvalpgi\%} (f6p);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpfk,autocatacyc] (f6p.south) -- (fbp.north);
     \draw [line width=\glucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
     \draw [-{Latex[scale=0.25,angle'=60]},line width=\glucfba/2,autocatacyc] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
@@ -1018,16 +984,16 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgk,autocatacyc] (bpg) -- (3pg);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucgpm,autocatacyc] (3pg) -- (2pg);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluceno,autocatacyc] (2pg) -- (pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccappyk,branchout!40] (pep) -- node [right,color=branchout] {\gluccapvalpyk\%}(pyr);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpyk,branchout] (pep) -- (pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapppc,branchout!40] (pep) -- node [above,color=branchout] {\gluccapvalppc\%}(oaa);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucppc,branchout] (pep) -- (oaa);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapzwf,branchout!40] (g6p) -- node [above,color=branchout] {\gluccapvalzwf\%}(6pgi);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluczwf,branchout] (g6p) -- (6pgi);
     \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
     \node[rectangle,draw,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
-    \draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep) [out=180,in=0] to ([yshift=\glucpts/4]pts3);
+    \draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep.west) -- node [above,color=autocatacyc] {\gluccapvalpts\%} ([yshift=\glucpts/4]pts3);
     \draw[inputcol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
@@ -1038,8 +1004,32 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \draw[line width=\glucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpts,autocatacyc] (ptstop) [in=180,out=90] to (g6p);
   \end{scope}
-  %fructose
+
+  %Fructose
   \begin{scope}[shift={(8cm,0cm)}]
+    \def\frucmaxflux{0.35mm}
+    \def\frucfbp{2.46*\frucmaxflux}
+    \def\fruccapvalfbp{100}
+    \def\fruccapfbp{\frucfbp}
+    \def\frucfba{5.87*\frucmaxflux}
+    \def\fruccapvalfba{71}
+    \def\fruccapfba{\frucfba/\fruccapvalfba*100}
+    \def\fructpi{5.87/2*\frucmaxflux}
+    \def\frucgap{13.46/2*\frucmaxflux}
+    \def\frucpgk{13.46/2*\frucmaxflux}
+    \def\frucgpm{12.6/2*\frucmaxflux}
+    \def\fruceno{12.6/2*\frucmaxflux}
+    \def\frucpyk{0.67/2*\frucmaxflux}
+    \def\fruccapvalpyk{6.4}
+    \def\fruccappyk{\frucpyk/\fruccapvalpyk*100}
+    \def\frucppc{3.55/2*\frucmaxflux}
+    \def\fruccapvalppc{50}
+    \def\fruccapppc{\frucppc/\fruccapvalppc*100}
+    \def\frucpts{8.33*\frucmaxflux}
+    \def\fruccapvalpts{100}
+    \def\fruccappts{\frucpts}
+
+
     \node[] (fructose) {fructose};
     \node[rectangle,draw,below=of fructose] (f6p) {f6p};
     \node[rectangle,draw,below=of f6p] (fbp) {fbp};
@@ -1052,8 +1042,8 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
     \node[rectangle,draw,right=of pep] (oaa) {oaa};
     \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucfbp,branchout] (fbp.north)-- (f6p.south) ;
-    \draw [line width=\fruccapfba,autocatacyc!40] (fbp) [out=-90,in=90] to (fbamid);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucfbp,branchout] (fbp)-- node [right,color=branchout] {\fruccapvalfbp\%}(f6p) ;
+    \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- node [right,color=autocatacyc] {\fruccapvalfba\%}(fbamid);
     \draw [-{Latex[scale=0.25,angle'=60]},line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
     \draw [-{Latex[scale=0.25,angle'=60]},line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
     \draw [line width=\frucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
@@ -1065,13 +1055,13 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpgk,autocatacyc] (bpg) -- (3pg);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucgpm,autocatacyc] (3pg) -- (2pg);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruceno,autocatacyc] (2pg) -- (pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruccappyk,branchout!40] (pep) -- node [right,color=branchout] {\fruccapvalpyk\%}(pyr);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpyk,branchout] (pep) -- (pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruccapppc,branchout!40] (pep) -- node [above,color=branchout] {\fruccapvalppc\%}(oaa);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucppc,branchout] (pep) -- (oaa);
     \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
-    \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep) [out=180,in=0] to ([yshift=\frucpts/4]pts3);
+    \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep.west) -- node [above,color=autocatacyc] {\fruccapvalpts\%}([yshift=\frucpts/4]pts3);
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[line width=\frucpts/2,autocataby] ([yshift=-3*\frucpts/4]pts3) [out=180,in=180] to (pts5);
     \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
@@ -1088,7 +1078,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
   \end{tikzpicture}
 }
 \caption{
-  Major branch points and relative enzyme saturation in operating autocatalytic cycles.
+  Major branch points and relative enzyme saturation in operating autocatalytic cycles. In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing. Moreover, only in one out of the 8 branch points observed (the branch point at fbp in growth under fructose), an outgoing reaction is significantly more saturated than the autocatalytic reaction.
 }
     \label{fig:branch}
 \end{figure}
