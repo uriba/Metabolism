@@ -5,6 +5,7 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
 \usepackage{stackengine,ifthen}
 \usetikzlibrary{arrows,positioning,calc,arrows.meta}
 \tikzset{>=Latex}
@@ -33,13 +34,14 @@
 \definecolor{red}{RGB}{196,78,82}
 
 \colorlet{assimcol}{green}
-\colorlet{sumcolor}{magenta}
+\colorlet{sumcolor}{yellow}
 
 \colorlet{inputcol}{green}
 \colorlet{branchout}{red}
 \colorlet{autocatacyc}{blue}
 \colorlet{autocataby}{cyan}
-\title{Kinetic parameters of enzymes are constrained by stable functioning of autocatalytic cycles}
+
+\title{Kinetic parameters of enzymes are constrained by stable functioning of metabolic autocatalytic cycles}
 \author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
 \date{}
 
@@ -95,14 +97,14 @@ We note that our algorithm is incomplete, meaning additional autocatalytic cycle
 Moreover, our algorithm is not optimized, resulting in an exponential increase in identified cycles when executed on the full metabolic network of \emph{E.coli} due to combinatorial combinations of elementary cycles to composite ones.
 Further work will enable a more robust algorithm to identify more autocatalytic cycles in the metabolic network.
 
-Representatives of the different classes of cycles identified  are presented in figure \ref{fig:realautocatal}.
+A few examples of the different cycles identified  are presented in figure \ref{fig:realautocatal}.
 These classes are:
 (A) The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh};
 (B) Cycles using phosphoenolpyruvate (PEP) to transport substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules;
-(C) Various parts of the pentose phosphate cycle assimilating either erythrose-4P, sedoheptulose-7P, or both, to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
+(C) Various parts of the pentose-phosphate cycle (PP) assimilating any or some of the intermediate metabolites: erythrose-4P, sedoheptulose-7P, ribose-5p or xylulose-5p to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
 (D) Cycles assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}.
 
-The amount of autocatalytic cycles we identified suggests that the unique features of autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+The amount of autocatalytic cycles we identified suggests that unique features of autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \begin{figure}[h!]
 \resizebox{1\linewidth}{!}{
@@ -175,7 +177,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
   \node[rectangle,draw,] at (fbp.center -| s7p.center) (e4p) {e4p};
   \node[rectangle,draw,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
   \node[rectangle,draw,] at(3pg.center -| ru5p.center) (rub) {rub};
-  \node[rectangle,draw,assimcol] at(2pg -| xu5p.center) (co2) {co2};
+  \node[rectangle,draw,assimcol] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
   \draw[->] (g6p) -- (f6p);
   \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
   \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
@@ -222,7 +224,6 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
   \draw[<-] (s7p) [out=180,in=90] to (midtal);
   \draw[] (midtal) [out=-90,in=180] to (e4p);
   \draw[<-] (gap) [out=55,in=-90] to (midtal);
-  \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
   \node[rectangle,draw,assimcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
   \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
   \draw[] (pep) [out=180,in=0] to (pts3);
@@ -296,7 +297,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
         \draw[color=cbbext,line width=\cbbwidth]
         (\fromang:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
         arc (0:\inputang:2cm)
-        node [pos=0.5,color=black,anchor=east] (co2c) {co2};
+        node [pos=0.5,color=black,anchor=east] (co2c) {\ce{CO2}};
 %% arrowhead
     \fill[cbbinit]
       (\fromang+\deltaang+1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
@@ -444,17 +445,6 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
 (A) A basic autocatalytic cycle uses the internal metabolite, M, in order to assimilate an external metabolite, E, into the cycle, increasing the amount of M.
 (B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bassham cycle; (II) The glyoxilate cycle; (III) A cycle using the PTS system to assimilate glucose.
 }
-%Examples of 5 autocatalytic cycles in central carbon metabolism.
-%    The reactions forming each cycle are highlighted in blue.
-%    The metabolite colored in magenta is the metabolite more molecules of which are produced when the cycle is traversed.
-%    The metabolite colored in teal is the metabolite assimilated by the cycle.
-%    Upper panel represents the cycles on top of the central carbon metabolism network.
-%    Lower panel represents the isolated cycles, with dashed blue arrows indicating the omission of intermediate metabolites and reactions.
-%(A) The glyoxylate cycle, producing two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA;
-%(B) A cycle using PEP to transport glucose using the PTS, then converting the imported glucose into two PEP molecules;
-%(C) A representative of a class of autocatalytic cycles using parts of the pentose phosphate cycle, the presented variant assimilates sedoheptulose-7P to produce fructose 6 phosphate from glyceraldehyde 3 phosphate;
-%(D) A cycle assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate;
-%(E) The Calvin Benson Bassham cycle assimilating \ce{CO2} to convert ribulose bis phosphate to two glycerate 3 phosphate, then recycling the 3 carbon substrate through the pentose phosphate cycle back to ribulose.}
 \end{figure}
 
 \section{Analysis of a simple autocatalytic cycle}
@@ -749,58 +739,36 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \section{Testing the predictions of the analysis on the identified autocatalytic cycles}
     To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux.
     We used recent in-vivo flux measurements from \cite{Gerosa2015-oq}.
-    According to the data, two autocatalytic cycles carry substantial flux under at least one of the growth conditions:
-    the glyoxilate cycle carries significant flux at growth in galactose and acetate;
-    the PTS using cycle carries significant flux at growth in glucose.
-    As for the other classes of autocatalytic cycles we note that the pentose-phosphate cycle variants do not carry flux in any of the tested conditions, which is not surprising given the non-standard metabolites they assimilate.
-    The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions either.
-    Although glycerol could have been a good carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
-    The CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli},  has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
 
-    In the two cycles for which we were able to identify growth conditions under which substantial flux flows through the autocatalytic cycles we again used the data from \cite{Gerosa2015-oq} to identify the major branching points in the cycle.
-    The branching points are highlighted in figure \ref{fig:branch}.
+    According to the data, two classes of autocatalytic cycles carry substantial flux under at least one of the growth conditions measured in \cite{Gerosa2015-oq}:
+    the glyoxilate cycle carries significant flux at growth in galactose and acetate;
+    PTS using cycles carry significant fluxes at growth in glucose and fructose.
+    As for the other classes of autocatalytic cycles we note that the PP cycle variants do not carry flux in any of the measured conditions, which is expected given the non-standard metabolites they assimilate.
+    The only physiologically reasonable configuration under which a PP autocatalytic cycle would carry flux is in growth under ribose while missing the rpi reaction, a condition for which no measurements are available.
+    The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions either.
+    Although glycerol could have been a good carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
+
+    For the cases for which substantial flux flows through autocatalytic cycles we used the data from \cite{Gerosa2015-oq} to identify the major branching points in the cycle and the flux distrubutions in them.
+    Dividing the flux through each reaction by the amount of respective enzyme expressed under the same condition (obtained from \cite{Schmidt2015}) we extracted, for each reaction-condition pair, the flux per enzyme unit.
+    For each reaction, we normalized the flux per enzyme unit to the maximal flux per enzyme unit across all conditions measured to get an approximate estimation for the enzyme saturation under each condition.
 
     Having identified the relevant growth conditions and branching points, we tested, for each combination of growth condition, active cycle, and major branching point, whether the stability criteria holds.
-    To that end we checked which of the two reactions - the branching reaction or the cycle reaction, carried a larger flux compared with the reaction capacity, given the $k_\text{cat}$ values of the reactions and the amount of enzymes expressed at that condition.
+    To that end we checked which of the two reactions - the branching reaction or the cycle reaction, was more saturated.
+    The results are summarized in \ref{fig:branch}
 
-    We used data from \cite{Schmidt2015} for the expression level, and data from \cite{BRENDA/Davidi} for the $k_\text{cat}$ values.
-    In all 6 cases observed there was an agreement between the calculated capacity usage relationships and the predictions based on the stability criteria of lower capacity usage for the branching reaction compared with the cycle reaction ($P=1/2^6=0.015$).
-    Our results are summarized in table \ref{tab1}
-    growth condition    | branch-point substrate    | branching enzyme | cycle enzyme   | branching enzyme vmax* | cycle enzyme vmax* | branching enzyme km | cycle enzyme km   | branching enzyme vmax/km | cycle enzyme vmax/km |
-    Galactoes           | isocitrate                | icd              | aceA/glcB      |                        |                    | 0.029 (brd 1.1.1.42)| non-available     |
-    Galactoes           | oxaloacetate              | pck              | glt            |                        |                    | 670 (brd 4.1.1.49)  |
-    Acetate             | isocitrate                | icd              | aceA/glcB      |                        |                    | 0.029               | non-available     |
-    Acetate             | oxaloacetate              | ppck             | glt            |                        |                    |
-    Glucose             | glucose 6 phospate        | zwf              | pgi            |                        |                    |
-    
+    The CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available, has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
+    A key evolutionary event enabling the functioning of the CBB cycle, as stated in \cite{Antonovski2016}, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, prs, reducing its affinity to its substrate, r5p.
 
-    name km kcat ec
+    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is sparse, existing data supports preditions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
 
-    Glyoxilate cycle, bottom:
-    icd, 0.029 (conditions?), 106 kcat, 11kmax, 1.1.1.42 (km from brnd, kcat from davidi)
-    aceA, 0.015/0.09, not available, 4.1.3.1
-
-    Glyoxilate cycle, top:
-    pck, 0.67 , 0.67?, 4.1.1.49
-    glt, 0.02, 81 kcat, 58 kmax, 2.3.3.16
-
-    PTS cycle, glucose, top:
-    zwf, 0.174, 174, 1.1.1.49, reversible, from bar-even/flamholz
-    pgi, 0.28, 120, 5.3.1.9, reversible, from bar-even/flamholz
-
-    PTS cycle, fructose, top (ask elad how to consolidate more than 100\% and the two fructose PTS's:
-    fbp
-    fba/B, 0.17, 10, 4.1.2.13, reversible, from bar-even/flamholz
-
-    PTS cycle: ppc+pyk vs. PTS
-
-    For the CBB cycle we restate the observation made in \cite{Antonovski2016} according to which changes in the kinetic properties of the main branching reaction out of the CBB pathway, PRS, were essential to produce a hemi-autotrophic strain relying on flux through the CBB pathway.
-
-    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is still sparse, we were able to verify that existing data supports preditions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
 \begin{figure}[h!]
 \centering
 \resizebox{1\linewidth}{!}{
 \begin{tikzpicture}
+  \tikzset{
+    figArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=#1,angle'=60]}}},
+    figArrowStyle/.default=0.25
+  }
   %Galactose
   \begin{scope}[shift={(-6cm,-7.5cm)}]
     \def\galmaxflux{0.5mm}
@@ -838,29 +806,31 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
     \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- node [above,color=autocatacyc,pos=0.3] {\galcapvalglt\%} ([yshift=-0.35*\galglt]midglta) ;
     \draw[line width=\galglt,autocatacyc] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galglt*1.5,autocatacyc] (midglta) -- (cit);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcappck,branchout!40] (oaa) -- node [left,color=branchout] {\galcapvalpck\%}(pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galpck,branchout] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\galglt*1.5,autocatacyc] (midglta) -- (cit);
+    \draw[figArrowStyle,line width=\galcappck,branchout!40] (oaa) -- node [left,color=branchout] {\galcapvalpck\%}(pep);
+    \draw[figArrowStyle=0.25*40/\galcapvalpck,line width=\galpck,branchout] (oaa) -- (pep);
     \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacn,autocatacyc] (cit) -- (icit);
+    \draw[figArrowStyle,line width=\galacn,autocatacyc] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- node [right,color=autocatacyc] {\galcapvalacea\%}([xshift=\galcapacea*0.4]suc);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[figArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- node [right,color=autocatacyc] {\galcapvalacea\%}([xshift=\galcapacea*0.4]suc);
+    \draw[figArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.38]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[figArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[figArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
     \draw[line width=\galacea*1.5,autocatacyc] (icit.south west) -- (midacea);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacea,autocatacyc] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galacea*0.5,autocatacyc] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galcapicd*1.5,branchout!40] (icit) -- node [right,color=branchout] {\galcapvalicd\%}(akg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galicd*1.5,branchout] (icit) -- (akg);
+    \draw[figArrowStyle=0.25*40/\galcapvalacea,line width=\galacea,autocatacyc] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
+    \draw[figArrowStyle=0.25*40/\galcapvalacea,line width=\galacea*0.5,autocatacyc] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[figArrowStyle,line width=\galcapicd*1.5,branchout!40] (icit) -- node [right,color=branchout] {\galcapvalicd\%}(akg);
+    \draw[figArrowStyle=0.25*40/\galcapvalicd,line width=\galicd*1.5,branchout] (icit) -- (akg);
     \draw[->] (akg) -- (sca);
     \draw[->] (sca) -- (suc);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galsdh,autocatacyc] (suc) -- (fum);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galfum,autocatacyc](fum) -- (mal);
+    \draw[figArrowStyle,line width=\galsdh,autocatacyc] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\galfum,autocatacyc](fum) -- (mal);
     \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
     \draw[line width=\galaceb*0.5,autocatacyc] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
     \draw[inputcol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galaceb,autocatacyc] (midaceb) -- (mal);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\galmdh,autocatacyc] (mal) -- (oaa);
+    \draw[figArrowStyle,line width=\galaceb,autocatacyc] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\galmdh,autocatacyc] (mal) -- (oaa);
   \end{scope}
 
   %acetate
@@ -905,31 +875,31 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
     \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) --  node [above,color=autocatacyc,pos=0.3] {\acecapvalglt\%}([yshift=-0.25*\aceglt]midglta);
     \draw[line width=\aceglt,autocatacyc] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceglt*1.5,autocatacyc] (midglta) -- (cit);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecappck,branchout!40] (oaa) -- node [left,color=branchout] {\acecapvalpck\%}(pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acepck,branchout] (oaa) -- (pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapmae,branchout!40] (mal) --  node [below,color=branchout] {\acecapvalmae\%}(pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemae,branchout] (mal) -- (pyr);
+    \draw[figArrowStyle,line width=\aceglt*1.5,autocatacyc] (midglta) -- (cit);
+    \draw[figArrowStyle,line width=\acecappck,branchout!40] (oaa) -- node [left,color=branchout] {\acecapvalpck\%}(pep);
+    \draw[figArrowStyle=0.25*40/\acecapvalpck,line width=\acepck,branchout] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\acecapmae,branchout!40] (mal) --  node [below,color=branchout] {\acecapvalmae\%}(pyr);
+    \draw[figArrowStyle=0.25*40/\acecapvalmae,line width=\acemae,branchout] (mal) -- (pyr);
     \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\aceglt]midglta);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacn,autocatacyc] (cit) -- (icit);
+    \draw[figArrowStyle,line width=\aceacn,autocatacyc] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea,autocatacyc!40] ([xshift=\acecapacea*0.35]midacea) -- node [right,color=autocatacyc] {\acecapvalacea\%}([xshift=\acecapacea*0.4]suc);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[figArrowStyle,line width=\acecapacea,autocatacyc!40] ([xshift=\acecapacea*0.35]midacea) -- node [right,color=autocatacyc] {\acecapvalacea\%}([xshift=\acecapacea*0.4]suc);
+    \draw[figArrowStyle,line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
     \draw[line width=\aceacea*1.5,autocatacyc] (icit.south west) -- (midacea);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacea,autocatacyc] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceacea*0.5,autocatacyc] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acecapicd*1.5,branchout!40] (icit) --  node [right,color=branchout] {\acecapvalicd\%}(akg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceicd*1.5,branchout] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\aceacea,autocatacyc] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
+    \draw[figArrowStyle,line width=\aceacea*0.5,autocatacyc] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[figArrowStyle,line width=\acecapicd*1.5,branchout!40] (icit) --  node [right,color=branchout] {\acecapvalicd\%}(akg);
+    \draw[figArrowStyle,line width=\aceicd*1.5,branchout] (icit) -- (akg);
     \draw[->] (akg) -- (sca);
     \draw[->] (sca) -- (suc);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acesdh,autocatacyc] (suc) -- (fum);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acefum,autocatacyc](fum) -- (mal);
+    \draw[figArrowStyle,line width=\acesdh,autocatacyc] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\acefum,autocatacyc](fum) -- (mal);
     \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
     \draw[line width=\aceaceb*0.5,autocatacyc] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
     \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\aceaceb,autocatacyc] (midaceb) -- (mal);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\acemdh,autocatacyc] (mal) -- node [left,color=autocatacyc] {\acecapvalmdh\%}(oaa);
+    \draw[figArrowStyle,line width=\aceaceb,autocatacyc] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\acemdh,autocatacyc] (mal) -- node [left,color=autocatacyc] {\acecapvalmdh\%}(oaa);
  
   \end{scope}
 
@@ -973,36 +943,35 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \node[rectangle,draw,right=of pep] (oaa) {oaa};
     \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
     \node[rectangle,draw,right=of g6p] (6pgi) {6pgi};
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgi,autocatacyc] (g6p) -- node [right,color=autocatacyc] {\gluccapvalpgi\%} (f6p);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpfk,autocatacyc] (f6p.south) -- (fbp.north);
+    \draw[figArrowStyle,line width=\glucpgi,autocatacyc] (g6p) -- node [right,color=autocatacyc] {\gluccapvalpgi\%} (f6p);
+    \draw[figArrowStyle,line width=\glucpfk,autocatacyc] (f6p.south) -- (fbp.north);
     \draw [line width=\glucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\glucfba/2,autocatacyc] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\glucfba/2,autocatacyc] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\gluctpi,autocatacyc] (dhap) -- (gap);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacyc] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacyc] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\gluctpi,autocatacyc] (dhap) -- (gap);
 
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucgap,autocatacyc] (gap) -- (bpg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpgk,autocatacyc] (bpg) -- (3pg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucgpm,autocatacyc] (3pg) -- (2pg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluceno,autocatacyc] (2pg) -- (pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccappyk,branchout!40] (pep) -- node [right,color=branchout] {\gluccapvalpyk\%}(pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpyk,branchout] (pep) -- (pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapppc,branchout!40] (pep) -- node [above,color=branchout] {\gluccapvalppc\%}(oaa);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucppc,branchout] (pep) -- (oaa);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluccapzwf,branchout!40] (g6p) -- node [above,color=branchout] {\gluccapvalzwf\%}(6pgi);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\gluczwf,branchout] (g6p) -- (6pgi);
-    \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
+    \draw[figArrowStyle,line width=\glucgap,autocatacyc] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\glucpgk,autocatacyc] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\glucgpm,autocatacyc] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\gluceno,autocatacyc] (2pg) -- (pep);
+    \draw[figArrowStyle,line width=\gluccappyk,branchout!40] (pep) -- node [right,color=branchout] {\gluccapvalpyk\%}(pyr);
+    \draw[figArrowStyle=0.25*40/\gluccapvalpyk,line width=\glucpyk,branchout] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\gluccapppc,branchout!40] (pep) -- node [above,color=branchout] {\gluccapvalppc\%}(oaa);
+    \draw[figArrowStyle,line width=\glucppc,branchout] (pep) -- (oaa);
+    \draw[figArrowStyle,line width=\gluccapzwf,branchout!40] (g6p) -- node [above,color=branchout] {\gluccapvalzwf\%}(6pgi);
+    \draw[figArrowStyle,line width=\gluczwf,branchout] (g6p) -- (6pgi);
     \node[rectangle,draw,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
     \draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep.west) -- node [above,color=autocatacyc] {\gluccapvalpts\%} ([yshift=\glucpts/4]pts3);
     \draw[inputcol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
-    \node[rectangle,draw,shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
+    \draw[figArrowStyle,line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    \node[rectangle,draw,shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
     \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[line width=\glucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[line width=\glucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\glucpts,autocatacyc] (ptstop) [in=180,out=90] to (g6p);
+    \draw[figArrowStyle,line width=\glucpts,autocatacyc] (ptstop) [in=180,out=90] to (g6p);
   \end{scope}
 
   %Fructose
@@ -1042,30 +1011,29 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \node[rectangle,draw,below=of 2pg.center] (pep) {pep};
     \node[rectangle,draw,right=of pep] (oaa) {oaa};
     \node[rectangle,draw,below=of pep.center] (pyr) {pyr};
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucfbp,branchout] (fbp)-- node [right,color=branchout] {\fruccapvalfbp\%}(f6p) ;
+    \draw[figArrowStyle,line width=\frucfbp,branchout] (fbp)-- node [right,color=branchout] {\fruccapvalfbp\%}(f6p) ;
     \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- node [right,color=autocatacyc] {\fruccapvalfba\%}(fbamid);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
     \draw [line width=\frucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\frucfba/2,autocatacyc] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\frucfba/2,autocatacyc] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
-    \draw [-{Latex[scale=0.25,angle'=60]},line width=\fructpi,autocatacyc] (dhap) -- (gap);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacyc] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacyc] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\fructpi,autocatacyc] (dhap) -- (gap);
 
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucgap,autocatacyc] (gap) -- (bpg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpgk,autocatacyc] (bpg) -- (3pg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucgpm,autocatacyc] (3pg) -- (2pg);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruceno,autocatacyc] (2pg) -- (pep);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruccappyk,branchout!40] (pep) -- node [right,color=branchout] {\fruccapvalpyk\%}(pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpyk,branchout] (pep) -- (pyr);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\fruccapppc,branchout!40] (pep) -- node [above,color=branchout] {\fruccapvalppc\%}(oaa);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucppc,branchout] (pep) -- (oaa);
-    \node[rectangle,draw,shape=coordinate,left=of dhap.center] (pts2) {};
+    \draw[figArrowStyle,line width=\frucgap,autocatacyc] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\frucpgk,autocatacyc] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\frucgpm,autocatacyc] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\fruceno,autocatacyc] (2pg) -- (pep);
+    \draw[figArrowStyle,line width=\fruccappyk,branchout!40] (pep) -- node [right,color=branchout] {\fruccapvalpyk\%}(pyr);
+    \draw[figArrowStyle=1.1,line width=\frucpyk,branchout] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\fruccapppc,branchout!40] (pep) -- node [above,color=branchout] {\fruccapvalppc\%}(oaa);
+    \draw[figArrowStyle,line width=\frucppc,branchout] (pep) -- (oaa);
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pep.center] (pts3) {};
     \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep.west) -- node [above,color=autocatacyc] {\fruccapvalpts\%}([yshift=\frucpts/4]pts3);
     \node[rectangle,draw,shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[line width=\frucpts/2,autocataby] ([yshift=-3*\frucpts/4]pts3) [out=180,in=180] to (pts5);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
-    \node[rectangle,draw,shape=coordinate,left=2.1cm of fbamid] (ptstop) {};
+    \draw[figArrowStyle,line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    \node[rectangle,draw,shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
     \node[rectangle,draw,shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
@@ -1073,7 +1041,7 @@ The amount of autocatalytic cycles we identified suggests that the unique featur
     \draw[inputcol,line width=\frucpts] ([yshift=-\frucpts/2]fruc) [out=90,in=0] to ([yshift=-\frucpts/2]pts3);
     \draw[line width=\frucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[line width=\frucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
-    \draw[-{Latex[scale=0.25,angle'=60]},line width=\frucpts,autocatacyc] (ptstop) [in=180,out=90] to (fbp);
+    \draw[figArrowStyle,line width=\frucpts,autocatacyc] (ptstop) [in=180,out=90] to (fbp);
   \end{scope}
   \end{tikzpicture}
 }
