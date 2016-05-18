@@ -444,7 +444,7 @@ The amount of autocatalytic cycles we identified suggests that unique features o
 \caption{
     \label{fig:realautocatal}
 (A) A basic autocatalytic cycle uses the internal metabolite, M, in order to assimilate an external metabolite, E, into the cycle, increasing the amount of M.
-(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bassham cycle; (II) The glyoxilate cycle; (III) A cycle using the PTS system to assimilate glucose.
+(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bassham cycle; (II) The glyoxylate cycle; (III) A cycle using the PTS system to assimilate glucose.
 }
 \end{figure}
 
@@ -461,12 +461,12 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
       \begin{minipage}[c]{.3\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
-            \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
-            \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
+            \draw [->,line width=1pt,branchout] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
             \begin{customlegend}[legend entries={$f_a$,$f_b$,$\dot{X}=f_a-f_b$},legend style={below=2cm of fa,anchor=west,name=legend1}]
-              \addlegendimage{blue,fill=black!50!red,sharp plot}
-              \addlegendimage{red,fill=black!50!red,sharp plot}
+              \addlegendimage{autocatacyc,fill=black!50!red,sharp plot}
+              \addlegendimage{branchout,fill=black!50!red,sharp plot}
               \addlegendimage{sumcolor,fill=black!50!red,sharp plot}
             \end{customlegend}
             \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm]
@@ -484,8 +484,8 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
        \begin{minipage}[c]{.65\linewidth}
         {\begin{tikzpicture}
             \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,clip=false]
-            \addplot[domain=0:2.9,blue,thick] {3*x/(0.1+x)};
-            \addplot[domain=0:2.9,red,thick] {5*x/(1+x)};
+            \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
+            \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick] {3*x/(0.1+x)-5*x/(1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right] (one) at (axis cs:0.1,5.5) {I};
@@ -494,16 +494,16 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
           \node [at=(plot1.north west),xshift=-0.5cm,yshift=0.3cm] (C) {(C)};
 
           \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {4*x/(1+x)};
-            \addplot[domain=0:4,red,thick] {5*x/(0.2+x)};
+            \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
+            \addplot[domain=0:4,branchout,thick] {5*x/(0.2+x)};
             \addplot[domain=0:4,sumcolor,thick] {4*x/(1+x)-5*x/(0.2+x)};
             \node[right] (two) at (axis cs:0.1,5.5) {II};
             \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize stable zero steady state};
           \end{axis}
 
           \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm,yshift=-0.5cm]
-            \addplot[domain=0:4,blue,thick] {5*x/(1+x)};
-            \addplot[domain=0:4,red,thick] {3*x/(0.1+x)};
+            \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)};
+            \addplot[domain=0:4,branchout,thick] {3*x/(0.1+x)};
             \addplot[domain=0:4,sumcolor,thick] {5*x/(1+x)-3*x/(0.1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right] (three) at (axis cs:0.1,5.5) {III};
@@ -511,8 +511,8 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
           \end{axis}
 
           \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:2.9,blue,thick] {5*x/(0.2+x)};
-            \addplot[domain=0:2.9,red,thick] {4*x/(1+x)};
+            \addplot[domain=0:2.9,autocatacyc,thick] {5*x/(0.2+x)};
+            \addplot[domain=0:2.9,branchout,thick] {4*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick] {5*x/(0.2+x)-4*x/(1+x)};
             \node[right] (four) at (axis cs:0.1,5.5) {IV};
             \node[right,align=left] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
@@ -651,13 +651,13 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
       \begin{minipage}[c]{0.8\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
-            \draw [->,line width=1pt,blue] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
-            \draw [->,line width=1pt,red] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
-            \draw [<-,line width=1pt,green] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
+            \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
+            \draw [->,line width=1pt,branchout] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \draw [<-,line width=1pt,magenta] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
             \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of fi,anchor=west,name=legend1}]
-              \addlegendimage{blue,fill=black!50!red,sharp plot}
-              \addlegendimage{red,fill=black!50!red,sharp plot}
+              \addlegendimage{autocatacyc,fill=black!50!red,sharp plot}
+              \addlegendimage{branchout,fill=black!50!red,sharp plot}
               \addlegendimage{sumcolor,fill=black!50!red,sharp plot}
             \end{customlegend}
          \end{tikzpicture}}%
@@ -666,8 +666,8 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
        \begin{minipage}[c]{\linewidth}%
         {\begin{tikzpicture}
             \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {3*x/(0.5+x)+\influx};
-            \addplot[domain=0:4,red,thick] {5*x/(1+x)};
+            \addplot[domain=0:4,autocatacyc,thick] {3*x/(0.5+x)+\influx};
+            \addplot[domain=0:4,branchout,thick] {5*x/(1+x)};
             \addplot[domain=0:4,sumcolor,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
             \addplot[dashed,gray,thick] coordinates {(1,0) (1,2.5)};
             \node[right] (one) at (axis cs:0.1,5.5) {I};
@@ -675,16 +675,16 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
           \end{axis}
 
           \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {5*x/(1+x)+\influx};
-            \addplot[domain=0:4,red,thick] {4*x/(1+x)};
+            \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)+\influx};
+            \addplot[domain=0:4,branchout,thick] {4*x/(1+x)};
             \addplot[domain=0:4,sumcolor,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
             \node[right] (two) at (axis cs:0.1,5.5) {II};
             \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
           \end{axis}
 
           \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm]
-            \addplot[domain=0:4,blue,thick] {6*x/(2+x)+1.5*\influx};
-            \addplot[domain=0:4,red,thick] {4*x/(0.4+x)};
+            \addplot[domain=0:4,autocatacyc,thick] {6*x/(2+x)+1.5*\influx};
+            \addplot[domain=0:4,branchout,thick] {4*x/(0.4+x)};
             \addplot[domain=0:4,sumcolor,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
             \addplot[dashed,gray,thick] coordinates {(1.2,0) (1.2,3)};
             \addplot[dashed,gray,thick] coordinates {(0.182,0) (0.182,1.25)};
@@ -700,17 +700,12 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
         If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
       }
     \end{figure}
-    \subsection{Using different kinetics equations}
-    Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
-    For other equations, one must calculate the positive concentrations at which the two fluxes (the autocatalytic reaction and the biomass generating reaction) intercept.
-    If such interception point(s) exist, the stability condition remains as before, i.e. that an interception point is stable if and only if the biomass generating reaction has higher elasticity at the given concentration.
-    In the general case, sufficient conditions for a positive steady state to exist are that: (A) the capacity of the biomass generating reacation is higher than the capacity of the autocatalytic reaction, $V_{\max,a}<V_{\max,b}$, ensuring that at high enough a concentration of $X$ the biomass generating reaction will carry a larger flux, reducing the concentration of $X$, and (B), that there is some concentration of $X$ for which $f_a(X)>f_b(X)$, so that at this concentration the autocatalytic reaction will increase the concentration of $X$.
     \subsection{Stability analysis for multiple-reaction cycles}
     It is useful to extend the simple criteria we derived to more complex autocatalytic cycles.
     The most straightforward extension is for cycles with more than one intermediate metabolite.
-    We start by writing the relevant equations for a two-metabolite autocatalytic cycle depicted in figure \ref{fig:longcycle}.
+    We start by writing the relevant equations for the two-metabolite autocatalytic cycle depicted in figure \ref{fig:multiple}A.
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two biomass generating reactions, $f_{b_1}$ and $f_{b_2}$.
-    We arbitrarily assume that the autocatalytic reaction is $f_{a_1}$ and that the autocaltalysis is in a $1:2$ ratio.
+    We arbitrarily assume that the autocatalytic reaction is $f_{a_1}$ and that the autocatalysis is in a $1:2$ ratio.
     Given that a steady state of the system exists for some value $X_1^*,X_2^*$ we can evaluate the expression for stability.
     In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative for a steady state to be stable.
     We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$ and get that:
@@ -736,31 +731,102 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \begin{equation}
         0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
     \end{equation}
+    Again, in cases were for all $i$ it holds that $\beta_i\geq\alpha_i$, the eigenvalues will all have negative real values.
+    
+    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, a sufficient condition for a steady state point to be stable is that at the steady state point the elasticity of each biomass reaction is larger than or equal to the elasticity of the equivalent autocatalytic reaction.
+\begin{figure}[h!]
+  \centering
+    {
+        \begin{tikzpicture}[>=latex']
+            \begin{scope}[shift={(-5cm,0cm)},node distance = 2cm]
+                \node (X1) {$X_1$};
+                \node[left=of X1]  (X2) {$X_2$};
+                \draw [->,line width=1pt,autocatacyc] (X1.south) [out=-90,in=-90] to  node [pos=0.5,above] (fa1) {$f_{a_1}$} (X2.south);
+                \draw [->,line width=1pt,autocatacyc] (X2.north) [out=90,in=90] to  node [pos=0.5,above] (fa2) {$f_{a_2}$} (X1.north);
+                \draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right] {$f_{b_1}$};
+                \draw [->,line width=1pt,branchout] (X2.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_2}$};
+            \end{scope}
+            \begin{scope}[shift={(0cm,0cm)},node distance = 1cm]
+                \node (X1) {$X_1$};
+                \node[below left=of X1]  (X2) {$X_2$};
+                \node[above left=of X1]  (Xn) {$X_n$};
+                \draw [->,line width=1pt,autocatacyc] (X1.south) [out=-90,in=0] to  node [pos=0.7,right] (fa1) {$f_{a_1}$} (X2.east);
+                \draw [->,line width=1pt,autocatacyc] (Xn.east) [out=0,in=90] to  node [pos=0.5,right] (fan) {$f_{a_n}$} (X1.north);
+                \draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right] {$f_{b_1}$};
+                \draw [->,line width=1pt,branchout] (X2.south) arc (-10:-90:1cm) node [pos=0.3,left] {$f_{b_2}$};
+                \draw [->,line width=1pt,branchout] (Xn.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_n}$};
+                \draw [->,line width=1pt,autocatacyc,dashed] (X2.west) [out=180,in=-90] to ($(X1)+(-3,0)$) node [right] (fmid) {$f_{a_2}\dots f_{a_{n-1}}$} to [out=90,in=180] (Xn.west);
+            \end{scope}
+            \node [shift={(-8cm,3cm)}] (A) {(A)};
+            \node [right of=A,xshift=4cm] (B) {(B)};
+         \end{tikzpicture}
+     }
+     \caption{Multiple-reaction autocatalytic cycles. (A) A two reaction system. (B) A generic $n$-reaction system. A sufficient condition for the stability of a steady state point in such systems is that the elasticity of each biomass generating reaction is larger than or equal to the elasticity of the equivalent autocatalytic reaction at the steady state concentration.}
+     \label{fig:multiple}
+\end{figure}
+    \subsection{Using different kinetics equations}
+    Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
+    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point the combined elasticities of the outgoing reactions should be higher, compared with the elasticities of the autocatalytic reactions, to enforce stability in the presence of small perturbations.
+    Therefore, these two conditions should be explicitly evaluated for every case with different kinetic equations and autocatalytic cycles topologies to assert whether it can carry stable fluxes or not.
 
-    \section{Testing the predictions of the analysis on the identified autocatalytic cycles}
-    To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux.
+    Two guideline observations can be extracted, regardless of the exact kinetic behavior of the relevant enzymes, though:
+    \begin{enumerate}
+        \item If a positive flux steady state exists, and the branching reactions have higher $V_{\max}$ values than the autocatalytic reactions, then a positive stable flux steady state is attainable (though it may not necessarily be the same steady state).
+        This claim can be deduced as follows:
+        If the given steady state is stable, then the claim is obviously correct.
+        Otherwise, the given steady state is unstable, so for concentrations slightly above the steady state concentrations, the autocatalytic reactions will drive the intermediate metabolites concentrations to even higher values.
+        However, for large enough concentrations of intermediate metabolites the branching reactions will carry higher flux than the autocatalytic reactions, as their $V_{\max}$ values are higher, driving the concentrations of intermediate metabolites down.
+        There must therefore be some threshold concentration value below which the autocatalytic reactions carry higher flux, and above which the branching reactions carry higher flux, making this threshold concentration point a stable steady state.
+    \item For concentration domains at which the kinetic function of an enzyme is concave, the elasticity of the reaction is anti correlated with the level of saturation of the reaction (where the level of saturation of a reaction is defined as the ratio between the flux through the reaction and the maximal flux it can carry, $V_{\max}$), meaning that the more saturated the reaction is, the lower is its elasticity and vice versa.
+          This mathematical property of concave, monotonically increasing, bounded functions clearly follows from the observation that the first derivative of a concave function is a decreasing function, whereas the value of the function, by definition, is an increasing function. 
+          As the function is bounded, its saturation is also an increasing function, resulting in an anti correlation between the saturation level and the derivative.
+    \end{enumerate}
+
+    These guidelines give a basis for evaluating the stability of operational autocatalytic cycles given fluxomics and proteomics data as is demonstrated below.
+
+    While these guidelines offer sufficient conditions for stability, they are not necessary, meaning a stable steady state can be achieved even in cases where these conditions are not met, or, for example, in cases where the kinetic equations follow a hill function with a coefficient that is larger than 1, making them convex for at least some domain of positive substrate concentrations.
+    However, a reasonable and non trivial conclusion from this analysis is that the branching reactions out of a cycle, having a large elasticity at the steady state concentration, cannot be saturated at that point, meaning the enzymes driving the flux out of the cycle and through these reactions are under-utilized resulting in an inherent inefficiency.
+    In physiological context this effect is expected to be even higher as the expression pattern of the enzymes must ensure stable fluxes even under expression noise that may alter the amount of both the autocatalytic and the branching reactions enzymes, requiring a large 'buffer zone' to be maintained between the maximal capacity of the branching reactions enzymes versus that of the autocatalytic reactions enzymes.
+
+    \section{Testing the predictions of the analysis on functioning autocatalytic cycles}
+    To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux in vivo.
     We used recent in-vivo flux measurements from \cite{Gerosa2015-oq}.
 
-    According to the data, two classes of autocatalytic cycles carry substantial flux under at least one of the growth conditions measured in \cite{Gerosa2015-oq}:
-    the glyoxilate cycle carries significant flux at growth in galactose and acetate;
+    According to the measurements, two classes of autocatalytic cycles carry substantial flux under at least one of the growth conditions used in \cite{Gerosa2015-oq}:
+    the glyoxylate cycle carries significant flux at growth in galactose and acetate;
     PTS using cycles carry significant fluxes at growth in glucose and fructose.
-    As for the other classes of autocatalytic cycles we note that the PP cycle variants do not carry flux in any of the measured conditions, which is expected given the non-standard metabolites they assimilate.
-    The only physiologically reasonable configuration under which a PP autocatalytic cycle would carry flux is in growth under ribose while missing the rpi reaction, a condition for which no measurements are available.
+
+    The PP cycle variants do not carry flux in any of the measured conditions, which is expected given the non-standard metabolites most of their variants assimilate.
+    The only physiologically reasonable configuration under which a PP autocatalytic cycle would carry flux is in growth under ribose while missing the rpi reaction, a condition for which no fluxomics measurements are currently available.
+
     The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions either.
-    Although glycerol could have been a good carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
+    Although glycerol could have been a potential carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
 
-    For the cases for which substantial flux flows through autocatalytic cycles we used the data from \cite{Gerosa2015-oq} to identify the major branching points in the cycle and the flux distrubutions in them.
-    Dividing the flux through each reaction by the amount of respective enzyme expressed under the same condition (obtained from \cite{Schmidt2015}) we extracted, for each reaction-condition pair, the flux per enzyme unit.
-    For each reaction, we normalized the flux per enzyme unit to the maximal flux per enzyme unit across all conditions measured to get an approximate estimation for the enzyme saturation under each condition.
+    As noted above, two guidelines for evaluating stability can be explored at major branch points out of a functioning autocatalytic cycle: (A) the maximal flux of the branching reaction, $V_{\max,b}$ should be higher than the maximal flux of the corresponding autocatalytic reaction, $V_{\max,a}$, and, (B) the saturation of the branching reaction should be higher than the saturation of the corresponding autocatalytic reaction.
+    We stress again that these conditions are sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
 
-    Having identified the relevant growth conditions and branching points, we tested, for each combination of growth condition, active cycle, and major branching point, whether the stability criteria holds.
-    To that end we checked which of the two reactions - the branching reaction or the cycle reaction, was more saturated.
-    The results are summarized in \ref{fig:branch}
+    To estimate the maximal capacity of a reaction, $V_{\max}$ we followed the procedure described in \cite{Davidi2016-ga}.
+    Briefly, for each reaction, under every condition we divided the flux the reaction carries (obtained from \cite{Gerosa2015-oq}) by the amount of the corresponding enzyme expressed under that condition.
+    We used data from \cite{Schmidt2015} to obtain the enzyme expression level.
+    We thus got a flux per enzyme estimate for the given reaction under each of the conditions.
+    We defined the enzyme maximal capacity as the maximum flux per unit enzyme it carries across all reactions.
+    Multiplying the enzyme maximal capacity by the enzyme amount at each condition therefore results in an estimate of the maximal possible flux through the given reaction under the relevant condition.
 
-    The CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available, has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
-    A key evolutionary event enabling the functioning of the CBB cycle, as stated in \cite{Antonovski2016}, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, prs, reducing its affinity to its substrate, r5p.
 
-    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is sparse, existing data supports preditions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
+    We used the data from \cite{Gerosa2015-oq} to identify the major branching points in each functioning cycle and the flux distributions in them under each of the relevant conditions.
+    The results are presented in figure \ref{fig:branch}.
+    The results show that for every functioning autocatalytic cycle, in at least one branching point the biomass generating reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction.
+    Moreover, out of 9 branching points analyzed, in 6 branching points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branching points the saturation levels were similar, and only in one branching point the auto catalytic reaction was less saturated than the branching reaction (the branch point in fbp at growth with fructose as the carbon source).
+
+    The lower saturation values of biomass generating reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
+    Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their elasticities are higher, ensuring stable operation of the cycle.
+
+    Another demonstration of the autocatalytic mechanism being at play is in the CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available.
+    This cycle has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016} (cite Antonovsky).
+    A key evolutionary event enabling the functioning of the CBB cycle, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, PRS, reducing its affinity to its substrate, ribose-5p.
+
+    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is sparse, existing data supports predictions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
+    The model can therefore be used to shed more light on seemingly wasteful investment in the expression of enzymes the capacity of which is not fully utilized, as well as for highlighting at what metabolic branch points enzymes kinetic efficiency may be constrained due to stability requirements of a corresponding autocatalytic cycle.
 
 \begin{figure}[h!]
 \centering
@@ -1063,24 +1129,25 @@ Here we show that in the specific context of the newly introduced enzymes being 
 Specifically, changes to some of the kinetic parameters of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
 
 Another aspect of our findings is that while generally, high affinity and catalytic rate are desirable traits for enzymes, in the specific context of autocatalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in only some of them deleterious for the functioning of the cycle.
-Moreover, in order for a cycle to be stable, at least some of the enzymes catalyzing reactions out of the cycles may need to be over-expressed, resulting in a seemingly inefficient expression pattern that is required in order to ensure that branching reactions are less saturated than the autocatalytic reactions.
+Moreover, in order for a cycle to be stable, at least some of the enzymes catalyzing reactions out of the cycles may need to be over-expressed, resulting in a seemingly inefficient expression pattern that is required in order to ensure that branching reactions are less saturated than the corresponding autocatalytic reactions.
 
 A recent demonstration of these principles in vivo is the implementation of a functional CBB cycle in \emph{e.coli} by introducing the two genes missing for its functioning \cite{Antonovski2016}.
 The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve non-zero flux through the cycle.
-A key change in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for the flux out of the CBB cycle, corresponding to the biomass reaction in our simple model.
+A key change in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for flux out of the CBB cycle, corresponding to the biomass reaction in our simple model.
 
-Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle may provide some means to mitigate the stability issue allowing for a pathway to gradually evolve towards sustainable, substantial flux.
+Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle may provide some means to mitigate the stability issue in synthetic biology metabolic engineering setups, allowing for a pathway to gradually evolve towards sustainable, substantial flux.
 
-Qualitatively, whereas in usual metabolic context a higher flux through a reaction will not decrease the flux into any of its reactants (it may increase this flux if one of the reactions feeding into the reactant is reversible), in setups involving autocatalytic cycles, such negative feedback exists as an inherent structural feature of the system.
+More generally, whereas in usual metabolic context a higher flux through a reaction will not decrease the flux into any of its reactants (it may increase this flux if one of the reactions feeding into the reactant is reversible), in setups involving autocatalytic cycles, such negative feedback exists as an inherent structural feature of the system.
 
 While autocatalytic cycles are usually considered a small part of metabolism, with less than a handful of examples, we note that by the definition presented here, such cycles are abundant even in central carbon metabolism.
-The examples of autocatalytic cycles we provide, as well as our verified predictions on the economical usage of enzymes catalyzing reactions branching out of such cycles suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+The examples of autocatalytic cycles we provide, as well as our verified predictions on the economical usage of enzymes catalyzing reactions branching out of such cycles, suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
-  Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to energy, non-carbon atoms, or more complex molecules and constructs (refs\dots).
-  The mathematical analysis we present can technically apply for such definitions as well and may thus be used beyond the context presented in this work.
+  Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (in the form of high energy phosphate bonds), non-carbon atoms, reducing power, or other moieties.
+  Work along these lines is presented in \cite{Reich1981-qd}.
+  The mathematical analysis we present here can technically apply for such definitions as well and may thus be used beyond the context presented in this work.
 \section{Acknowledgments}
 We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
-(Acknowledge tikz/latex/pgf/xcolor/stackexchange community for supporting free software tools)
+%(Acknowledge tikz/latex/pgf/xcolor/stackexchange community for supporting free software tools)
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
 \end{document}
