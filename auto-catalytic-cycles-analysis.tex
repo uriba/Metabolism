@@ -43,6 +43,8 @@
 \colorlet{autocatacyc}{blue}
 \colorlet{autocataby}{cyan}
 
+\renewcommand\thesection{}
+\renewcommand\thesubsection{}
 \title{Kinetic parameters of enzymes are constrained by stable functioning of metabolic autocatalytic cycles}
 \author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
 \date{}
@@ -148,6 +150,14 @@ The amount of autocatalytic cycles we identified suggests that unique features o
 
 
   \node[metaboliteStyle] (g6p) {g6p};
+
+  %%%% upper pts
+  \node[shape=coordinate,left=of g6p.center] (ptsmid) {};
+  \node[metaboliteStyle,assimcol,left=of ptsmid] (gluc) {gluc};
+  \node[metaboliteStyle,below left=of g6p.center] (pyr1) {pyr};
+  \draw[assimcol] (gluc) -- (ptsmid);
+  \draw[->] (ptsmid) [out=0,in=0] to (pyr1);
+
   \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
   \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
   \node[metaboliteStyle,shape=coordinate,below=of fbp.center](fbamid) {};
@@ -225,25 +235,27 @@ The amount of autocatalytic cycles we identified suggests that unique features o
   \draw[<-] (s7p) [out=180,in=90] to (midtal);
   \draw[] (midtal) [out=-90,in=180] to (e4p);
   \draw[<-] (gap) [out=55,in=-90] to (midtal);
-  \node[metaboliteStyle,assimcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
+  %\node[metaboliteStyle,assimcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
   \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
   \draw[] (pep) [out=180,in=0] to (pts3);
-  \draw[assimcol] (gluc) [out=90,in=0] to (pts3);
+  %\draw[assimcol] (gluc) [out=90,in=0] to (pts3);
   \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
-  \draw[] (pts3) [out=180,in=180] to (pts5);
-  \draw[->] (pts5) [out=0,in=180] to (pyr);
+  %\draw[] (pts3) [out=180,in=180] to (pts5);
+  %\draw[->] (pts5) [out=0,in=180] to (pyr);
   \node[shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
   \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
   \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
   \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
-  \draw[->] (ptstop) [in=180,out=90] to (g6p);
+  %\draw[->] (ptstop) [in=180,out=90] to (g6p);
+  \draw[] (ptstop) [in=180,out=90] to (ptsmid);
+  \draw[->] (ptsmid) -- (g6p);
   \draw[->] (ru5p) [out=-90,in=90] to (rub);
   \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
   \draw[assimcol] (co2) [out=90,in=0] to (rubisco);
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
 
-  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- (ptstoplimit) -- cycle;
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- ([yshift=-1cm]ptstoplimit) -- ([yshift=\highlightrad]g6p.north -| ptsmid) -- cycle;
 
   \draw[very thick,dashed,cyan,->] (ptsbottomlimit) -- ++(-1.5cm,-1.5cm); 
 
@@ -431,7 +443,7 @@ The amount of autocatalytic cycles we identified suggests that unique features o
   \end{scope}
   %\draw[lightgray,rounded corners=\highlightrad] (-10.3,-8) rectangle +(6.8,8.5);
   \node at (-10cm,0) (A) {\large \textbf A};
-  \node at (-3cm,0) (B) {\large  \textbf B};
+  \node at (-3.2cm,0) (B) {\large  \textbf B};
   \draw[lightgray,rounded corners=\highlightrad] (8.5,-6.1) rectangle +(4.6,4.5);
   \node at (9cm,-2cm) (I) {\large  \textbf{I}};
   \draw[lightgray,rounded corners=\highlightrad] (6.6,-17) rectangle +(4.5,5.5);
@@ -844,24 +856,24 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   \begin{scope}[shift={(-6cm,-7.5cm)}]
     \def\galmaxflux{0.5mm}
     \def\galglt{1.52*\galmaxflux}
-    \def\galcapvalglt{21}
+    \def\galcapvalglt{20}
     \def\galcapglt{\galglt/\galcapvalglt*100}
     \def\galacn{1.52*\galmaxflux*1.5}
     \def\galacea{1.02*\galmaxflux}
-    \def\galcapvalacea{29}
+    \def\galcapvalacea{30}
     \def\galcapacea{\galacea/\galcapvalacea*100}
     \def\galaceb{1.02*\galmaxflux}
     \def\galsdh{1.26*\galmaxflux}
     \def\galfum{1.26*\galmaxflux}
     \def\galmdh{2.28*\galmaxflux}
     \def\galpck{0.85*\galmaxflux}
-    \def\galcapvalpck{26}
+    \def\galcapvalpck{25}
     \def\galcappck{\galpck/\galcapvalpck*100}
     \def\galicd{0.5*\galmaxflux}
-    \def\galcapvalicd{9}
+    \def\galcapvalicd{10}
     \def\galcapicd{\galicd/\galcapvalicd*100}
 
-    \node[] (galactose) {galactose};
+    \node[] (galactose) {\textbf{Galactose input}};
     \node[metaboliteStyle,inputcol,below=of galactose] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
     \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
@@ -908,7 +920,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   \begin{scope}[shift={(-6cm,0cm)}]
     \def\acemaxflux{0.2mm}
     \def\aceglt{8.83*\acemaxflux}
-    \def\acecapvalglt{68}
+    \def\acecapvalglt{70}
     \def\acecapglt{\aceglt/\acecapvalglt*100}
     \def\aceacn{8.83*\acemaxflux*1.5}
     \def\aceacea{4.14*\acemaxflux}
@@ -920,16 +932,16 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \def\acemdh{10.67*\acemaxflux}
     \def\acecapvalmdh{100}
     \def\acemae{1.87*\acemaxflux}
-    \def\acecapvalmae{13}
+    \def\acecapvalmae{15}
     \def\acecapmae{\acemae/\acecapvalmae*100}
     \def\acepck{3.11*\acemaxflux}
     \def\acecapvalpck{75}
     \def\acecappck{\acepck/\acecapvalpck*100}
     \def\aceicd{4.7*\acemaxflux}
-    \def\acecapvalicd{63}
+    \def\acecapvalicd{65}
     \def\acecapicd{\aceicd/\acecapvalicd*100}
 
-    \node[] (acetate) {acetate};
+    \node[] (acetate) {\textbf{Acetate input}};
     \node[metaboliteStyle,inputcol,below=of acetate] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
     \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
@@ -975,7 +987,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   \end{scope}
 
   %Glucose
-  \begin{scope}[shift={(0.5cm,0cm)}]
+  \begin{scope}[shift={(1.5cm,0cm)}]
     \def\glucmaxflux{0.35mm}
     \def\glucpgi{5.7*\glucmaxflux}
     \def\gluccapvalpgi{100}
@@ -988,10 +1000,10 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \def\glucgpm{14.56/2*\glucmaxflux}
     \def\gluceno{14.56/2*\glucmaxflux}
     \def\glucpyk{2.49/2*\glucmaxflux}
-    \def\gluccapvalpyk{33}
+    \def\gluccapvalpyk{35}
     \def\gluccappyk{\glucpyk/\gluccapvalpyk*100}
     \def\glucppc{2.45/2*\glucmaxflux}
-    \def\gluccapvalppc{47}
+    \def\gluccapvalppc{45}
     \def\gluccapppc{\glucppc/\gluccapvalppc*100}
     \def\gluczwf{3.92*\glucmaxflux}
     \def\gluccapvalzwf{55}
@@ -1000,7 +1012,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \def\gluccapvalpts{100}
     \def\gluccappts{\glucpts}
 
-    \node[] (glucose) {glucose};
+    \node[] (glucose) {\textbf{Glucose input}};
     \node[metaboliteStyle,below= of glucose] (g6p) {g6p};
     \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
@@ -1052,7 +1064,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \def\fruccapvalfbp{100}
     \def\fruccapfbp{\frucfbp}
     \def\frucfba{5.87*\frucmaxflux}
-    \def\fruccapvalfba{71}
+    \def\fruccapvalfba{70}
     \def\fruccapfba{\frucfba/\fruccapvalfba*100}
     \def\fructpi{5.87/2*\frucmaxflux}
     \def\frucgap{13.46/2*\frucmaxflux}
@@ -1060,7 +1072,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \def\frucgpm{12.6/2*\frucmaxflux}
     \def\fruceno{12.6/2*\frucmaxflux}
     \def\frucpyk{0.67/2*\frucmaxflux}
-    \def\fruccapvalpyk{6.4}
+    \def\fruccapvalpyk{5}
     \def\fruccappyk{\frucpyk/\fruccapvalpyk*100}
     \def\frucppc{3.55/2*\frucmaxflux}
     \def\fruccapvalppc{50}
@@ -1070,7 +1082,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \def\fruccappts{\frucpts}
 
 
-    \node[] (fructose) {fructose};
+    \node[] (fructose) {\textbf{Fructose input}};
     \node[metaboliteStyle,below=of fructose] (f6p) {f6p};
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
     \node[shape=coordinate,below=of fbp.center](fbamid) {};
