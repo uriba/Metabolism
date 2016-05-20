@@ -153,7 +153,7 @@ The amount of autocatalytic cycles we identified suggests that unique features o
 
   %%%% upper pts
   \node[shape=coordinate,left=of g6p.center] (ptsmid) {};
-  \node[metaboliteStyle,assimcol,left=of ptsmid] (gluc) {gluc};
+  \node[metaboliteStyle,assimcol,left=6mm of ptsmid] (gluc) {gluc};
   \node[metaboliteStyle,below left=of g6p.center] (pyr1) {pyr};
   \draw[assimcol] (gluc) -- (ptsmid);
   \draw[->] (ptsmid) [out=0,in=0] to (pyr1);
@@ -255,7 +255,7 @@ The amount of autocatalytic cycles we identified suggests that unique features o
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
 
-  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- ([yshift=-1cm]ptstoplimit) -- ([yshift=\highlightrad]g6p.north -| ptsmid) -- cycle;
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
 
   \draw[very thick,dashed,cyan,->] (ptsbottomlimit) -- ++(-1.5cm,-1.5cm); 
 
@@ -1015,6 +1015,11 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[] (glucose) {\textbf{Glucose input}};
     \node[metaboliteStyle,below= of glucose] (g6p) {g6p};
     \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+    %%% ptstop
+    \node[shape=coordinate,left= of g6p] (ptsmid) {};
+    \node[metaboliteStyle,left= of f6p] (pyr1) {pyr};
+    \node[metaboliteStyle,inputcol,left=of ptsmid] (gluc) {gluc};
+
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
     \node[shape=coordinate,below=of fbp.center](fbamid) {};
     \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
@@ -1043,18 +1048,25 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \draw[figArrowStyle,line width=\glucppc,branchout] (pep) -- (oaa);
     \draw[capArrowStyle=branchout,line width=\gluccapzwf,branchout!40] (g6p) -- node [above,color=branchout] {\gluccapvalzwf\%}(6pgi);
     \draw[figArrowStyle,line width=\gluczwf,branchout] (g6p) -- (6pgi);
-    \node[metaboliteStyle,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
+    %\node[metaboliteStyle,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
     \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
-    \draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep.west) -- node [above,color=autocatacyc] {\gluccapvalpts\%} ([yshift=\glucpts/4]pts3);
-    \draw[inputcol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
+    %\draw[line width=\glucpts/2,autocatacyc] ([yshift=\glucpts/4]pep.west) -- node [above,color=autocatacyc] {\gluccapvalpts\%} ([yshift=\glucpts/4]pts3);
+    \draw[line width=\glucpts/2,autocatacyc] (pep.west) -- node [above,color=autocatacyc] {\gluccapvalpts\%} (pts3);
+    %\draw[inputcol,line width=\glucpts] ([yshift=-\glucpts/2]gluc) [out=90,in=0] to ([yshift=-\glucpts/2]pts3);
+    \draw[inputcol,line width=\glucpts] (gluc) -- (ptsmid);
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
-    \draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
-    \draw[figArrowStyle,line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    %\draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
+    %\draw[figArrowStyle,line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to ([shift={(0.5cm,-0.8cm)}]ptsmid) [out=-90,in=0] to (pyr1);
     \node[shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
-    \draw[line width=\glucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
-    \draw[line width=\glucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
-    \draw[figArrowStyle,line width=\glucpts,autocatacyc] (ptstop) [in=180,out=90] to (g6p);
+    %\draw[line width=\glucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\glucpts/2,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
+    %\draw[line width=\glucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
+    \draw[line width=\glucpts/2,autocatacyc] (ptsbottom) -- (ptstop);
+    %\draw[figArrowStyle,line width=\glucpts,autocatacyc] (ptstop) [in=180,out=90] to (g6p);
+    \draw[line width=\glucpts/2,autocatacyc] (ptstop) [in=180,out=90] to ([yshift=-3/4*\glucpts]ptsmid);
+    \draw[figArrowStyle,line width=\glucpts,autocatacyc] (ptsmid) -- (g6p);
   \end{scope}
 
   %Fructose
@@ -1086,6 +1098,11 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[metaboliteStyle,below=of fructose] (f6p) {f6p};
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
     \node[shape=coordinate,below=of fbp.center](fbamid) {};
+    %%% ptstop
+    \node[shape=coordinate,left= of fbp] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-1.7cm,-0.3cm)}] at (fbamid) (pyr1) {pyr};
+    \node[metaboliteStyle,inputcol,left=of ptsmid] (fruc) {fruc};
+
     \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
     \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
     \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
@@ -1112,19 +1129,24 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \draw[capArrowStyle=branchout,line width=\fruccapppc,branchout!40] (pep) -- node [above,color=branchout] {\fruccapvalppc\%}(oaa);
     \draw[figArrowStyle,line width=\frucppc,branchout] (pep) -- (oaa);
     \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
-    \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep.west) -- node [above,color=autocatacyc] {\fruccapvalpts\%}([yshift=\frucpts/4]pts3);
+    %\draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep.west) -- node [above,color=autocatacyc] {\fruccapvalpts\%}([yshift=\frucpts/4]pts3);
+    \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep.west) -- node [above,color=autocatacyc] {\fruccapvalpts\%}(pts3);
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
-    \draw[line width=\frucpts/2,autocataby] ([yshift=-3*\frucpts/4]pts3) [out=180,in=180] to (pts5);
-    \draw[figArrowStyle,line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    %\draw[line width=\frucpts/2,autocataby] ([yshift=-3*\frucpts/4]pts3) [out=180,in=180] to (pts5);
+    %\draw[figArrowStyle,line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
+    \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to ([shift={(0.5cm,-0.8cm)}]ptsmid) [out=-90,in=0] to (pyr1);
     \node[shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
-    \node[metaboliteStyle,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (fruc) {fruc};
-    \draw[inputcol,line width=\frucpts] ([yshift=-\frucpts/2]fruc) [out=90,in=0] to ([yshift=-\frucpts/2]pts3);
-    \draw[line width=\frucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
-    \draw[line width=\frucpts,autocatacyc] (ptsbottom) [in=-90,out=90] to (ptstop);
-    \draw[figArrowStyle,line width=\frucpts,autocatacyc] (ptstop) [in=180,out=90] to (fbp);
+    %\node[metaboliteStyle,inputcol,shift={(-1.5,-0.8)}] at (pep.center) (fruc) {fruc};
+    %\draw[inputcol,line width=\frucpts] ([yshift=-\frucpts/2]fruc) [out=90,in=0] to ([yshift=-\frucpts/2]pts3);
+    \draw[inputcol,line width=\frucpts] (fruc) -- (ptsmid);
+    \draw[line width=\frucpts/2,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\frucpts/2,autocatacyc] (ptsbottom) -- (ptstop);
+    %\draw[figArrowStyle,line width=\frucpts,autocatacyc] (ptstop) [in=180,out=90] to (fbp);
+    \draw[line width=\frucpts/2,autocatacyc] (ptstop) [in=180,out=90] to ([yshift=-3/4*\frucpts]ptsmid);
+    \draw[figArrowStyle,line width=\frucpts,autocatacyc] (ptsmid) -- (fbp);
   \end{scope}
   \end{tikzpicture}
 }
