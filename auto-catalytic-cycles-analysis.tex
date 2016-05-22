@@ -45,8 +45,9 @@
 
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
-\title{Kinetic parameters of enzymes are constrained by stable functioning of metabolic autocatalytic cycles}
-\author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo, \dots}
+\pdfpageattr{/Group <</S /Transparency /I true /CS /DeviceRGB>>} 
+\title{Autocatalytic cycles stability constrains kinetic parameters of enzymes}
+\author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo}
 \date{}
 
 \begin{document}
@@ -54,37 +55,33 @@
 \abstract{
     Autocatalytic cycles are an important part of metabolic networks.
     As the flux through autocatalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
-    We use an automated process to identify autocatalytic cycles in central carbon metabolism.
-    We show that even very simple cycles impose specific constraints on the kinetic parameters of the enzymes composing them and their expression levels, in order to allow stable, non-zero fluxes.
-    We find these constraints to hold for functioning autocatalytic cycles for which data is available.
-
-    We analyze a simple, generic metabolic autocatalytic cycle, presenting the mathematical tools and techniques needed in order to gain insights about its operation.
-    We derive the relationships between two global traits of the cycle: (A) having a non-zero flux steady state, and (B) requiring that the non-zero steady state is stable, and the kinetic parameters of the enzymes forming the cycle.
-    We show that the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation, for stable fluxes through the cycle to occur.
+    We identify a few autocatalytic cycles in central carbon metabolism, some of which are generally not considered as such.
+    Using the most simple form of autocatalytic cycle, we derive constraints of stability on kinetic parameters and show they are also relevant in the general case.
+    The constraints we find are that, for stable fluxes through the cycle to occur, the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation.
     We discuss various extensions of the simple model including different kinetic functions and external fluxes into the cycle.
-    We give examples of autocatalytic cycles occurring in central carbon metabolism, which are generally not considered as such, and for which our conclusions can be applied.
-    We find our analysis to be valid in cases of autocatalytic cycles functioning in central carbon metabolism, for which sufficient data is available.
+    We proceed to test these constraints based on experimental measurements in vivo and find these constraints to hold for functioning autocatalytic cycles for which data is available.
     This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis on real networks.
 }
 
 \section{Introduction}
     Autocatalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled reaction (see, for example, \cite{Steinfeld1999-iw}).
-    A metabolic cycle is a set of reactions and metabolites such that the reactions form a cycle with respect to the metabolites, allowing metabolites external to the cycle to serve as additional reactants or products of the reactions.
+    A metabolic cycle is a set of reactions and corresponding metabolites that can be ordered in such a way that one of the products of each reaction is a substrate of the following reaction, with a product of the last reaction serving as a substrate for the first reaction.
+    Metabolic cycles allow metabolites external to the cycle to serve as additional reactants or products of the reactions of the cycle.
     A metabolic cycle is autocatalytic if traversing the reactions that form the cycle increases the amount of the metabolites forming it.
     Surprisingly, autocatalytic cycles can be an essential building block of optimal metabolic networks \cite{Riehl2010-yh}.
 
     Autocatalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Fell1999,Reznik2010-te}.
-    Understanding the unique constraints operating metabolic autocatalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
+    Understanding the unique constraints that operating metabolic autocatalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
 
     The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin Benson Bassham cycle (CBB) \cite{Benson1950-cl}.
-    The CBB cycle, assimilating \ce{CO2} to convert 5-carbon compounds to 6-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
+    The CBB cycle, assimilating \ce{CO2} while converting 5-carbon compounds to 6-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
     We show that more autocatalytic cycles exist in central carbon metabolism, suggesting important biological insights can be gained by understanding the constraints underlying their stable operation.
 
     In this work we present the specific requirements autocatalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
-    (B) To be stable for fluctuations at the steady state point(s).
-    The mathematical tools we define and use are widely known and applicable in various fields (see, for example \cite{Strogatz2014-hp}).
+    (B) To be stable in respect to fluctuations of metabolites or enzymes levels close to the steady state point(s).
+    The mathematical tools we use are widely known and applicable in various fields (see, for example \cite{Strogatz2014-hp}).
     We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as the critical values that determine whether the cycle can function or not.
-    Our analysis demonstrates the use of these conclusions to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
+    Our analysis demonstrates the use of these results to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
 
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
 
