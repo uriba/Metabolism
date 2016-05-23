@@ -84,14 +84,14 @@
     Our analysis demonstrates the use of these results to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
 
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
-
-While a few autocatalytic cycles are widely known, the definition we use for autocatalysis yields several autocatalytic cycles in central carbon metabolism that are not usually considered as such.
+Different definitions exist for autocatalytic systems in the context of chemical reactions \cite{Hordijik, Kauffman, Kun2008-xg, \dots}.
 In this work, we define an autocatalytic cycle as a set of reactions and metabolites that satisfy the following conditions:
-(A) Cyclicity w.r.t. the set of metabolites - each metabolite of the cycle serves both as a substrate of at least one reaction of the cycle and as a product of at least one reaction of the cycle.
-(B) Cyclicity w.r.t. the set of reactions - at least one substrate of each reaction in the cycle, and one product of each reaction in the cycle are metabolites of the cycle.
+(A) Cyclicity with regard to the set of metabolites - each metabolite of the cycle serves both as a substrate of at least one reaction of the cycle and as a product of at least one reaction of the cycle.
+(B) Cyclicity with regard to the set of reactions - at least one substrate of each reaction in the cycle, and one product of each reaction in the cycle are metabolites of the cycle.
 (C) Autocatalysis - there is a set of positive integers corresponding to the reactions forming the cycle, such that the result of applying all of the reactions in the cycle, each at its corresponding integer number of times, will overall increase the amount of at least one metabolite in the cycle, and will not decrease the amount of any of the other metabolites in the cycle.
+While less than a handful of autocatalytic cycles following this definition are widely known, a systematic search in central carbon metabolism yields several autocatalytic cycles that are not usually considered as such.
 
-We implemented an algorithm to search for autocatalytic cycles in central carbon metabolism.
+We implemented an algorithm to search for autocatalytic cycles in central carbon metabolism (see methods).
 The algorithm identified 4 classes of autocatalytic cycles, where different variations are possible for some classes.
 We note that our algorithm is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism.
 Moreover, our algorithm is not optimized, resulting in an exponential increase in identified cycles when executed on the full metabolic network of \emph{E.coli} due to combinatorial combinations of elementary cycles to composite ones.
