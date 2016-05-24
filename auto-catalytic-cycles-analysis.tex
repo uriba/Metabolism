@@ -149,11 +149,11 @@ The amount of autocatalytic cycles we identified suggests that unique features o
   \node[metaboliteStyle] (g6p) {g6p};
 
   %%%% upper pts
-  \node[shape=coordinate,left=of g6p.center] (ptsmid) {};
+  \node[shape=coordinate,left=12mm of g6p.center] (ptsmid) {};
   \node[metaboliteStyle,assimcol,left=6mm of ptsmid] (gluc) {gluc};
-  \node[metaboliteStyle,below left=of g6p.center] (pyr1) {pyr};
+  \node[metaboliteStyle,shift={(-7mm,-7mm)},gray] at (g6p.center) (pyr1) {pyr};
   \draw[assimcol] (gluc) -- (ptsmid);
-  \draw[->] (ptsmid) [out=0,in=0] to (pyr1);
+  \draw[->] (ptsmid) [out=0,in=90] to (pyr1);
 
   \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
   \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
@@ -1013,8 +1013,8 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[metaboliteStyle,below= of glucose] (g6p) {g6p};
     \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
     %%% ptstop
-    \node[shape=coordinate,left= of g6p] (ptsmid) {};
-    \node[metaboliteStyle,left= of f6p] (pyr1) {pyr};
+    \node[shape=coordinate,left=1.1cm of g6p] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-11mm,2mm)},gray] at (f6p) (pyr1) {pyr};
     \node[metaboliteStyle,inputcol,left=of ptsmid] (gluc) {gluc};
 
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
@@ -1054,7 +1054,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     %\draw[line width=\glucpts/2,autocataby] ([yshift=-3*\glucpts/4]pts3) [out=180,in=180] to (pts5);
     %\draw[figArrowStyle,line width=\glucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
-    \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to ([shift={(0.5cm,-0.8cm)}]ptsmid) [out=-90,in=0] to (pyr1);
+    \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to (pyr1);
     \node[shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     %\draw[line width=\glucpts,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
@@ -1096,8 +1096,8 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
     \node[shape=coordinate,below=of fbp.center](fbamid) {};
     %%% ptstop
-    \node[shape=coordinate,left= of fbp] (ptsmid) {};
-    \node[metaboliteStyle,shift={(-1.7cm,-0.3cm)}] at (fbamid) (pyr1) {pyr};
+    \node[shape=coordinate,left=1.1cm of fbp] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-11mm,0mm)},gray] at (fbamid) (pyr1) {pyr};
     \node[metaboliteStyle,inputcol,left=of ptsmid] (fruc) {fruc};
 
     \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
@@ -1131,7 +1131,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     %\draw[line width=\frucpts/2,autocataby] ([yshift=-3*\frucpts/4]pts3) [out=180,in=180] to (pts5);
     %\draw[figArrowStyle,line width=\frucpts/2,autocataby] (pts5) [out=0,in=180] to (pyr);
-    \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to ([shift={(0.5cm,-0.8cm)}]ptsmid) [out=-90,in=0] to (pyr1);
+    \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to (pyr1);
     \node[shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
