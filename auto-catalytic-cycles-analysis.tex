@@ -73,7 +73,7 @@
     Autocatalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Fell1999,Reznik2010-te}.
     Understanding the unique constraints that operating metabolic autocatalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
 
-    The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin Benson Bassham cycle (CBB) \cite{Benson1950-cl}.
+    The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin-Benson-Bassham cycle (CBB) \cite{Benson1950-cl}.
     The CBB cycle, assimilating \ce{CO2} while converting 5-carbon compounds to 6-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
     We show that more autocatalytic cycles exist in central carbon metabolism, suggesting important biological insights can be gained by understanding the constraints underlying their stable operation.
 
@@ -84,27 +84,30 @@
     Our analysis demonstrates the use of these results to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
 
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
-Different definitions exist for autocatalytic systems in the context of chemical reactions \cite{Hordijik, Kauffman, Kun2008-xg, \dots}.
-In this work, we define an autocatalytic cycle as a set of reactions and metabolites that satisfy the following conditions:
-(A) Cyclicity with regard to the set of metabolites - each metabolite of the cycle serves both as a substrate of at least one reaction of the cycle and as a product of at least one reaction of the cycle.
-(B) Cyclicity with regard to the set of reactions - at least one substrate of each reaction in the cycle, and one product of each reaction in the cycle are metabolites of the cycle.
-(C) Autocatalysis - there is a set of positive integers corresponding to the reactions forming the cycle, such that the result of applying all of the reactions in the cycle, each at its corresponding integer number of times, will overall increase the amount of at least one metabolite in the cycle, and will not decrease the amount of any of the other metabolites in the cycle.
+Different definitions exist for autocatalytic sets in the context of chemical reaction networks \cite{Hordijk2004-xe, Eigen2012-ti, Kun2008-xg}.
+Here we define an autocatalytic cycle as a set of reactions and metabolites that form a cycle, and that, when the reactions are applied to the substrates at appropriate ratios, increase the amount of the intermediate metabolites.
+Formally, a set of reactions and metabolites forms a cycle if:
+\begin{itemize}
+    \item Each metabolite of the set serves both as a substrate of at least one reaction of the set and as a product of at least one reaction of the set.
+    \item At least one substrate of each reaction in the set, and one product of each reaction in the set are metabolites of the set.
+\end{itemize}
+A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
+Three examples of autocatalytic cycles using central carbon metabolism are presented in figure \ref{fig:realautocatal}.
+
 While less than a handful of autocatalytic cycles following this definition are widely known, a systematic search in central carbon metabolism yields several autocatalytic cycles that are not usually considered as such.
+We find it useful to group the identified autocatalytic cycles in central carbon metabolism into four classes:
+\begin{enumerate}
+    \item The glyoxylate cycle within the TCA cycle, that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules with extra acetyl-CoA into two isocitrate molecules \cite{Kornberg1966-lh}.
+    \item Glycolysis based cycles using phosphoenolpyruvate (PEP) to transport sugar substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules.
+    \item Various parts of the pentose-phosphate pathway (PP) assimilating imported sugars that are incorporated into central carbon metabolism as the intermediate metabolites: erythrose-4P, sedoheptulose-7P, ribose-5p or xylulose-5p to later produce these carbon compounds at higher stoichiometries.
+    \item Cycles assimilating glycerone phosphate and using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}. They first use the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde-3-phosphate, then convert the fructose back into two glyceraldehyde-3-phosphate.
+\end{enumerate}
 
-We implemented an algorithm to search for autocatalytic cycles in central carbon metabolism (see methods).
-The algorithm identified 4 classes of autocatalytic cycles, where different variations are possible for some classes.
-We note that our algorithm is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism.
-Moreover, our algorithm is not optimized, resulting in an exponential increase in identified cycles when executed on the full metabolic network of \emph{E.coli} due to combinatorial combinations of elementary cycles to composite ones.
-Further work will enable a more robust algorithm to identify more autocatalytic cycles in the metabolic network.
+We note that the algorithm used in our systematic search is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism.
+Moreover, the algorithm is not optimized, resulting in an exponential increase in identified cycles when executed on the full metabolic network of \emph{E.coli} due to combinatorial combinations of elementary cycles to composite ones.
+Further work will enable a more robust algorithm to identify additional autocatalytic cycles in the metabolic network.
 
-A few examples of the different cycles identified  are presented in figure \ref{fig:realautocatal}.
-These classes are:
-(A) The glyoxylate cycle that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules back into two isocitrate molecules \cite{Kornberg1966-lh};
-(B) Cycles using phosphoenolpyruvate (PEP) to transport substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules;
-(C) Various parts of the pentose-phosphate pathway (PP) assimilating any or some of the intermediate metabolites: erythrose-4P, sedoheptulose-7P, ribose-5p or xylulose-5p to produce 5, 3 and 6 carbon compounds at higher stoichiometries;
-(D) Cycles assimilating glycerone phosphate using the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde 3 phosphate, then converting the fructose back into two glyceraldehyde 3 phosphate using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}.
-
-The amount of autocatalytic cycles we identified suggests that unique features of autocatalytic cycles may confine and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+The ubiquity of autocatalytic cycles in central carbon metabolism suggests that unique features of autocatalytic cycles, as derived below, may constrain and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \begin{figure}[h!]
 \resizebox{1\linewidth}{!}{
@@ -453,7 +456,7 @@ The amount of autocatalytic cycles we identified suggests that unique features o
 \caption{
     \label{fig:realautocatal}
 (A) A basic autocatalytic cycle uses the internal metabolite, M, in order to assimilate an external metabolite, E, into the cycle, increasing the amount of M.
-(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin Benson Bassham cycle; (II) The glyoxylate cycle; (III) A cycle using the PTS system to assimilate glucose.
+(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle; (II) The glyoxylate cycle; (III) A cycle using the PTS system to assimilate glucose.
 }
 \end{figure}
 
@@ -471,7 +474,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
             \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
-            \draw [->,line width=1pt,branchout] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
             \begin{customlegend}[legend entries={$f_a$,$f_b$,$\dot{X}=f_a-f_b$},legend style={below=2cm of fa,anchor=west,name=legend1}]
               \addlegendimage{autocatacyc,fill=black!50!red,sharp plot}
@@ -635,7 +638,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
 \subsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Autocatalytic cycles are not stand-alone constructs, but are rather embedded in a larger metabolic network.
     Specifically, such cycles generally have some fueling reactions with input flux to at least some of their intermediate metabolites.
-    For example, the CBB cycle can have input flux of fructose 6 phosphate from the catabolism of starch.
+    For example, the CBB cycle can have input flux of fructose-6-phosphate from the catabolism of starch.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
     \begin{equation*}
@@ -661,8 +664,8 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
             \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
-            \draw [->,line width=1pt,branchout] (X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
-            \draw [<-,line width=1pt,magenta] (X.east) arc (-70:0:0.5cm and 1cm) node [pos=0.3,right] (fi) {$f_i$};
+            \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \draw [<-,line width=1pt,magenta] ([xshift=1mm]X.north) arc (170:90:1cm) node [pos=0.3,right] (fi) {$f_i$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
             \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of fi,anchor=west,name=legend1}]
               \addlegendimage{autocatacyc,fill=black!50!red,sharp plot}
@@ -825,7 +828,12 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     We used the data from \cite{Gerosa2015-oq} to identify the major branching points in each functioning cycle and the flux distributions in them under each of the relevant conditions.
     The results are presented in figure \ref{fig:branch}.
     The results show that for every functioning autocatalytic cycle, in at least one branching point the biomass generating reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction.
-    Moreover, out of 9 branching points analyzed, in 6 branching points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branching points the saturation levels were similar, and only in one branching point the auto catalytic reaction was less saturated than the branching reaction (the branch point in fbp at growth with fructose as the carbon source).
+    Moreover, out of 9 branching points analyzed, in 6 branching points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branching points the saturation levels were similar, and only in one branching point the auto catalytic reaction was less saturated than the branching reaction.
+
+    The branch point that does not agree with our prediction is the branch point in fructose-1,6-bisphosphate at growth with fructose as the carbon source.
+    The disagreement arises as a large flux is assigned to the fbp reaction, whereas the corresponding enzyme is not highly expressed.
+    This disagreement may be the result of negleting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in \cite{Gerosa2015-oq}.
+    Assuming $20\%$ of transported fructose is converted directly to f6p suffices in order to resolve the disagreement, resulting in equal saturation levels for the autocatalytic reaction and the branching reaction.
 
     The lower saturation values of biomass generating reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
     Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their elasticities are higher, ensuring stable operation of the cycle.
