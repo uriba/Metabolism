@@ -7,7 +7,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.12}
 \usepackage{stackengine,ifthen}
-\usetikzlibrary{arrows,positioning,calc,arrows.meta}
+\usetikzlibrary{arrows,positioning,calc,arrows.meta,patterns}
 \tikzset{>=Latex}
 \newcommand\influx{0.5}
 
@@ -34,7 +34,7 @@
 \definecolor{magenta}{RGB}{129,114,178}
 \definecolor{yellow}{RGB}{204,185,116}
 \definecolor{red}{RGB}{196,78,82}
-\definecolor{graybg}{gray}{0.9}
+\definecolor{graybg}{gray}{0.95}
 
 \colorlet{assimcol}{green}
 \colorlet{sumcolor}{yellow}
@@ -236,18 +236,13 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
   \draw[<-] (s7p) [out=180,in=90] to (midtal);
   \draw[] (midtal) [out=-90,in=180] to (e4p);
   \draw[<-] (gap) [out=55,in=-90] to (midtal);
-  %\node[metaboliteStyle,assimcol,shift={(-1.5,-0.8)}] at (pep.center) (gluc) {gluc};
   \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
   \draw[] (pep) [out=180,in=0] to (pts3);
-  %\draw[assimcol] (gluc) [out=90,in=0] to (pts3);
   \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
-  %\draw[] (pts3) [out=180,in=180] to (pts5);
-  %\draw[->] (pts5) [out=0,in=180] to (pyr);
   \node[shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
   \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
   \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
   \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
-  %\draw[->] (ptstop) [in=180,out=90] to (g6p);
   \draw[] (ptstop) [in=180,out=90] to (ptsmid);
   \draw[->] (ptsmid) -- (g6p);
   \draw[->] (ru5p) [out=-90,in=90] to (rub);
@@ -473,6 +468,14 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \begin{figure}[h!]
       \begin{minipage}[c]{.3\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
+            \tikzset{
+                v1style/.style={opacity=0.3,pattern=north west lines}}
+            \tikzset{
+                v2style/.style={opacity=0.3,pattern=dots}}
+            \tikzset{
+                k1style/.style={opacity=0.2,fill=cyan}}
+            \tikzset{
+                k2style/.style={opacity=0.2,fill=magenta}}
             \node (X) {$X$};
             \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
             \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
@@ -482,21 +485,37 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
               \addlegendimage{branchout,fill=black!50!red,sharp plot}
               \addlegendimage{sumcolor,fill=black!50!red,sharp plot}
             \end{customlegend}
-            \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm]
+            \begin{axis}[name=phase,xmin=0,ymin=0,xmax=2,ymax=2,xlabel={$\frac{V_{\max,b}}{V_{\max,a}}$},ylabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,at=(legend1.south west),anchor=above north west,width=4.5cm,height=4.5cm,yshift=-1.2cm,ytick={0,1,2},xtick={0,1,2}]
             \addplot[domain=0:4,dotted,black,thick] {x};
             \addplot[dotted,black,thick] coordinates {(1,0) (1,2)};
             \node (one) at (axis cs:1.25,1.5) {I};
             \node (two) at (axis cs:1.25,0.5) {II};
             \node (three) at (axis cs:0.75,0.5) {III};
             \node (four) at (axis cs:0.75,1.5) {IV};
+          %  \draw[k1style] (axis cs:0,0) -- (axis cs:2,2) -- (axis cs:0,2) --cycle;
+          %  \draw[k2style] (axis cs:0,0) -- (axis cs:2,2) -- (axis cs:2,0) --cycle;
+          %  \draw[v1style] (axis cs:0,0) -- (axis cs:0,2) -- (axis cs:1,2) -- (axis cs:1,0) --cycle;
+          %  \draw[v2style] (axis cs:1,0) -- (axis cs:1,2) -- (axis cs:2,2) -- (axis cs:2,0) --cycle;
           \end{axis}
           \node [at=(legend1.south west),yshift=-0.8cm] (B) {(B)};
+
+          %\node [at=(B.south),anchor=north] (k1) {\scriptsize{$\frac{K_{M,b}}{K_{M,a}}>\frac{V_{\max,b}}{V_{\max,a}}$}};
+          %\draw [k1style,rectangle] ([yshift=-1mm]k1.east) rectangle ++ (3mm,2mm) ;
+          %\node [at=(k1.south west),anchor=north west] (k2) {\scriptsize{$\frac{K_{M,b}}{K_{M,a}}<\frac{V_{\max,b}}{V_{\max,a}}$}};
+          %\draw [k2style,rectangle] ([yshift=-1mm]k2.east) rectangle ++ (3mm,2mm) ;
+
+          %\node [at=(k1.east),anchor=west,xshift=4mm] (v1) {\scriptsize{$V_{\max,b}<V_{\max,a}$}};
+          %\draw [v1style,rectangle] ([yshift=-1mm]v1.east) rectangle ++ (3mm,2mm) ;
+          %\node [at=(v1.south west),anchor=north west] (v2) {\scriptsize{$V_{\max,b}>V_{\max,a}$}};
+          %\draw [v2style,rectangle] ([yshift=-1mm]v2.east) rectangle ++ (3mm,2mm) ;
+
+
          \end{tikzpicture}}%
        \end{minipage}
        \hfill
        \begin{minipage}[c]{.65\linewidth}
         {\begin{tikzpicture}
-            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,clip=false]
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
             \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick] {3*x/(0.1+x)-5*x/(1+x)};
@@ -506,7 +525,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
           \end{axis}
           \node [at=(plot1.north west),xshift=-0.5cm,yshift=0.3cm] (C) {(C)};
 
-          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
             \addplot[domain=0:4,branchout,thick] {5*x/(0.2+x)};
             \addplot[domain=0:4,sumcolor,thick] {4*x/(1+x)-5*x/(0.2+x)};
@@ -514,7 +533,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
             \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize stable zero steady state};
           \end{axis}
 
-          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm,yshift=-0.5cm]
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.below south west),anchor=above north west,width=5cm,height=6cm,yshift=-0.5cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)};
             \addplot[domain=0:4,branchout,thick] {3*x/(0.1+x)};
             \addplot[domain=0:4,sumcolor,thick] {5*x/(1+x)-3*x/(0.1+x)};
@@ -523,7 +542,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
             \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
 
-          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm]
+          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot3.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:2.9,autocatacyc,thick] {5*x/(0.2+x)};
             \addplot[domain=0:2.9,branchout,thick] {4*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick] {5*x/(0.2+x)-4*x/(1+x)};
@@ -537,7 +556,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
         These fluxes follow simple Michaelis Menten kinetics.
         A steady state occurs when $f_a=f_b$, implying that $\dot{X}=0$.
         The cycle always has a steady state at $X=0$.
-        The slope of each reaction at $X=0$ is $V_{\max}/K_m$.
+        The slope of each reaction at $X=0$ is $\sfrac{V_{\max}}{K_m}$.
         A steady state is stable if at the steady state point $\frac{d\dot{X}}{dX}<0$.
         (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ results in one of four cases (C): 
        (I) there is a stable positive steady state and zero is an unstable steady state; 
@@ -661,14 +680,15 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   When an input flux is present, an autocatalytic cycle can always achieve a non zero, stable steady state by tuning the expression levels of the enzymes forming the cycle.
     \begin{figure}[h!]
       \centering
-      \begin{minipage}[c]{0.8\linewidth}%
+      %\begin{minipage}[c]{0.8\linewidth}%
+      \begin{minipage}[c]{0.9\linewidth}%
         {\begin{tikzpicture}[>=latex',node distance = 2cm]
             \node (X) {$X$};
             \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
             \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
             \draw [<-,line width=1pt,magenta] ([xshift=1mm]X.north) arc (170:90:1cm) node [pos=0.3,right] (fi) {$f_i$};
             \node [above of=fa,yshift=-1cm] (A) {(A)};
-            \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of fi,anchor=west,name=legend1}]
+            \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of X,anchor=west,name=legend1}]
               \addlegendimage{autocatacyc,fill=black!50!red,sharp plot}
               \addlegendimage{branchout,fill=black!50!red,sharp plot}
               \addlegendimage{sumcolor,fill=black!50!red,sharp plot}
@@ -678,7 +698,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
 
        \begin{minipage}[c]{\linewidth}%
         {\begin{tikzpicture}
-            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm]
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:4,autocatacyc,thick] {3*x/(0.5+x)+\influx};
             \addplot[domain=0:4,branchout,thick] {5*x/(1+x)};
             \addplot[domain=0:4,sumcolor,thick] {3*x/(0.5+x)-5*x/(1+x)+\influx};
@@ -687,7 +707,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
             \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
 
-          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm]
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)+\influx};
             \addplot[domain=0:4,branchout,thick] {4*x/(1+x)};
             \addplot[domain=0:4,sumcolor,thick] {5*x/(1+x)-4*x/(1+x)+\influx};
@@ -695,7 +715,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
             \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
           \end{axis}
 
-          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm]
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
             \addplot[domain=0:4,autocatacyc,thick] {6*x/(2+x)+1.5*\influx};
             \addplot[domain=0:4,branchout,thick] {4*x/(0.4+x)};
             \addplot[domain=0:4,sumcolor,thick] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
@@ -861,7 +881,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   \tikzset{
     ratioRect/.style={rectangle,fill=graybg,rounded corners=2pt}}
   \newcommand{\coloredRatio}[2]{%top,bottom
-    {$\sfrac{\color{branchout}#1\%}{\color{autocatacyc}#2\%}$}
+      {\Large {$\sfrac{\mathbf{\color{branchout}#1\%}}{\mathbf{\color{autocatacyc}#2\%}}$}}
   }
 
   %Galactose
@@ -1128,6 +1148,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
     \draw[figArrowStyle,line width=\frucfbp,branchout] (fbp)-- (f6p) ;
     \node[ratioRect,anchor=west] at (fbp.east) (frucb1) {\coloredRatio{\fruccapvalfbp}{\fruccapvalfba}};
+    \node[at=(frucb1.north east)] (star) {*};
     \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- (fbamid);
     \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
     \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
@@ -1162,7 +1183,9 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   \end{tikzpicture}
 }
 \caption{
-  Major branch points and relative enzyme saturation in operating autocatalytic cycles. In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing. Moreover, only in one out of the 8 branch points observed (the branch point at fbp in growth under fructose), an outgoing reaction is significantly more saturated than the autocatalytic reaction.
+  Major branch points and relative enzyme saturation in operating autocatalytic cycles. In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
+  Moreover, only in one out of the 8 branch points observed (the branch point at fbp in growth under fructose), the outgoing reaction is significantly more saturated than the autocatalytic reaction.
+  (*) A branch point at which the branching reaction is more saturated than the autocatalytic reaction, which may result from neglecting fructose transport directly as f6p when deriving fluxes (see text).
 }
     \label{fig:branch}
 \end{figure}
