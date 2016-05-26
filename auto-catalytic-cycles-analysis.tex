@@ -41,7 +41,9 @@
 
 \colorlet{inputcol}{green}
 \colorlet{branchout}{red}
+\colorlet{branchoutfl}{red!80}
 \colorlet{autocatacyc}{blue}
+\colorlet{autocatacycfl}{blue!80}
 \colorlet{autocataby}{cyan}
 
 \renewcommand\thesection{}
@@ -51,16 +53,51 @@
 \author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Elad Noor, Niv Antonovsky, Ron Milo}
 \date{}
 
+
+  \def\blendfrac{0.5}
+  \def\deltaang{-155}
+  \def\fromang{180}
+  \def\inputang{-40}
+  \def\protrude{7}
+  \def\arcwidth{0.3cm}
+  \def\highlightrad{0.2cm}
+  \def\autocatalrad{1.5cm}
+  \def\autocatalscale{1.5}
+  \newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+    \pgfmathsetmacro\arcrange{#3-#2}
+    \pgfmathsetmacro\radrange{#5-#4}
+    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+    \foreach \i in {#2,...,\numexpr#3-1\relax} {
+      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+      \pgfmathsetmacro\col{\fracprog*100}
+      \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
+  arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+    }
+  }
+
+  \newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+    \pgfmathsetmacro\arcrange{#3-#2}
+    \pgfmathsetmacro\radrange{#5-#4}
+    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+    \foreach \i in {#2,...,\numexpr#3-1\relax} {
+      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+      \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
+        arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+    }
+  }
+
+
+
 \begin{document}
 \maketitle
 \abstract{
     Autocatalytic cycles are an important part of metabolic networks.
     As the flux through autocatalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
     We identify a few autocatalytic cycles in central carbon metabolism, some of which are generally not considered as such.
-    Using the most simple form of autocatalytic cycle, we derive constraints of stability on kinetic parameters and show they are also relevant in the general case.
+    Using the most simple form of autocatalytic cycle, we derive constraints of stability on kinetic parameters of participating enzymes and show they are also relevant in the general case.
     The constraints we find are that, for stable fluxes through the cycle to occur, the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation.
     We discuss various extensions of the simple model including different kinetic functions and external fluxes into the cycle.
-    We proceed to test these constraints based on experimental measurements in vivo and find these constraints to hold for functioning autocatalytic cycles for which data is available.
+    We proceed to test these constraints using available experimental measurements in vivo and find them to hold for functioning autocatalytic cycles for which data is available.
     This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis on real networks.
 }
 
@@ -86,69 +123,72 @@
 
 \section{Autocatalytic cycles play important roles in central carbon metabolism}
 Different definitions exist for autocatalytic sets in the context of chemical reaction networks \cite{Hordijk2004-xe, Eigen2012-ti, Kun2008-xg}.
-Here we define an autocatalytic cycle as a set of reactions and metabolites that form a cycle, and that, when the reactions are applied to the substrates at appropriate ratios, increase the amount of the intermediate metabolites.
-Formally, a set of reactions and metabolites forms a cycle if:
-\begin{itemize}
-    \item Each metabolite of the set serves both as a substrate of at least one reaction of the set and as a product of at least one reaction of the set.
-    \item At least one substrate of each reaction in the set, and one product of each reaction in the set are metabolites of the set.
-\end{itemize}
+Here we define an autocatalytic cycle as a set of reactions and metabolites that form a cycle, and that, when the reactions are applied to the substrates at appropriate ratios, increase the amount of the intermediate metabolites (figure \ref{fig:autocataldef}).
+Formally, a set of irreversible reactions (for reversible reactions only one direction can be included in the set) and metabolites forms a cycle if every metabolite of the set can be converted, by sequential application of reactions in the set (where two reactions can be chained if a metabolite in the set is a product of the first reaction and a substrate of the second reaction), to every other metabolite in the set.
 A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
 Three examples of autocatalytic cycles using central carbon metabolism are presented in figure \ref{fig:realautocatal}.
 
+\begin{figure}[h!]
+    \centering
+\begin{tikzpicture}
+\begin{scope} [shift={(-6.6cm,-4cm)}]
+  \colorlet{genext}{assimcol}
+  \colorlet{genmed}{blue}
+  \colorlet{geninit}{blue}
+
+  \newlength\imrad;
+  \newlength\ierad;
+  \newlength\esrad;
+  \newlength\emrad;
+  \newlength\eerad;
+  \pgfmathsetlength{\imrad}{\autocatalrad-\blendfrac*\arcwidth};
+  \pgfmathsetlength{\ierad}{\autocatalrad-0.5*\arcwidth};
+  \pgfmathsetlength{\esrad}{\autocatalrad+\arcwidth};
+  \pgfmathsetlength{\emrad}{\autocatalrad+\arcwidth-\blendfrac*\arcwidth};
+  \pgfmathsetlength{\eerad}{\autocatalrad+0.5*\arcwidth};
+
+    \shadedarc[\autocatalscale*\arcwidth]{-20}{-180}{\autocatalscale*\autocatalrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\imrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\emrad}{\autocatalscale*\esrad}{genext}{geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\eerad}{\autocatalscale*\emrad}{genext!0.5!geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\ierad}{\autocatalscale*\imrad}{genext!0.5!geninit};
+
+  \fill[genext!0.5!geninit] (\fromang+\deltaang+1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalscale*\autocatalrad) -- (\fromang+\deltaang-1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=genext!99.5!geninit,line width=\autocatalscale*\arcwidth] (180:\autocatalscale*\esrad) arc(0:-40:2cm) node [pos=0.5,color=black,left] (ext) {External metabolite};
+    \node at (0:\autocatalscale*\autocatalrad) (int) {Internal metabolite};
+    \node [rectangle,fill=autocatacyc!40,rounded corners=3pt] at (90:\autocatalscale*\autocatalrad+1cm) (eq) {Internal metabolite + External metabolite $\rightarrow (1+\alpha)$ Internal metabolite};
+  \end{scope}
+\end{tikzpicture}
+\caption{
+    \label{fig:autocataldef}
+  A basic autocatalytic cycle requires an internal metabolite in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite.}
+\end{figure}
+ 
 While less than a handful of autocatalytic cycles following this definition are widely known, a systematic search in central carbon metabolism yields several autocatalytic cycles that are not usually considered as such.
 We find it useful to group the identified autocatalytic cycles in central carbon metabolism into four classes:
 \begin{enumerate}
     \item The glyoxylate cycle within the TCA cycle, that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules with extra acetyl-CoA into two isocitrate molecules \cite{Kornberg1966-lh}.
     \item Glycolysis based cycles using phosphoenolpyruvate (PEP) to transport sugar substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules.
     \item Various parts of the pentose-phosphate pathway (PP) assimilating imported sugars that are incorporated into central carbon metabolism as the intermediate metabolites: erythrose-4P, sedoheptulose-7P, ribose-5p or xylulose-5p to later produce these carbon compounds at higher stoichiometries.
-    \item Cycles assimilating glycerone phosphate and using the Entner Doudoroff (ED) pathway \cite{Entner1952-xs}. They first use the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose 1,6 bisphosphate from glyceraldehyde-3-phosphate, then convert the fructose back into two glyceraldehyde-3-phosphate.
+    \item Cycles assimilating glycerone-phosphate and using the Entner-Doudoroff (ED) pathway \cite{Entner1952-xs}.
+        They first use the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose-1,6-bisphosphate from glyceraldehyde-3-phosphate, then convert the fructose back into two glyceraldehyde-3-phosphate.
 \end{enumerate}
 
-We note that the algorithm used in our systematic search is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism.
-Moreover, the algorithm is not optimized, resulting in an exponential increase in identified cycles when executed on the full metabolic network of \emph{E.coli} due to combinatorial combinations of elementary cycles to composite ones.
-Further work will enable a more robust algorithm to identify additional autocatalytic cycles in the metabolic network.
+We note that the algorithm used in our systematic search is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism, as well as in larger metabolic networks.
+Further work will enable a more robust algorithm to identify additional autocatalytic cycles in full metabolic networks.
 
 The ubiquity of autocatalytic cycles in central carbon metabolism suggests that unique features of autocatalytic cycles, as derived below, may constrain and shape the kinetic parameters of a broad set of enzymes central to metabolism.
 
 \begin{figure}[h!]
 \resizebox{1\linewidth}{!}{
 \begin{tikzpicture}
-  \def\blendfrac{0.5}
-  \def\deltaang{-155}
-  \def\fromang{180}
-  \def\inputang{-40}
-  \def\protrude{7}
-  \def\arcwidth{0.3cm}
-  \def\highlightrad{0.2cm}
-  \def\autocatalrad{1.5cm}
-  \def\autocatalscale{1.5}
-  \colorlet{ptsinit}{cyan}
+ \colorlet{ptsinit}{cyan}
   \colorlet{cbbinit}{yellow}
   \colorlet{glyinit}{magenta}
-
-  \newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
-    \pgfmathsetmacro\arcrange{#3-#2}
-    \pgfmathsetmacro\radrange{#5-#4}
-    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
-    \foreach \i in {#2,...,\numexpr#3-1\relax} {
-      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
-      \pgfmathsetmacro\col{\fracprog*100}
-      \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
-  arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
-    }
-  }
-
-  \newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
-    \pgfmathsetmacro\arcrange{#3-#2}
-    \pgfmathsetmacro\radrange{#5-#4}
-    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
-    \foreach \i in {#2,...,\numexpr#3-1\relax} {
-      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
-      \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
-        arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
-    }
-  }
-
 
   \node[metaboliteStyle] (g6p) {g6p};
 
@@ -251,9 +291,9 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
 
-  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- node[midway] (ptsshademid) {} ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
 
-  \draw[very thick,dashed,cyan,->] (ptsbottomlimit) -- ++(-1.5cm,-1.5cm); 
+  \draw[very thick,dashed,cyan,->] (ptsshademid) -- ++(-1.5cm,0cm); 
 
   \draw[opacity=0.2,fill=glyinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2*\highlightrad)}]oaa.west) -- ([shift={(\highlightrad,2*\highlightrad)}]icit.east) -- node[midway] (glyshadedmid) {}([shift={(\highlightrad,-0.5*\highlightrad)}]icit.south east) -- ([shift={(0.5*\highlightrad,-2*\highlightrad)}]suc.east) -- ([shift={(-\highlightrad,-2*\highlightrad)}]fum.west) -- cycle;
 
@@ -264,19 +304,11 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
 
   \draw[very thick,dashed,cbbinit,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
 
-    \newlength\imrad;
-    \newlength\ierad;
-    \newlength\esrad;
-    \newlength\emrad;
-    \newlength\eerad;
-    \pgfmathsetlength{\imrad}{\autocatalrad-\blendfrac*\arcwidth};
-    \pgfmathsetlength{\ierad}{\autocatalrad-0.5*\arcwidth};
-    \pgfmathsetlength{\esrad}{\autocatalrad+\arcwidth};
-    \pgfmathsetlength{\emrad}{\autocatalrad+\arcwidth-\blendfrac*\arcwidth};
-    \pgfmathsetlength{\eerad}{\autocatalrad+0.5*\arcwidth};
-
   %% CBB cycle
-  \begin{scope} [shift={(11.2cm,-4cm)},radius=2cm]
+  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm]
+    \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(4.6,4.5);
+    \node at (-2.2cm,2cm) (I) {\large  \textbf{I}};
+    \node[anchor=north] at(-0.4cm,-2.2cm) (cbbreac) {{\fontfamily{cmss}\selectfont 5}  3pg + {\fontfamily{cmss}\selectfont 3} \ce{CO2} $\rightarrow$ {\fontfamily{cmss}\selectfont 6} 3pg};
     \colorlet{cbbmed}{blue}
     \colorlet{cbbext}{assimcol}
   
@@ -323,7 +355,10 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
   \end{scope}
 
   %glyoxilate cycle
-\begin{scope} [shift={(9cm,-14cm)},radius=2cm]
+\begin{scope} [shift={(9cm,-13.5cm)},radius=2cm]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-3cm) rectangle +(4.5,5.5);
+  \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
+  \node[anchor=north] at(-0.15cm,-3.1cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} aca $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
   \colorlet{glymed}{blue}
   \colorlet{glyext}{assimcol}
   \colorlet{glyinter}{blue}
@@ -385,7 +420,10 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
 
 
   %pts cycle
-\begin{scope} [shift={(-6cm,-14cm)},radius=2cm]
+\begin{scope} [shift={(-5.8cm,-5.5cm)},radius=2cm]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.5,-3) rectangle +(4.5,5.5);
+  \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
+  \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {gap + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap + pyr};
     \colorlet{ptsmed}{blue}
     \colorlet{ptsext}{assimcol}
 
@@ -411,48 +449,18 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
        -- cycle;
 
        %% \assimilatedcol input arc
-       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black] (glucc) {gluc};
+       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black,left,shift={(-1mm,-2mm)}] (glucc) {gluc};
     \node at (0:\autocatalrad) (gapc) {gap};
     \node at (270:\autocatalrad-4.5mm) (pepc) {pep};
     \node at (70:\ptsierad) (pyrc) {pyr};
   \end{scope}
 
-  %generic cycle
-\begin{scope} [shift={(-6.6cm,-4cm)}]
-  \colorlet{genext}{assimcol}
-  \colorlet{genmed}{blue}
-  \colorlet{geninit}{blue}
-
-    \shadedarc[\autocatalscale*\arcwidth]{-20}{-180}{\autocatalscale*\autocatalrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
-    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\imrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
-    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\emrad}{\autocatalscale*\esrad}{genext}{geninit};
-    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\eerad}{\autocatalscale*\emrad}{genext!0.5!geninit};
-    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\ierad}{\autocatalscale*\imrad}{genext!0.5!geninit};
-
-  \fill[genext!0.5!geninit] (\fromang+\deltaang+1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth)
-       -- (\fromang+\deltaang-1-\protrude:\autocatalscale*\autocatalrad) -- (\fromang+\deltaang-1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth)
-       -- cycle;
-
-       %% \assimilatedcol input arc
-       \draw[color=genext!99.5!geninit,line width=\autocatalscale*\arcwidth] (180:\autocatalscale*\esrad) arc(0:-40:2cm) node [pos=0.5,color=black] (ext) {E};
-    \node at (0:\autocatalscale*\autocatalrad) (int) {\large M};
-  \end{scope}
-  %\draw[lightgray,rounded corners=\highlightrad] (-10.3,-8) rectangle +(6.8,8.5);
-  \node at (-10cm,0) (A) {\large \textbf A};
-  \node at (-3.2cm,0) (B) {\large  \textbf B};
-  \draw[lightgray,rounded corners=\highlightrad] (8.5,-6.1) rectangle +(4.6,4.5);
-  \node at (9cm,-2cm) (I) {\large  \textbf{I}};
-  \draw[lightgray,rounded corners=\highlightrad] (6.6,-17) rectangle +(4.5,5.5);
-  \node at (7cm,-11.8cm) (II) {\large  \textbf {II}};
-  \draw[lightgray,rounded corners=\highlightrad] (-8.5,-17) rectangle +(4.5,5.5);
-  \node at (-8cm,-11.8cm) (III) {\large  \textbf {III}};
 
 \end{tikzpicture}
 }
 \caption{
     \label{fig:realautocatal}
-(A) A basic autocatalytic cycle uses the internal metabolite, M, in order to assimilate an external metabolite, E, into the cycle, increasing the amount of M.
-(B) Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle; (II) The glyoxylate cycle; (III) A cycle using the PTS system to assimilate glucose.
+Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle; (II) The glyoxylate cycle; (III) A cycle using the PTS system to assimilate glucose.
 }
 \end{figure}
 
@@ -853,7 +861,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
 
     The branch point that does not agree with our prediction is the branch point in fructose-1,6-bisphosphate at growth with fructose as the carbon source.
     The disagreement arises as a large flux is assigned to the fbp reaction, whereas the corresponding enzyme is not highly expressed.
-    This disagreement may be the result of negleting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in \cite{Gerosa2015-oq}.
+    This disagreement may be the result of neglecting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in \cite{Gerosa2015-oq}.
     Assuming $20\%$ of transported fructose is converted directly to f6p suffices in order to resolve the disagreement, resulting in equal saturation levels for the autocatalytic reaction and the branching reaction.
 
     The lower saturation values of biomass generating reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
@@ -876,7 +884,7 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
   }
   \tikzset{
     capArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=0.25,angle'=60,color=#1]}}},
-    capArrowStyle/.default=autocatacyc
+    capArrowStyle/.default=autocatacycfl
     }
   \tikzset{
     ratioRect/.style={rectangle,fill=graybg,rounded corners=2pt}}
@@ -924,32 +932,32 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[ratioRect,anchor=east] at (oaa.west) (galb1) {\coloredRatio{\galcapvalpck}{\galcapvalglt}};
     \node[ratioRect,anchor=south] at (icit.north) (galb2) {\coloredRatio{\galcapvalicd}{\galcapvalacea}};
 
-    \draw[line width=\galglt,autocatacyc] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
-    \draw[figArrowStyle,line width=\galglt*1.5,autocatacyc] (midglta) -- (cit);
-    \draw[capArrowStyle=branchout,line width=\galcappck,branchout!40] (oaa) -- (pep);
-    \draw[figArrowStyle,line width=\galpck,branchout] (oaa) -- (pep);
+    \draw[line width=\galglt,autocatacycfl] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
+    \draw[figArrowStyle,line width=\galglt*1.5,autocatacycfl] (midglta) -- (cit);
+    \draw[capArrowStyle=branchoutfl,line width=\galcappck,branchout!40] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\galpck,branchoutfl] (oaa) -- (pep);
     \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
-    \draw[figArrowStyle,line width=\galacn,autocatacyc] (cit) -- (icit);
+    \draw[figArrowStyle,line width=\galacn,autocatacycfl] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
     \draw[capArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- ([xshift=\galcapacea*0.4]suc);
     \draw[capArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.38]midacea) -- ([xshift=\galcapacea*0.4]suc);
     \draw[capArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
     \draw[capArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[line width=\galacea*1.5,autocatacyc] (icit.south west) -- (midacea);
-    \draw[figArrowStyle,line width=\galacea,autocatacyc] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
-    \draw[figArrowStyle,line width=\galacea*0.5,autocatacyc] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[capArrowStyle=branchout,line width=\galcapicd*1.5,branchout!40] (icit) -- (akg);
-    \draw[figArrowStyle,line width=\galicd*1.5,branchout] (icit) -- (akg);
+    \draw[line width=\galacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
+    \draw[figArrowStyle,line width=\galacea,autocatacycfl] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
+    \draw[figArrowStyle,line width=\galacea*0.5,autocatacycfl] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle=branchoutfl,line width=\galcapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\galicd*1.5,branchoutfl] (icit) -- (akg);
     \draw[->] (akg) -- (sca);
     \draw[->] (sca) -- (suc);
-    \draw[figArrowStyle,line width=\galsdh,autocatacyc] (suc) -- (fum);
-    \draw[figArrowStyle,line width=\galfum,autocatacyc](fum) -- (mal);
+    \draw[figArrowStyle,line width=\galsdh,autocatacycfl] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\galfum,autocatacycfl](fum) -- (mal);
     \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
-    \draw[line width=\galaceb*0.5,autocatacyc] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
+    \draw[line width=\galaceb*0.5,autocatacycfl] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
     \draw[inputcol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
-    \draw[figArrowStyle,line width=\galaceb,autocatacyc] (midaceb) -- (mal);
-    \draw[figArrowStyle,line width=\galmdh,autocatacyc] (mal) -- (oaa);
+    \draw[figArrowStyle,line width=\galaceb,autocatacycfl] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\galmdh,autocatacycfl] (mal) -- (oaa);
   \end{scope}
 
   %acetate
@@ -994,34 +1002,34 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
     \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
     \node[ratioRect,anchor=south east] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
-    \draw[line width=\aceglt,autocatacyc] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
-    \draw[figArrowStyle,line width=\aceglt*1.5,autocatacyc] (midglta) -- (cit);
-    \draw[capArrowStyle=branchout,line width=\acecappck,branchout!40] (oaa) -- (pep);
-    \draw[figArrowStyle,line width=\acepck,branchout] (oaa) -- (pep);
-    \draw[capArrowStyle=branchout,line width=\acecapmae,branchout!40] (mal) -- (pyr);
+    \draw[line width=\aceglt,autocatacycfl] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \draw[figArrowStyle,line width=\aceglt*1.5,autocatacycfl] (midglta) -- (cit);
+    \draw[capArrowStyle=branchoutfl,line width=\acecappck,branchout!40] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\acepck,branchoutfl] (oaa) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\acecapmae,branchout!40] (mal) -- (pyr);
     \node[ratioRect,anchor=south east] at (mal.north west) (aceb2) {\coloredRatio{\acecapvalmae}{\acecapvalmdh}};
-    \draw[figArrowStyle,line width=\acemae,branchout] (mal) -- (pyr);
+    \draw[figArrowStyle,line width=\acemae,branchoutfl] (mal) -- (pyr);
     \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\aceglt]midglta);
-    \draw[figArrowStyle,line width=\aceacn,autocatacyc] (cit) -- (icit);
+    \draw[figArrowStyle,line width=\aceacn,autocatacycfl] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
-    \draw[capArrowStyle,line width=\acecapacea,autocatacyc!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
+    \draw[capArrowStyle,line width=\acecapacea,autocatacycfl!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
     \node[ratioRect,anchor=south] at (icit.north) (aceb3) {\coloredRatio{\acecapvalicd}{\acecapvalacea}};
     \draw[capArrowStyle,line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[line width=\aceacea*1.5,autocatacyc] (icit.south west) -- (midacea);
-    \draw[figArrowStyle,line width=\aceacea,autocatacyc] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
-    \draw[figArrowStyle,line width=\aceacea*0.5,autocatacyc] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
-    \draw[capArrowStyle=branchout,line width=\acecapicd*1.5,branchout!40] (icit) -- (akg);
-    \draw[figArrowStyle,line width=\aceicd*1.5,branchout] (icit) -- (akg);
+    \draw[line width=\aceacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
+    \draw[figArrowStyle,line width=\aceacea,autocatacycfl] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
+    \draw[figArrowStyle,line width=\aceacea*0.5,autocatacycfl] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle=branchoutfl,line width=\acecapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\aceicd*1.5,branchoutfl] (icit) -- (akg);
     \draw[->] (akg) -- (sca);
     \draw[->] (sca) -- (suc);
-    \draw[figArrowStyle,line width=\acesdh,autocatacyc] (suc) -- (fum);
-    \draw[figArrowStyle,line width=\acefum,autocatacyc](fum) -- (mal);
+    \draw[figArrowStyle,line width=\acesdh,autocatacycfl] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\acefum,autocatacycfl](fum) -- (mal);
     \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
-    \draw[line width=\aceaceb*0.5,autocatacyc] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
+    \draw[line width=\aceaceb*0.5,autocatacycfl] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
     \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
-    \draw[figArrowStyle,line width=\aceaceb,autocatacyc] (midaceb) -- (mal);
-    \draw[figArrowStyle,line width=\acemdh,autocatacyc] (mal) -- (oaa);
+    \draw[figArrowStyle,line width=\aceaceb,autocatacycfl] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\acemdh,autocatacycfl] (mal) -- (oaa);
  
   \end{scope}
 
@@ -1071,36 +1079,36 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[metaboliteStyle,right=of pep] (oaa) {oaa};
     \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
     \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
-    \draw[figArrowStyle,line width=\glucpgi,autocatacyc] (g6p) -- (f6p);
-    \draw[figArrowStyle,line width=\glucpfk,autocatacyc] (f6p.south) -- (fbp.north);
-    \draw [line width=\glucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
-    \draw [figArrowStyle,line width=\glucfba/2,autocatacyc] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
-    \draw [figArrowStyle,line width=\glucfba/2,autocatacyc] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
-    \draw [figArrowStyle,line width=\gluctpi,autocatacyc] (dhap) -- (gap);
+    \draw[figArrowStyle,line width=\glucpgi,autocatacycfl] (g6p) -- (f6p);
+    \draw[figArrowStyle,line width=\glucpfk,autocatacycfl] (f6p.south) -- (fbp.north);
+    \draw [line width=\glucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacycfl] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacycfl] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\gluctpi,autocatacycfl] (dhap) -- (gap);
 
-    \draw[figArrowStyle,line width=\glucgap,autocatacyc] (gap) -- (bpg);
-    \draw[figArrowStyle,line width=\glucpgk,autocatacyc] (bpg) -- (3pg);
-    \draw[figArrowStyle,line width=\glucgpm,autocatacyc] (3pg) -- (2pg);
-    \draw[figArrowStyle,line width=\gluceno,autocatacyc] (2pg) -- (pep);
-    \draw[capArrowStyle=branchout,line width=\gluccappyk,branchout!40] (pep) -- (pyr);
-    \draw[figArrowStyle,line width=\glucpyk,branchout] (pep) -- (pyr);
-    \draw[capArrowStyle=branchout,line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \draw[figArrowStyle,line width=\glucgap,autocatacycfl] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\glucpgk,autocatacycfl] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\glucgpm,autocatacycfl] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\gluceno,autocatacycfl] (2pg) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\glucpyk,branchoutfl] (pep) -- (pyr);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccapppc,branchout!40] (pep) -- (oaa);
     \node[ratioRect,anchor=south east] at (pep.north west) (glucb2) {\coloredRatio{\gluccapvalcomp}{\gluccapvalpts}};
-    \draw[figArrowStyle,line width=\glucppc,branchout] (pep) -- (oaa);
-    \draw[capArrowStyle=branchout,line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
-    \draw[figArrowStyle,line width=\gluczwf,branchout] (g6p) -- (6pgi);
+    \draw[figArrowStyle,line width=\glucppc,branchoutfl] (pep) -- (oaa);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
+    \draw[figArrowStyle,line width=\gluczwf,branchoutfl] (g6p) -- (6pgi);
     \node[ratioRect,anchor=north west] at (g6p.south east) (glucb1) {\coloredRatio{\gluccapvalzwf}{\gluccapvalpgi}};
     \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
-    \draw[line width=\glucpts/2,autocatacyc] (pep.west) -- (pts3);
+    \draw[line width=\glucpts/2,autocatacycfl] (pep.west) -- (pts3);
     \draw[inputcol,line width=\glucpts] (gluc) -- (ptsmid);
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to (pyr1);
     \node[shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
-    \draw[line width=\glucpts/2,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
-    \draw[line width=\glucpts/2,autocatacyc] (ptsbottom) -- (ptstop);
-    \draw[line width=\glucpts/2,autocatacyc] (ptstop) [in=180,out=90] to ([yshift=-3/4*\glucpts]ptsmid);
-    \draw[figArrowStyle,line width=\glucpts,autocatacyc] (ptsmid) -- (g6p);
+    \draw[line width=\glucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\glucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
+    \draw[line width=\glucpts/2,autocatacycfl] (ptstop) [in=180,out=90] to ([yshift=-3/4*\glucpts]ptsmid);
+    \draw[figArrowStyle,line width=\glucpts,autocatacycfl] (ptsmid) -- (g6p);
   \end{scope}
 
   %Fructose
@@ -1146,28 +1154,28 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
     \node[metaboliteStyle,right=of pep] (oaa) {oaa};
     \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
-    \draw[figArrowStyle,line width=\frucfbp,branchout] (fbp)-- (f6p) ;
+    \draw[figArrowStyle,line width=\frucfbp,branchoutfl] (fbp)-- (f6p) ;
     \node[ratioRect,anchor=west] at (fbp.east) (frucb1) {\coloredRatio{\fruccapvalfbp}{\fruccapvalfba}};
     \node[at=(frucb1.north east)] (star) {*};
     \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- (fbamid);
     \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
     \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
-    \draw [line width=\frucfba,autocatacyc] (fbp) [out=-90,in=90] to (fbamid);
-    \draw [figArrowStyle,line width=\frucfba/2,autocatacyc] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
-    \draw [figArrowStyle,line width=\frucfba/2,autocatacyc] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
-    \draw [figArrowStyle,line width=\fructpi,autocatacyc] (dhap) -- (gap);
+    \draw [line width=\frucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacycfl] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacycfl] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\fructpi,autocatacycfl] (dhap) -- (gap);
 
-    \draw[figArrowStyle,line width=\frucgap,autocatacyc] (gap) -- (bpg);
-    \draw[figArrowStyle,line width=\frucpgk,autocatacyc] (bpg) -- (3pg);
-    \draw[figArrowStyle,line width=\frucgpm,autocatacyc] (3pg) -- (2pg);
-    \draw[figArrowStyle,line width=\fruceno,autocatacyc] (2pg) -- (pep);
-    \draw[capArrowStyle=branchout,line width=\fruccappyk,branchout!40] (pep) -- (pyr);
-    \draw[figArrowStyle,line width=\frucpyk,branchout] (pep) -- (pyr);
-    \draw[capArrowStyle=branchout,line width=\fruccapppc,branchout!40] (pep) -- (oaa);
+    \draw[figArrowStyle,line width=\frucgap,autocatacycfl] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\frucpgk,autocatacycfl] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\frucgpm,autocatacycfl] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\fruceno,autocatacycfl] (2pg) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\fruccappyk,branchout!40] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\frucpyk,branchoutfl] (pep) -- (pyr);
+    \draw[capArrowStyle=branchoutfl,line width=\fruccapppc,branchout!40] (pep) -- (oaa);
     \node[ratioRect,anchor=south east] at (pep.north west) (frucb2) {\coloredRatio{\fruccapvalcomp}{\fruccapvalpts}};
-    \draw[figArrowStyle,line width=\frucppc,branchout] (pep) -- (oaa);
+    \draw[figArrowStyle,line width=\frucppc,branchoutfl] (pep) -- (oaa);
     \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
-    \draw[line width=\frucpts/2,autocatacyc] ([yshift=\frucpts/4]pep.west) -- (pts3);
+    \draw[line width=\frucpts/2,autocatacycfl] ([yshift=\frucpts/4]pep.west) -- (pts3);
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to (pyr1);
     \node[shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
@@ -1175,10 +1183,10 @@ To explore general principles governing the dynamic behavior of autocatalytic cy
     \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
     \draw[inputcol,line width=\frucpts] (fruc) -- (ptsmid);
-    \draw[line width=\frucpts/2,autocatacyc] (pts3) [in=-90,out=180] to (ptsbottom);
-    \draw[line width=\frucpts/2,autocatacyc] (ptsbottom) -- (ptstop);
-    \draw[line width=\frucpts/2,autocatacyc] (ptstop) [in=180,out=90] to ([yshift=-3/4*\frucpts]ptsmid);
-    \draw[figArrowStyle,line width=\frucpts,autocatacyc] (ptsmid) -- (fbp);
+    \draw[line width=\frucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\frucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
+    \draw[line width=\frucpts/2,autocatacycfl] (ptstop) [in=180,out=90] to ([yshift=-3/4*\frucpts]ptsmid);
+    \draw[figArrowStyle,line width=\frucpts,autocatacycfl] (ptsmid) -- (fbp);
   \end{scope}
   \end{tikzpicture}
 }
