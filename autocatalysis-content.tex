@@ -96,7 +96,7 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
 
   %%%% upper pts
   \node[shape=coordinate,left=12mm of g6p.center] (ptsmid) {};
-  \node[metaboliteStyle,left=6mm of ptsmid] (gluc) {gluc};
+  \node[metaboliteStyle,left=7mm of ptsmid,rectangle,draw=assimcol,rounded corners=2pt] (gluc) {gluc};
   \node[metaboliteStyle,shift={(-7mm,-7mm)},gray] at (g6p.center) (pyr1) {pyr};
   \draw[assimcol,line width=\assimwidth] (gluc) -- (ptsmid);
   \draw[->] (ptsmid) [out=0,in=90] to (pyr1);
@@ -111,7 +111,7 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
   \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
   \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
   \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
-  \node[metaboliteStyle,below=of pyr.center] (aca) {accoa};
+  \node[metaboliteStyle,below=of pyr.center,rectangle,draw=assimcol,rounded corners=2pt] (aca) {accoa};
   \node[shape=coordinate,below=of aca] (dummyglta) {};
   \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
   \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
@@ -131,7 +131,7 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
   \node[metaboliteStyle,] at (fbp.center -| s7p.center) (e4p) {e4p};
   \node[metaboliteStyle,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
   \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
-  \node[metaboliteStyle] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
+  \node[metaboliteStyle,rectangle,draw=assimcol,rounded corners=2pt] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
   \draw[->] (g6p) -- (f6p);
   \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
   \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
@@ -414,7 +414,7 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
             \draw[kstyle] (axis cs:0,0) -- (axis cs:2,2) -- (axis cs:2,0) --cycle;
             \draw[vstyle] (axis cs:0,1) -- (axis cs:2,1) -- (axis cs:2,2) -- (axis cs:0,2) --cycle;
             \draw[->,black!50,dashed] (axis cs:0.25,1.33) -- +(-1.5cm,0cm);
-            \draw[->,black!50,dashed] (axis cs:1.75,1.33) -- +(1.2cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:1.75,1.33) -- +(1.1cm,0cm);
             \draw[->,black!50,dashed] (axis cs:0.25,0.66) -- +(-1.5cm,0cm);
             \draw[->,black!50,dashed] (axis cs:1.75,0.66) -- +(1.2cm,0cm);
             \node[align=left,anchor=east] at (axis cs:1.75,1.33) (I) {I};
@@ -423,13 +423,14 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
             \node[align=left,anchor=east] at (axis cs:1.75,0.66) (IV) {IV};
           \end{axis}
 
-          \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,axis background/.style={fill=cyan!50!magenta,opacity=0.3}]
+          \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,axis background/.style={fill=cyan!50!magenta,opacity=0.3},ylabel style={name=ylabel1}]
             \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
             \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick,dashed] {3*x/(0.1+x)-5*x/(1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
+          \node[draw,dashed,fit=(plot1) (ylabel1)]{};
 
           \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.left of north west),anchor=right of north east,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},axis background/.style=vstyle]
             \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
