@@ -1,0 +1,1115 @@
+\section{Introduction}
+    Autocatalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled reaction (see, for example, \cite{Steinfeld1999-iw}).
+    Naively, one can then consider them as parts of the catalyst and not part of the reaction.
+    A metabolic cycle is a set of reactions and corresponding metabolites that can be ordered in such a way that one of the products of each reaction is a substrate of the following reaction, with a product of the last reaction serving as a substrate for the first reaction.
+    Metabolic cycles allow metabolites external to the cycle to serve as additional reactants or products of the reactions of the cycle.
+    A metabolic cycle is autocatalytic if traversing the reactions that form the cycle increases the amount of the metabolites forming it.
+    Surprisingly, autocatalytic cycles can be an essential building block of optimal metabolic networks \cite{Riehl2010-yh}.
+
+    Autocatalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Fell1999,Reznik2010-te}.
+    Understanding the unique constraints that operating metabolic autocatalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
+
+    The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin-Benson-Bassham cycle (CBB) \cite{Benson1950-cl}.
+    The CBB cycle, assimilating \ce{CO2} while converting 5-carbon compounds to 6-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
+    We show that more autocatalytic cycles exist in central carbon metabolism, suggesting important biological insights can be gained by understanding the constraints underlying their stable operation.
+
+    In this work we present the specific requirements autocatalytic cycles must meet in order to operate: (A) To be able to achieve at least one, non-zero, steady state of fluxes; 
+    (B) To be stable in respect to fluctuations of metabolites or enzymes levels close to the steady state point(s).
+    The mathematical tools we use are widely known and applicable in various fields (see, for example \cite{Strogatz2014-hp}).
+    We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as the critical values that determine whether the cycle can function or not.
+    Our analysis demonstrates the use of these results to gain insights about the operation, limitations, and various modifications available to metabolic autocatalytic cycles in vivo.
+
+\section{Results}
+\subsection{Autocatalytic cycles play important roles in central carbon metabolism}
+Different definitions exist for autocatalytic sets in the context of chemical reaction networks \cite{Hordijk2004-xe, Eigen2012-ti, Kun2008-xg}.
+Here we define an autocatalytic cycle as a set of reactions and metabolites that form a cycle, and that, when the reactions are applied to the substrates at appropriate ratios, increase the amount of the intermediate metabolites (figure \ref{fig:autocataldef}).
+Formally, a set of irreversible reactions (for reversible reactions only one direction can be included in the set) and metabolites forms a cycle if every metabolite of the set can be converted, by sequential application of reactions in the set (where two reactions can be chained if a metabolite in the set is a product of the first reaction and a substrate of the second reaction), to every other metabolite in the set.
+A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
+Three examples of autocatalytic cycles using central carbon metabolism are presented in figure \ref{fig:realautocatal}.
+
+\begin{figure}[h!]
+    \centering
+\begin{tikzpicture}
+\begin{scope} [shift={(-6.6cm,-4cm)}]
+  \colorlet{genext}{assimcol}
+  \colorlet{genmed}{blue}
+  \colorlet{geninit}{blue}
+
+  \newlength\imrad;
+  \newlength\ierad;
+  \newlength\esrad;
+  \newlength\emrad;
+  \newlength\eerad;
+  \pgfmathsetlength{\imrad}{\autocatalrad-\blendfrac*\arcwidth};
+  \pgfmathsetlength{\ierad}{\autocatalrad-0.5*\arcwidth};
+  \pgfmathsetlength{\esrad}{\autocatalrad+\arcwidth};
+  \pgfmathsetlength{\emrad}{\autocatalrad+\arcwidth-\blendfrac*\arcwidth};
+  \pgfmathsetlength{\eerad}{\autocatalrad+0.5*\arcwidth};
+
+    \shadedarc[\autocatalscale*\arcwidth]{-20}{-180}{\autocatalscale*\autocatalrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\imrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\emrad}{\autocatalscale*\esrad}{genext}{geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\eerad}{\autocatalscale*\emrad}{genext!0.5!geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\ierad}{\autocatalscale*\imrad}{genext!0.5!geninit};
+
+  \fill[genext!0.5!geninit] (\fromang+\deltaang+1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalscale*\autocatalrad) -- (\fromang+\deltaang-1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=genext!99.5!geninit,line width=\autocatalscale*\arcwidth] (180:\autocatalscale*\esrad) arc(0:-40:2cm) node [pos=0.5,color=black,left] (ext) {External metabolite};
+    \node at (0:\autocatalscale*\autocatalrad) (int) {Internal metabolite};
+    \node [rectangle,fill=autocatacyc!40,rounded corners=3pt] at (90:\autocatalscale*\autocatalrad+1cm) (eq) {Internal metabolite + External metabolite $\rightarrow (1+\gamma)$ Internal metabolite};
+  \end{scope}
+\end{tikzpicture}
+\caption{
+    \label{fig:autocataldef}
+  A basic autocatalytic cycle requires an internal metabolite in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite.}
+\end{figure}
+ 
+While less than a handful of autocatalytic cycles following this definition are widely known, a systematic search in central carbon metabolism yields several autocatalytic cycles that are not usually considered as such.
+We find it useful to group the identified autocatalytic cycles in central carbon metabolism into four classes:
+\begin{enumerate}
+    \item The glyoxylate cycle within the TCA cycle, that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules with extra acetyl-CoA into two isocitrate molecules \cite{Kornberg1966-lh}.
+    \item Glycolysis based cycles using phosphoenolpyruvate (PEP) to transport sugar substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules.
+    \item Various parts of the pentose-phosphate pathway (PP) assimilating imported sugars that are incorporated into central carbon metabolism as the intermediate metabolites: erythrose-4P, sedoheptulose-7P, ribose-5p or xylulose-5p to later produce these carbon compounds at higher stoichiometries.
+    \item Cycles assimilating glycerone-phosphate and using the Entner-Doudoroff (ED) pathway \cite{Entner1952-xs}.
+        They first use the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose-1,6-bisphosphate from glyceraldehyde-3-phosphate, then convert the fructose back into two glyceraldehyde-3-phosphate.
+\end{enumerate}
+
+We note that the algorithm used in our systematic search is incomplete, meaning additional autocatalytic cycles may exist in central carbon metabolism, as well as in larger metabolic networks.
+Further work will enable a more robust algorithm to identify additional autocatalytic cycles in full metabolic networks.
+
+The ubiquity of autocatalytic cycles in central carbon metabolism suggests that unique features of autocatalytic cycles, as derived below, may constrain and shape the kinetic parameters of a broad set of enzymes central to metabolism.
+
+\begin{figure}[h!]
+\resizebox{1\linewidth}{!}{
+\begin{tikzpicture}
+ \colorlet{ptsinit}{cyan}
+  \colorlet{cbbinit}{yellow}
+  \colorlet{glyinit}{magenta}
+
+  \newlength\assimwidth;
+  \pgfmathsetlength{\assimwidth}{1.5pt};
+
+  \node[metaboliteStyle] (g6p) {g6p};
+
+  %%%% upper pts
+  \node[shape=coordinate,left=12mm of g6p.center] (ptsmid) {};
+  \node[metaboliteStyle,left=6mm of ptsmid] (gluc) {gluc};
+  \node[metaboliteStyle,shift={(-7mm,-7mm)},gray] at (g6p.center) (pyr1) {pyr};
+  \draw[assimcol,line width=\assimwidth] (gluc) -- (ptsmid);
+  \draw[->] (ptsmid) [out=0,in=90] to (pyr1);
+
+  \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+  \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+  \node[metaboliteStyle,shape=coordinate,below=of fbp.center](fbamid) {};
+  \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+  \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
+  \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+  \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+  \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+  \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+  \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+  \node[metaboliteStyle,below=of pyr.center] (aca) {accoa};
+  \node[shape=coordinate,below=of aca] (dummyglta) {};
+  \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
+  \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
+  \node[metaboliteStyle,right=of cit] (icit) {icit};
+  \node[metaboliteStyle,below=of icit.center] (akg) {akg};
+  \node[metaboliteStyle,below=of akg.center] (sca) {sca};
+  \node[metaboliteStyle,below=of oaa.center] (mal) {mal};
+  \node[metaboliteStyle,below=of mal.center] (fum) {fum};
+  \node[metaboliteStyle,right=of mal] (glx) {glx};
+  \node[metaboliteStyle,right=of fum] (suc) {suc};
+  \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+  \node[metaboliteStyle,shape=coordinate,right=of f6p] (s7pspace) {};
+  \node[metaboliteStyle,right=of s7pspace] (s7p) {s7p};
+  \node[metaboliteStyle,right=of s7p] (r5p) {r5p};
+  \node[metaboliteStyle,right=of r5p] (ru5p) {ru5p};
+  \node[metaboliteStyle,above=of ru5p.center] (6pgc) {6pgc};
+  \node[metaboliteStyle,] at (fbp.center -| s7p.center) (e4p) {e4p};
+  \node[metaboliteStyle,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
+  \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
+  \node[metaboliteStyle] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
+  \draw[->] (g6p) -- (f6p);
+  \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
+  \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
+  \draw [<-] (fbp) [out=-90,in=90] to (fbamid);
+  \draw [->] (fbamid) [out=-90,in=45] to (dhap);
+  \draw [->] (fbamid) [out=-90,in=135] to (gap);
+  \draw [<->] (dhap) -- (gap);
+  \draw[<->] (gap) -- (bpg);
+  \draw[<->] (bpg) -- (3pg);
+  \draw[->] (3pg) -- (2pg);
+  \draw[->] (2pg) -- (pep);
+  \draw[->] (pep) -- (pyr);
+  \draw[->] (pyr) -- (aca);
+  \draw[->] (oaa) -- (cit) node [pos=0.9] (midglta) {};
+  \draw [assimcol,line width=\assimwidth] (aca) [out=-70,in=180] to (midglta);
+  \draw[->] (cit) -- (icit);
+  \draw[->] (icit) -- (suc) node [pos=0.3] (midacea) {};
+  \draw[->] (midacea) [out=220,in=0] to (glx);
+  \draw[->] (icit) -- (akg);
+  \draw[->] (akg) -- (sca);
+  \draw[->] (sca) -- (suc);
+  \draw[->] (suc) -- (fum);
+  \draw[->] (fum) -- (mal);
+  \draw[->] (glx) -- (mal) node [pos=0.9] (midaceb) {};
+  \draw[->] (mal) -- (oaa);
+  \draw[assimcol,line width=\assimwidth] (aca) [out=-90,in=0] to (midaceb);
+  \draw[->] (g6p) -- (6pgi);
+  \draw[->] (6pgi) -- (6pgc);
+  \draw[->] (6pgc) -- (ru5p);
+  \draw[<-] (ru5p) -- (xu5p);
+  \draw[<-] (ru5p) -- (r5p);
+  \path[] (r5p) -- (gap) coordinate [pos=0.2] (midtkt1) {};
+  \draw[<-] (xu5p) [out=180,in=-90] to (midtkt1);
+  \draw[] (midtkt1) [out=90,in=0] to (s7p);
+  \draw[<-] (r5p) [out=180,in=90] to (midtkt1);
+  \draw[] (midtkt1) [out=270,in=0] to (gap);
+  \path[] (e4p) -- (gap) coordinate [pos=0.4] (midtkt2) {};
+  \draw[<-] (e4p) [out=-60,in=0] to (midtkt2);
+  \draw[] (midtkt2) [out=180,in=90] to (gap);
+  \draw[<-] (xu5p) [out=245,in=0] to (midtkt2);
+  \draw[] (midtkt2) [out=180,in=-30] to (f6p);
+  \path[] (e4p) -- (s7pspace) coordinate [pos=0.5] (midtal) {};
+  \draw[] (midtal) [out=90,in=0] to (f6p);
+  \draw[<-] (s7p) [out=180,in=90] to (midtal);
+  \draw[] (midtal) [out=-90,in=180] to (e4p);
+  \draw[<-] (gap) [out=55,in=-90] to (midtal);
+  \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+  \draw[] (pep) [out=180,in=0] to (pts3);
+  \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+  \node[shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
+  \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+  \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
+  \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
+  \draw[] (ptstop) [in=180,out=90] to (ptsmid);
+  \draw[->] (ptsmid) -- (g6p);
+  \draw[->] (ru5p) [out=-90,in=90] to (rub);
+  \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
+  \draw[assimcol,line width=\assimwidth] (co2) [out=90,in=0] to (rubisco);
+  \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
+  \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
+
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- node[midway] (ptsshademid) {} ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
+
+  \draw[very thick,dashed,cyan,->] (ptsshademid) -- ++(-1.5cm,0cm); 
+
+  \draw[opacity=0.2,fill=glyinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2*\highlightrad)}]oaa.west) -- ([shift={(\highlightrad,2*\highlightrad)}]icit.east) -- node[midway] (glyshadedmid) {}([shift={(\highlightrad,-0.5*\highlightrad)}]icit.south east) -- ([shift={(0.5*\highlightrad,-2*\highlightrad)}]suc.east) -- ([shift={(-\highlightrad,-2*\highlightrad)}]fum.west) -- cycle;
+
+  \draw[very thick,dashed,magenta,->] (glyshadedmid) -- ++(1.5cm,0cm); 
+
+  \node[shape=coordinate] at (dhap.south -| gap.west) (cbbmid) {};
+  \draw[opacity=0.2,fill=cbbinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2.2*\highlightrad)}]f6p.west) -- ([shift={(3*\highlightrad,2.2*\highlightrad)}]ru5p.center) -- node[midway] (cbbshadedmid) {} ([shift={(3*\highlightrad,-2*\highlightrad)}]rub.center) -- ([shift={(-\highlightrad,-2*\highlightrad)}]3pg.west) -- ([shift={(-\highlightrad,-\highlightrad)}]cbbmid) -- ([shift={(-0.5*\highlightrad,-\highlightrad)}]dhap.south west) -- ([shift={(-0.5*\highlightrad,0.5*\highlightrad)}]dhap.north west) -- ([xshift=-\highlightrad]fbp.west) -- cycle;
+
+  \draw[very thick,dashed,cbbinit,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
+
+  %% CBB cycle
+  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm]
+    \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(4.6,4.5);
+    \node at (-2.2cm,2cm) (I) {\large  \textbf{I}};
+    \node[anchor=north] at(-0.4cm,-2.2cm) (cbbreac) {{\fontfamily{cmss}\selectfont 5}  3pg + {\fontfamily{cmss}\selectfont 3} \ce{CO2} $\rightarrow$ {\fontfamily{cmss}\selectfont 6} 3pg};
+    \colorlet{cbbmed}{blue}
+    \colorlet{cbbext}{assimcol}
+  
+
+    \newlength\cbbimrad;
+    \newlength\cbbierad;
+    \newlength\cbbesrad;
+    \newlength\cbbemrad;
+    \newlength\cbbeerad;
+    \newlength\cbbwidth;
+    \newlength\cbbtotwidth;
+    \pgfmathsetlength{\cbbwidth}{\arcwidth*0.2};
+    \pgfmathsetlength{\cbbtotwidth}{\cbbwidth+\arcwidth};
+    \pgfmathsetlength{\cbbimrad}{\autocatalrad-\blendfrac*0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbierad}{\autocatalrad-0.5*\cbbwidth};
+    \pgfmathsetlength{\cbbesrad}{\autocatalrad+0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbemrad}{\autocatalrad+0.5*\cbbtotwidth-\blendfrac*0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbeerad}{\autocatalrad+0.5*\arcwidth};
+
+    \shadedarc{-20}{-180}{\autocatalrad}{\autocatalrad}{cbbmed}{cbbinit};
+    \shadedarc{100}{180}{\cbbimrad}{\autocatalrad}{cbbmed}{cbbinit};
+    \coloredarc{25}{100}{\cbbierad}{\cbbimrad}{cbbinit};
+    \shadedarc[\cbbwidth]{100}{180}{\cbbemrad}{\cbbesrad}{cbbext}{cbbinit};
+    \coloredarc[\cbbwidth]{25}{100}{\cbbeerad}{\cbbemrad}{cbbinit};
+
+%% \assimilatedcol input arc
+        \draw[color=cbbext,line width=\cbbwidth]
+        (\fromang:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+        arc (0:\inputang:2cm)
+        node [pos=0.5,color=black,anchor=east] (co2c) {\ce{CO2}};
+%% arrowhead
+    \fill[cbbinit]
+      (\fromang+\deltaang+1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
+      arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
+      -- (\fromang+\deltaang-1-\protrude:\autocatalrad)
+      -- (\fromang+\deltaang-1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+      arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+      -- cycle;
+
+%% metabolites
+        \node at (0:\autocatalrad) (3pgc) {3pg};
+        \node at (220:\autocatalrad-4.7mm) (rubc) {rubp};
+
+  \end{scope}
+
+  %glyoxilate cycle
+\begin{scope} [shift={(9cm,-13.5cm)},radius=2cm]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-3cm) rectangle +(4.5,5.5);
+  \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
+  \node[anchor=north] at(-0.15cm,-3.1cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
+  \colorlet{glymed}{blue}
+  \colorlet{glyext}{assimcol}
+  \colorlet{glyinter}{blue}
+  
+    \newlength\glyimrad;
+    \newlength\glyierad;
+    \newlength\glyesrad;
+    \newlength\glyemrad;
+    \newlength\glyeerad;
+    \newlength\glywidth;
+    \newlength\glytotwidth;
+    \newlength\glyfinwidth;
+    \newlength\glyimmrad;
+    \newlength\glyemmrad;
+    \newlength\glyemmmrad;
+    \newlength\glyeamrad;
+    \pgfmathsetlength{\glywidth}{\arcwidth*0.5};
+    \pgfmathsetlength{\glytotwidth}{\glywidth+\arcwidth};
+    \pgfmathsetlength{\glyfinwidth}{\glytotwidth+\glywidth};
+    \pgfmathsetlength{\glyimrad}{\autocatalrad-\blendfrac*0.5*\glywidth};
+    \pgfmathsetlength{\glyimmrad}{\autocatalrad-0.5*\glywidth};
+    \pgfmathsetlength{\glyemmrad}{\glyimmrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyemmmrad}{\glyemmrad+0.5*\glywidth};
+    \pgfmathsetlength{\glyeamrad}{\autocatalrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyierad}{\autocatalrad-0.5*\glywidth};
+    \pgfmathsetlength{\glyesrad}{\autocatalrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyemrad}{\autocatalrad+0.5*\glyfinwidth-\blendfrac*0.5*\glywidth};
+    \pgfmathsetlength{\glyeerad}{\autocatalrad+0.5*\glytotwidth};
+
+    \shadedarc{-20}{-90}{\autocatalrad}{\autocatalrad}{glymed}{glyinit};
+    \shadedarc{-150}{-90}{\glyimmrad}{\autocatalrad}{glymed}{glyinter};
+    \shadedarc[\glywidth]{-150}{-90}{\glyemmrad}{\glyeamrad}{glyext}{glyinter};
+
+    \draw[color=glyext,line width=\glywidth] (-90:\autocatalrad+0.5*\glytotwidth) arc(90:50:2cm) node [pos=0.5,color=black,anchor=north,xshift=-1.5mm] (acac) {accoa};
+
+    \coloredarc[\glytotwidth]{160}{90}{\glyimmrad}{\glyimmrad}{glyinter};
+
+    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south,xshift=1.5mm] (acac) {accoa};
+
+    \shadedarc[\glytotwidth]{50}{90}{\glyimrad}{\glyimmrad}{glyinter}{glyinit};
+    \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyinit};
+
+    \shadedarc[\glywidth]{90}{50}{\glyemmmrad}{\glyemrad}{glyinit}{glyext};
+    \coloredarc[\glywidth]{50}{25}{\glyemrad}{\glyeerad}{glyinit};
+
+
+    \node at (0:\autocatalrad) (malc) {mal};
+    \node at (180:\autocatalrad) (glxc) {glx+fum};
+    \node at (-50:\autocatalrad-4.5mm) (oaa) {oaa};
+
+  \fill[glyinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
+       -- cycle;
+
+  \fill[glyinter] (-149:\autocatalrad-\arcwidth+0.5*\glywidth) arc (-149:-161:\autocatalrad-\arcwidth+0.5*\glywidth)
+       -- (-161-\protrude:\autocatalrad) -- (-161:\autocatalrad+\arcwidth-0.5*\glywidth) arc (-161:-149:\autocatalrad+\arcwidth-0.5*\glywidth)
+       -- cycle;
+  \end{scope}
+
+
+  %pts cycle
+\begin{scope} [shift={(-5.8cm,-5.5cm)},radius=2cm]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.5,-3) rectangle +(4.5,5.5);
+  \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
+  \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {gap + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap + pyr};
+    \colorlet{ptsmed}{blue}
+    \colorlet{ptsext}{assimcol}
+
+    \newlength\ptsierad;
+    \newlength\ptsimrad;
+    \newlength\ptsarcwidth;
+    \newlength\ptsesrad;
+    \newlength\ptsemrad;
+    \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
+    \pgfmathsetlength{\ptsimrad}{\autocatalrad-0.5*\arcwidth};
+    \pgfmathsetlength{\ptsarcwidth}{2*\arcwidth};
+    \pgfmathsetlength{\ptsesrad}{\autocatalrad+0.5*\arcwidth+0.5*\ptsarcwidth};
+    \pgfmathsetlength{\ptsemrad}{\autocatalrad+0.5*\ptsarcwidth};
+
+    \shadedarc{-20}{-120}{\autocatalrad}{\autocatalrad}{ptsmed}{ptsinit};
+    \shadedarc{160}{240}{\ptsimrad}{\autocatalrad}{ptsmed}{ptsinit};
+    \shadedarc{70}{160}{\ptsierad}{\ptsimrad}{ptsinit}{white};
+    \shadedarc[\ptsarcwidth]{160}{240}{\ptsemrad}{\ptsesrad}{ptsext}{ptsinit};
+    \coloredarc[\ptsarcwidth]{25}{160}{\autocatalrad}{\ptsemrad}{ptsinit};
+
+  \fill[ptsinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black,left,shift={(-1mm,-2mm)}] (glucc) {gluc};
+    \node at (0:\autocatalrad) (gapc) {gap};
+    \node at (270:\autocatalrad-4.5mm) (pepc) {pep};
+    \node at (70:\ptsierad) (pyrc) {pyr};
+  \end{scope}
+
+
+\end{tikzpicture}
+}
+\caption{
+    \label{fig:realautocatal}
+Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle; (II) The glyoxylate cycle; (III) A cycle using the PTS system to assimilate glucose.
+}
+\end{figure}
+
+\subsection{Steady state existance and stability analysis of a simple autocatalytic cycle}
+To explore general principles governing the dynamic behavior of autocatalytic cycles, we consider the simple autocatalytic cycle depicted in Figure \ref{fig:simplecycle}A.
+This cycle has a single intermediate metabolite, $X$.
+We denote the flux through the autocatalytic reaction of the cycle by $f_a$, such that for any unit of $X$ consumed, it produces two units of $X$.
+The autocatalytic reaction obviously consumes some external metabolite, which we assume to be at a constant concentration.
+We denote the flux through the reaction branching out of the cycle by $f_b$.
+    We assume simple, irreversible Michaelis-Menten kinetics for the two reactions such that:
+    \begin{eqnarray*}
+      f_a = \frac{V_{\max,a}X}{K_{M,a}+X} \\
+      f_b = \frac{V_{\max,b}X}{K_{M,b}+X}
+    \end{eqnarray*}
+    where all the kinetic parameters are positive.
+    Using these simple forms allows both an analytic solution to be obtained and a didactic presentation.
+    We discuss more general cases below.
+    \begin{figure}[h!]
+      \begin{tikzpicture}[>=latex',node distance = 2cm]
+        \newlength\gridsize;
+        \pgfmathsetlength{\gridsize}{8cm};
+        \newlength\plotwidth;
+        \pgfmathsetlength{\plotwidth}{4.6cm};
+        \newlength\plotheight;
+        \pgfmathsetlength{\plotheight}{4.5cm};
+        \tikzset{
+            vstyle/.style={opacity=0.3,pattern=north west lines,cyan}}
+        \tikzset{
+            kstyle/.style={opacity=0.3,pattern=north east lines,magenta}}
+      \begin{scope}[shift={(-4cm,4cm)}]
+            \node at (0:1cm) (X) {$X$};
+            \node[shape=coordinate] (orig) {};
+            \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.4,above right] (fa) {$f_a$} node [pos=0.5,shape=coordinate] (midauto) {};
+            \draw [line width=1pt,assimcol] (midauto) arc (0:-40:1cm);
+            \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \node at (-2.1cm,1cm) (A) {(A)};
+            \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={right=2.5cm of orig,anchor=west,name=legend1},legend columns=2]
+              \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}
+              \addlegendimage{vstyle,area legend}
+              \addlegendimage{branchout,fill=black!50!red,sharp plot,line width=1pt}
+              \addlegendimage{kstyle,area legend}
+              \addlegendimage{sumcolor,fill=black!50!red,sharp plot,dashed,line width=1pt}
+            \end{customlegend}
+      \end{scope}
+      \begin{scope}[shift={(-1.5cm,-\gridsize/2)}]
+            \begin{axis}[name=phase,clip=false,xmin=0,ymin=0,xmax=2,ymax=2,ylabel={$\frac{V_{\max,b}}{V_{\max,a}}$},xlabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,width=\gridsize,height=\gridsize,ytick={0,1,2},xtick={0,1,2}]
+            \addplot[domain=0:2,dotted,black,thick] {x};
+            \addplot[dotted,black,thick] coordinates {(0,1) (2,1)};
+            \draw[kstyle] (axis cs:0,0) -- (axis cs:2,2) -- (axis cs:2,0) --cycle;
+            \draw[vstyle] (axis cs:0,1) -- (axis cs:2,1) -- (axis cs:2,2) -- (axis cs:0,2) --cycle;
+            \draw[->,black!50,dashed] (axis cs:0.25,1.33) -- +(-1.5cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:1.75,1.33) -- +(1.2cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:0.25,0.66) -- +(-1.5cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:1.75,0.66) -- +(1.2cm,0cm);
+            \node[align=left,anchor=east] at (axis cs:1.75,1.33) (I) {I};
+            \node[align=right,anchor=west] at (axis cs:0.25,1.33) (II) {II};
+            \node[align=right,anchor=west] at (axis cs:0.25,0.66) (III) {III};
+            \node[align=left,anchor=east] at (axis cs:1.75,0.66) (IV) {IV};
+          \end{axis}
+
+          \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,axis background/.style={fill=cyan!50!magenta,opacity=0.3}]
+            \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
+            \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
+            \addplot[domain=0:2.9,sumcolor,thick,dashed] {3*x/(0.1+x)-5*x/(1+x)};
+            \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
+            \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.left of north west),anchor=right of north east,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},axis background/.style=vstyle]
+            \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
+            \addplot[domain=0:4,branchout,thick] {5*x/(0.2+x)};
+            \addplot[domain=0:4,sumcolor,thick,dashed] {4*x/(1+x)-5*x/(0.2+x)};
+            \node[right,align=left] (twotext) at (axis cs:0.0,5) {\scriptsize stable zero steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.left of south west),anchor=right of south east]
+            \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)};
+            \addplot[domain=0:4,branchout,thick] {3*x/(0.1+x)};
+            \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-3*x/(0.1+x)};
+            \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
+            \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.right of south east),anchor=left of south west,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},axis background/.style=kstyle]
+            \addplot[domain=0:2.9,autocatacyc,thick] {5*x/(0.2+x)};
+            \addplot[domain=0:2.9,branchout,thick] {4*x/(1+x)};
+            \addplot[domain=0:2.9,sumcolor,thick,dashed] {5*x/(0.2+x)-4*x/(1+x)};
+            \node[right,align=left] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
+         \end{axis}
+          \node [at=(plot2.north west),xshift=-0.5cm,yshift=0.3cm] (B) {(B)};
+        \end{scope}
+      \end{tikzpicture}
+      \caption{\label{fig:simplecycle}
+        (A) A simple autocatalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
+        These fluxes follow simple Michaelis Menten kinetics.
+        A steady state occurs when $f_a=f_b$, implying that $\dot{X}=0$.
+        The cycle always has a steady state at $X=0$.
+        The slope of each reaction at $X=0$ is $\sfrac{V_{\max}}{K_m}$.
+        A steady state is stable if at the steady state concentration $\frac{d\dot{X}}{dX}<0$.
+        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ determines two characteristics of the system: 
+        If $V_{\max,b}>V_{\max,a}$, then a stable steady state concentration must exist as for high concentrations of $X$ the branching reaction will reduce its concentration (cyan domain, cases (I) and (II)).
+        If $\sfrac{V_{\max,b}}{K_{M,b}}<\sfrac{V_{\max,a}}{K_{M,a}}$, implying that $\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$, then zero is a non-stable steady state concentration as if $X$ is slightly higher than zero, the autocatalytic reaction will carry higher flux, further increasing the concentration of $X$ (magenta domain, cases (I) and (IV)).
+    At the intersection of these two domains a non-zero, stable steady state concentration exists (I).}
+    \end{figure}
+
+    We characterize the metabolic state of this system by the concentration of the metabolite $X$.
+    We note that knowing the concentration of $X$ suffices in order to calculate the fluxes originating from it, $f_a$ and $f_b$, thus fully defining the state of the system.
+    A steady state of the system is defined as a concentration, $X^*$, which induces fluxes that keep the concentration steady, such that the total in-flux to $X$ is exactly equal to the total out-flux from it.
+    In our example, the outgoing flux from $X$ is $f_a+f_b$ and the incoming flux to $X$ is $2f_a$, so at steady state it holds that:
+    \begin{equation}
+      \label{eq:xdyna}
+      \dot X = \frac{dX}{dt} = 2f_a - (f_a + f_b) = 0
+    \end{equation}
+
+    Expanding this condition we get:
+    \begin{equation*}
+      \dot X = 0 \Rightarrow f_a = f_b \Rightarrow \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
+    \end{equation*}
+    which is satisfied either if $X=0$ or if:
+    \begin{equation}
+      \label{eq:xstst}
+      X=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}
+    \end{equation}
+    The concentration of $X$ cannot be negative, and thus we get a constraint on the kinetic parameters for which a positive steady state exists:
+    \begin{equation*}
+      \frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{M,b}}-\frac{V_{\max,a}}{K_{M,a}}}{V_{\max,a}-V_{\max,b}}>0
+    \end{equation*}
+    In order to gain intuition for this relationship we note that $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$.
+    The constraint states that if $V_{\max,b}<V_{\max,a}$ then it must be that $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$ and that if $V_{\max,b}>V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$.
+    The constraint therefore implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
+    This condition can be intuitively understood, as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$, compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will not intersect.
+    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B, cases (I) and (III).
+
+    While having a positive concentration steady state is an essential condition to sustain flux, it is not sufficient.
+    The positive concentration steady state must also be stable to small perturbations.
+    Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$.
+    Mathematically, stability dictates that at $X=X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that upon a small deviation from the steady state: $X = X^*+\Delta X$ the net flux $\dot X$ will oppose the direction of the deviation.
+    If $\Delta X$ is positive then $\dot X$ will be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
+
+    For the simple kinetics we chose the stability condition requires that:
+    \begin{equation}
+        \label{eq:stable}
+      \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
+    \end{equation}
+    The analysis is straightforward for the case of $X^*=0$, yielding that $0$ is a stable steady state concentration if $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$, corresponding to the area above the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}$, resulting in cases (II) and (III), and is unstable otherwise.
+    The criteria that is of interest, however, is the criteria for stability of the non-zero steady state, $X^*=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}$.
+    In this case, substituting $X^*$ in equation \ref{eq:stable} gives the opposite condition to that of $X^*=0$, namely that it is stable if $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$, corresponding to the magenta domain in figure \ref{fig:simplecycle}B, containing cases (I) and (IV), and unstable otherwise.
+
+    The stability criteria can be generally stated in metabolic control terms \cite{Fell1997-bp} using the notion of elasticiy coefficients of reactions, defined as:
+    \begin{equation*}
+    \varepsilon^f_X=\frac{\partial f}{\partial X}\frac{X}{f}
+    \end{equation*}
+    In these terms, stability is obtained if and only if the elasticity of the biomass reaction at the positive steady state concentration is greater than the elasticity of the autocatalytic reaction:
+    \begin{equation*}
+        \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow \varepsilon^{f_b}_X>\varepsilon^{f_a}_X
+    \end{equation*}
+    Using the notion of elasticities will prove useful in the extension of our conclusions to more complex cycles below.
+    
+    The complete analysis is summed up in Figure \ref{fig:simplecycle}B.
+    Domain (I) is the only domain where a positive, stable steady state exists.
+    Domains (I) and (III) are the domains at which a positive steady state concentration exists, but in domain (III) that steady state is not stable.
+    The domains below the diagonal (cases (I) and (IV)) are the domains where $X^*=0$ is an unstable steady state concentration, so that if another steady state exists, it is stable, but in domain (IV) no positive steady state exists.
+    The domains above the diagonal (cases (II) and (III)) are the domains where $X^*=0$ is a stable steady state concentration, so that the other steady state, if it exists, is unstable.
+
+    To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist (case (I)), two conditions must be satisfied:
+    \begin{equation}
+    \label{eq:stabconds}
+    \begin{dcases}
+      & V_{\max,b}>V_{\max,a} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}
+    \end{dcases}
+    \end{equation}
+    meaning that the potential of the biomass generating flux is higher than the autocatalytic flux, ensuring stability, and that at low concentrations of $X$, the autocatalytic reaction starts higher than the biomass generating reaction (as can be inferred from the slopes), ensuring that the two fluxes will be equal for some positive concentration of $X$.
+
+    Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved, even when allowing changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$, which only affect $V_{\max,a}$ and $V_{\max,b}$.
+    This indicates that stability of autocatalytic cycles depends on inherent kinetic properties of the enzymes involved and cannot always be achieved by modulating expression levels, a conclusion that may be critical in metabolic engineering context.
+\subsection{Extensions of the simple autocatalytic cycle model}
+    \subsubsection{Generalizing for different autocatalytic stoichiometries}
+    Our initial analysis considered an autocatalytic reaction with $1:2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
+    Real-world autocatalytic cycles may have different stoichiometries.
+    For example, the CBB cycle has a stoichiometry of $5:6$ so that for every 5 molecules of 5-carbon sugars that the autocatalytic reaction consumes, 6 5-carbon sugars are produced.
+    We can generalize our analysis by defining $\gamma$ such that for every molecule of $X$ that $f_a$ consumes, it produces $1+\gamma$ molecules of $X$, where $\gamma$ may be a fraction.
+    This extension implies that equation \eqref{eq:xdyna} becomes:
+
+    \begin{equation*}
+      \dot X = \frac{dX}{dt} = (1+\gamma)f_a - (f_a + f_b) = 0 \Rightarrow \gamma f_a = f_b \Rightarrow \frac{\gamma V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
+    \end{equation*}
+
+    Therefore, all of the results above can be extended to different stoichiometries by replacing $V_{\max,a}$ with $\gamma V_{\max,a}$.
+    Therefore, the qualitative conditions and observations from the $1:2$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
+\subsubsection{Input flux increases the range of parameters for which a stable steady state solution exists}
+    Autocatalytic cycles are embedded in a larger metabolic network.
+    Specifically, such cycles generally have some independent reactions with input flux to at least some of their intermediate metabolites, not requiring the use of the cycle intermediate metabolites.
+    For example, the CBB cycle can have input flux of fructose-6-phosphate from the catabolism of starch.
+
+    When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}) the steady state condition changes to include this flux, giving:
+    \begin{equation*}
+      \dot X = \frac{dX}{dt} = f_i + f_a - f_b = 0
+    \end{equation*}
+    In this situation, at $X=0$, $\dot X=f_i>0$ so the concentration of $X$ increases and there is no steady state at zero.
+    If $V_{\max,b}>f_i+V_{\max,a}$ then at a large enough value of $X$, $\dot X$ will be negative, implying that at some value of $X$ between these two extremes, $\dot{X}$ attains the value of zero, such that under this condition a positive stable steady state concentration exists (Figure \ref{fig:inputcycle} (I)).
+    This case therefore differs from the case with no input flux analyzed above, as now a positive stable steady state can always be achieved by modifying only $V_{\max,a}$ and/or $V_{\max,b}$.
+    In this setup, cells can therefore tune the expression levels of enzymes to meet the needs of a stable steady state flux.
+
+    In cases where $V_{\max,b}<f_i+V_{\max,a}$ either no steady states exist (Figure \ref{fig:inputcycle} (II)), or two positive steady states exist (Figure \ref{fig:inputcycle} (III)).
+    The latter case implies that there exists a positive concentration $X$ that satisfies:
+    \begin{equation*}
+        \dot X = 0 \Rightarrow f_i + f_a(X) - f_b(X) = 0 \Rightarrow f_i+\frac{V_{\max,a}X}{K_{M,a}+X} = \frac{V_{\max,b}X}{K_{M,b}+X}
+    \end{equation*}
+  In this case, the lower concentration steady state will be stable.
+
+  To conclude, input fluxes change the steady state(s) of autocatalytic cycles.
+  When an input flux is present, an autocatalytic cycle can always achieve a non zero, stable steady state by tuning the expression levels of the enzymes forming the cycle.
+    \begin{figure}[h!]
+      \centering
+      %\begin{minipage}[c]{0.8\linewidth}%
+      \begin{minipage}[c]{0.9\linewidth}%
+        {\begin{tikzpicture}[>=latex',node distance = 2cm]
+            \node (X) {$X$};
+            \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.5,left] (fa) {$f_a$};
+            \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+            \draw [<-,line width=1pt,magenta] ([xshift=1mm]X.north) arc (170:90:1cm) node [pos=0.3,right] (fi) {$f_i$};
+            \node [above of=fa,yshift=-1cm] (A) {(A)};
+            \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of X,anchor=west,name=legend1}]
+              \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}
+              \addlegendimage{branchout,fill=black!50!red,sharp plot,line width=1pt}
+              \addlegendimage{sumcolor,fill=black!50!red,sharp plot,dashed,line width=1pt}
+            \end{customlegend}
+         \end{tikzpicture}}%
+       \end{minipage}
+
+       \begin{minipage}[c]{\linewidth}%
+        {\begin{tikzpicture}
+            \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+            \addplot[domain=0:4,autocatacyc,thick] {3*x/(0.5+x)+\influx};
+            \addplot[domain=0:4,branchout,thick] {5*x/(1+x)};
+            \addplot[domain=0:4,sumcolor,thick,dashed] {3*x/(0.5+x)-5*x/(1+x)+\influx};
+            \addplot[dashed,gray,thick] coordinates {(1,0) (1,2.5)};
+            \node[right] (one) at (axis cs:0.1,5.5) {I};
+            \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+            \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)+\influx};
+            \addplot[domain=0:4,branchout,thick] {4*x/(1+x)};
+            \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-4*x/(1+x)+\influx};
+            \node[right] (two) at (axis cs:0.1,5.5) {II};
+            \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
+          \end{axis}
+
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+            \addplot[domain=0:4,autocatacyc,thick] {6*x/(2+x)+1.5*\influx};
+            \addplot[domain=0:4,branchout,thick] {4*x/(0.4+x)};
+            \addplot[domain=0:4,sumcolor,thick,dashed] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
+            \addplot[dashed,gray,thick] coordinates {(1.2,0) (1.2,3)};
+            \addplot[dashed,gray,thick] coordinates {(0.182,0) (0.182,1.25)};
+            \node[right] (three) at (axis cs:0.1,5.5) {III};
+            \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize two non-zero\\[-0.4em]\scriptsize steady states};
+          \end{axis}
+        \end{tikzpicture}}
+       \end{minipage}
+      \caption{\label{fig:inputcycle}
+        (A) A simple autocatalytic cycle with a fixed input flux, $f_i$.
+        A steady state occurs when $f_a+f_i=f_b$.
+        If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
+        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
+      }
+    \end{figure}
+    \subsubsection{Stability analysis for multiple-reaction cycles}
+    It is useful to extend the simple criteria we derived to more complex autocatalytic cycles.
+    In such cycles the criteria for existance of a steady state become complex and detail specific.
+    We therefore focus on evaluating stability of such cycles, under the assumption that a non-zero steady state exists.
+    The most straightforward extension is for cycles with more than one intermediate metabolite.
+    We start by writing the relevant equations for the two-metabolite autocatalytic cycle depicted in figure \ref{fig:multiple}A.
+    In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two biomass generating reactions, $f_{b_1}$ and $f_{b_2}$.
+    We arbitrarily assume that the autocatalytic reaction is $f_{a_1}$ and that the autocatalysis is in a $1:2$ ratio.
+    Given that a steady state of the system exists for some value $X_1^*,X_2^*$ we can evaluate the condition for stability.
+    In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative for a steady state to be stable.
+    We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$ and get that:
+    \begin{equation*}
+        J=
+        \begin{pmatrix}
+            -(\alpha_1+\beta_1) & \alpha_2 \\
+            2\alpha_1 & -(\alpha_2+\beta_2)
+        \end{pmatrix}
+    \end{equation*}
+    Solving for the characteristic polynomial gives:
+    \begin{align*}
+        0 & =(\lambda+\alpha_1+\beta_1)(\lambda+\alpha_2+\beta_2)-2\alpha_1\alpha_2 \\
+        & = \lambda^2+(\alpha_1+\beta_1+\alpha_2+\beta_2)\lambda+(\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2
+    \end{align*}
+    which has two negative roots when:
+    \begin{equation*}
+        (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
+    \end{equation*}
+    The condition is strongly met if $\beta_1\geq \alpha_1$ and $\beta_2\geq\alpha_2$.
+    
+    The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions giving a general characteristic polynomial of:
+    \begin{equation}
+        \label{eq:complex}
+        0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
+    \end{equation}
+    Again, in cases were for all $i$ it holds that $\beta_i\geq\alpha_i$, the eigenvalues will all have negative real values.
+    
+    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, a sufficient condition for a steady state point to be stable is that at the steady state point the elasticity of each biomass reaction is larger than or equal to the elasticity of the equivalent autocatalytic reaction.
+\begin{figure}[h!]
+  \centering
+    {
+        \begin{tikzpicture}[>=latex']
+            \begin{scope}[shift={(-5cm,0cm)},node distance = 2cm]
+                \node (X1) {$X_1$};
+                \node[left=of X1]  (X2) {$X_2$};
+                \draw [->,line width=1pt,autocatacyc] (X1.south) [out=-90,in=-90] to  node [pos=0.5,above] (fa1) {$f_{a_1}$} (X2.south);
+                \draw [->,line width=1pt,autocatacyc] (X2.north) [out=90,in=90] to  node [pos=0.5,above] (fa2) {$f_{a_2}$} (X1.north);
+                \draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
+                \draw [->,line width=1pt,branchout] (X2.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_2}$};
+            \end{scope}
+            \begin{scope}[shift={(0cm,0cm)},node distance = 1cm]
+                \node (X1) {$X_1$};
+                \node[below left=of X1]  (X2) {$X_2$};
+                \node[above left=of X1]  (Xn) {$X_n$};
+                \draw [->,line width=1pt,autocatacyc] (X1.south) [out=-90,in=0] to  node [pos=0.7,right,xshift=1mm] (fa1) {$f_{a_1}$} (X2.east);
+                \draw [->,line width=1pt,autocatacyc] (Xn.east) [out=0,in=90] to  node [pos=0.5,right,xshift=1mm] (fan) {$f_{a_n}$} (X1.north);
+                \draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
+                \draw [->,line width=1pt,branchout] (X2.south) arc (-10:-90:1cm) node [pos=0.3,left] {$f_{b_2}$};
+                \draw [->,line width=1pt,branchout] (Xn.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_n}$};
+                \draw [->,line width=1pt,autocatacyc,dashed] (X2.west) [out=180,in=-90] to ($(X1)+(-3,0)$) node [right] (fmid) {$f_{a_2}\dots f_{a_{n-1}}$} to [out=90,in=180] (Xn.west);
+            \end{scope}
+            \node [shift={(-8cm,3cm)}] (A) {(A)};
+            \node [right of=A,xshift=4cm] (B) {(B)};
+         \end{tikzpicture}
+     }
+     \caption{Multiple-reaction autocatalytic cycles. (A) A two reaction system. (B) A generic $n$-reaction system. A sufficient condition for the stability of a steady state point in such systems is that the elasticity of each biomass generating reaction is larger than or equal to the elasticity of the equivalent autocatalytic reaction at the steady state concentration.}
+     \label{fig:multiple}
+\end{figure}
+    \subsubsection{Using different kinetics equations}
+    Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
+    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point the combined elasticities of all the outgoing reactions out of the cycle should be higher than the elasticities of the autocatalytic reactions, as is implied by equation \ref{eq:complex}, to enforce stability in the presence of small perturbations.
+    Therefore, these two conditions should be explicitly evaluated for every case with different kinetic equations and autocatalytic cycles topologies to assert whether it can carry stable fluxes or not.
+
+    Two guideline observations can be extracted, regardless of the exact kinetic behavior of the relevant enzymes:
+    \begin{enumerate}
+        \item If a positive flux steady state exists, and the branching reactions have higher $V_{\max}$ values than the autocatalytic reactions, then a positive stable flux steady state is attainable (though it may not necessarily be the same steady state).
+        This claim can be deduced as follows:
+        If the given steady state is stable, then the claim is obviously correct.
+        Otherwise, the given steady state is unstable, so for concentrations slightly above the steady state concentrations, the autocatalytic reactions will drive the intermediate metabolites concentrations to even higher values.
+        However, for large enough concentrations of intermediate metabolites the branching reactions will carry higher flux than the autocatalytic reactions, as their $V_{\max}$ values are higher, driving the concentrations of intermediate metabolites down.
+        There must therefore be some threshold concentration value below which the autocatalytic reactions carry higher flux, and above which the branching reactions carry higher flux, making this threshold concentration point a stable steady state.
+    \item For concentration domains at which the kinetic function of an enzyme is concave, the elasticity of the reaction is anti correlated with the level of saturation of the reaction (where the level of saturation of a reaction is defined as the ratio between the flux through the reaction and the maximal flux it can carry, $V_{\max}$), meaning that the more saturated the reaction is, the lower is its elasticity and vice versa.
+          This mathematical property of concave, monotonically increasing, bounded functions clearly follows from the observation that the first derivative of a concave function is a decreasing function, whereas the value of the function, by definition, is an increasing function. 
+          As the function is bounded, its saturation is also an increasing function, resulting in an anti correlation between the saturation level and the derivative.
+    \end{enumerate}
+
+    These guidelines give a basis for evaluating the stability of operational autocatalytic cycles given fluxomics and proteomics data as is demonstrated below.
+
+    While these guidelines offer sufficient conditions for stability, they are not necessary, meaning a stable steady state can be achieved even in cases where these conditions are not met, or, for example, in cases where the kinetic equations follow a hill function with a coefficient that is larger than 1, making them convex for at least some domain of positive substrate concentrations.
+    However, we can conclude from this analysis that the branching reactions out of a cycle, having a large elasticity at the steady state concentration, cannot be saturated at that point, meaning the enzymes driving the flux out of the cycle and through these reactions are under-utilized resulting in an inherent seeming inefficiency.
+    In physiological context this effect is expected to be even higher as the expression pattern of the enzymes must ensure stable fluxes even under expression noise that may alter the amount of both the autocatalytic and the branching reactions enzymes, requiring a large 'buffer zone' to be maintained between the maximal capacity of the branching reactions enzymes versus that of the autocatalytic reactions enzymes.
+
+    \subsection{Testing the predictions of the analysis with experimental data on functioning autocatalytic cycles}
+    To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux in vivo.
+    We used recent in-vivo flux measurements from \cite{Gerosa2015-oq}.  
+    According to the measurements, two classes of autocatalytic cycles carry substantial flux under at least one of the growth conditions used in \cite{Gerosa2015-oq}:
+    cycles using the PTS transport system carry significant flux at growth in glucose and fructose;
+    the glyoxylate cycle carries significant flux at growth in galactose and acetate.
+
+    The PP cycle variants do not carry flux in any of the measured conditions, which is expected given the non-standard metabolites most of their variants assimilate.
+    The only physiologically reasonable configuration under which a PP autocatalytic cycle would carry flux is in growth under ribose while missing the rpi reaction, a condition for which no fluxomics measurements are currently available.
+
+    The reverse FBA with ED pathway cycle did not carry flux in any of the measured conditions.
+    Although glycerol could have been a potential carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, following the common lower glycolysis reactions from GAP to pyruvate, avoiding the need to use the less energy efficient ED pathway.
+
+    As noted above, two guidelines for evaluating stability can be explored at major branch points out of a functioning autocatalytic cycle: (A) the maximal flux of the branching reaction, $V_{\max,b}$ should be higher than the maximal flux of the corresponding autocatalytic reaction, $V_{\max,a}$, and, (B) the saturation of the branching reaction should be higher than the saturation of the corresponding autocatalytic reaction.
+    We stress again that these conditions are sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
+
+    To estimate the maximal capacity of a reaction, $V_{\max}$ we followed the procedure described in \cite{Davidi2016-ga}.
+    Briefly, for each reaction, under every condition we divided the flux the reaction carries (obtained from \cite{Gerosa2015-oq}) by the amount of the corresponding enzyme expressed under that condition.
+    We used data from \cite{Schmidt2015} to obtain the enzyme expression level.
+    We thus got a flux per enzyme estimate for the given reaction under each of the conditions.
+    We defined the enzyme maximal capacity as the maximum flux per unit enzyme it carries across all reactions.
+    Multiplying the enzyme maximal capacity by the enzyme amount at each condition therefore results in an estimate of the maximal possible flux through the given reaction under the relevant condition.
+
+
+    We used the data from \cite{Gerosa2015-oq} to identify the major branch points in each functioning cycle and the flux distributions in them under each of the relevant conditions.
+    The results are presented in figure \ref{fig:branch}.
+    The results show that for every functioning autocatalytic cycle, in at least one branch point the biomass generating reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction.
+    Moreover, out of 9 branch points analyzed, in 6 branch points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branch points the saturation levels were similar, and only in one branch point the auto catalytic reaction was less saturated than the branching reaction.
+    The branch point that does not agree with our prediction is the branch point in fructose-1,6-bisphosphate at growth with fructose as the carbon source.
+    The disagreement arises as a large flux is assigned to the fbp reaction, whereas the corresponding enzyme is not highly expressed.
+    This disagreement may be the result of neglecting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in \cite{Gerosa2015-oq}.
+    Assuming $20\%$ of transported fructose is converted directly to f6p suffices in order to resolve the disagreement, resulting in equal saturation levels for the autocatalytic reaction and the branching reaction.
+
+    The lower saturation values of biomass generating reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
+    Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their elasticities are higher, ensuring stable operation of the cycle.
+
+    Another demonstration of the autocatalytic mechanism being at play is in the CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available.
+    This cycle has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovski2016}.
+    The experimentally observed key evolutionary event enabling the functioning of the CBB cycle, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, PRS, reducing its affinity to its substrate, ribose-5p.
+
+    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is sparse, existing data supports predictions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
+    The model can therefore be used to shed more light on seemingly wasteful investment in the expression of enzymes the capacity of which is not fully utilized, as well as for highlighting at what metabolic branch points enzymes kinetic efficiency may be constrained due to stability requirements of a corresponding autocatalytic cycle.
+
+\begin{figure}[h!]
+\centering
+\resizebox{1\linewidth}{!}{
+\begin{tikzpicture}
+  \tikzset{
+    figArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=#1,angle'=60]}}},
+    figArrowStyle/.default=0.25
+  }
+  \tikzset{
+    capArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=0.25,angle'=60,color=#1]}}},
+    capArrowStyle/.default=autocatacycfl
+    }
+  \tikzset{
+    ratioRect/.style={rectangle,fill=graybg,rounded corners=2pt}}
+  \newcommand{\coloredRatio}[2]{%top,bottom
+      {\Large {$\sfrac{\mathbf{\color{branchout}#1\%}}{\mathbf{\color{autocatacyc}#2\%}}$}}
+  }
+
+  %Galactose
+  \begin{scope}[shift={(-6cm,-7.5cm)}]
+    \def\galmaxflux{0.5mm}
+    \def\galglt{1.52*\galmaxflux}
+    \def\galcapvalglt{20}
+    \def\galcapglt{\galglt/\galcapvalglt*100}
+    \def\galacn{1.52*\galmaxflux*1.5}
+    \def\galacea{1.02*\galmaxflux}
+    \def\galcapvalacea{30}
+    \def\galcapacea{\galacea/\galcapvalacea*100}
+    \def\galaceb{1.02*\galmaxflux}
+    \def\galsdh{1.26*\galmaxflux}
+    \def\galfum{1.26*\galmaxflux}
+    \def\galmdh{2.28*\galmaxflux}
+    \def\galpck{0.85*\galmaxflux}
+    \def\galcapvalpck{25}
+    \def\galcappck{\galpck/\galcapvalpck*100}
+    \def\galicd{0.5*\galmaxflux}
+    \def\galcapvalicd{10}
+    \def\galcapicd{\galicd/\galcapvalicd*100}
+
+    \node[] (galactose) {\textbf{Galactose input}};
+    \node[metaboliteStyle,inputcol,below=of galactose] (aca) {aca};
+    \node[shape=coordinate,below=of aca] (dummyglta) {};
+    \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
+    \node[metaboliteStyle] at (aca -| oaa) (pep) {pep};
+    \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
+    \node[metaboliteStyle,right=of cit] (icit) {icit};
+    \node[metaboliteStyle,below=of icit.center] (akg) {akg};
+    \node[metaboliteStyle,below=of akg.center] (sca) {sca};
+    \node[metaboliteStyle,below=of oaa.center] (mal) {mal};
+    \node[metaboliteStyle,below=of mal.center] (fum) {fum};
+    \node[metaboliteStyle,right=of mal] (glx) {glx};
+    \node[metaboliteStyle,right=of fum] (suc) {suc};
+    \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
+    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta) ;
+
+    \node[ratioRect,anchor=east] at (oaa.west) (galb1) {\coloredRatio{\galcapvalpck}{\galcapvalglt}};
+    \node[ratioRect,anchor=south] at (icit.north) (galb2) {\coloredRatio{\galcapvalicd}{\galcapvalacea}};
+
+    \draw[line width=\galglt,autocatacycfl] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
+    \draw[figArrowStyle,line width=\galglt*1.5,autocatacycfl] (midglta) -- (cit);
+    \draw[capArrowStyle=branchoutfl,line width=\galcappck,branchout!40] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\galpck,branchoutfl] (oaa) -- (pep);
+    \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
+    \draw[figArrowStyle,line width=\galacn,autocatacycfl] (cit) -- (icit);
+    \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
+    \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
+    \draw[capArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[capArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.38]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[capArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[line width=\galacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
+    \draw[figArrowStyle,line width=\galacea,autocatacycfl] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
+    \draw[figArrowStyle,line width=\galacea*0.5,autocatacycfl] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle=branchoutfl,line width=\galcapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\galicd*1.5,branchoutfl] (icit) -- (akg);
+    \draw[->] (akg) -- (sca);
+    \draw[->] (sca) -- (suc);
+    \draw[figArrowStyle,line width=\galsdh,autocatacycfl] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\galfum,autocatacycfl](fum) -- (mal);
+    \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
+    \draw[line width=\galaceb*0.5,autocatacycfl] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
+    \draw[inputcol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
+    \draw[figArrowStyle,line width=\galaceb,autocatacycfl] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\galmdh,autocatacycfl] (mal) -- (oaa);
+  \end{scope}
+
+  %acetate
+  \begin{scope}[shift={(-6cm,0cm)}]
+    \def\acemaxflux{0.2mm}
+    \def\aceglt{8.83*\acemaxflux}
+    \def\acecapvalglt{70}
+    \def\acecapglt{\aceglt/\acecapvalglt*100}
+    \def\aceacn{8.83*\acemaxflux*1.5}
+    \def\aceacea{4.14*\acemaxflux}
+    \def\acecapvalacea{100}
+    \def\acecapacea{\aceacea}
+    \def\aceaceb{4.14*\acemaxflux}
+    \def\acesdh{8.4*\acemaxflux}
+    \def\acefum{8.4*\acemaxflux}
+    \def\acemdh{10.67*\acemaxflux}
+    \def\acecapvalmdh{100}
+    \def\acemae{1.87*\acemaxflux}
+    \def\acecapvalmae{15}
+    \def\acecapmae{\acemae/\acecapvalmae*100}
+    \def\acepck{3.11*\acemaxflux}
+    \def\acecapvalpck{75}
+    \def\acecappck{\acepck/\acecapvalpck*100}
+    \def\aceicd{4.7*\acemaxflux}
+    \def\acecapvalicd{65}
+    \def\acecapicd{\aceicd/\acecapvalicd*100}
+
+    \node[] (acetate) {\textbf{Acetate input}};
+    \node[metaboliteStyle,inputcol,below=of acetate] (aca) {aca};
+    \node[shape=coordinate,below=of aca] (dummyglta) {};
+    \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
+    \node[metaboliteStyle] at (aca -| oaa) (pep) {pep};
+    \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
+    \node[metaboliteStyle,right=of cit] (icit) {icit};
+    \node[metaboliteStyle,below=of icit.center] (akg) {akg};
+    \node[metaboliteStyle,below=of akg.center] (sca) {sca};
+    \node[metaboliteStyle,below=of oaa.center] (mal) {mal};
+    \node[metaboliteStyle,below=of mal.center] (fum) {fum};
+    \node[metaboliteStyle,right=of mal] (glx) {glx};
+    \node[metaboliteStyle,left=of mal] (pyr) {pyr};
+    \node[metaboliteStyle,right=of fum] (suc) {suc};
+    \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
+    \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \node[ratioRect,anchor=south east] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
+    \draw[line width=\aceglt,autocatacycfl] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \draw[figArrowStyle,line width=\aceglt*1.5,autocatacycfl] (midglta) -- (cit);
+    \draw[capArrowStyle=branchoutfl,line width=\acecappck,branchout!40] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\acepck,branchoutfl] (oaa) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\acecapmae,branchout!40] (mal) -- (pyr);
+    \node[ratioRect,anchor=south east] at (mal.north west) (aceb2) {\coloredRatio{\acecapvalmae}{\acecapvalmdh}};
+    \draw[figArrowStyle,line width=\acemae,branchoutfl] (mal) -- (pyr);
+    \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\aceglt]midglta);
+    \draw[figArrowStyle,line width=\aceacn,autocatacycfl] (cit) -- (icit);
+    \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
+    \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
+    \draw[capArrowStyle,line width=\acecapacea,autocatacycfl!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
+    \node[ratioRect,anchor=south] at (icit.north) (aceb3) {\coloredRatio{\acecapvalicd}{\acecapvalacea}};
+    \draw[capArrowStyle,line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[line width=\aceacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
+    \draw[figArrowStyle,line width=\aceacea,autocatacycfl] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
+    \draw[figArrowStyle,line width=\aceacea*0.5,autocatacycfl] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle=branchoutfl,line width=\acecapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\aceicd*1.5,branchoutfl] (icit) -- (akg);
+    \draw[->] (akg) -- (sca);
+    \draw[->] (sca) -- (suc);
+    \draw[figArrowStyle,line width=\acesdh,autocatacycfl] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\acefum,autocatacycfl](fum) -- (mal);
+    \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
+    \draw[line width=\aceaceb*0.5,autocatacycfl] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
+    \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
+    \draw[figArrowStyle,line width=\aceaceb,autocatacycfl] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\acemdh,autocatacycfl] (mal) -- (oaa);
+ 
+  \end{scope}
+
+  %Glucose
+  \begin{scope}[shift={(1.5cm,0cm)}]
+    \def\glucmaxflux{0.35mm}
+    \def\glucpgi{5.7*\glucmaxflux}
+    \def\gluccapvalpgi{100}
+    \def\gluccappgi{\glucpgi}
+    \def\glucpfk{7.06*\glucmaxflux}
+    \def\glucfba{7.06*\glucmaxflux}
+    \def\gluctpi{7.06/2*\glucmaxflux}
+    \def\glucgap{15.71/2*\glucmaxflux}
+    \def\glucpgk{15.71/2*\glucmaxflux}
+    \def\glucgpm{14.56/2*\glucmaxflux}
+    \def\gluceno{14.56/2*\glucmaxflux}
+    \def\glucpyk{2.49/2*\glucmaxflux}
+    \def\gluccapvalpyk{35}
+    \def\gluccappyk{\glucpyk/\gluccapvalpyk*100}
+    \def\glucppc{2.45/2*\glucmaxflux}
+    \def\gluccapvalppc{45}
+    \def\gluccapppc{\glucppc/\gluccapvalppc*100}
+    \def\gluczwf{3.92*\glucmaxflux}
+    \def\gluccapvalzwf{55}
+    \def\gluccapzwf{\gluczwf/\gluccapvalzwf*100}
+    \def\glucpts{9.65*\glucmaxflux}
+    \def\gluccapvalpts{100}
+    \def\gluccapvalcomp{\pgfmathparse{round((\glucppc+\glucpyk)/(\gluccapppc+\gluccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+    \def\gluccappts{\glucpts}
+
+    \node[] (glucose) {\textbf{Glucose input}};
+    \node[metaboliteStyle,below= of glucose] (g6p) {g6p};
+    \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+    %%% ptstop
+    \node[shape=coordinate,left=1.1cm of g6p] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-11mm,2mm)},gray] at (f6p) (pyr1) {pyr};
+    \node[metaboliteStyle,inputcol,left=of ptsmid] (gluc) {gluc};
+
+    \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+    \node[shape=coordinate,below=of fbp.center](fbamid) {};
+    \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+    \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
+    \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+    \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+    \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+    \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+    \node[metaboliteStyle,right=of pep] (oaa) {oaa};
+    \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+    \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+    \draw[figArrowStyle,line width=\glucpgi,autocatacycfl] (g6p) -- (f6p);
+    \draw[figArrowStyle,line width=\glucpfk,autocatacycfl] (f6p.south) -- (fbp.north);
+    \draw [line width=\glucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacycfl] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacycfl] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\gluctpi,autocatacycfl] (dhap) -- (gap);
+
+    \draw[figArrowStyle,line width=\glucgap,autocatacycfl] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\glucpgk,autocatacycfl] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\glucgpm,autocatacycfl] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\gluceno,autocatacycfl] (2pg) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\glucpyk,branchoutfl] (pep) -- (pyr);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \node[ratioRect,anchor=south east] at (pep.north west) (glucb2) {\coloredRatio{\gluccapvalcomp}{\gluccapvalpts}};
+    \draw[figArrowStyle,line width=\glucppc,branchoutfl] (pep) -- (oaa);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
+    \draw[figArrowStyle,line width=\gluczwf,branchoutfl] (g6p) -- (6pgi);
+    \node[ratioRect,anchor=north west] at (g6p.south east) (glucb1) {\coloredRatio{\gluccapvalzwf}{\gluccapvalpgi}};
+    \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+    \draw[line width=\glucpts/2,autocatacycfl] (pep.west) -- (pts3);
+    \draw[inputcol,line width=\glucpts] (gluc) -- (ptsmid);
+    \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+    \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to (pyr1);
+    \node[shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
+    \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+    \draw[line width=\glucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\glucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
+    \draw[line width=\glucpts/2,autocatacycfl] (ptstop) [in=180,out=90] to ([yshift=-3/4*\glucpts]ptsmid);
+    \draw[figArrowStyle,line width=\glucpts,autocatacycfl] (ptsmid) -- (g6p);
+  \end{scope}
+
+  %Fructose
+  \begin{scope}[shift={(8cm,0cm)}]
+    \def\frucmaxflux{0.35mm}
+    \def\frucfbp{2.46*\frucmaxflux}
+    \def\fruccapvalfbp{100}
+    \def\fruccapfbp{\frucfbp}
+    \def\frucfba{5.87*\frucmaxflux}
+    \def\fruccapvalfba{70}
+    \def\fruccapfba{\frucfba/\fruccapvalfba*100}
+    \def\fructpi{5.87/2*\frucmaxflux}
+    \def\frucgap{13.46/2*\frucmaxflux}
+    \def\frucpgk{13.46/2*\frucmaxflux}
+    \def\frucgpm{12.6/2*\frucmaxflux}
+    \def\fruceno{12.6/2*\frucmaxflux}
+    \def\frucpyk{0.67/2*\frucmaxflux}
+    \def\fruccapvalpyk{5}
+    \def\fruccappyk{\frucpyk/\fruccapvalpyk*100}
+    \def\frucppc{3.55/2*\frucmaxflux}
+    \def\fruccapvalppc{50}
+    \def\fruccapppc{\frucppc/\fruccapvalppc*100}
+    \def\frucpts{8.33*\frucmaxflux}
+    \def\fruccapvalpts{100}
+    \def\fruccappts{\frucpts}
+    \def\fruccapvalcomp{\pgfmathparse{round((\frucppc+\frucpyk)/(\fruccapppc+\fruccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+
+
+    \node[] (fructose) {\textbf{Fructose input}};
+    \node[metaboliteStyle,below=of fructose] (f6p) {f6p};
+    \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+    \node[shape=coordinate,below=of fbp.center](fbamid) {};
+    %%% ptstop
+    \node[shape=coordinate,left=1.1cm of fbp] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-11mm,0mm)},gray] at (fbamid) (pyr1) {pyr};
+    \node[metaboliteStyle,inputcol,left=of ptsmid] (fruc) {fruc};
+
+    \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+    \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
+    \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+    \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+    \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+    \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+    \node[metaboliteStyle,right=of pep] (oaa) {oaa};
+    \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+    \draw[figArrowStyle,line width=\frucfbp,branchoutfl] (fbp)-- (f6p) ;
+    \node[ratioRect,anchor=west] at (fbp.east) (frucb1) {\coloredRatio{\fruccapvalfbp}{\fruccapvalfba}};
+    \node[at=(frucb1.north east)] (star) {*};
+    \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- (fbamid);
+    \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [line width=\frucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacycfl] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacycfl] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\fructpi,autocatacycfl] (dhap) -- (gap);
+
+    \draw[figArrowStyle,line width=\frucgap,autocatacycfl] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\frucpgk,autocatacycfl] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\frucgpm,autocatacycfl] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\fruceno,autocatacycfl] (2pg) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\fruccappyk,branchout!40] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\frucpyk,branchoutfl] (pep) -- (pyr);
+    \draw[capArrowStyle=branchoutfl,line width=\fruccapppc,branchout!40] (pep) -- (oaa);
+    \node[ratioRect,anchor=south east] at (pep.north west) (frucb2) {\coloredRatio{\fruccapvalcomp}{\fruccapvalpts}};
+    \draw[figArrowStyle,line width=\frucppc,branchoutfl] (pep) -- (oaa);
+    \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+    \draw[line width=\frucpts/2,autocatacycfl] ([yshift=\frucpts/4]pep.west) -- (pts3);
+    \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+    \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to (pyr1);
+    \node[shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
+    \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+    \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
+    \draw[inputcol,line width=\frucpts] (fruc) -- (ptsmid);
+    \draw[line width=\frucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\frucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
+    \draw[line width=\frucpts/2,autocatacycfl] (ptstop) [in=180,out=90] to ([yshift=-3/4*\frucpts]ptsmid);
+    \draw[figArrowStyle,line width=\frucpts,autocatacycfl] (ptsmid) -- (fbp);
+  \end{scope}
+  \end{tikzpicture}
+}
+\caption{
+  Major branch points and relative enzyme saturation in operating autocatalytic cycles. In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
+  Moreover, only in one out of the 8 branch points observed (the branch point at fbp in growth under fructose), the outgoing reaction is significantly more saturated than the autocatalytic reaction.
+  (*) A branch point at which the branching reaction is more saturated than the autocatalytic reaction, which may result from neglecting fructose transport directly as f6p when deriving fluxes (see text).
+}
+    \label{fig:branch}
+\end{figure}
+
+
+\section{Discussion}
+Our study into the dynamics and stability of autocatalytic cycles suggests design principles applicable to both synthetic biology in the effort to express novel heterologous cycles and in the context of systems biology that aims to understand the function of natural networks.
+A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in the target organism.
+Here we show that in the context of autocatalytic cycles, such a successful expression may not suffice.
+Specifically, changes to some of the kinetic parameters of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
+
+Another aspect of our findings is that while it is common to assume that high affinity and catalytic rate are desirable traits for enzymes, in the context of autocatalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in some of them deleterious for the functioning of the cycle.
+Moreover, in order for a cycle to be stable, at least some of the enzymes catalyzing reactions out of the cycles may need to be over-expressed, resulting in a seemingly inefficient expression pattern that is required in order to ensure that branching reactions are less saturated than the corresponding autocatalytic reactions.
+
+A recent demonstration of these principles in vivo is the implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovski2016}.
+The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve successful operation of the cycle.
+Most changes occurred in branch points from the cycle.
+The change which was biochemically characterized in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for flux out of the CBB cycle, corresponding to the biomass reaction in our simple model.
+This is beautifully in line with the predictions of our analysis that suggests that a decrease in the $\sfrac{K_{\text{cat}}}{K_M}$ of the branching reaction out reaction is the change that will lead to existance and stability of a solution.
+
+Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle may provide some means to mitigate the stability issue in synthetic biology metabolic engineering setups, allowing for a pathway to gradually evolve towards sustainable, substantial flux.
+
+While autocatalytic cycles are usually considered a small part of metabolism, we find that such cycles are at the heart of central carbon metabolism.
+The examples of autocatalytic cycles we provide, as well as our verified predictions on the usage of enzymes catalyzing reactions branching out of such cycles, suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may shape the kinetic parameters of a broad set of enzymes central to metabolism.
+
+  Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and the production in glycolysis), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
+  The analysis we present here can thus be of even wider relevance for the design and analysis of metabolic networks.
+

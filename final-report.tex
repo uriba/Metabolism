@@ -1,0 +1,40 @@
+\documentclass[a4page,notitlepage]{report}
+\usepackage{nameref}
+\input{preamble.tex}
+\input{plos_constants.tex}
+\title{Passive effects in molecular biology systems}
+\author{Uri Barenholz}
+
+\date{}
+\newcommand{\beginsupplement}{%
+        \setcounter{table}{0}
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0}
+        \renewcommand{\thefigure}{S\arabic{figure}}%
+    }
+\usepackage{pgfplotstable}
+\begin{document}
+\abstract{
+    Molecular biology systems are complex.
+    They must function in the face of multiple challenges: varying temperatures, fluctuating food supply, competition with other species and more.
+    To survive and prosper, such systems employ extensive regulation mechanisms, fine tuning their operation to ensure proper function.
+    My research focuses on the system wide effects, implications, and passive outcomes of such regulatory mechanisms.
+    Specifically, I use simple models to extract testable, system wide implications emerging from the requirements of the models, then use multi-omix data to test the models predictions.
+    The work spans two different domains of molecular biology: gene expression and metabolism.
+    In metabolism I focus on the dynamics of autocatalytic cycles, constructs that are more common than one might naively expect even in central carbon metabolism.
+    Analyzing the constraints resulting from the need to maintain a functioning autocatalytic cycle points at inherent inefficiencies in both the kinetic parameters of enzymes, and in an almost obligatory requirement for over expression of key enzymes involved in shuttling metabolites out of the autocatalytic cycle.
+    In gene expression patterns I show that the interplay between growth rate and active regulation patterns implies an increased concentration with growth rate as a default side-effect for non-regulated genes.
+    These analysis help unveil the underlying principles and logic behind observed phenomena in these two domains, as well as predict the behavior of synthetically engineered biological systems, assisting in their design towards proper function.
+}
+\newpage
+\tableofcontents
+\newpage
+\chapter{Autocatalytic cycles stability constrains kinetic parameters of enzymes}
+\input{autocatalysis-content.tex}
+\chapter[A Minimalistic Resource Allocation Model To Explain Ubiquitous Increase In Protein Expression With Growth Rate]{A Minimalistic Resource Allocation Model To Explain Ubiquitous Increase In Protein Expression With Growth Rate\footnote{published in \cite{Barenholz2016-ta}}}
+\input{plos_content.tex}
+\beginsupplement
+\input{plos_si.tex}
+\bibliography{library}{}
+\bibliographystyle{ieeetr}
+\end{document}

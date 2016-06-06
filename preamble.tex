@@ -1,0 +1,82 @@
+\usepackage{color,amsmath,graphicx,subcaption,geometry,mathtools,xfrac}
+\usepackage{cite}
+\usepackage{mhchem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
+\usepackage{stackengine,ifthen}
+\usetikzlibrary{arrows,positioning,calc,arrows.meta,patterns}
+\tikzset{>=Latex}
+\newcommand\influx{0.5}
+
+\newenvironment{customlegend}[1][]{
+  \begingroup
+  \csname pgfplots@init@cleared@structures\endcsname
+  \pgfplotsset{#1}
+}{
+  \csname pgfplots@createlegend\endcsname
+  \endgroup
+}
+
+\def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
+\setlength\abovecaptionskip{6pt}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+
+\tikzset{>=latex}
+%\tikzset{metaboliteStyle/.style={rectangle,draw}}
+\tikzset{metaboliteStyle/.style={}}
+\definecolor{cyan}{RGB}{100,181,205}
+\definecolor{blue}{RGB}{76,114,176}
+\definecolor{green}{RGB}{85,168,104}
+\definecolor{magenta}{RGB}{129,114,178}
+\definecolor{yellow}{RGB}{204,185,116}
+\definecolor{red}{RGB}{196,78,82}
+\definecolor{graybg}{gray}{0.95}
+
+\colorlet{assimcol}{green}
+\colorlet{sumcolor}{yellow}
+
+\colorlet{inputcol}{green}
+\colorlet{branchout}{red}
+\colorlet{branchoutfl}{red!80}
+\colorlet{autocatacyc}{blue}
+\colorlet{autocatacycfl}{blue!80}
+\colorlet{autocataby}{cyan}
+
+\pdfpageattr{/Group <</S /Transparency /I true /CS /DeviceRGB>>} 
+
+\def\blendfrac{0.5}
+\def\deltaang{-155}
+\def\fromang{180}
+\def\inputang{-40}
+\def\protrude{7}
+\def\arcwidth{0.3cm}
+\def\highlightrad{0.2cm}
+\def\autocatalrad{1.5cm}
+\def\autocatalscale{1.5}
+
+  \newcommand{\shadedarc}[7][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+    \pgfmathsetmacro\arcrange{#3-#2}
+    \pgfmathsetmacro\radrange{#5-#4}
+    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+    \foreach \i in {#2,...,\numexpr#3-1\relax} {
+      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+      \pgfmathsetmacro\col{\fracprog*100}
+      \draw[color={#6!\col!#7},line width=#1] (\i:#4+\radrange*\fracprog)
+  arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+    }
+  }
+
+  \newcommand{\coloredarc}[6][\arcwidth]{%width,startang,stopang,startrad,stoprad,startcol,stopcol
+    \pgfmathsetmacro\arcrange{#3-#2}
+    \pgfmathsetmacro\radrange{#5-#4}
+    \pgfmathsetmacro\progsign{\arcrange>0 ? 1 : -1}
+    \foreach \i in {#2,...,\numexpr#3-1\relax} {
+      \pgfmathsetmacro\fracprog{\i/\arcrange-#2/\arcrange}
+      \draw[color={#6},line width=#1] (\i:#4+\radrange*\fracprog)
+        arc[start angle=\i, end angle=\i+1.1*\progsign,radius=#4+\fracprog*\radrange];
+    }
+  }
+
