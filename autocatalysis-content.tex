@@ -26,7 +26,6 @@ Here we define an autocatalytic cycle as a set of reactions and metabolites that
 Formally, a set of irreversible reactions (for reversible reactions only one direction can be included in the set) and metabolites forms a cycle if every metabolite of the set can be converted, by sequential application of reactions in the set (where two reactions can be chained if a metabolite in the set is a product of the first reaction and a substrate of the second reaction), to every other metabolite in the set.
 A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
 Three examples of autocatalytic cycles using central carbon metabolism are presented in figure \ref{fig:realautocatal}.
-
 \begin{figure}[h!]
     \centering
 \begin{tikzpicture}
@@ -66,6 +65,7 @@ Three examples of autocatalytic cycles using central carbon metabolism are prese
     \label{fig:autocataldef}
   A basic autocatalytic cycle requires an internal metabolite in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite.}
 \end{figure}
+
  
 While less than a handful of autocatalytic cycles following this definition are widely known, a systematic search in central carbon metabolism yields several autocatalytic cycles that are not usually considered as such.
 We find it useful to group the identified autocatalytic cycles in central carbon metabolism into four classes:
@@ -258,9 +258,9 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
 
   %glyoxilate cycle
 \begin{scope} [shift={(9cm,-13.5cm)},radius=2cm]
-  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-3cm) rectangle +(4.5,5.5);
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.6cm) rectangle +(4.5,5.1);
   \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
-  \node[anchor=north] at(-0.15cm,-3.1cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
+  \node[anchor=north] at(-0.15cm,-2.7cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
   \colorlet{glymed}{blue}
   \colorlet{glyext}{assimcol}
   \colorlet{glyinter}{blue}
@@ -298,7 +298,7 @@ The ubiquity of autocatalytic cycles in central carbon metabolism suggests that 
 
     \coloredarc[\glytotwidth]{160}{90}{\glyimmrad}{\glyimmrad}{glyinter};
 
-    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south,xshift=1.5mm] (acac) {accoa};
+    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south,xshift=2mm] (acac) {accoa};
 
     \shadedarc[\glytotwidth]{50}{90}{\glyimrad}{\glyimmrad}{glyinter}{glyinit};
     \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyinit};
@@ -398,7 +398,7 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
             \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.4,above right] (fa) {$f_a$} node [pos=0.5,shape=coordinate] (midauto) {};
             \draw [line width=1pt,assimcol] (midauto) arc (0:-40:1cm);
             \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
-            \node at (-2.1cm,1cm) (A) {(A)};
+            \node at (-2.4cm,1cm) (A) {(A)};
             \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={right=2.5cm of orig,anchor=west,name=legend1},legend columns=2]
               \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}
               \addlegendimage{vstyle,area legend}
@@ -408,52 +408,56 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
             \end{customlegend}
       \end{scope}
       \begin{scope}[shift={(-1.5cm,-\gridsize/2)}]
-            \begin{axis}[name=phase,clip=false,xmin=0,ymin=0,xmax=2,ymax=2,ylabel={$\frac{V_{\max,b}}{V_{\max,a}}$},xlabel={$\frac{K_{M,b}}{K_{M,a}}$},samples=6,width=\gridsize,height=\gridsize,ytick={0,1,2},xtick={0,1,2}]
+        \begin{axis}[name=phase,clip=false,xmin=0,ymin=0,xmax=2,ymax=2,ylabel={\Large{$\sfrac{V_{\max,b}}{V_{\max,a}}$}},xlabel={\Large{$\sfrac{K_{M,b}}{K_{M,a}}$}},samples=6,width=\gridsize,height=\gridsize,ytick={0,1,2},xtick={0,1,2}]
             \addplot[domain=0:2,dotted,black,thick] {x};
             \addplot[dotted,black,thick] coordinates {(0,1) (2,1)};
             \draw[kstyle] (axis cs:0,0) -- (axis cs:2,2) -- (axis cs:2,0) --cycle;
             \draw[vstyle] (axis cs:0,1) -- (axis cs:2,1) -- (axis cs:2,2) -- (axis cs:0,2) --cycle;
-            \draw[->,black!50,dashed] (axis cs:0.25,1.33) -- +(-1.5cm,0cm);
-            \draw[->,black!50,dashed] (axis cs:1.75,1.33) -- +(1.1cm,0cm);
-            \draw[->,black!50,dashed] (axis cs:0.25,0.66) -- +(-1.5cm,0cm);
-            \draw[->,black!50,dashed] (axis cs:1.75,0.66) -- +(1.2cm,0cm);
-            \node[align=left,anchor=east] at (axis cs:1.75,1.33) (I) {I};
-            \node[align=right,anchor=west] at (axis cs:0.25,1.33) (II) {II};
-            \node[align=right,anchor=west] at (axis cs:0.25,0.66) (III) {III};
-            \node[align=left,anchor=east] at (axis cs:1.75,0.66) (IV) {IV};
+            \draw[->,black!50,dashed] (axis cs:0.25,1.4) -- +(-1.9cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:1.75,1.4) -- +(1.1cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:0.25,0.6) -- +(-1.9cm,0cm);
+            \draw[->,black!50,dashed] (axis cs:1.75,0.6) -- +(1.1cm,0cm);
+            \node[align=left,anchor=east] at (axis cs:1.75,1.4) (I) {I};
+            \node[align=right,anchor=west] at (axis cs:0.25,1.4) (II) {II};
+            \node[align=right,anchor=west] at (axis cs:0.25,0.6) (III) {III};
+            \node[align=left,anchor=east] at (axis cs:1.75,0.6) (IV) {IV};
           \end{axis}
 
-          \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,axis background/.style={fill=cyan!50!magenta,opacity=0.3},ylabel style={name=ylabel1}]
+          \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,ylabel style={name=ylabel1},xshift=1mm]%,axis background/.style={fill=cyan!50!magenta,opacity=0.3}]
             \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
             \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick,dashed] {3*x/(0.1+x)-5*x/(1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
-          \node[draw,dashed,fit=(plot1) (ylabel1)]{};
+          \node[draw,fit=(plot1) (ylabel1),line width=2pt, fill=none,rounded corners=3pt,cyan!50!magenta,opacity=0.6]{};
 
-          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.left of north west),anchor=right of north east,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},axis background/.style=vstyle]
+          \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.left of north west),anchor=right of north east,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},ylabel style={name=ylabel2},xshift=-1mm]%,axis background/.style=vstyle]
             \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
             \addplot[domain=0:4,branchout,thick] {5*x/(0.2+x)};
             \addplot[domain=0:4,sumcolor,thick,dashed] {4*x/(1+x)-5*x/(0.2+x)};
             \node[right,align=left] (twotext) at (axis cs:0.0,5) {\scriptsize stable zero steady state};
           \end{axis}
+          \node[draw,fit=(plot2) (ylabel2),line width=2pt, vstyle,fill=none,rounded corners=3pt]{};
 
-          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.left of south west),anchor=right of south east]
+          \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.left of south west),anchor=right of south east,ylabel style={name=ylabel3},xshift=-1mm]
             \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)};
             \addplot[domain=0:4,branchout,thick] {3*x/(0.1+x)};
             \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-3*x/(0.1+x)};
             \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
             \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
           \end{axis}
+          \node[draw,fit=(plot3) (ylabel3),line width=2pt, fill=none,rounded corners=3pt,opacity=0.2, black!40]{};
 
-          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.right of south east),anchor=left of south west,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},axis background/.style=kstyle]
+          \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(phase.right of south east),anchor=left of south west,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},ylabel style={name=ylabel4},xshift=1mm]%,axis background/.style=kstyle]
             \addplot[domain=0:2.9,autocatacyc,thick] {5*x/(0.2+x)};
             \addplot[domain=0:2.9,branchout,thick] {4*x/(1+x)};
             \addplot[domain=0:2.9,sumcolor,thick,dashed] {5*x/(0.2+x)-4*x/(1+x)};
             \node[right,align=left] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
          \end{axis}
-          \node [at=(plot2.north west),xshift=-0.5cm,yshift=0.3cm] (B) {(B)};
+          \node[draw,fit=(plot4) (ylabel4),line width=2pt, kstyle,fill=none,rounded corners=3pt]{};
+
+          \node [at=(plot2.north west),xshift=-0.6cm,yshift=0.35cm] (B) {(B)};
         \end{scope}
       \end{tikzpicture}
       \caption{\label{fig:simplecycle}
@@ -557,7 +561,8 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
 \subsubsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Autocatalytic cycles are embedded in a larger metabolic network.
     Specifically, such cycles generally have some independent reactions with input flux to at least some of their intermediate metabolites, not requiring the use of the cycle intermediate metabolites.
-    For example, the CBB cycle can have input flux of fructose-6-phosphate from the catabolism of starch.
+    For example, in the glucose based, PTS-dependent autocatalytic cycle, the existence of alternative transporters can generate flux into the cycle without the use of PEP.
+    In the CBB cycle, input flux of fructose-6-phosphate from the catabolism of starch can be used to 'kickstart' the cycle without using the intermediate metabolites of the cycle.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}) the steady state condition changes to include this flux, giving:
     \begin{equation*}
@@ -1114,3 +1119,31 @@ The examples of autocatalytic cycles we provide, as well as our verified predict
   Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and the production in glycolysis), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
   The analysis we present here can thus be of even wider relevance for the design and analysis of metabolic networks.
 
+  \section{Methods}
+  \subsection{Systematic identification of autocatalytic cycles in metabolic networks}
+  We implemeneted an algorithm to systematically search for autocatalytic cycles in metabolic networks.
+  The algorithm is incomplete, meaning there may be autocatalytic cycles that will not be identified by it.
+  In our framework, a metabolic network is defined by a set of reactions, $(R)$.
+  Each reaction is defined by a set of substrates and a set of products, with corresponding stoichiometries $R_i=(S,P,N^S,N^P)$, such that $R_i$ describes the reaction $\sum_j N_j^SS_j \rightarrow \sum_k N_k^PP_k$.
+  The algorithm works as follows:
+  \begin{enumerate}
+    \item All co-factors are removed from the description of the metabolic network, so that it is carbon-based.
+    \item The metabolic network is converted to a directed graph, G:
+  The nodes of G are all the metabolites and all the reactions of the network.
+  For each metabolite, $M$, and each reaction, $R$, if $M$ is a substrate of $R$ then the edge $(M,R)$ is added to the graph, and if $M$ is a product of $R$, then the edge $(R,M)$ is added to the graph.
+    \item The Tarajan cycle identification algorithm is used to enumerate all the cycles in the graph.
+    \item for every cycle identified by the Tarajan algorithm, $C$, the algorithm checks if the cycle can be the backbone of an auto catalytic cycle as follows:
+        \begin{enumerate}
+            \item For every reaction in the cycle, $R$, the algorithm checks if it consumes more than one  intermediate metabolite of the cycle.
+              If so, $C$ is assumed not to be autocatalytic and the algorithm continues to evaluate the next cycle.
+            \item Otherwise, for every reaction in the cycle, $R$, the algorithm checks if it has more than one product that is an intermediate metabolite of the cycle.
+              If so, then the algorithm lists $C$ as an autocatalytic cycle.
+            \item Finally, the algorithm checks, for every reaction in the cycle, if it has a product that is not an intermediate metabolites of the cycle.
+                If so, denote by $M_E$ such a metabolite.
+            The algorithm proceeds to check if, for every intermediate metabolite of the cycle, $M_i$ a reaction exists from $M_E$ to $M_i$ that does not use any of the reactions of the cycle, and does not consume any of the intermediate metabolites of the cycle.
+            If so then the algorithm lists $C$ as an autocatalytic cycle.
+        \end{enumerate}
+  \end{enumerate}
+
+  The algorithm assumes reactions consume exactly one molecule of any of their substrates and produces exactly one molecule of any of their products, an assumption that is valid in central carbon metabolism, but not in metabolic networks in general.
+  
