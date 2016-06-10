@@ -1,0 +1,276 @@
+\begin{tikzpicture}
+ \colorlet{ptsinit}{cyan}
+  \colorlet{cbbinit}{yellow}
+  \colorlet{glyinit}{magenta}
+
+  \newlength\assimwidth;
+  \pgfmathsetlength{\assimwidth}{1.5pt};
+
+  \node[metaboliteStyle] (g6p) {g6p};
+
+  %%%% upper pts
+  \node[shape=coordinate,left=12mm of g6p.center] (ptsmid) {};
+  \node[metaboliteStyle,left=7mm of ptsmid,rectangle,draw=assimcol,rounded corners=2pt] (gluc) {gluc};
+  \node[metaboliteStyle,shift={(-7mm,-7mm)},gray] at (g6p.center) (pyr1) {pyr};
+  \draw[assimcol,line width=\assimwidth] (gluc) -- (ptsmid);
+  \draw[->] (ptsmid) [out=0,in=90] to (pyr1);
+
+  \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+  \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+  \node[metaboliteStyle,shape=coordinate,below=of fbp.center](fbamid) {};
+  \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+  \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
+  \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+  \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+  \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+  \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+  \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+  \node[metaboliteStyle,below=of pyr.center,rectangle,draw=assimcol,rounded corners=2pt] (aca) {accoa};
+  \node[shape=coordinate,below=of aca] (dummyglta) {};
+  \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
+  \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
+  \node[metaboliteStyle,right=of cit] (icit) {icit};
+  \node[metaboliteStyle,below=of icit.center] (akg) {akg};
+  \node[metaboliteStyle,below=of akg.center] (sca) {sca};
+  \node[metaboliteStyle,below=of oaa.center] (mal) {mal};
+  \node[metaboliteStyle,below=of mal.center] (fum) {fum};
+  \node[metaboliteStyle,right=of mal] (glx) {glx};
+  \node[metaboliteStyle,right=of fum] (suc) {suc};
+  \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+  \node[metaboliteStyle,shape=coordinate,right=of f6p] (s7pspace) {};
+  \node[metaboliteStyle,right=of s7pspace] (s7p) {s7p};
+  \node[metaboliteStyle,right=of s7p] (r5p) {r5p};
+  \node[metaboliteStyle,right=of r5p] (ru5p) {ru5p};
+  \node[metaboliteStyle,above=of ru5p.center] (6pgc) {6pgc};
+  \node[metaboliteStyle,] at (fbp.center -| s7p.center) (e4p) {e4p};
+  \node[metaboliteStyle,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
+  \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
+  \node[metaboliteStyle,rectangle,draw=assimcol,rounded corners=2pt] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
+  \draw[->] (g6p) -- (f6p);
+  \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
+  \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
+  \draw [<-] (fbp) [out=-90,in=90] to (fbamid);
+  \draw [->] (fbamid) [out=-90,in=45] to (dhap);
+  \draw [->] (fbamid) [out=-90,in=135] to (gap);
+  \draw [<->] (dhap) -- (gap);
+  \draw[<->] (gap) -- (bpg);
+  \draw[<->] (bpg) -- (3pg);
+  \draw[->] (3pg) -- (2pg);
+  \draw[->] (2pg) -- (pep);
+  \draw[->] (pep) -- (pyr);
+  \draw[->] (pyr) -- (aca);
+  \draw[->] (oaa) -- (cit) node [pos=0.9] (midglta) {};
+  \draw [assimcol,line width=\assimwidth] (aca) [out=-70,in=180] to (midglta);
+  \draw[->] (cit) -- (icit);
+  \draw[->] (icit) -- (suc) node [pos=0.3] (midacea) {};
+  \draw[->] (midacea) [out=220,in=0] to (glx);
+  \draw[->] (icit) -- (akg);
+  \draw[->] (akg) -- (sca);
+  \draw[->] (sca) -- (suc);
+  \draw[->] (suc) -- (fum);
+  \draw[->] (fum) -- (mal);
+  \draw[->] (glx) -- (mal) node [pos=0.9] (midaceb) {};
+  \draw[->] (mal) -- (oaa);
+  \draw[assimcol,line width=\assimwidth] (aca) [out=-90,in=0] to (midaceb);
+  \draw[->] (g6p) -- (6pgi);
+  \draw[->] (6pgi) -- (6pgc);
+  \draw[->] (6pgc) -- (ru5p);
+  \draw[<-] (ru5p) -- (xu5p);
+  \draw[<-] (ru5p) -- (r5p);
+  \path[] (r5p) -- (gap) coordinate [pos=0.2] (midtkt1) {};
+  \draw[<-] (xu5p) [out=180,in=-90] to (midtkt1);
+  \draw[] (midtkt1) [out=90,in=0] to (s7p);
+  \draw[<-] (r5p) [out=180,in=90] to (midtkt1);
+  \draw[] (midtkt1) [out=270,in=0] to (gap);
+  \path[] (e4p) -- (gap) coordinate [pos=0.4] (midtkt2) {};
+  \draw[<-] (e4p) [out=-60,in=0] to (midtkt2);
+  \draw[] (midtkt2) [out=180,in=90] to (gap);
+  \draw[<-] (xu5p) [out=245,in=0] to (midtkt2);
+  \draw[] (midtkt2) [out=180,in=-30] to (f6p);
+  \path[] (e4p) -- (s7pspace) coordinate [pos=0.5] (midtal) {};
+  \draw[] (midtal) [out=90,in=0] to (f6p);
+  \draw[<-] (s7p) [out=180,in=90] to (midtal);
+  \draw[] (midtal) [out=-90,in=180] to (e4p);
+  \draw[<-] (gap) [out=55,in=-90] to (midtal);
+  \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+  \draw[] (pep) [out=180,in=0] to (pts3);
+  \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+  \node[shape=coordinate,left=2.1cm of f6p.center] (ptstop) {};
+  \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+  \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
+  \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
+  \draw[] (ptstop) [in=180,out=90] to (ptsmid);
+  \draw[->] (ptsmid) -- (g6p);
+  \draw[->] (ru5p) [out=-90,in=90] to (rub);
+  \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
+  \draw[assimcol,line width=\assimwidth] (co2) [out=90,in=0] to (rubisco);
+  \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
+  \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
+
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- node[midway] (ptsshademid) {} ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
+
+  \draw[very thick,dashed,cyan,->] (ptsshademid) -- ++(-1.5cm,0cm); 
+
+  \draw[opacity=0.2,fill=glyinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2*\highlightrad)}]oaa.west) -- ([shift={(\highlightrad,2*\highlightrad)}]icit.east) -- node[midway] (glyshadedmid) {}([shift={(\highlightrad,-0.5*\highlightrad)}]icit.south east) -- ([shift={(0.5*\highlightrad,-2*\highlightrad)}]suc.east) -- ([shift={(-\highlightrad,-2*\highlightrad)}]fum.west) -- cycle;
+
+  \draw[very thick,dashed,magenta,->] (glyshadedmid) -- ++(1.5cm,0cm); 
+
+  \node[shape=coordinate] at (dhap.south -| gap.west) (cbbmid) {};
+  \draw[opacity=0.2,fill=cbbinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2.2*\highlightrad)}]f6p.west) -- ([shift={(3*\highlightrad,2.2*\highlightrad)}]ru5p.center) -- node[midway] (cbbshadedmid) {} ([shift={(3*\highlightrad,-2*\highlightrad)}]rub.center) -- ([shift={(-\highlightrad,-2*\highlightrad)}]3pg.west) -- ([shift={(-\highlightrad,-\highlightrad)}]cbbmid) -- ([shift={(-0.5*\highlightrad,-\highlightrad)}]dhap.south west) -- ([shift={(-0.5*\highlightrad,0.5*\highlightrad)}]dhap.north west) -- ([xshift=-\highlightrad]fbp.west) -- cycle;
+
+  \draw[very thick,dashed,cbbinit,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
+
+  %% CBB cycle
+  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm]
+    \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(4.6,4.5);
+    \node at (-2.2cm,2cm) (I) {\large  \textbf{I}};
+    \node[anchor=north] at(-0.4cm,-2.2cm) (cbbreac) {{\fontfamily{cmss}\selectfont 5}  3pg + {\fontfamily{cmss}\selectfont 3} \ce{CO2} $\rightarrow$ {\fontfamily{cmss}\selectfont 6} 3pg};
+    \colorlet{cbbmed}{blue}
+    \colorlet{cbbext}{assimcol}
+  
+
+    \newlength\cbbimrad;
+    \newlength\cbbierad;
+    \newlength\cbbesrad;
+    \newlength\cbbemrad;
+    \newlength\cbbeerad;
+    \newlength\cbbwidth;
+    \newlength\cbbtotwidth;
+    \pgfmathsetlength{\cbbwidth}{\arcwidth*0.2};
+    \pgfmathsetlength{\cbbtotwidth}{\cbbwidth+\arcwidth};
+    \pgfmathsetlength{\cbbimrad}{\autocatalrad-\blendfrac*0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbierad}{\autocatalrad-0.5*\cbbwidth};
+    \pgfmathsetlength{\cbbesrad}{\autocatalrad+0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbemrad}{\autocatalrad+0.5*\cbbtotwidth-\blendfrac*0.5*\cbbtotwidth};
+    \pgfmathsetlength{\cbbeerad}{\autocatalrad+0.5*\arcwidth};
+
+    \shadedarc{-20}{-180}{\autocatalrad}{\autocatalrad}{cbbmed}{cbbinit};
+    \shadedarc{100}{180}{\cbbimrad}{\autocatalrad}{cbbmed}{cbbinit};
+    \coloredarc{25}{100}{\cbbierad}{\cbbimrad}{cbbinit};
+    \shadedarc[\cbbwidth]{100}{180}{\cbbemrad}{\cbbesrad}{cbbext}{cbbinit};
+    \coloredarc[\cbbwidth]{25}{100}{\cbbeerad}{\cbbemrad}{cbbinit};
+
+%% \assimilatedcol input arc
+        \draw[color=cbbext,line width=\cbbwidth]
+        (\fromang:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+        arc (0:\inputang:2cm)
+        node [pos=0.5,color=black,anchor=east] (co2c) {\ce{CO2}};
+%% arrowhead
+    \fill[cbbinit]
+      (\fromang+\deltaang+1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
+      arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
+      -- (\fromang+\deltaang-1-\protrude:\autocatalrad)
+      -- (\fromang+\deltaang-1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+      arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
+      -- cycle;
+
+%% metabolites
+        \node at (0:\autocatalrad) (3pgc) {3pg};
+        \node at (220:\autocatalrad-4.7mm) (rubc) {rubp};
+
+  \end{scope}
+
+  %glyoxilate cycle
+\begin{scope} [shift={(9cm,-13.5cm)},radius=2cm]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.6cm) rectangle +(4.5,5.1);
+  \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
+  \node[anchor=north] at(-0.15cm,-2.7cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
+  \colorlet{glymed}{blue}
+  \colorlet{glyext}{assimcol}
+  \colorlet{glyinter}{blue}
+  
+    \newlength\glyimrad;
+    \newlength\glyierad;
+    \newlength\glyesrad;
+    \newlength\glyemrad;
+    \newlength\glyeerad;
+    \newlength\glywidth;
+    \newlength\glytotwidth;
+    \newlength\glyfinwidth;
+    \newlength\glyimmrad;
+    \newlength\glyemmrad;
+    \newlength\glyemmmrad;
+    \newlength\glyeamrad;
+    \pgfmathsetlength{\glywidth}{\arcwidth*0.5};
+    \pgfmathsetlength{\glytotwidth}{\glywidth+\arcwidth};
+    \pgfmathsetlength{\glyfinwidth}{\glytotwidth+\glywidth};
+    \pgfmathsetlength{\glyimrad}{\autocatalrad-\blendfrac*0.5*\glywidth};
+    \pgfmathsetlength{\glyimmrad}{\autocatalrad-0.5*\glywidth};
+    \pgfmathsetlength{\glyemmrad}{\glyimmrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyemmmrad}{\glyemmrad+0.5*\glywidth};
+    \pgfmathsetlength{\glyeamrad}{\autocatalrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyierad}{\autocatalrad-0.5*\glywidth};
+    \pgfmathsetlength{\glyesrad}{\autocatalrad+0.5*\glytotwidth};
+    \pgfmathsetlength{\glyemrad}{\autocatalrad+0.5*\glyfinwidth-\blendfrac*0.5*\glywidth};
+    \pgfmathsetlength{\glyeerad}{\autocatalrad+0.5*\glytotwidth};
+
+    \shadedarc{-20}{-90}{\autocatalrad}{\autocatalrad}{glymed}{glyinit};
+    \shadedarc{-150}{-90}{\glyimmrad}{\autocatalrad}{glymed}{glyinter};
+    \shadedarc[\glywidth]{-150}{-90}{\glyemmrad}{\glyeamrad}{glyext}{glyinter};
+
+    \draw[color=glyext,line width=\glywidth] (-90:\autocatalrad+0.5*\glytotwidth) arc(90:50:2cm) node [pos=0.5,color=black,anchor=north,xshift=-1.5mm] (acac) {accoa};
+
+    \coloredarc[\glytotwidth]{160}{90}{\glyimmrad}{\glyimmrad}{glyinter};
+
+    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south,xshift=2mm] (acac) {accoa};
+
+    \shadedarc[\glytotwidth]{50}{90}{\glyimrad}{\glyimmrad}{glyinter}{glyinit};
+    \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyinit};
+
+    \shadedarc[\glywidth]{90}{50}{\glyemmmrad}{\glyemrad}{glyinit}{glyext};
+    \coloredarc[\glywidth]{50}{25}{\glyemrad}{\glyeerad}{glyinit};
+
+
+    \node at (0:\autocatalrad) (malc) {mal};
+    \node at (180:\autocatalrad) (glxc) {glx+fum};
+    \node at (-50:\autocatalrad-4.5mm) (oaa) {oaa};
+
+  \fill[glyinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
+       -- cycle;
+
+  \fill[glyinter] (-149:\autocatalrad-\arcwidth+0.5*\glywidth) arc (-149:-161:\autocatalrad-\arcwidth+0.5*\glywidth)
+       -- (-161-\protrude:\autocatalrad) -- (-161:\autocatalrad+\arcwidth-0.5*\glywidth) arc (-161:-149:\autocatalrad+\arcwidth-0.5*\glywidth)
+       -- cycle;
+  \end{scope}
+
+
+  %pts cycle
+\begin{scope} [shift={(-5.8cm,-5.5cm)},radius=2cm]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.5,-3) rectangle +(4.5,5.5);
+  \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
+  \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {gap + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap + pyr};
+    \colorlet{ptsmed}{blue}
+    \colorlet{ptsext}{assimcol}
+
+    \newlength\ptsierad;
+    \newlength\ptsimrad;
+    \newlength\ptsarcwidth;
+    \newlength\ptsesrad;
+    \newlength\ptsemrad;
+    \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
+    \pgfmathsetlength{\ptsimrad}{\autocatalrad-0.5*\arcwidth};
+    \pgfmathsetlength{\ptsarcwidth}{2*\arcwidth};
+    \pgfmathsetlength{\ptsesrad}{\autocatalrad+0.5*\arcwidth+0.5*\ptsarcwidth};
+    \pgfmathsetlength{\ptsemrad}{\autocatalrad+0.5*\ptsarcwidth};
+
+    \shadedarc{-20}{-120}{\autocatalrad}{\autocatalrad}{ptsmed}{ptsinit};
+    \shadedarc{160}{240}{\ptsimrad}{\autocatalrad}{ptsmed}{ptsinit};
+    \shadedarc{70}{160}{\ptsierad}{\ptsimrad}{ptsinit}{white};
+    \shadedarc[\ptsarcwidth]{160}{240}{\ptsemrad}{\ptsesrad}{ptsext}{ptsinit};
+    \coloredarc[\ptsarcwidth]{25}{160}{\autocatalrad}{\ptsemrad}{ptsinit};
+
+  \fill[ptsinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black,left,shift={(-1mm,-2mm)}] (glucc) {gluc};
+    \node at (0:\autocatalrad) (gapc) {gap};
+    \node at (270:\autocatalrad-4.5mm) (pepc) {pep};
+    \node at (70:\ptsierad) (pyrc) {pyr};
+  \end{scope}
+
+
+\end{tikzpicture}
+

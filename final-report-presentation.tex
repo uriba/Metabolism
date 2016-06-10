@@ -1,0 +1,41 @@
+\documentclass[aspectratio=169]{beamer}
+\input{preamble.tex}
+\usepackage{adjustbox}
+
+\begin{document}
+\frame{\frametitle{An autocatalytic cycle requires its internal metabolite to produce it}
+    \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
+        \input{autocatalytic-cycle.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Autocatalytic cycles are abundant in central carbon metabolism}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{autocatalytic-samples.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Stable flux through an autocatalytic cycle constrains the kinetic parameters of its enzymes}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{simple-cycle-analysis-figure.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Input flux increases the range of parameters for which stable fluxes exist}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{autocatalytic-with-input.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Stability of complex cycles imposes similar constraints at branch points}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+      \input{complex-autocatalytic-cycles.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Experimental fluxomics data supports model predictions}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+      \input{experimental-fluxes.tex}
+    \end{adjustbox}
+}
+\end{document}

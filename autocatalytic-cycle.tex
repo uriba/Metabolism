@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+\begin{scope} [shift={(-6.6cm,-4cm)}]
+  \colorlet{genext}{assimcol}
+  \colorlet{genmed}{blue}
+  \colorlet{geninit}{blue}
+
+  \newlength\imrad;
+  \newlength\ierad;
+  \newlength\esrad;
+  \newlength\emrad;
+  \newlength\eerad;
+  \pgfmathsetlength{\imrad}{\autocatalrad-\blendfrac*\arcwidth};
+  \pgfmathsetlength{\ierad}{\autocatalrad-0.5*\arcwidth};
+  \pgfmathsetlength{\esrad}{\autocatalrad+\arcwidth};
+  \pgfmathsetlength{\emrad}{\autocatalrad+\arcwidth-\blendfrac*\arcwidth};
+  \pgfmathsetlength{\eerad}{\autocatalrad+0.5*\arcwidth};
+
+    \shadedarc[\autocatalscale*\arcwidth]{-20}{-180}{\autocatalscale*\autocatalrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\imrad}{\autocatalscale*\autocatalrad}{genmed}{geninit};
+    \shadedarc[\autocatalscale*\arcwidth]{100}{180}{\autocatalscale*\emrad}{\autocatalscale*\esrad}{genext}{geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\eerad}{\autocatalscale*\emrad}{genext!0.5!geninit};
+    \coloredarc[\autocatalscale*\arcwidth]{25}{100}{\autocatalscale*\ierad}{\autocatalscale*\imrad}{genext!0.5!geninit};
+
+  \fill[genext!0.5!geninit] (\fromang+\deltaang+1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalscale*\autocatalrad-\autocatalscale*\arcwidth)
+       -- (\fromang+\deltaang-1-\protrude:\autocatalscale*\autocatalrad) -- (\fromang+\deltaang-1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalscale*\autocatalrad+\autocatalscale*\arcwidth)
+       -- cycle;
+
+       %% \assimilatedcol input arc
+       \draw[color=genext!99.5!geninit,line width=\autocatalscale*\arcwidth] (180:\autocatalscale*\esrad) arc(0:-40:2cm) node [pos=0.5,color=black,left] (ext) {External metabolite};
+    \node at (0:\autocatalscale*\autocatalrad) (int) {Internal metabolite};
+    \node [rectangle,fill=autocatacyc!40,rounded corners=3pt] at (90:\autocatalscale*\autocatalrad+1cm) (eq) {Internal metabolite + External metabolite $\rightarrow (1+\gamma)$ Internal metabolite};
+  \end{scope}
+\end{tikzpicture}
+

@@ -1,0 +1,84 @@
+  \begin{tikzpicture}[>=latex',node distance = 2cm]
+    \newlength\gridsize;
+    \pgfmathsetlength{\gridsize}{8cm};
+    \newlength\plotwidth;
+    \pgfmathsetlength{\plotwidth}{4.6cm};
+    \newlength\plotheight;
+    \pgfmathsetlength{\plotheight}{4.5cm};
+    \tikzset{
+        vstyle/.style={opacity=0.3,pattern=north west lines,cyan}}
+    \tikzset{
+        kstyle/.style={opacity=0.3,pattern=north east lines,magenta}}
+  \begin{scope}[shift={(-4cm,4cm)}]
+        \node at (0:1cm) (X) {$X$};
+        \node[shape=coordinate] (orig) {};
+        \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.4,above right] (fa) {$f_a$} node [pos=0.5,shape=coordinate] (midauto) {};
+        \draw [line width=1pt,assimcol] (midauto) arc (0:-40:1cm);
+        \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+        \iftoggle{article} {
+            \node at (-2.4cm,1cm) (A) {(A)};
+        }{}
+        \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={right=2.5cm of orig,anchor=west,name=legend1},legend columns=2]
+          \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}
+          \addlegendimage{vstyle,area legend}
+          \addlegendimage{branchout,fill=black!50!red,sharp plot,line width=1pt}
+          \addlegendimage{kstyle,area legend}
+          \addlegendimage{sumcolor,fill=black!50!red,sharp plot,dashed,line width=1pt}
+        \end{customlegend}
+  \end{scope}
+  \begin{scope}[shift={(-1.5cm,-\gridsize/2)}]
+    \begin{axis}[name=phase,clip=false,xmin=0,ymin=0,xmax=2,ymax=2,ylabel={\Large{$\sfrac{V_{\max,b}}{V_{\max,a}}$}},xlabel={\Large{$\sfrac{K_{M,b}}{K_{M,a}}$}},samples=6,width=\gridsize,height=\gridsize,ytick={0,1,2},xtick={0,1,2}]
+        \addplot[domain=0:2,dotted,black,thick] {x};
+        \addplot[dotted,black,thick] coordinates {(0,1) (2,1)};
+        \draw[kstyle] (axis cs:0,0) -- (axis cs:2,2) -- (axis cs:2,0) --cycle;
+        \draw[vstyle] (axis cs:0,1) -- (axis cs:2,1) -- (axis cs:2,2) -- (axis cs:0,2) --cycle;
+        \draw[->,black!50,dashed] (axis cs:0.25,1.4) -- +(-1.9cm,0cm);
+        \draw[->,black!50,dashed] (axis cs:1.75,1.4) -- +(1.1cm,0cm);
+        \draw[->,black!50,dashed] (axis cs:0.25,0.6) -- +(-1.9cm,0cm);
+        \draw[->,black!50,dashed] (axis cs:1.75,0.6) -- +(1.1cm,0cm);
+        \node[align=left,anchor=east] at (axis cs:1.75,1.4) (I) {I};
+        \node[align=right,anchor=west] at (axis cs:0.25,1.4) (II) {II};
+        \node[align=right,anchor=west] at (axis cs:0.25,0.6) (III) {III};
+        \node[align=left,anchor=east] at (axis cs:1.75,0.6) (IV) {IV};
+      \end{axis}
+
+      \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,ylabel style={name=ylabel1},xshift=1mm]%,axis background/.style={fill=cyan!50!magenta,opacity=0.3}]
+        \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
+        \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
+        \addplot[domain=0:2.9,sumcolor,thick,dashed] {3*x/(0.1+x)-5*x/(1+x)};
+        \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
+        \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
+      \end{axis}
+      \node[draw,fit=(plot1) (ylabel1),line width=2pt, fill=none,rounded corners=3pt,cyan!50!magenta,opacity=0.6]{};
+
+      \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(phase.left of north west),anchor=right of north east,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},ylabel style={name=ylabel2},xshift=-1mm]%,axis background/.style=vstyle]
+        \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
+        \addplot[domain=0:4,branchout,thick] {5*x/(0.2+x)};
+        \addplot[domain=0:4,sumcolor,thick,dashed] {4*x/(1+x)-5*x/(0.2+x)};
+        \node[right,align=left] (twotext) at (axis cs:0.0,5) {\scriptsize stable zero steady state};
+      \end{axis}
+      \node[draw,fit=(plot2) (ylabel2),line width=2pt, vstyle,fill=none,rounded corners=3pt]{};
+
+      \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.left of south west),anchor=right of south east,ylabel style={name=ylabel3},xshift=-1mm]
+        \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)};
+        \addplot[domain=0:4,branchout,thick] {3*x/(0.1+x)};
+        \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-3*x/(0.1+x)};
+        \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
+        \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
+      \end{axis}
+      \node[draw,fit=(plot3) (ylabel3),line width=2pt, fill=none,rounded corners=3pt,opacity=0.2, black!40]{};
+
+      \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(phase.right of south east),anchor=left of south west,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},ylabel style={name=ylabel4},xshift=1mm]%,axis background/.style=kstyle]
+        \addplot[domain=0:2.9,autocatacyc,thick] {5*x/(0.2+x)};
+        \addplot[domain=0:2.9,branchout,thick] {4*x/(1+x)};
+        \addplot[domain=0:2.9,sumcolor,thick,dashed] {5*x/(0.2+x)-4*x/(1+x)};
+        \node[right,align=left] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
+     \end{axis}
+      \node[draw,fit=(plot4) (ylabel4),line width=2pt, kstyle,fill=none,rounded corners=3pt]{};
+
+        \iftoggle{article} {
+          \node [at=(plot2.north west),xshift=-0.6cm,yshift=0.35cm] (B) {(B)};
+        }{}
+    \end{scope}
+  \end{tikzpicture}
+

@@ -1,0 +1,313 @@
+\begin{tikzpicture}
+  \tikzset{
+    figArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=#1,angle'=60]}}},
+    figArrowStyle/.default=0.25
+  }
+  \tikzset{
+    capArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=0.25,angle'=60,color=#1]}}},
+    capArrowStyle/.default=autocatacycfl
+    }
+  \tikzset{
+    ratioRect/.style={rectangle,fill=graybg,rounded corners=2pt}}
+  \newcommand{\coloredRatio}[2]{%top,bottom
+      {\Large {$\sfrac{\mathbf{\color{branchout}#1\%}}{\mathbf{\color{autocatacyc}#2\%}}$}}
+  }
+
+  %Galactose
+  \begin{scope}[shift={(-6cm,-7.5cm)}]
+    \def\galmaxflux{0.5mm}
+    \def\galglt{1.52*\galmaxflux}
+    \def\galcapvalglt{20}
+    \def\galcapglt{\galglt/\galcapvalglt*100}
+    \def\galacn{1.52*\galmaxflux*1.5}
+    \def\galacea{1.02*\galmaxflux}
+    \def\galcapvalacea{30}
+    \def\galcapacea{\galacea/\galcapvalacea*100}
+    \def\galaceb{1.02*\galmaxflux}
+    \def\galsdh{1.26*\galmaxflux}
+    \def\galfum{1.26*\galmaxflux}
+    \def\galmdh{2.28*\galmaxflux}
+    \def\galpck{0.85*\galmaxflux}
+    \def\galcapvalpck{25}
+    \def\galcappck{\galpck/\galcapvalpck*100}
+    \def\galicd{0.5*\galmaxflux}
+    \def\galcapvalicd{10}
+    \def\galcapicd{\galicd/\galcapvalicd*100}
+
+    \node[] (galactose) {\textbf{Galactose input}};
+    \node[metaboliteStyle,inputcol,below=of galactose] (aca) {aca};
+    \node[shape=coordinate,below=of aca] (dummyglta) {};
+    \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
+    \node[metaboliteStyle] at (aca -| oaa) (pep) {pep};
+    \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
+    \node[metaboliteStyle,right=of cit] (icit) {icit};
+    \node[metaboliteStyle,below=of icit.center] (akg) {akg};
+    \node[metaboliteStyle,below=of akg.center] (sca) {sca};
+    \node[metaboliteStyle,below=of oaa.center] (mal) {mal};
+    \node[metaboliteStyle,below=of mal.center] (fum) {fum};
+    \node[metaboliteStyle,right=of mal] (glx) {glx};
+    \node[metaboliteStyle,right=of fum] (suc) {suc};
+    \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
+    \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta) ;
+
+    \node[ratioRect,anchor=east] at (oaa.west) (galb1) {\coloredRatio{\galcapvalpck}{\galcapvalglt}};
+    \node[ratioRect,anchor=south] at (icit.north) (galb2) {\coloredRatio{\galcapvalicd}{\galcapvalacea}};
+
+    \draw[line width=\galglt,autocatacycfl] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
+    \draw[figArrowStyle,line width=\galglt*1.5,autocatacycfl] (midglta) -- (cit);
+    \draw[capArrowStyle=branchoutfl,line width=\galcappck,branchout!40] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\galpck,branchoutfl] (oaa) -- (pep);
+    \draw [inputcol,line width=0.5*\galglt] (aca) [out=-70,in=180] to ([yshift=0.35*\galglt]midglta);
+    \draw[figArrowStyle,line width=\galacn,autocatacycfl] (cit) -- (icit);
+    \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
+    \draw[line width=\galcapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
+    \draw[capArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.35]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[capArrowStyle,line width=\galcapacea,autocatacyc!40] ([xshift=\galcapacea*0.38]midacea) -- ([xshift=\galcapacea*0.4]suc);
+    \draw[capArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galcapacea*0.35,\galcapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle,line width=\galcapacea*0.5,autocatacyc!40] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[line width=\galacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
+    \draw[figArrowStyle,line width=\galacea,autocatacycfl] ([xshift=\galacea*0.4]midacea) -- ([xshift=\galacea*0.4]suc);
+    \draw[figArrowStyle,line width=\galacea*0.5,autocatacycfl] ([shift={(-\galacea*0.35,\galacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle=branchoutfl,line width=\galcapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\galicd*1.5,branchoutfl] (icit) -- (akg);
+    \draw[->] (akg) -- (sca);
+    \draw[->] (sca) -- (suc);
+    \draw[figArrowStyle,line width=\galsdh,autocatacycfl] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\galfum,autocatacycfl](fum) -- (mal);
+    \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
+    \draw[line width=\galaceb*0.5,autocatacycfl] ([yshift=-0.25*\galaceb]glx) -- ([yshift=-0.25*\galaceb]midaceb);
+    \draw[inputcol,line width=0.5*\galaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\galaceb]midaceb);
+    \draw[figArrowStyle,line width=\galaceb,autocatacycfl] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\galmdh,autocatacycfl] (mal) -- (oaa);
+  \end{scope}
+
+  %acetate
+  \begin{scope}[shift={(-6cm,0cm)}]
+    \def\acemaxflux{0.2mm}
+    \def\aceglt{8.83*\acemaxflux}
+    \def\acecapvalglt{70}
+    \def\acecapglt{\aceglt/\acecapvalglt*100}
+    \def\aceacn{8.83*\acemaxflux*1.5}
+    \def\aceacea{4.14*\acemaxflux}
+    \def\acecapvalacea{100}
+    \def\acecapacea{\aceacea}
+    \def\aceaceb{4.14*\acemaxflux}
+    \def\acesdh{8.4*\acemaxflux}
+    \def\acefum{8.4*\acemaxflux}
+    \def\acemdh{10.67*\acemaxflux}
+    \def\acecapvalmdh{100}
+    \def\acemae{1.87*\acemaxflux}
+    \def\acecapvalmae{15}
+    \def\acecapmae{\acemae/\acecapvalmae*100}
+    \def\acepck{3.11*\acemaxflux}
+    \def\acecapvalpck{75}
+    \def\acecappck{\acepck/\acecapvalpck*100}
+    \def\aceicd{4.7*\acemaxflux}
+    \def\acecapvalicd{65}
+    \def\acecapicd{\aceicd/\acecapvalicd*100}
+
+    \node[] (acetate) {\textbf{Acetate input}};
+    \node[metaboliteStyle,inputcol,below=of acetate] (aca) {aca};
+    \node[shape=coordinate,below=of aca] (dummyglta) {};
+    \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
+    \node[metaboliteStyle] at (aca -| oaa) (pep) {pep};
+    \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
+    \node[metaboliteStyle,right=of cit] (icit) {icit};
+    \node[metaboliteStyle,below=of icit.center] (akg) {akg};
+    \node[metaboliteStyle,below=of akg.center] (sca) {sca};
+    \node[metaboliteStyle,below=of oaa.center] (mal) {mal};
+    \node[metaboliteStyle,below=of mal.center] (fum) {fum};
+    \node[metaboliteStyle,right=of mal] (glx) {glx};
+    \node[metaboliteStyle,left=of mal] (pyr) {pyr};
+    \node[metaboliteStyle,right=of fum] (suc) {suc};
+    \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
+    \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \node[ratioRect,anchor=south east] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
+    \draw[line width=\aceglt,autocatacycfl] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
+    \draw[figArrowStyle,line width=\aceglt*1.5,autocatacycfl] (midglta) -- (cit);
+    \draw[capArrowStyle=branchoutfl,line width=\acecappck,branchout!40] (oaa) -- (pep);
+    \draw[figArrowStyle,line width=\acepck,branchoutfl] (oaa) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\acecapmae,branchout!40] (mal) -- (pyr);
+    \node[ratioRect,anchor=south east] at (mal.north west) (aceb2) {\coloredRatio{\acecapvalmae}{\acecapvalmdh}};
+    \draw[figArrowStyle,line width=\acemae,branchoutfl] (mal) -- (pyr);
+    \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\aceglt]midglta);
+    \draw[figArrowStyle,line width=\aceacn,autocatacycfl] (cit) -- (icit);
+    \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
+    \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
+    \draw[capArrowStyle,line width=\acecapacea,autocatacycfl!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
+    \node[ratioRect,anchor=south] at (icit.north) (aceb3) {\coloredRatio{\acecapvalicd}{\acecapvalacea}};
+    \draw[capArrowStyle,line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[line width=\aceacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
+    \draw[figArrowStyle,line width=\aceacea,autocatacycfl] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
+    \draw[figArrowStyle,line width=\aceacea*0.5,autocatacycfl] ([shift={(-\aceacea*0.35,\aceacea*0.35)}]midacea) [out=220,in=0] to (glx);
+    \draw[capArrowStyle=branchoutfl,line width=\acecapicd*1.5,branchout!40] (icit) -- (akg);
+    \draw[figArrowStyle,line width=\aceicd*1.5,branchoutfl] (icit) -- (akg);
+    \draw[->] (akg) -- (sca);
+    \draw[->] (sca) -- (suc);
+    \draw[figArrowStyle,line width=\acesdh,autocatacycfl] (suc) -- (fum);
+    \draw[figArrowStyle,line width=\acefum,autocatacycfl](fum) -- (mal);
+    \path[] (glx) -- (mal) node [pos=0.85,shape=coordinate] (midaceb) {};
+    \draw[line width=\aceaceb*0.5,autocatacycfl] ([yshift=-0.25*\aceaceb]glx) -- ([yshift=-0.25*\aceaceb]midaceb);
+    \draw[inputcol,line width=0.5*\aceaceb] ([xshift=-0.5mm]aca.south) [out=-90,in=0] to ([yshift=0.25*\aceaceb]midaceb);
+    \draw[figArrowStyle,line width=\aceaceb,autocatacycfl] (midaceb) -- (mal);
+    \draw[figArrowStyle,line width=\acemdh,autocatacycfl] (mal) -- (oaa);
+ 
+  \end{scope}
+
+  %Glucose
+  \begin{scope}[shift={(1.5cm,0cm)}]
+    \def\glucmaxflux{0.35mm}
+    \def\glucpgi{5.7*\glucmaxflux}
+    \def\gluccapvalpgi{100}
+    \def\gluccappgi{\glucpgi}
+    \def\glucpfk{7.06*\glucmaxflux}
+    \def\glucfba{7.06*\glucmaxflux}
+    \def\gluctpi{7.06/2*\glucmaxflux}
+    \def\glucgap{15.71/2*\glucmaxflux}
+    \def\glucpgk{15.71/2*\glucmaxflux}
+    \def\glucgpm{14.56/2*\glucmaxflux}
+    \def\gluceno{14.56/2*\glucmaxflux}
+    \def\glucpyk{2.49/2*\glucmaxflux}
+    \def\gluccapvalpyk{35}
+    \def\gluccappyk{\glucpyk/\gluccapvalpyk*100}
+    \def\glucppc{2.45/2*\glucmaxflux}
+    \def\gluccapvalppc{45}
+    \def\gluccapppc{\glucppc/\gluccapvalppc*100}
+    \def\gluczwf{3.92*\glucmaxflux}
+    \def\gluccapvalzwf{55}
+    \def\gluccapzwf{\gluczwf/\gluccapvalzwf*100}
+    \def\glucpts{9.65*\glucmaxflux}
+    \def\gluccapvalpts{100}
+    \def\gluccapvalcomp{\pgfmathparse{round((\glucppc+\glucpyk)/(\gluccapppc+\gluccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+    \def\gluccappts{\glucpts}
+
+    \node[] (glucose) {\textbf{Glucose input}};
+    \node[metaboliteStyle,below= of glucose] (g6p) {g6p};
+    \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+    %%% ptstop
+    \node[shape=coordinate,left=1.1cm of g6p] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-11mm,2mm)},gray] at (f6p) (pyr1) {pyr};
+    \node[metaboliteStyle,inputcol,left=of ptsmid] (gluc) {gluc};
+
+    \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+    \node[shape=coordinate,below=of fbp.center](fbamid) {};
+    \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+    \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
+    \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+    \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+    \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+    \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+    \node[metaboliteStyle,right=of pep] (oaa) {oaa};
+    \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+    \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+    \draw[figArrowStyle,line width=\glucpgi,autocatacycfl] (g6p) -- (f6p);
+    \draw[figArrowStyle,line width=\glucpfk,autocatacycfl] (f6p.south) -- (fbp.north);
+    \draw [line width=\glucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacycfl] ([xshift=-\glucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\glucfba/2,autocatacycfl] ([xshift=\glucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\gluctpi,autocatacycfl] (dhap) -- (gap);
+
+    \draw[figArrowStyle,line width=\glucgap,autocatacycfl] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\glucpgk,autocatacycfl] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\glucgpm,autocatacycfl] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\gluceno,autocatacycfl] (2pg) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccappyk,branchout!40] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\glucpyk,branchoutfl] (pep) -- (pyr);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccapppc,branchout!40] (pep) -- (oaa);
+    \node[ratioRect,anchor=south east] at (pep.north west) (glucb2) {\coloredRatio{\gluccapvalcomp}{\gluccapvalpts}};
+    \draw[figArrowStyle,line width=\glucppc,branchoutfl] (pep) -- (oaa);
+    \draw[capArrowStyle=branchoutfl,line width=\gluccapzwf,branchout!40] (g6p) -- (6pgi);
+    \draw[figArrowStyle,line width=\gluczwf,branchoutfl] (g6p) -- (6pgi);
+    \node[ratioRect,anchor=north west] at (g6p.south east) (glucb1) {\coloredRatio{\gluccapvalzwf}{\gluccapvalpgi}};
+    \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+    \draw[line width=\glucpts/2,autocatacycfl] (pep.west) -- (pts3);
+    \draw[inputcol,line width=\glucpts] (gluc) -- (ptsmid);
+    \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+    \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to (pyr1);
+    \node[shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
+    \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+    \draw[line width=\glucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\glucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
+    \draw[line width=\glucpts/2,autocatacycfl] (ptstop) [in=180,out=90] to ([yshift=-3/4*\glucpts]ptsmid);
+    \draw[figArrowStyle,line width=\glucpts,autocatacycfl] (ptsmid) -- (g6p);
+  \end{scope}
+
+  %Fructose
+  \begin{scope}[shift={(8cm,0cm)}]
+    \def\frucmaxflux{0.35mm}
+    \def\frucfbp{2.46*\frucmaxflux}
+    \def\fruccapvalfbp{100}
+    \def\fruccapfbp{\frucfbp}
+    \def\frucfba{5.87*\frucmaxflux}
+    \def\fruccapvalfba{70}
+    \def\fruccapfba{\frucfba/\fruccapvalfba*100}
+    \def\fructpi{5.87/2*\frucmaxflux}
+    \def\frucgap{13.46/2*\frucmaxflux}
+    \def\frucpgk{13.46/2*\frucmaxflux}
+    \def\frucgpm{12.6/2*\frucmaxflux}
+    \def\fruceno{12.6/2*\frucmaxflux}
+    \def\frucpyk{0.67/2*\frucmaxflux}
+    \def\fruccapvalpyk{5}
+    \def\fruccappyk{\frucpyk/\fruccapvalpyk*100}
+    \def\frucppc{3.55/2*\frucmaxflux}
+    \def\fruccapvalppc{50}
+    \def\fruccapppc{\frucppc/\fruccapvalppc*100}
+    \def\frucpts{8.33*\frucmaxflux}
+    \def\fruccapvalpts{100}
+    \def\fruccappts{\frucpts}
+    \def\fruccapvalcomp{\pgfmathparse{round((\frucppc+\frucpyk)/(\fruccapppc+\fruccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+
+
+    \node[] (fructose) {\textbf{Fructose input}};
+    \node[metaboliteStyle,below=of fructose] (f6p) {f6p};
+    \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+    \node[shape=coordinate,below=of fbp.center](fbamid) {};
+    %%% ptstop
+    \node[shape=coordinate,left=1.1cm of fbp] (ptsmid) {};
+    \node[metaboliteStyle,shift={(-11mm,0mm)},gray] at (fbamid) (pyr1) {pyr};
+    \node[metaboliteStyle,inputcol,left=of ptsmid] (fruc) {fruc};
+
+    \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+    \node[metaboliteStyle,below right=of fbamid] (gap) {gap};
+    \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+    \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+    \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+    \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+    \node[metaboliteStyle,right=of pep] (oaa) {oaa};
+    \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+    \draw[figArrowStyle,line width=\frucfbp,branchoutfl] (fbp)-- (f6p) ;
+    \node[ratioRect,anchor=west] at (fbp.east) (frucb1) {\coloredRatio{\fruccapvalfbp}{\fruccapvalfba}};
+    \node[at=(frucb1.north east)] (star) {*};
+    \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- (fbamid);
+    \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=\fruccapfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [line width=\frucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacycfl] ([xshift=-\frucfba/4]fbamid) [out=-90,in=45] to (dhap);
+    \draw [figArrowStyle,line width=\frucfba/2,autocatacycfl] ([xshift=\frucfba/4]fbamid) [out=-90,in=135] to (gap);
+    \draw [figArrowStyle,line width=\fructpi,autocatacycfl] (dhap) -- (gap);
+
+    \draw[figArrowStyle,line width=\frucgap,autocatacycfl] (gap) -- (bpg);
+    \draw[figArrowStyle,line width=\frucpgk,autocatacycfl] (bpg) -- (3pg);
+    \draw[figArrowStyle,line width=\frucgpm,autocatacycfl] (3pg) -- (2pg);
+    \draw[figArrowStyle,line width=\fruceno,autocatacycfl] (2pg) -- (pep);
+    \draw[capArrowStyle=branchoutfl,line width=\fruccappyk,branchout!40] (pep) -- (pyr);
+    \draw[figArrowStyle,line width=\frucpyk,branchoutfl] (pep) -- (pyr);
+    \draw[capArrowStyle=branchoutfl,line width=\fruccapppc,branchout!40] (pep) -- (oaa);
+    \node[ratioRect,anchor=south east] at (pep.north west) (frucb2) {\coloredRatio{\fruccapvalcomp}{\fruccapvalpts}};
+    \draw[figArrowStyle,line width=\frucppc,branchoutfl] (pep) -- (oaa);
+    \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
+    \draw[line width=\frucpts/2,autocatacycfl] ([yshift=\frucpts/4]pep.west) -- (pts3);
+    \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
+    \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to (pyr1);
+    \node[shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
+    \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
+    \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
+    \draw[inputcol,line width=\frucpts] (fruc) -- (ptsmid);
+    \draw[line width=\frucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
+    \draw[line width=\frucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
+    \draw[line width=\frucpts/2,autocatacycfl] (ptstop) [in=180,out=90] to ([yshift=-3/4*\frucpts]ptsmid);
+    \draw[figArrowStyle,line width=\frucpts,autocatacycfl] (ptsmid) -- (fbp);
+  \end{scope}
+  \end{tikzpicture}
+
