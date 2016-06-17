@@ -1,18 +1,45 @@
 \documentclass[aspectratio=169]{beamer}
 \input{preamble.tex}
 \usepackage{adjustbox}
+\togglefalse{article}
+\setbeamertemplate{footline}[frame number]
 
+\newcommand{\backupbegin}{
+  \newcounter{finalframe}
+    \setcounter{finalframe}{\value{framenumber}}
+}
+
+\newcommand{\backupend}{
+  \setcounter{framenumber}{\value{finalframe}}
+}
+
+\title{Stability of autocatalytic cycles imposes constraints on kinetic parameters of enzymes}
+\subtitle{Final report presentation}
+\author{Uri Barenholz\\
+Advisor: Prof. Ron Milo}
+\institute{Department of Plant \& Environmental Sciences\\
+Weizmann Institute of Science}
 \begin{document}
+
+\input{varsdefs.tex}
+
+\frame{
+  \titlepage
+}
+
 \frame{\frametitle{An autocatalytic cycle requires its internal metabolite to produce it}
     \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
         \input{autocatalytic-cycle.tex}
     \end{adjustbox}
 }
 
-\frame{\frametitle{Autocatalytic cycles are abundant in central carbon metabolism}
-    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
-        \input{autocatalytic-samples.tex}
-    \end{adjustbox}
+\frame{\frametitle{Why do we care about autocatalytic cycles?}
+\begin{itemize}
+    \item The lab implements the Calvin-Benson-Bassham cycle in \emph{E.coli}
+    \item Two enzymes were introduced
+    \item It didn't work
+    \item Can we understand why?
+\end{itemize}
 }
 
 \frame{\frametitle{Stable flux through an autocatalytic cycle constrains the kinetic parameters of its enzymes}
@@ -21,16 +48,50 @@
     \end{adjustbox}
 }
 
-\frame{\frametitle{Input flux increases the range of parameters for which stable fluxes exist}
+\frame{\frametitle{Directed evolution towards function of the CBB cycle required changes in kinetic parameters of branching reaction }
+\begin{itemize}
+    \item 4 Directed evolution repeats evolved functioning CBB cycle
+    \item Single common mutation: The major branching reaction gene, PRS
+    \item In all cases $\sfrac{K_{\text{cat}}}{K_M}$ decreased
+    \end{itemize}
+} 
+
+\frame{\frametitle{Why should you care about autocatalytic cycles?}
+\begin{itemize}
+        \pause
+    \item Key metabolic processes are autocatalytic
+        \pause
+    \begin{itemize}
+        \item In glycolysis ATP investment is required for the production of ATP
+    \end{itemize}
+    \pause
+    \item Systematic search reveals autocatalytic cycles are abundant in central carbon metabolim
+\end{itemize}
+}
+
+\frame{\frametitle{Autocatalytic cycles are abundant in central carbon metabolism}
     \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
-        \input{autocatalytic-with-input.tex}
+        \input{autocatalytic-samples.tex}
     \end{adjustbox}
 }
 
-\frame{\frametitle{Stability of complex cycles imposes similar constraints at branch points}
-    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+\frame{\frametitle{Stability criteria of the simple model can be extended for complex cycles}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.6\textheight},center}
       \input{complex-autocatalytic-cycles.tex}
     \end{adjustbox}
+    \pause
+    Sufficient condition for stability is:
+    \begin{equation*}
+        \forall_i \quad \beta_i \geq \alpha_i
+    \end{equation*}
+    Where $\alpha_i=\frac{df_{a_i}}{dX_i}$ and $\beta_i=\frac{df_{b_i}}{dX_i}$ 
+}
+
+\frame{\frametitle{Theoretical $\beta_i\geq\alpha_i$ constraint can be converted to experimental prediction on reaction saturation level}
+    %\begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+      %\input{derivative-saturation-connection.tex}
+    %\end{adjustbox}
+    If reactions are 'nice' concave functions, sufficient condition for a steady state to be stable is that at all branch points the branch reaction is less saturated than the autocatalytic reaction.
 }
 
 \frame{\frametitle{Experimental fluxomics data supports model predictions}
@@ -38,4 +99,45 @@
       \input{experimental-fluxes.tex}
     \end{adjustbox}
 }
+
+\frame{\frametitle{Fructose PTS disagreement results results from missing data on alternative transport pathways}
+\begin{itemize}
+    \item All fructose was assumed to be transported as fbp
+    \item Experimental evidence shows other transport pathways are functioning
+\end{itemize}
+}
+
+\frame{\frametitle{Conclusions}
+\begin{itemize}
+    \item Autocatalytic cycles play a major role in central carbon metabolism
+    \item Proper function of autocatalytic cycles depends on kinetic parameters of enzymes
+    \begin{itemize}
+        \item May require sub-optimal kinetic parameters
+    \end{itemize}
+    \item In metabolic engineering of autocatalytic cycles, native kinetic parameters might prohibit function
+    \item Stability of autocatalytic cycles depends on under-saturation of branch reactions
+    \item Fluxomics data reveals sub-optimality constraints are maintained in-vivo
+\end{itemize}
+}
+
+\frame{\frametitle{Outlook}
+\begin{itemize}
+    \item Efficient algorithm for identification of autocatalytic cycles in large metabolic networks
+    \item Tighter limits on kinetic parameters
+    \item Experimental exploration of different autocatalytic cycles function in-vivo
+\end{itemize}
+Thank You!
+}
+
+%acknowledgements
+
+\backupbegin
+\frame{\frametitle{Input flux increases the range of parameters for which stable fluxes exist}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{autocatalytic-with-input.tex}
+    \end{adjustbox}
+}
+
+\backupend
+
 \end{document}

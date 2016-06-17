@@ -13,7 +13,7 @@
     \end{customlegend}
     \begin{scope}[shift={(-2.5cm,-6cm)},node distance = 1cm]
 
-    \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+        \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
     \addplot[domain=0:4,autocatacyc,thick] {3*x/(0.5+x)+\influx};
     \addplot[domain=0:4,branchout,thick] {5*x/(1+x)};
     \addplot[domain=0:4,sumcolor,thick,dashed] {3*x/(0.5+x)-5*x/(1+x)+\influx};
@@ -22,7 +22,7 @@
     \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
   \end{axis}
 
-  \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+  \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
     \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)+\influx};
     \addplot[domain=0:4,branchout,thick] {4*x/(1+x)};
     \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-4*x/(1+x)+\influx};
@@ -30,7 +30,7 @@
     \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
   \end{axis}
 
-  \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={$X$},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+  \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
     \addplot[domain=0:4,autocatacyc,thick] {6*x/(2+x)+1.5*\influx};
     \addplot[domain=0:4,branchout,thick] {4*x/(0.4+x)};
     \addplot[domain=0:4,sumcolor,thick,dashed] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};

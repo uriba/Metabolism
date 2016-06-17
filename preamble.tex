@@ -20,6 +20,14 @@
   \endgroup
 }
 
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{ invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} 
+  },
+}
+
 \def\addlegendimage{\csname pgfplots@addlegendimage\endcsname}
 \setlength\abovecaptionskip{6pt}
 \providecommand{\abs}[1]{\lvert#1\rvert}

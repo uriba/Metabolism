@@ -1,0 +1,18 @@
+
+  \begin{tikzpicture}[>=latex',node distance = 2cm]
+      \begin{axis}[xmin=0,ymin=0,
+              axis lines=middle,
+              xlabel near ticks,ylabel near ticks,
+              xmax=1.2,ymax=1.1,
+              xlabel={$\frac{df}{dX}$},ylabel={$\frac{f}{V_{\max}}$},
+              samples=60,
+              width=\plotwidth,height=\plotheight,
+              clip=false,
+              yticklabels={,,},xticklabels={,,},
+              extra x tick style={ticklabel style={font=\scriptsize},xticklabel={$\frac{V_{\max}}{K_M}$}},
+              extra y tick style={ticklabel style={fill=white,font=\scriptsize},yticklabel={1}},
+   extra x ticks={1}, extra y ticks={1}]
+        \addplot[domain=0:1.2,inputcol,thick] {1-sqrt(x)};
+      \end{axis}
+
+  \end{tikzpicture}
