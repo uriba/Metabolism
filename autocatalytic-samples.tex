@@ -3,7 +3,6 @@
   \colorlet{cbbinit}{yellow}
   \colorlet{glyinit}{magenta}
 
-  \newlength\assimwidth;
   \pgfmathsetlength{\assimwidth}{1.5pt};
 
   \node[metaboliteStyle] (g6p) {g6p};
@@ -107,35 +106,31 @@
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
 
-  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- node[midway] (ptsshademid) {} ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
+  \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad,visible on=<3->] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- node[midway] (ptsshademid) {} ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
 
-  \draw[very thick,dashed,cyan,->] (ptsshademid) -- ++(-1.5cm,0cm); 
+  \draw[very thick,dashed,cyan,->,visible on=<3->] (ptsshademid) -- ++(-1.5cm,0cm); 
 
-  \draw[opacity=0.2,fill=glyinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2*\highlightrad)}]oaa.west) -- ([shift={(\highlightrad,2*\highlightrad)}]icit.east) -- node[midway] (glyshadedmid) {}([shift={(\highlightrad,-0.5*\highlightrad)}]icit.south east) -- ([shift={(0.5*\highlightrad,-2*\highlightrad)}]suc.east) -- ([shift={(-\highlightrad,-2*\highlightrad)}]fum.west) -- cycle;
+  \draw[opacity=0.2,fill=glyinit,rounded corners=\highlightrad,visible on=<4->] ([shift={(-\highlightrad,2*\highlightrad)}]oaa.west) -- ([shift={(\highlightrad,2*\highlightrad)}]icit.east) -- node[midway] (glyshadedmid) {}([shift={(\highlightrad,-0.5*\highlightrad)}]icit.south east) -- ([shift={(0.5*\highlightrad,-2*\highlightrad)}]suc.east) -- ([shift={(-\highlightrad,-2*\highlightrad)}]fum.west) -- cycle;
 
-  \draw[very thick,dashed,magenta,->] (glyshadedmid) -- ++(1.5cm,0cm); 
+  \draw[very thick,dashed,magenta,->,visible on=<4->] (glyshadedmid) -- ++(1.5cm,0cm); 
 
   \node[shape=coordinate] at (dhap.south -| gap.west) (cbbmid) {};
-  \draw[opacity=0.2,fill=cbbinit,rounded corners=\highlightrad] ([shift={(-\highlightrad,2.2*\highlightrad)}]f6p.west) -- ([shift={(3*\highlightrad,2.2*\highlightrad)}]ru5p.center) -- node[midway] (cbbshadedmid) {} ([shift={(3*\highlightrad,-2*\highlightrad)}]rub.center) -- ([shift={(-\highlightrad,-2*\highlightrad)}]3pg.west) -- ([shift={(-\highlightrad,-\highlightrad)}]cbbmid) -- ([shift={(-0.5*\highlightrad,-\highlightrad)}]dhap.south west) -- ([shift={(-0.5*\highlightrad,0.5*\highlightrad)}]dhap.north west) -- ([xshift=-\highlightrad]fbp.west) -- cycle;
+  \draw[opacity=0.2,fill=cbbinit,rounded corners=\highlightrad,visible on=<2->] ([shift={(-\highlightrad,2.2*\highlightrad)}]f6p.west) -- ([shift={(3*\highlightrad,2.2*\highlightrad)}]ru5p.center) -- node[midway] (cbbshadedmid) {} ([shift={(3*\highlightrad,-2*\highlightrad)}]rub.center) -- ([shift={(-\highlightrad,-2*\highlightrad)}]3pg.west) -- ([shift={(-\highlightrad,-\highlightrad)}]cbbmid) -- ([shift={(-0.5*\highlightrad,-\highlightrad)}]dhap.south west) -- ([shift={(-0.5*\highlightrad,0.5*\highlightrad)}]dhap.north west) -- ([xshift=-\highlightrad]fbp.west) -- cycle;
 
-  \draw[very thick,dashed,cbbinit,->] (cbbshadedmid) -- ++(1.5cm,0cm); 
+  \draw[very thick,dashed,cbbinit,->,visible on=<2->] (cbbshadedmid) -- ++(1.5cm,0cm); 
 
   %% CBB cycle
-  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm]
+  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm,visible on=<2->]
     \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(4.6,4.5);
-    \node at (-2.2cm,2cm) (I) {\large  \textbf{I}};
+
+    \iftoggle{article} {
+        \node at (-2.2cm,2cm) (I) {\large  \textbf{I}};
+    }{ }
     \node[anchor=north] at(-0.4cm,-2.2cm) (cbbreac) {{\fontfamily{cmss}\selectfont 5}  3pg + {\fontfamily{cmss}\selectfont 3} \ce{CO2} $\rightarrow$ {\fontfamily{cmss}\selectfont 6} 3pg};
     \colorlet{cbbmed}{blue}
     \colorlet{cbbext}{assimcol}
   
 
-    \newlength\cbbimrad;
-    \newlength\cbbierad;
-    \newlength\cbbesrad;
-    \newlength\cbbemrad;
-    \newlength\cbbeerad;
-    \newlength\cbbwidth;
-    \newlength\cbbtotwidth;
     \pgfmathsetlength{\cbbwidth}{\arcwidth*0.2};
     \pgfmathsetlength{\cbbtotwidth}{\cbbwidth+\arcwidth};
     \pgfmathsetlength{\cbbimrad}{\autocatalrad-\blendfrac*0.5*\cbbtotwidth};
@@ -171,26 +166,18 @@
   \end{scope}
 
   %glyoxilate cycle
-\begin{scope} [shift={(9cm,-13.5cm)},radius=2cm]
+\begin{scope} [shift={(9cm,-13.5cm)},radius=2cm,visible on=<4->]
   \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.6cm) rectangle +(4.5,5.1);
-  \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
+
+  \iftoggle{article} {
+      \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
+  }{ }
+
   \node[anchor=north] at(-0.15cm,-2.7cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
   \colorlet{glymed}{blue}
   \colorlet{glyext}{assimcol}
   \colorlet{glyinter}{blue}
   
-    \newlength\glyimrad;
-    \newlength\glyierad;
-    \newlength\glyesrad;
-    \newlength\glyemrad;
-    \newlength\glyeerad;
-    \newlength\glywidth;
-    \newlength\glytotwidth;
-    \newlength\glyfinwidth;
-    \newlength\glyimmrad;
-    \newlength\glyemmrad;
-    \newlength\glyemmmrad;
-    \newlength\glyeamrad;
     \pgfmathsetlength{\glywidth}{\arcwidth*0.5};
     \pgfmathsetlength{\glytotwidth}{\glywidth+\arcwidth};
     \pgfmathsetlength{\glyfinwidth}{\glytotwidth+\glywidth};
@@ -236,18 +223,17 @@
 
 
   %pts cycle
-\begin{scope} [shift={(-5.8cm,-5.5cm)},radius=2cm]
+\begin{scope} [shift={(-5.8cm,-5.5cm)},radius=2cm,visible on=<3->]
   \draw[lightgray,rounded corners=\highlightrad] (-2.5,-3) rectangle +(4.5,5.5);
-  \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
+
+  \iftoggle{article} {
+      \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
+  }{ }
+
   \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {gap + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap + pyr};
     \colorlet{ptsmed}{blue}
     \colorlet{ptsext}{assimcol}
 
-    \newlength\ptsierad;
-    \newlength\ptsimrad;
-    \newlength\ptsarcwidth;
-    \newlength\ptsesrad;
-    \newlength\ptsemrad;
     \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
     \pgfmathsetlength{\ptsimrad}{\autocatalrad-0.5*\arcwidth};
     \pgfmathsetlength{\ptsarcwidth}{2*\arcwidth};

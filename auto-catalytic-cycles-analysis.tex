@@ -1,11 +1,18 @@
 \documentclass[a4page,notitlepage]{article}
 \input{preamble.tex}
 \toggletrue{article}
+
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={}
+}
+
+
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
 \renewcommand\thesubsubsection{}
 \title{Autocatalytic cycles stability constrains kinetic parameters of enzymes}
-\author{Uri Barenholz, Dan Davidi, Yinon Bar-On, Niv Antonovsky, Elad Noor, Ron Milo}
+\author{Uri Barenholz, Dan Davidi, Ed Reznik, Yinon Bar-On, Niv Antonovsky, Elad Noor, Ron Milo}
 \date{}
 \begin{document}
 \input{varsdefs.tex}
@@ -22,7 +29,7 @@
 }
 \input{autocatalysis-content.tex}
 \section{Acknowledgments}
-We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Wolfram Liebermeister  and \dots for fruitful discussions and valuable insights contributing to this work.
+We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Noam Prywes, Leeat Keren, David Wernick, Wolfram Liebermeister and \dots for fruitful discussions and valuable insights contributing to this work.
 %(Acknowledge tikz/latex/pgf/xcolor/stackexchange community for supporting free software tools)
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
