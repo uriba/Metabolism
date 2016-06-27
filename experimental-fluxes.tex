@@ -7,14 +7,35 @@
     capArrowStyle/.style={arrows={-{Stealth[inset=0pt,scale=0.25,angle'=60,color=#1]}}},
     capArrowStyle/.default=autocatacycfl
     }
+
   \tikzset{
     ratioRect/.style={rectangle,fill=graybg,rounded corners=2pt}}
+
   \newcommand{\coloredRatio}[2]{%top,bottom
-      {\Large {$\sfrac{\mathbf{\color{branchout}#1\%}}{\mathbf{\color{autocatacyc}#2\%}}$}}
+      {\ratiosizedef {$\sfrac{\mathbf{\color{branchout}#1\%}}{\mathbf{\color{autocatacyc}#2\%}}$}}
   }
 
+\iftoggle{article} {
+    \pgfmathsetlength{\nodedist}{1cm}
+    \renewcommand{\fontsizedef}{\normalsize}
+    \renewcommand{\ratiosizedef}{\Large}
+    \renewcommand{\coloredRatio}[2]{%top,bottom
+      {\ratiosizedef {$\sfrac{\mathbf{\color{branchout}##1\%}}{\mathbf{\color{autocatacyc}##2\%}}$}}
+  }
+}{
+    \only<3-> {
+        \pgfmathsetlength{\nodedist}{1cm}
+        \renewcommand{\fontsizedef}{\normalsize}
+        \renewcommand{\ratiosizedef}{\Large}
+        \renewcommand{\coloredRatio}[2]{%top,bottom
+          {\ratiosizedef {$\sfrac{\mathbf{\color{branchout}##1\%}}{\mathbf{\color{autocatacyc}##2\%}}$}}
+      }
+    }
+}
+
+
   %Galactose
-  \begin{scope}[shift={(-6cm,-7.5cm)}]
+  \begin{scope}[shift={(-6cm,-7.5cm)},visible on=<3->,font=\fontsizedef]
     \def\galmaxflux{0.5mm}
     \def\galglt{1.52*\galmaxflux}
     \def\galcapvalglt{20}
@@ -82,7 +103,7 @@
   \end{scope}
 
   %acetate
-  \begin{scope}[shift={(-6cm,0cm)}]
+  \begin{scope}[shift={(-6cm,0cm)},node distance=\nodedist,font=\fontsizedef]
     \def\acemaxflux{0.2mm}
     \def\aceglt{8.83*\acemaxflux}
     \def\acecapvalglt{70}
@@ -122,20 +143,20 @@
     \node[metaboliteStyle,right=of fum] (suc) {suc};
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
     \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
-    \node[ratioRect,anchor=south east] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
+    \node[ratioRect,anchor=south east,visible on=<2->] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
     \draw[line width=\aceglt,autocatacycfl] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
     \draw[figArrowStyle,line width=\aceglt*1.5,autocatacycfl] (midglta) -- (cit);
     \draw[capArrowStyle=branchoutfl,line width=\acecappck,branchout!40] (oaa) -- (pep);
     \draw[figArrowStyle,line width=\acepck,branchoutfl] (oaa) -- (pep);
     \draw[capArrowStyle=branchoutfl,line width=\acecapmae,branchout!40] (mal) -- (pyr);
-    \node[ratioRect,anchor=south east] at (mal.north west) (aceb2) {\coloredRatio{\acecapvalmae}{\acecapvalmdh}};
+    \node[ratioRect,anchor=south east,visible on=<2->] at (mal.north west) (aceb2) {\coloredRatio{\acecapvalmae}{\acecapvalmdh}};
     \draw[figArrowStyle,line width=\acemae,branchoutfl] (mal) -- (pyr);
     \draw [inputcol,line width=0.5*\aceglt] (aca) [out=-70,in=180] to ([yshift=0.4*\aceglt]midglta);
     \draw[figArrowStyle,line width=\aceacn,autocatacycfl] (cit) -- (icit);
     \path[] (icit.south west) -- (suc) node [pos=0.3,shape=coordinate] (midacea) {};
     \draw[line width=\acecapacea*1.5,autocatacyc!40] (icit.south west) -- (midacea);
     \draw[capArrowStyle,line width=\acecapacea,autocatacycfl!40] ([xshift=\acecapacea*0.35]midacea) -- ([xshift=\acecapacea*0.4]suc);
-    \node[ratioRect,anchor=south] at (icit.north) (aceb3) {\coloredRatio{\acecapvalicd}{\acecapvalacea}};
+    \node[ratioRect,anchor=south,visible on=<2->] at (icit.north) (aceb3) {\coloredRatio{\acecapvalicd}{\acecapvalacea}};
     \draw[capArrowStyle,line width=\acecapacea*0.5,autocatacyc!40] ([shift={(-\acecapacea*0.35,\acecapacea*0.35)}]midacea) [out=220,in=0] to (glx);
     \draw[line width=\aceacea*1.5,autocatacycfl] (icit.south west) -- (midacea);
     \draw[figArrowStyle,line width=\aceacea,autocatacycfl] ([xshift=\aceacea*0.4]midacea) -- ([xshift=\aceacea*0.4]suc);
@@ -155,7 +176,7 @@
   \end{scope}
 
   %Glucose
-  \begin{scope}[shift={(1.5cm,0cm)}]
+  \begin{scope}[shift={(2cm,0cm)},visible on=<3->,font=\fontsizedef]
     \def\glucmaxflux{0.35mm}
     \def\glucpgi{5.7*\glucmaxflux}
     \def\gluccapvalpgi{100}
@@ -224,7 +245,7 @@
     \draw[inputcol,line width=\glucpts] (gluc) -- (ptsmid);
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[figArrowStyle,line width=\glucpts/2,autocataby] ([yshift=-3/4*\glucpts]ptsmid) [out=0,in=90] to (pyr1);
-    \node[shape=coordinate,left=2.2cm of f6p.center] (ptstop) {};
+    \node[shape=coordinate,xshift=-2mm] at (f6p.center -| dhap.west) (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[line width=\glucpts/2,autocatacycfl] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[line width=\glucpts/2,autocatacycfl] (ptsbottom) -- (ptstop);
@@ -233,7 +254,7 @@
   \end{scope}
 
   %Fructose
-  \begin{scope}[shift={(8cm,0cm)}]
+  \begin{scope}[shift={(8.5cm,0cm)},visible on=<3->,font=\fontsizedef]
     \def\frucmaxflux{0.35mm}
     \def\frucfbp{2.46*\frucmaxflux}
     \def\fruccapvalfbp{100}
@@ -299,7 +320,7 @@
     \draw[line width=\frucpts/2,autocatacycfl] ([yshift=\frucpts/4]pep.west) -- (pts3);
     \node[shape=coordinate,left=2.5cm of pyr.center] (pts5) {};
     \draw[figArrowStyle,line width=\frucpts/2,autocataby] ([yshift=-3/4*\frucpts]ptsmid) [out=0,in=90] to (pyr1);
-    \node[shape=coordinate,left=2.2cm of fbamid] (ptstop) {};
+    \node[shape=coordinate,xshift=-2mm] at (fbamid -| dhap.west) (ptstop) {};
     \node[shape=coordinate] at(ptstop |- 2pg.center) (ptsbottom) {};
     \draw[] (pts3) [in=-90,out=180] to (ptsbottom);
     \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);

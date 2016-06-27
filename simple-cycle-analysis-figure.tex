@@ -36,11 +36,18 @@
         \node[align=left,anchor=east] at (axis cs:1.75,0.6) (IV) {IV};
       \end{axis}
 
-\only<4-> {
-\pgfmathsetlength{\plotwidthanim}{\plotwidth}
-\pgfmathsetlength{\plotheightanim}{\plotheight}
-\pgfmathsetlength{\plotshift}{1mm}
+\iftoggle{article} {
+        \pgfmathsetlength{\plotwidthanim}{\plotwidth}
+        \pgfmathsetlength{\plotheightanim}{\plotheight}
+        \pgfmathsetlength{\plotshift}{1mm}
+}{
+    \only<4-> {
+        \pgfmathsetlength{\plotwidthanim}{\plotwidth}
+        \pgfmathsetlength{\plotheightanim}{\plotheight}
+        \pgfmathsetlength{\plotshift}{1mm}
+    }
 }
+
       \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=\plotwidthanim,height=\plotheightanim,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,ylabel style={name=ylabel1},xshift=\plotshift,visible on=<2->]%,axis background/.style={fill=cyan!50!magenta,opacity=0.3}]
         \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
         \addplot[domain=0:2.9,branchout,thick] {5*x/(1+x)};
