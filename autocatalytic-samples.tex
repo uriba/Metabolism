@@ -44,6 +44,20 @@
   \node[metaboliteStyle,] at (fbp.center -| s7p.center) (e4p) {e4p};
   \node[metaboliteStyle,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
   \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
+  \iftoggle{eddpathway}{
+      \node[metaboliteStyle,right=of ru5p] (kdg) {kdg};
+      \node[shape=coordinate,] at (fbamid -| kdg.center) (eddtop) {};
+      \node[shape=coordinate,] at ([yshift=-0.5mm]gap.center -| xu5p.center) (eddtopbr) {};
+      \node[shape=coordinate,] at (2pg.center -| kdg.center) (eddbottom) {};
+      \node[shape=coordinate,] at (pyr.center -| rub.center) (eddbottombr) {};
+      \draw[->] (6pgc) [out=0,in=90] to (kdg);
+      \draw[] (kdg) [out=-90,in=90] to (eddtop);
+      \draw[] (eddtop) [out=-90,in=0] to (eddtopbr);
+      \draw[->] (eddtopbr) [out=180,in=0] to ([yshift=-0.5mm]gap.east);
+      \draw[] (eddtop) [out=-90,in=90] to (eddbottom);
+      \draw[] (eddbottom) [out=-90,in=0] to (eddbottombr);
+      \draw[->] (eddbottombr) [out=180,in=0] to (pyr.east);
+    }{ }
   \node[metaboliteStyle,rectangle,draw=assimcol,rounded corners=2pt] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
   \draw[->] (g6p) -- (f6p);
   \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
@@ -120,7 +134,7 @@
   \draw[very thick,dashed,cbbinit,->,visible on=<2->] (cbbshadedmid) -- ++(1.5cm,0cm); 
 
   %% CBB cycle
-  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm,visible on=<2->]
+  \begin{scope} [shift={(11.3cm,-4.5cm)},radius=2cm,visible on=<2->]
     \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(4.6,4.5);
 
     \iftoggle{article} {
@@ -230,7 +244,7 @@
       \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
   }{ }
 
-  \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {gap + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap + pyr};
+  \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {pep + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} pep + pyr};
     \colorlet{ptsmed}{blue}
     \colorlet{ptsext}{assimcol}
 
@@ -252,8 +266,7 @@
 
        %% \assimilatedcol input arc
        \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black,left,shift={(-1mm,-2mm)}] (glucc) {gluc};
-    \node at (0:\autocatalrad) (gapc) {gap};
-    \node at (270:\autocatalrad-4.5mm) (pepc) {pep};
+    \node at (0:\autocatalrad) (pepc) {pep};
     \node at (70:\ptsierad) (pyrc) {pyr};
   \end{scope}
 

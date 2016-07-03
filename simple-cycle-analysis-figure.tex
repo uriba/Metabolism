@@ -6,11 +6,11 @@
   \begin{scope}[shift={(-4cm,4cm)}]
         \node at (0:1cm) (X) {$X$};
         \node[shape=coordinate] (orig) {};
-        \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.4,above right] (fa) {$f_a$} node [pos=0.5,shape=coordinate] (midauto) {};
-        \draw [line width=1pt,assimcol] (midauto) arc (0:-40:1cm);
+        \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.75,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.5,shape=coordinate] (midauto) {};
+        \draw [line width=1pt,assimcol] (midauto) arc (0:-40:1cm) node [pos=1,left] (e) {$E$};
         \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
         \iftoggle{article} {
-            \node at (-2.4cm,1cm) (A) {(A)};
+            \node at (-2.4cm,1.3cm) (A) {(A)};
         }{}
         \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={right=2.5cm of orig,anchor=west,name=legend1,visible on=<3->},legend columns=2]
           \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}

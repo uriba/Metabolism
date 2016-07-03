@@ -1,0 +1,15 @@
+\documentclass[tikz,border=22pt,22pt]{standalone}
+\input{preamble.tex}
+\toggletrue{article}
+\togglefalse{eddpathway}
+
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={}
+}
+
+\usepackage{adjustbox}
+\begin{document}
+\input{varsdefs.tex}
+\input{experimental-fluxes.tex}
+\end{document}

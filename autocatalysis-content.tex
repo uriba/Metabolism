@@ -215,15 +215,16 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
     The most straightforward extension is for cycles with more than one intermediate metabolite.
     We start by writing the relevant equations for the two-metabolite autocatalytic cycle depicted in figure \ref{fig:multiple}A.
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two biomass generating reactions, $f_{b_1}$ and $f_{b_2}$.
-    We arbitrarily assume that the autocatalytic reaction is $f_{a_1}$ and that the autocatalysis is in a $1:2$ ratio.
+    We arbitrarily assume that the autocatalytic reaction is $f_{a_2}$ and that the autocatalysis is in a $1:2$ ratio.
+    We note that in steady state, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, as the total outgoing flux must balance the total increase in substrates due to autocatalysis.
     Given that a steady state of the system exists for some value $X_1^*,X_2^*$ we can evaluate the condition for stability.
     In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative for a steady state to be stable.
     We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$ and get that:
     \begin{equation*}
         J=
         \begin{pmatrix}
-            -(\alpha_1+\beta_1) & \alpha_2 \\
-            2\alpha_1 & -(\alpha_2+\beta_2)
+            -(\alpha_1+\beta_1) & 2\alpha_2 \\
+            \alpha_1 & -(\alpha_2+\beta_2)
         \end{pmatrix}
     \end{equation*}
     Solving for the characteristic polynomial gives:
@@ -237,14 +238,36 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
     \end{equation*}
     The condition is strongly met if $\beta_1\geq \alpha_1$ and $\beta_2\geq\alpha_2$.
     
-    The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions giving a general characteristic polynomial of:
+    The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
+
+    In this case, steady state implies that the concentration of each intermediate metabolite is conserved, meaning that for all $i>1$:
+    \begin{equation*}
+      \dot{X_i}=0 \rightarrow f_{a_{i-1}}-f_{a_i}-f_{b_i}=0 \rightarrow f_{a_{i-1}} \geq f_{a_i}
+    \end{equation*}
+    (for $i=1$, as $f_{a_n}$ is the autocatalytic reaction, we get that $2*f_{a_{n}} \geq f_{a_1}$).
+    Also, because at steady state the total outgoing flux from the cycle must balance the total incoming flux into the system, which is the amount of autocatalysis carried out by $f_{a_n}$, we get that:
+    \begin{equation*}
+      \sum_{i=1}^n f_{b_i}=f_{a_n} \rightarrow \forall_i f_{b_i} \leq f_{a_n}
+    \end{equation*}
+
+    Deriving stability criteria we get that the characteristic polynomial is:
     \begin{equation}
         \label{eq:complex}
         0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
     \end{equation}
     Again, in cases were for all $i$ it holds that $\beta_i\geq\alpha_i$, the eigenvalues will all have negative real values.
     
-    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, a sufficient condition for a steady state point to be stable is that at the steady state point the elasticity of each biomass reaction is larger than or equal to the elasticity of the equivalent autocatalytic reaction.
+    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that:
+    \begin{equation}
+      \forall_i f_{b_i} \leq f_{a_1}
+      \label{eq:complexstst}
+    \end{equation}
+    A sufficient condition for such a steady state point to be stable is that at the steady state point the derivatives of each biomass reaction are larger than or equal to the derivatives of the equivalent autocatalytic reaction:
+    \begin{equation}
+      \forall_i \beta_i \geq \alpha_i
+      \label{eq:complexstab}
+    \end{equation}
+
 \begin{figure}[h!]
   \centering 
       \input{complex-autocatalytic-cycles.tex}
@@ -324,8 +347,10 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
     \input{experimental-fluxes.tex}
 }
 \caption{
-  Major branch points and relative enzyme saturation in operating autocatalytic cycles. In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
-  Moreover, only in one out of the 8 branch points observed (the branch point at fbp in growth under fructose), the outgoing reaction is significantly more saturated than the autocatalytic reaction.
+  Major branch points and relative enzyme saturation in operating autocatalytic cycles.
+  In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
+  A $4\%$ flux from pep to biomass was neglected in growth under glucose and fructose.
+  Only in one out of the 8 branch points observed (the branch point at fbp in growth under fructose), the outgoing reaction is significantly more saturated than the autocatalytic reaction.
   (*) A branch point at which the branching reaction is more saturated than the autocatalytic reaction, which may result from neglecting fructose transport directly as f6p when deriving fluxes (see text).
 }
     \label{fig:branch}
@@ -383,3 +408,66 @@ The examples of autocatalytic cycles we provide, as well as our verified predict
 
   The algorithm assumes reactions consume exactly one molecule of any of their substrates and produces exactly one molecule of any of their products, an assumption that is valid in central carbon metabolism, but not in metabolic networks in general.
   
+    \subsection{For Michaelis-Menten kinetics, relation of derivatives result in inverse relation of saturation levels}
+    It turnes out that for the Michaelis-Menten kinetics equations, the following useful lemma can be used to connect theoretical observations on the relations of derivatives to physiological observations on saturation levels.
+
+    We define the saturation level of a reaction as the ratio between the flux it carries, and the maximal flux it can carry, given the expression level of the relevant enzyme, that is:
+    \begin{equation*}
+      S(X)=\frac{f(X)}{V_{\max}}=\frac{X}{K_M+X}
+    \end{equation*}
+
+    Given this definition we can show that if two Michaelis-Menten reactions consume the same metabolite, $X$, and at a given concentration, $X^*$, it holds that $f_a(X^*)\geq f_b(X^*)$, then if:
+    \begin{equation}
+        \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*}
+        \label{eq:lemmapremise}
+    \end{equation}
+    then it follows that:
+    \begin{equation*}
+        S_b(X^*)<S_a(X^*)
+    \end{equation*}
+    Proof: expanding the condition that $f_a(X^*)\geq f_b(X^*)$, we get that:
+    \begin{equation}
+        \frac{V_{\max,b}X^*}{K_{M,b}+X^*}\leq\frac{V_{\max,a}X^*}{K_{M,a}+X^*} \rightarrow
+         \frac{V_{\max,b}}{K_{M,b}+X^*}\leq\frac{V_{\max,a}}{K_{M,a}+X^*}
+         \label{eq:firstmid}
+     \end{equation}
+     Expanding the premise of the lemma in equation \ref{eq:lemmapremise} gives us that:
+     \begin{equation*}
+        \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \rightarrow
+        \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2} > \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}
+     \end{equation*}
+     Because equation \ref{eq:firstmid} holds, it follows that:
+     \begin{equation*}
+         \frac{K_{M,b}}{K_{M,b}+X^*} > \frac{K_{M,a}}{K_{M,a}+X^*} \rightarrow \frac{1}{1+\frac{X^*}{K_{M,b}}} > \frac{1}{1+\frac{X^*}{K_{M,a}}} \rightarrow K_{M,b}>K_{M,a}
+     \end{equation*}
+    Finally, we note that:
+    \begin{equation*}
+        K_{M,b}>K_{M,a} \rightarrow X^*+K_{M,b}>X^*+K_{M,a} \rightarrow \frac{X^*}{X^*+K_{M,b}}<\frac{X^*}{X^*+K_{M,a} } \rightarrow S_b(X^*)<S_a(X^*)
+    \end{equation*}
+    concluding the proof.
+
+     If we now assume that a complex system is at a stable steady state point, such that it satisfies equations \ref{eq:complexstst} and \ref{eq:complexstab}, we get that:
+    \begin{equation*}
+      \beta \geq \alpha \rightarrow
+      \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X)^2} \geq \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2}
+    \end{equation*}
+    \begin{equation*}
+     f_b\leq f_a \rightarrow
+     \frac{V_{\max,b}X}{K_{M,b}+X}\leq\frac{V_{\max,a}X}{K_{M,a}+X} \rightarrow
+     \frac{V_{\max,b}}{K_{M,b}+X}\leq\frac{V_{\max,a}}{K_{M,a}+X}
+    \end{equation*}
+    Combining these two equations we get that:
+    \begin{equation*}
+    \begin{dcases}
+      & \frac{V_{\max,b}}{K_{M,b}+X}\leq\frac{V_{\max,a}}{K_{M,a}+X} \\
+      & \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X)^2} \geq \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2}
+    \end{dcases}
+    \end{equation*}
+    Substituting the first equation into the second one we deduce that:
+    \begin{equation*}
+      \frac{K_{M,b}}{K_{M,b}+X} \geq \frac{K_{M,a}}{K_{M,a}+X}\rightarrow K_{M,b}\geq K_{M,a}
+    \end{equation*}
+    Now we can finish the derivation as:
+    \begin{equation*}
+      K_{M,b}\geq K_{M,a} \rightarrow  K_{M,b}+X\geq K_{M,a}+X \rightarrow \frac{1}{ K_{M,a}+X} \geq \frac{1}{ K_{M,b}+X} \rightarrow \frac{X}{ K_{M,a}+X} \geq \frac{X}{ K_{M,b}+X} \rightarrow S_a \geq S_b
+    \end{equation*}

@@ -33,7 +33,11 @@
     }
 }
 
-
+    \pgfmathsetlength{\headlinedist}{0.3cm}
+    %prediction
+  \begin{scope}[shift={(-6cm,0cm)}]
+      \node[ratioRect] (prediction) {\textbf{Prediction:} $\mathbf{\color{branchout}XX\%}\leq\mathbf{\color{autocatacyc}YY\%}$};
+  \end{scope}
   %Galactose
   \begin{scope}[shift={(-6cm,-7.5cm)},visible on=<3->,font=\fontsizedef]
     \def\galmaxflux{0.5mm}
@@ -56,7 +60,7 @@
     \def\galcapicd{\galicd/\galcapvalicd*100}
 
     \node[] (galactose) {\textbf{Galactose input}};
-    \node[metaboliteStyle,inputcol,below=of galactose] (aca) {aca};
+    \node[metaboliteStyle,inputcol,below=\headlinedist of galactose] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
     \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
     \node[metaboliteStyle] at (aca -| oaa) (pep) {pep};
@@ -103,7 +107,7 @@
   \end{scope}
 
   %acetate
-  \begin{scope}[shift={(-6cm,0cm)},node distance=\nodedist,font=\fontsizedef]
+  \begin{scope}[shift={(-6cm,-1.5cm)},node distance=\nodedist,font=\fontsizedef]
     \def\acemaxflux{0.2mm}
     \def\aceglt{8.83*\acemaxflux}
     \def\acecapvalglt{70}
@@ -128,7 +132,7 @@
     \def\acecapicd{\aceicd/\acecapvalicd*100}
 
     \node[] (acetate) {\textbf{Acetate input}};
-    \node[metaboliteStyle,inputcol,below=of acetate] (aca) {aca};
+    \node[metaboliteStyle,inputcol,below=\headlinedist of acetate] (aca) {aca};
     \node[shape=coordinate,below=of aca] (dummyglta) {};
     \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
     \node[metaboliteStyle] at (aca -| oaa) (pep) {pep};
@@ -203,7 +207,7 @@
     \def\gluccappts{\glucpts}
 
     \node[] (glucose) {\textbf{Glucose input}};
-    \node[metaboliteStyle,below= of glucose] (g6p) {g6p};
+    \node[metaboliteStyle,below=\headlinedist of glucose] (g6p) {g6p};
     \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
     %%% ptstop
     \node[shape=coordinate,left=1.1cm of g6p] (ptsmid) {};
@@ -280,7 +284,7 @@
 
 
     \node[] (fructose) {\textbf{Fructose input}};
-    \node[metaboliteStyle,below=of fructose] (f6p) {f6p};
+    \node[metaboliteStyle,below=\headlinedist of fructose] (f6p) {f6p};
     \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
     \node[shape=coordinate,below=of fbp.center](fbamid) {};
     %%% ptstop
