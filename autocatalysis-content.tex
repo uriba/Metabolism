@@ -250,7 +250,7 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
       \sum_{i=1}^n f_{b_i}=f_{a_n} \rightarrow \forall_i f_{b_i} \leq f_{a_n}
     \end{equation*}
 
-    Deriving stability criteria we get that the characteristic polynomial is:
+    Deriving stability criteria for the complex case, we get that the characteristic polynomial is:
     \begin{equation}
         \label{eq:complex}
         0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
@@ -259,7 +259,7 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
     
     To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that:
     \begin{equation}
-      \forall_i f_{b_i} \leq f_{a_1}
+        \forall_i f_{b_i} \leq f_{a_n} \leq f_{a_i}
       \label{eq:complexstst}
     \end{equation}
     A sufficient condition for such a steady state point to be stable is that at the steady state point the derivatives of each biomass reaction are larger than or equal to the derivatives of the equivalent autocatalytic reaction:
@@ -267,6 +267,12 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
       \forall_i \beta_i \geq \alpha_i
       \label{eq:complexstab}
     \end{equation}
+    Using the lemma that relates derivatives to saturation levels (see Methods) we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of every branch reaction will be lower than the saturation of the corresponding autocatalytic reaction:
+    \begin{equation}
+        \forall_i S(f_{b_i} \leq S(f_{a_i}
+      \label{eq:complexsat}
+    \end{equation}
+
 
 \begin{figure}[h!]
   \centering 
