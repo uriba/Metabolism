@@ -134,16 +134,15 @@
   \draw[very thick,dashed,cbbinit,->,visible on=<2->] (cbbshadedmid) -- ++(1.5cm,0cm); 
 
   %% CBB cycle
-  \begin{scope} [shift={(11.3cm,-4.5cm)},radius=2cm,visible on=<2->]
-    \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(4.6,4.5);
+  \begin{scope} [shift={(11.2cm,-4.5cm)},radius=2cm,visible on=<2->]
+    \draw[lightgray,rounded corners=\highlightrad] (-2.7,-2.1) rectangle +(5.5,4.5);
 
     \iftoggle{article} {
         \node at (-2.2cm,2cm) (I) {\large  \textbf{I}};
     }{ }
-    \node[anchor=north] at(-0.4cm,-2.2cm) (cbbreac) {{\fontfamily{cmss}\selectfont 5}  3pg + {\fontfamily{cmss}\selectfont 3} \ce{CO2} $\rightarrow$ {\fontfamily{cmss}\selectfont 6} 3pg};
+    \node[anchor=north] at(0cm,-2.2cm) (cbbreac) {{\fontfamily{cmss}\selectfont 5}  rubp + {\fontfamily{cmss}\selectfont 5} \ce{CO2} $\rightarrow$ {\fontfamily{cmss}\selectfont 6} rubp};
     \colorlet{cbbmed}{blue}
     \colorlet{cbbext}{assimcol}
-  
 
     \pgfmathsetlength{\cbbwidth}{\arcwidth*0.2};
     \pgfmathsetlength{\cbbtotwidth}{\cbbwidth+\arcwidth};
@@ -153,41 +152,31 @@
     \pgfmathsetlength{\cbbemrad}{\autocatalrad+0.5*\cbbtotwidth-\blendfrac*0.5*\cbbtotwidth};
     \pgfmathsetlength{\cbbeerad}{\autocatalrad+0.5*\arcwidth};
 
-    \shadedarc{-20}{-180}{\autocatalrad}{\autocatalrad}{cbbmed}{cbbinit};
-    \shadedarc{100}{180}{\cbbimrad}{\autocatalrad}{cbbmed}{cbbinit};
-    \coloredarc{25}{100}{\cbbierad}{\cbbimrad}{cbbinit};
-    \shadedarc[\cbbwidth]{100}{180}{\cbbemrad}{\cbbesrad}{cbbext}{cbbinit};
-    \coloredarc[\cbbwidth]{25}{100}{\cbbeerad}{\cbbemrad}{cbbinit};
+    \preassim{\arcwidth}{-20}{-270}{\autocatalrad}{cbbinit}
+    \postassim{\arcwidth}{90}{25}{\autocatalrad}{cbbinit}{6/5}
+    \assim{\arcwidth}{90}{-30}{\autocatalrad}{6/5}
+    \arrowhead{\arcwidth}{25}{\autocatalrad}{cbbinit}
 
-%% \assimilatedcol input arc
-        \draw[color=cbbext,line width=\cbbwidth]
-        (\fromang:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
-        arc (0:\inputang:2cm)
-        node [pos=0.5,color=black,anchor=east] (co2c) {\ce{CO2}};
-%% arrowhead
-    \fill[cbbinit]
-      (\fromang+\deltaang+1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
-      arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-0.5*\arcwidth-0.5*\cbbwidth)
-      -- (\fromang+\deltaang-1-\protrude:\autocatalrad)
-      -- (\fromang+\deltaang-1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
-      arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+0.5*\arcwidth+0.5*\cbbwidth)
-      -- cycle;
+    \begin{scope}[shift={(25+65/2:2*\autocatalrad+3/5*\arcwidth)}]
+        \draw[color=cbbinit,line width=1/5*\arcwidth] (25+65/2+180:\autocatalrad) arc (25+65/2+180:25+65+180:\autocatalrad);
+        \revarrowhead{\arcwidth/5}{25+65+180}{\autocatalrad}{cbbinit}
+        \node[color=gray] at (290:\autocatalrad+\arcwidth/4) (rubptwo) {rubp};
+    \end{scope}
+    \node at(125:\autocatalrad+2.3*\arcwidth) (cotwo) {5 \ce{CO2}};
 
-%% metabolites
-        \node at (0:\autocatalrad) (3pgc) {3pg};
-        \node at (220:\autocatalrad-4.7mm) (rubc) {rubp};
+    \node at (0:\autocatalrad) (3pgc) {5 rubp};
 
   \end{scope}
 
   %glyoxilate cycle
-\begin{scope} [shift={(9cm,-13.5cm)},radius=2cm,visible on=<4->]
-  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.6cm) rectangle +(4.5,5.1);
+\begin{scope} [shift={(8.9cm,-13.5cm)},radius=2cm,visible on=<4->]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.1cm) rectangle +(5.1,4.6);
 
   \iftoggle{article} {
       \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
   }{ }
 
-  \node[anchor=north] at(-0.15cm,-2.7cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
+  \node[anchor=north] at(0cm,-2.2cm) (glyreac) {mal + {\fontfamily{cmss}\selectfont 2} accoa $\rightarrow$ {\fontfamily{cmss}\selectfont 2} mal};
   \colorlet{glymed}{blue}
   \colorlet{glyext}{assimcol}
   \colorlet{glyinter}{blue}
@@ -205,69 +194,57 @@
     \pgfmathsetlength{\glyemrad}{\autocatalrad+0.5*\glyfinwidth-\blendfrac*0.5*\glywidth};
     \pgfmathsetlength{\glyeerad}{\autocatalrad+0.5*\glytotwidth};
 
-    \shadedarc{-20}{-90}{\autocatalrad}{\autocatalrad}{glymed}{glyinit};
-    \shadedarc{-150}{-90}{\glyimmrad}{\autocatalrad}{glymed}{glyinter};
-    \shadedarc[\glywidth]{-150}{-90}{\glyemmrad}{\glyeamrad}{glyext}{glyinter};
+    \preassim{\arcwidth}{-20}{-270}{\autocatalrad}{glyinit}
+    \postassim{\arcwidth}{90}{25}{\autocatalrad}{glyinit}{2}
+    \assim{\arcwidth}{90}{-30}{\autocatalrad}{2}
+    \arrowhead{\arcwidth}{25}{\autocatalrad}{glyinit}
 
-    \draw[color=glyext,line width=\glywidth] (-90:\autocatalrad+0.5*\glytotwidth) arc(90:50:2cm) node [pos=0.5,color=black,anchor=north,xshift=-1.5mm] (acac) {accoa};
-
-    \coloredarc[\glytotwidth]{160}{90}{\glyimmrad}{\glyimmrad}{glyinter};
-
-    \draw[color=glyext,line width=\glywidth] (90:\glyemmmrad) arc(-90:-130:2cm) node [pos=0.5,color=black,anchor=south,xshift=2mm] (acac) {accoa};
-
-    \shadedarc[\glytotwidth]{50}{90}{\glyimrad}{\glyimmrad}{glyinter}{glyinit};
-    \coloredarc[\glytotwidth]{50}{25}{\glyimrad}{\glyierad}{glyinit};
-
-    \shadedarc[\glywidth]{90}{50}{\glyemmmrad}{\glyemrad}{glyinit}{glyext};
-    \coloredarc[\glywidth]{50}{25}{\glyemrad}{\glyeerad}{glyinit};
-
+    \begin{scope}[shift={(25+65/2:2*\autocatalrad+\arcwidth)}]
+        \draw[color=glyinit,line width=\arcwidth] (25+65/2+180:\autocatalrad) arc (25+65/2+180:25+65+180:\autocatalrad);
+        \revarrowhead{\arcwidth}{25+65+180}{\autocatalrad}{glyinit}
+        \node[color=gray] at (290:\autocatalrad+\arcwidth/2) (glytwo) {mal};
+    \end{scope}
+    \node at(130:\autocatalrad+2.5*\arcwidth) (acac) {2 accoa};
 
     \node at (0:\autocatalrad) (malc) {mal};
-    \node at (180:\autocatalrad) (glxc) {glx+fum};
-    \node at (-50:\autocatalrad-4.5mm) (oaa) {oaa};
-
-  \fill[glyinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
-       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
-       -- cycle;
-
-  \fill[glyinter] (-149:\autocatalrad-\arcwidth+0.5*\glywidth) arc (-149:-161:\autocatalrad-\arcwidth+0.5*\glywidth)
-       -- (-161-\protrude:\autocatalrad) -- (-161:\autocatalrad+\arcwidth-0.5*\glywidth) arc (-161:-149:\autocatalrad+\arcwidth-0.5*\glywidth)
-       -- cycle;
   \end{scope}
 
 
   %pts cycle
-\begin{scope} [shift={(-5.8cm,-5.5cm)},radius=2cm,visible on=<3->]
-  \draw[lightgray,rounded corners=\highlightrad] (-2.5,-3) rectangle +(4.5,5.5);
+\begin{scope} [shift={(-6.5cm,-5.5cm)},radius=2cm,visible on=<3->]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.5,-2) rectangle +(5.2,4.6);
 
   \iftoggle{article} {
       \node at (-2cm,2.2cm) (III) {\large  \textbf {III}};
   }{ }
 
-  \node[anchor=north] at(-0.25cm,-3.1cm) (ptsreac) {pep + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} pep + pyr};
+  \node[anchor=north] at(-0cm,-2.1cm) (ptsreac) {pep + gluc $\rightarrow$ {\fontfamily{cmss}\selectfont 2} pep + pyr};
     \colorlet{ptsmed}{blue}
     \colorlet{ptsext}{assimcol}
 
     \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
-    \pgfmathsetlength{\ptsimrad}{\autocatalrad-0.5*\arcwidth};
-    \pgfmathsetlength{\ptsarcwidth}{2*\arcwidth};
-    \pgfmathsetlength{\ptsesrad}{\autocatalrad+0.5*\arcwidth+0.5*\ptsarcwidth};
-    \pgfmathsetlength{\ptsemrad}{\autocatalrad+0.5*\ptsarcwidth};
+    \pgfmathsetlength{\ptsimrad}{\autocatalrad-\arcwidth};
+    \assim{\arcwidth}{100}{-30}{\ptsimrad}{3}
+    \arrowhead{\arcwidth}{25}{\autocatalrad}{ptsinit}
+    \pgfmathsetlength{\ptsemrad}{\autocatalrad+\arcwidth};
+    \pgfmathsetlength{\ptsesrad}{\autocatalrad+\arcwidth/2};
+    \draw[color=autocatacyc,line width=3*\arcwidth] (100:\autocatalrad) arc(100:90:\autocatalrad);
+    \draw[color=ptsinit,line width=\arcwidth] (60:\autocatalrad) arc(60:25:\autocatalrad);
 
-    \shadedarc{-20}{-120}{\autocatalrad}{\autocatalrad}{ptsmed}{ptsinit};
-    \shadedarc{160}{240}{\ptsimrad}{\autocatalrad}{ptsmed}{ptsinit};
-    \shadedarc{70}{160}{\ptsierad}{\ptsimrad}{ptsinit}{white};
-    \shadedarc[\ptsarcwidth]{160}{240}{\ptsemrad}{\ptsesrad}{ptsext}{ptsinit};
-    \coloredarc[\ptsarcwidth]{25}{160}{\autocatalrad}{\ptsemrad}{ptsinit};
+    \pgfmathsetlength{\ptsarcwidth}{\autocatalrad-\arcwidth};
+    \shadedarc[\arcwidth]{-20}{-260}{\autocatalrad}{\ptsarcwidth}{autocatacyc}{ptsinit}
+    \colorgradarc{2*\arcwidth}{90}{60}{\ptsesrad}{autocatacyc}{ptsinit}
+    \shadedarc[\arcwidth]{90}{50}{\ptsarcwidth}{\ptsarcwidth-\arcwidth}{white}{autocatacyc}
+    \begin{scope}[shift={(60:2*\autocatalrad+\arcwidth)}]
+        \draw[color=ptsinit,line width=\arcwidth] (240:\autocatalrad) arc (240:275:\autocatalrad);
+        \revarrowhead{\arcwidth}{275}{\autocatalrad}{ptsinit}
+        \node[color=gray] at (295:\autocatalrad+3*\arcwidth/4) (peptwo) {pep};
+    \end{scope}
 
-  \fill[ptsinit] (\fromang+\deltaang+1:\autocatalrad-\arcwidth) arc (\fromang+\deltaang+1:\fromang+\deltaang-1:\autocatalrad-\arcwidth)
-       -- (\fromang+\deltaang-1-\protrude:\autocatalrad) -- (\fromang+\deltaang-1:\autocatalrad+\arcwidth) arc (\fromang+\deltaang-1:\fromang+\deltaang+1:\autocatalrad+\arcwidth)
-       -- cycle;
 
-       %% \assimilatedcol input arc
-       \draw[color=ptsext,line width=\ptsarcwidth] (240:\ptsesrad) arc(60:20:2cm) node [pos=0.5,color=black,left,shift={(-1mm,-2mm)}] (glucc) {gluc};
     \node at (0:\autocatalrad) (pepc) {pep};
-    \node at (70:\ptsierad) (pyrc) {pyr};
+    \node at (50:\ptsierad-0.2cm) (pyrc) {pyr};
+    \node at(130:\autocatalrad+2.5*\arcwidth) (acac) {gluc};
   \end{scope}
 
 
