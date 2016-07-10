@@ -152,19 +152,16 @@
     \pgfmathsetlength{\cbbemrad}{\autocatalrad+0.5*\cbbtotwidth-\blendfrac*0.5*\cbbtotwidth};
     \pgfmathsetlength{\cbbeerad}{\autocatalrad+0.5*\arcwidth};
 
-    \preassim{\arcwidth}{-20}{-270}{\autocatalrad}{cbbinit}
-    \postassim{\arcwidth}{90}{25}{\autocatalrad}{cbbinit}{6/5}
+    \preassim{\arcwidth}{-95}{-270}{\autocatalrad}{cbbinit}
+    \postassim{\arcwidth}{90}{-45}{\autocatalrad}{cbbinit}{6/5}
     \assim{\arcwidth}{90}{-30}{\autocatalrad}{6/5}
-    \arrowhead{\arcwidth}{25}{\autocatalrad}{cbbinit}
+    \arrowhead{\arcwidth}{-45}{\autocatalrad}{cbbinit}
 
-    \begin{scope}[shift={(25+65/2:2*\autocatalrad+3/5*\arcwidth)}]
-        \draw[color=cbbinit,line width=1/5*\arcwidth] (25+65/2+180:\autocatalrad) arc (25+65/2+180:25+65+180:\autocatalrad);
-        \revarrowhead{\arcwidth/5}{25+65+180}{\autocatalrad}{cbbinit}
-        \node[color=gray] at (290:\autocatalrad+\arcwidth/4) (rubptwo) {rubp};
-    \end{scope}
+    \node at (-37:\autocatalrad+3.5*\arcwidth) (rubptwo) {+rubp};
+
     \node at(125:\autocatalrad+2.3*\arcwidth) (cotwo) {5 \ce{CO2}};
 
-    \node at (0:\autocatalrad) (3pgc) {5 rubp};
+    \node at (-67:\autocatalrad) (3pgc) {5 rubp};
 
   \end{scope}
 
@@ -194,19 +191,16 @@
     \pgfmathsetlength{\glyemrad}{\autocatalrad+0.5*\glyfinwidth-\blendfrac*0.5*\glywidth};
     \pgfmathsetlength{\glyeerad}{\autocatalrad+0.5*\glytotwidth};
 
-    \preassim{\arcwidth}{-20}{-270}{\autocatalrad}{glyinit}
-    \postassim{\arcwidth}{90}{25}{\autocatalrad}{glyinit}{2}
+    \preassim{\arcwidth}{-90}{-270}{\autocatalrad}{glyinit}
+    \postassim{\arcwidth}{90}{-45}{\autocatalrad}{glyinit}{2}
     \assim{\arcwidth}{90}{-30}{\autocatalrad}{2}
-    \arrowhead{\arcwidth}{25}{\autocatalrad}{glyinit}
+    \arrowhead{\arcwidth}{-45}{\autocatalrad}{glyinit}
 
-    \begin{scope}[shift={(25+65/2:2*\autocatalrad+\arcwidth)}]
-        \draw[color=glyinit,line width=\arcwidth] (25+65/2+180:\autocatalrad) arc (25+65/2+180:25+65+180:\autocatalrad);
-        \revarrowhead{\arcwidth}{25+65+180}{\autocatalrad}{glyinit}
-        \node[color=gray] at (290:\autocatalrad+\arcwidth/2) (glytwo) {mal};
-    \end{scope}
+    \node at (-37:\autocatalrad+3.5*\arcwidth) (glytwo) {+mal};
+
     \node at(130:\autocatalrad+2.5*\arcwidth) (acac) {2 accoa};
 
-    \node at (0:\autocatalrad) (malc) {mal};
+    \node at (-70:\autocatalrad) (malc) {mal};
   \end{scope}
 
 
@@ -224,26 +218,35 @@
 
     \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
     \pgfmathsetlength{\ptsimrad}{\autocatalrad-\arcwidth};
+
     \assim{\arcwidth}{100}{-30}{\ptsimrad}{3}
-    \arrowhead{\arcwidth}{25}{\autocatalrad}{ptsinit}
+    \arrowhead{\arcwidth}{-45}{\autocatalrad}{ptsinit}
+
     \pgfmathsetlength{\ptsemrad}{\autocatalrad+\arcwidth};
     \pgfmathsetlength{\ptsesrad}{\autocatalrad+\arcwidth/2};
-    \draw[color=autocatacyc,line width=3*\arcwidth] (100:\autocatalrad) arc(100:90:\autocatalrad);
-    \draw[color=ptsinit,line width=\arcwidth] (60:\autocatalrad) arc(60:25:\autocatalrad);
+    \pgfmathsetmacro{\startbranch}{-15}
+
+    \draw[color=autocatacyc,line width=3*\arcwidth] (100:\autocatalrad) arc(100:40:\autocatalrad);
+
+    \draw[color=ptsinit,line width=\arcwidth] (\startbranch:\autocatalrad) arc(\startbranch:-45:\autocatalrad);
 
     \pgfmathsetlength{\ptsarcwidth}{\autocatalrad-\arcwidth};
-    \shadedarc[\arcwidth]{-20}{-260}{\autocatalrad}{\ptsarcwidth}{autocatacyc}{ptsinit}
-    \colorgradarc{2*\arcwidth}{90}{60}{\ptsesrad}{autocatacyc}{ptsinit}
-    \shadedarc[\arcwidth]{90}{50}{\ptsarcwidth}{\ptsarcwidth-\arcwidth}{white}{autocatacyc}
-    \begin{scope}[shift={(60:2*\autocatalrad+\arcwidth)}]
-        \draw[color=ptsinit,line width=\arcwidth] (240:\autocatalrad) arc (240:275:\autocatalrad);
-        \revarrowhead{\arcwidth}{275}{\autocatalrad}{ptsinit}
-        \node[color=gray] at (295:\autocatalrad+3*\arcwidth/4) (peptwo) {pep};
+
+    \shadedarc[\arcwidth]{-90}{-260}{\autocatalrad}{\ptsarcwidth}{autocatacyc}{ptsinit}
+
+    \colorgradarc{2*\arcwidth}{40}{\startbranch}{\ptsesrad}{autocatacyc}{ptsinit}
+
+    \shadedarc[\arcwidth]{40}{-15}{\ptsarcwidth}{\ptsarcwidth-\arcwidth}{white}{autocatacyc}
+
+    \begin{scope}[shift={(\startbranch:2*\autocatalrad+\arcwidth)}]
+        \draw[color=ptsinit,line width=\arcwidth] (\startbranch+180:\autocatalrad) arc (\startbranch+180:\startbranch+180+30:\autocatalrad);
+        \revarrowhead{\arcwidth}{195}{\autocatalrad}{ptsinit}
     \end{scope}
 
+    \node at (-42:\autocatalrad+3.3*\arcwidth) (peptwo) {+pep};
 
-    \node at (0:\autocatalrad) (pepc) {pep};
-    \node at (50:\ptsierad-0.2cm) (pyrc) {pyr};
+    \node at (-70:\autocatalrad) (pepc) {pep};
+    \node[color=gray] at (-30:\ptsierad) (pyrc) {pyr};
     \node at(130:\autocatalrad+2.5*\arcwidth) (acac) {gluc};
   \end{scope}
 
