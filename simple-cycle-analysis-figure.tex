@@ -3,16 +3,16 @@
         vstyle/.style={opacity=0.3,pattern=north west lines,cyan,visible on=<6->}}
     \tikzset{
         kstyle/.style={opacity=0.3,pattern=north east lines,magenta,visible on=<6->}}
-  \begin{scope}[shift={(-4cm,4cm)}]
-        \node at (0:1cm) (X) {$X$};
+  \begin{scope}[shift={(-4cm,4.3cm)}]
+        \node at (-60:1cm) (X) {$X$};
         \node[shape=coordinate] (orig) {};
-        \draw [->,line width=1pt,autocatacyc] (X.south) arc (345:15:1cm) node [pos=0.75,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.5,shape=coordinate] (midauto) {};
-        \draw [line width=1pt,assimcol] (midauto) arc (0:-40:1cm) node [pos=1,left] (e) {$E$};
-        \draw [->,line width=1pt,branchout] ([xshift=1mm]X.south) arc (190:270:1cm) node [pos=0.3,right] {$f_b$};
+        \draw [->,line width=1pt,autocatacyc] (X.south west) arc (285:-40:1cm) node [pos=0.6,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {};
+        \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$E$};
+        \draw [->,line width=1pt,branchout] (X.south east) arc (225:270:1cm) node [pos=0.75,above] {$f_b$};
         \iftoggle{article} {
             \node at (-2.4cm,1.3cm) (A) {(A)};
         }{}
-        \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={right=2.5cm of orig,anchor=west,name=legend1,visible on=<3->},legend columns=2]
+        \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={right=2.5cm of orig,anchor=west,yshift=-3mm,name=legend1,visible on=<3->},legend columns=2]
           \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}
           \addlegendimage{vstyle,area legend,visible on=<4->}
           \addlegendimage{branchout,fill=black!50!red,sharp plot,line width=1pt}
