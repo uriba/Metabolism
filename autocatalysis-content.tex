@@ -2,7 +2,7 @@
     Metabolism lies at the heart of living cells.
     The key aim of a functioning metabolic network is to provide cells with the ability to consume available nutrients to produce biological building blocks and harvest energy.
 
-    Despite the essentiallity of functioning metabolic networks, such networks often require the availability of certain metabolites, in addition to the nutrient consumed, in order to function, with the most common example being co-factors \cite{Kun2008-xg}.
+    Despite the essentiality of functioning metabolic networks, such networks often require the availability of certain metabolites, in addition to the nutrient consumed, in order to function, with the most common example being co-factors \cite{Kun2008-xg}.
     The requirement for availability of certain metabolites in order to consume nutrients implies metabolic processes must be finely controlled to prevent such essential metabolites from running out, as in such cases metabolism will stop and the organism will die.
     As a key feature of living cells is their ability to grow and multiply, it follows that metabolism must not only preserve essential metabolites but rather increase their amount over time.
 
@@ -186,7 +186,7 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
     Autocatalytic cycles are embedded in a larger metabolic network.
     Specifically, such cycles generally have some independent reactions with input flux to at least some of their intermediate metabolites, not requiring the use of the cycle intermediate metabolites.
     For example, in the glucose based, PTS-dependent autocatalytic cycle, the existence of alternative transporters can generate flux into the cycle without the use of PEP.
-    In the CBB cycle, input flux of fructose-6-phosphate from the catabolism of starch can be used to 'kickstart' the cycle without using the intermediate metabolites of the cycle.
+    In the CBB cycle, input flux of fructose-6-phosphate from the catabolism of starch can be used to 'kick start' the cycle without using the intermediate metabolites of the cycle.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}) the steady state condition changes to include this flux, giving:
     \begin{equation*}
@@ -364,7 +364,7 @@ We denote the flux through the reaction branching out of the cycle by $f_b$.
 \section{Discussion}
 Our study into the dynamics and stability of autocatalytic cycles suggests design principles applicable to both synthetic biology, in the effort to express novel heterologous cycles, and in the context of systems biology that aims to understand the function of natural networks.
 
-Our autocatalytic modelling framework gives concrete predictions on saturation levels of branch reactions for operating autocatalytic cycles.
+Our autocatalytic modeling framework gives concrete predictions on saturation levels of branch reactions for operating autocatalytic cycles.
 These predictions are in line with existing fluxomics and proteomics data sets.
     The model can therefore be used to shed more light on seemingly wasteful investment in the expression of enzymes the capacity of which is not fully utilized, as well as for highlighting at what metabolic branch points enzymes kinetic efficiency may be constrained due to stability requirements of a corresponding autocatalytic cycle.
 
@@ -381,7 +381,7 @@ The change which was biochemically characterized in the evolutionary process was
 This is beautifully in line with the predictions of our analysis that suggest that a decrease in the $\sfrac{K_{\text{cat}}}{K_M}$ of branch reactions is a change that can lead to the existence of a stable flux solution.
 
 Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle may provide some means to mitigate the stability issue in synthetic biology metabolic engineering setups, allowing for a pathway to gradually evolve towards sustainable, substantial flux.
-This observation may also highlight the importance of seemingly redundant reactions such as those catalysed by tpi, at growth under glycerol, and by rpi, at growth under ribose.
+This observation may also highlight the importance of seemingly redundant reactions such as those catalyzed by tpi, at growth under glycerol, and by rpi, at growth under ribose.
 
 While autocatalytic cycles are usually considered a small part of metabolism, we find that such cycles are at the heart of central carbon metabolism.
 The examples of autocatalytic cycles we provide, as well as our verified predictions on the usage of enzymes catalyzing reactions branching out of such cycles, suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may constrain the parameters of a broad set of enzymes central to metabolism.
@@ -396,22 +396,22 @@ A set of irreversible reactions (for reversible reactions only one direction can
 A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
 
 The same definition can be stated in terms of reaction vectors and a stoichiometric matrix.
-If a metabolic network has $n$ metabolites, indicated by the numbers $1$ to $n$, then every reaction, $R$, in the network can be describes as a vector, $V_R$, in $\mathbb{Z}^n$ such that the $i$'th coordinate of $V_R$ specifies how much of metabolite $i$ the reaction $R$ produces (if $R$ consumes a metabolite, than the value at the coordinate representing the metabolite is negative).
+If a metabolic network has $n$ metabolites, indicated by the numbers $1$ to $n$, then every reaction, $R$, in the network can be described as a vector $V_R$ in $\mathbb{Z}^n$, such that the $i$'th coordinate of $V_R$ specifies how much of metabolite $i$ the reaction $R$ produces (if $R$ consumes a metabolite, then the value at the coordinate representing the metabolite is negative).
 
 With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reactions, $R'={r_1\cdots r_k}$ form an autocatalytic cycle if:
 \begin{enumerate}
     \item Every metabolite in $M'$ is a substrate of at least one reaction in $R'$, and a product of at least one reaction in $R'$.
-    \item Every reaction in $R'$ has at least one substrate from $M'$ and at least one procudt from $M'$.
-    \item There is a set of positive integers, $i_1\cdots i_k$ such that the total reaction vector $R*=\sum_{l=1}^k i_lR_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range.
+    \item Every reaction in $R'$ has at least one substrate from $M'$ and at least one product from $M'$.
+    \item There is a set of positive integers, $i_1\cdots i_k$ such that the total reaction vector $R^*=\sum_{l=1}^k i_lR_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range.
 \end{enumerate}
 
   \subsection{Systematic identification of autocatalytic cycles in metabolic networks}
-  We implemeneted an algorithm to systematically search for autocatalytic cycles in metabolic networks.
+  We implemented an algorithm to systematically search for autocatalytic cycles in metabolic networks.
   The algorithm is incomplete, meaning there may be autocatalytic cycles that will not be identified by it.
   Further work will enable a more robust algorithm to identify additional autocatalytic cycles in full metabolic networks.
   We used the algorithm on the core carbon metabolism network of \emph{E.coli} \cite{Orth2010-vl}.
 
-  In our framework, a metabolic network is defined by a set of reactions, $(R)$.
+  In our framework, a metabolic network is defined by a set of reactions, $(\bar{R})$.
   Each reaction is defined by a set of substrates and a set of products, with corresponding stoichiometries $R_i=(S,P,N^S,N^P)$, such that $R_i$ describes the reaction $\sum_j N_j^SS_j \rightarrow \sum_k N_k^PP_k$.
   The algorithm works as follows:
   \begin{enumerate}
@@ -419,24 +419,24 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
     \item The metabolic network is converted to a directed graph, G:
   The nodes of G are all the metabolites and all the reactions of the network.
   For each metabolite, $M$, and each reaction, $R$, if $M$ is a substrate of $R$ then the edge $(M,R)$ is added to the graph, and if $M$ is a product of $R$, then the edge $(R,M)$ is added to the graph.
-    \item The Tarajan cycle identification algorithm is used to enumerate all the cycles in the graph.
-    \item for every cycle identified by the Tarajan algorithm, $C$, the algorithm checks if the cycle can be the backbone of an auto catalytic cycle as follows:
+    \item The Tarjan cycle identification algorithm is used to enumerate all the cycles in the graph \cite{Tarjan1973-gn}.
+    \item for every cycle identified by the Tarjan algorithm, $C$, the algorithm checks if the cycle can be the backbone of an auto catalytic cycle as follows:
         \begin{enumerate}
             \item For every reaction in the cycle, $R$, the algorithm checks if it consumes more than one  intermediate metabolite of the cycle.
               If so, $C$ is assumed not to be autocatalytic and the algorithm continues to evaluate the next cycle.
             \item Otherwise, for every reaction in the cycle, $R$, the algorithm checks if it has more than one product that is an intermediate metabolite of the cycle.
               If so, then the algorithm lists $C$ as an autocatalytic cycle.
-            \item Finally, the algorithm checks, for every reaction in the cycle, if it has a product that is not an intermediate metabolites of the cycle.
+            \item Finally, the algorithm checks, for every reaction in the cycle, if it has a product that is not an intermediate metabolite of the cycle.
                 If so, denote by $M_E$ such a metabolite.
             The algorithm proceeds to check if, for every intermediate metabolite of the cycle, $M_i$ a reaction exists from $M_E$ to $M_i$ that does not use any of the reactions of the cycle, and does not consume any of the intermediate metabolites of the cycle.
             If so then the algorithm lists $C$ as an autocatalytic cycle.
         \end{enumerate}
   \end{enumerate}
 
-  The algorithm assumes reactions consume exactly one molecule of any of their substrates and produces exactly one molecule of any of their products, an assumption that is valid in central carbon metabolism, but not in metabolic networks in general.
+  The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that is valid in central carbon metabolism, but not in metabolic networks in general.
   
     \subsection{For Michaelis-Menten kinetics, relation of derivatives result in inverse relation of saturation levels}
-    It turnes out that for the Michaelis-Menten kinetics equations, the following useful lemma can be used to connect theoretical observations on the relations of derivatives to physiological observations on saturation levels.
+    It turns out that for the Michaelis-Menten kinetics equations, the following useful lemma can be used to connect theoretical observations on the relations of derivatives to physiological observations on saturation levels.
 
     We define the saturation level of a reaction as the ratio between the flux it carries, and the maximal flux it can carry, given the expression level of the relevant enzyme, that is:
     \begin{equation*}
@@ -467,39 +467,17 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
      \begin{equation*}
          \frac{K_{M,b}}{K_{M,b}+X^*} > \frac{K_{M,a}}{K_{M,a}+X^*} \Rightarrow \frac{1}{1+\frac{X^*}{K_{M,b}}} > \frac{1}{1+\frac{X^*}{K_{M,a}}} \Rightarrow K_{M,b}>K_{M,a}
      \end{equation*}
-    Finally, we note that:
+    setting the affinity of the autocatalytic enzyme as a lower bound for the affinity of the branch enzyme.
+    Finally, given this relation of affinities it follows that:
     \begin{equation*}
         K_{M,b}>K_{M,a} \Rightarrow X^*+K_{M,b}>X^*+K_{M,a} \Rightarrow \frac{X^*}{X^*+K_{M,b}}<\frac{X^*}{X^*+K_{M,a} } \Rightarrow S_b(X^*)<S_a(X^*)
     \end{equation*}
     concluding the proof.
 
-     If we now assume that a complex system is at a stable steady state point, such that it satisfies equations \ref{eq:complexstst} and \ref{eq:complexstab}, we get that:
-    \begin{equation*}
-      \beta \geq \alpha \Rightarrow
-      \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X)^2} \geq \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2}
-    \end{equation*}
-    \begin{equation*}
-     f_b\leq f_a \Rightarrow
-     \frac{V_{\max,b}X}{K_{M,b}+X}\leq\frac{V_{\max,a}X}{K_{M,a}+X} \Rightarrow
-     \frac{V_{\max,b}}{K_{M,b}+X}\leq\frac{V_{\max,a}}{K_{M,a}+X}
-    \end{equation*}
-    Combining these two equations we get that:
-    \begin{equation*}
-    \begin{dcases}
-      & \frac{V_{\max,b}}{K_{M,b}+X}\leq\frac{V_{\max,a}}{K_{M,a}+X} \\
-      & \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X)^2} \geq \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2}
-    \end{dcases}
-    \end{equation*}
-    Substituting the first equation into the second one we deduce that:
-    \begin{equation*}
-      \frac{K_{M,b}}{K_{M,b}+X} \geq \frac{K_{M,a}}{K_{M,a}+X}\Rightarrow K_{M,b}\geq K_{M,a}
-    \end{equation*}
-    Now we can finish the derivation as:
-    \begin{equation*}
-      K_{M,b}\geq K_{M,a} \Rightarrow  K_{M,b}+X\geq K_{M,a}+X \Rightarrow \frac{1}{ K_{M,a}+X} \geq \frac{1}{ K_{M,b}+X} \Rightarrow \frac{X}{ K_{M,a}+X} \geq \frac{X}{ K_{M,b}+X} \Rightarrow S_a \geq S_b
-    \end{equation*}
+    We note that a multiple reaction autocatalytic cycle at a stable steady state point satisfies equations \ref{eq:complexstst} and \ref{eq:complexstab}, so the lemma applies.
+
     \subsection{Evaluating maximal flux capacity of reactions under a given condition}
-    We follow the procedure described in \cite{Davidi2016-ga}.
+    To evaluate the maximal flux capacity of a reaction under a given growth condition, given expression level and flux data for a set of conditions, we follow the procedure described in \cite{Davidi2016-ga}.
     For each reaction, under every condition, we divide the flux the reaction carries (obtained from \cite{Gerosa2015-oq}) by the amount of the corresponding enzyme expressed under that condition (obtained from \cite{Schmidt2015}).
     We thus get a flux per enzyme estimate for the given reaction under each of the conditions.
     We define the enzyme maximal in-vivo catalytic rate as the maximum flux per unit enzyme it carries across all reactions (noting that this is actually only a lower bound on this rate).
