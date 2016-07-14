@@ -12,25 +12,29 @@
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
 \renewcommand\thesubsubsection{}
-\title{Autocatalytic cycles stability constrains kinetic parameters of enzymes}
+\title{Design principles of autocatalytic cycles constrain kinetic parameters and force over expression of specific enzymes}
 \author{Uri Barenholz, Dan Davidi, Ed Reznik, Yinon Bar-On, Niv Antonovsky, Elad Noor, Ron Milo}
 \date{}
 \begin{document}
 \input{varsdefs.tex}
 \maketitle
 \abstract{
+    A metabolic system that requires the presence of a substance in order to synthesize more amount of that substance is an autocatalytic cycle.
     Autocatalytic cycles are an important part of metabolic networks.
     As the flux through autocatalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
-    We identify a few autocatalytic cycles in central carbon metabolism, some of which are generally not considered as such.
-    Using the most simple form of autocatalytic cycle, we derive constraints of stability on kinetic parameters of participating enzymes and show they are also relevant in the general case.
-    The constraints we find are that, for stable fluxes through the cycle to occur, the autocatalytic reaction must have higher affinity and lower maximal flux than the reaction diverting metabolites out of the cycle for biomass generation.
-    We discuss various extensions of the simple model including different kinetic functions and external fluxes into the cycle.
-    We proceed to test these constraints using available experimental measurements in vivo and find them to hold for functioning autocatalytic cycles for which data is available.
-    This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles and as a demonstration of the insights one can get by such analysis on real networks.
+    We show, by systematic search, that most reactions in central carbon metabolism either take part in autocatalytic cycles, or consume metabolites that are also intermediates of such cycles.
+    Some of the autocatalytic cycles we identify are generally not considered as such.
+    Using the most simple form of autocatalytic cycle, we derive design principles necessary to enable stable fluxes through such a cycle.
+    We show that the principles we find, constraining kinetic parameters and expression levels of participating enzymes, are also relevant in the general case.
+    The constraints we find are that, for stable fluxes through an autocatalytic cycle to occur, the autocatalytic reactions, recycling the metabolites of the cycle, must have higher affinity and lower maximal flux than the reactions consuming metabolites of the cycle to generate biomass.
+    These findings imply that stability of autocatalytic cycles limits the affinity of enzymes in the metabolic network and forces excess expression of enzymes that catalyse the reactions consuming metabolites of the cycle.
+    We test these constraints using existing experimental measurements in vivo and find them to hold for functioning autocatalytic cycles for which data is available.
+    We discuss various extensions of the simple model including the effects of external fluxes into the cycle, showing how the metabolic network uses such constructs to possibly overcome the limitations we find.
+    This work thus serves as an approachable introduction to the analysis of autocatalytic metabolic cycles, presenting the design principles they adhere to, and as a demonstration of the insights one can get by these principles on real networks, specifically explaining seemingly inefficient enzyme expression levels and low affinities.
 }
 \input{autocatalysis-content.tex}
 \section{Acknowledgments}
-We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Noam Prywes, Leeat Keren, David Wernick, Wolfram Liebermeister and \dots for fruitful discussions and valuable insights contributing to this work.
+We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Heinemann, David Fell, Patrick Shih, Noam Prywes, Leeat Keren, David Wernick, Wolfram Liebermeister, Rami Pugatch and \dots for fruitful discussions and valuable insights contributing to this work.
 %(Acknowledge tikz/latex/pgf/xcolor/stackexchange community for supporting free software tools)
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
