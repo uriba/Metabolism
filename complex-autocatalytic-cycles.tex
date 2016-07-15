@@ -4,7 +4,8 @@
         \node (X1) {$X_1$};
         \node[left=of X1]  (X2) {$X_2$};
         \draw [->,line width=1pt,autocatacyc] (X1.south) [out=-90,in=-90] to  node [pos=0.5,above] (fa1) {$f_{a_1}$} (X2.south);
-        \draw [->,line width=1pt,autocatacyc] (X2.north) [out=90,in=90] to  node [pos=0.5,above] (fa2) {$f_{a_2}$} (X1.north);
+        \draw [->,line width=1pt,autocatacyc] (X2.north) [out=90,in=90] to node [pos=0.5,shape=coordinate,yshift=0.5pt] (assimpt) {} node [pos=0.6,above] (fa2) {$f_{a_2}$} (X1.north);
+        \draw [line width=1pt,assimcol] (assimpt) arc (-90:-140:0.7cm) node [pos=1,above] (e) {$E$};
         \draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
         \draw [->,line width=1pt,branchout] (X2.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_2}$};
     \end{scope}}
@@ -14,8 +15,8 @@
         \node[below left=of X1]  (X2) {$X_2$};
         \node[above left=of X1]  (Xn) {$X_n$};
         \draw [->,line width=1pt,autocatacyc] (X1.south) [out=-90,in=0] to  node [pos=0.7,right,xshift=1mm] (fa1) {$f_{a_1}$} (X2.east);
-        \draw [->,line width=1pt,autocatacyc] (Xn.east) [out=0,in=90] to  node [pos=0.5,right,xshift=1mm] (fan) {$f_{a_n}$} (X1.north);
-        \draw [line width=1pt,assimcol] (fan.north west) [out=190,in=135] to ([xshift=-1mm] fan.west);
+        \draw [->,line width=1pt,autocatacyc] (Xn.east) [out=0,in=90] to node [pos=0.4,shape=coordinate] (assimpt) {} node [pos=0.4,right,xshift=1mm] (fan) {$f_{a_n}$}(X1.north);
+        \draw [line width=1pt,assimcol] (assimpt) arc (-120:-170:0.7cm) node [pos=1,above] (e) {$E$};
         \draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
         \draw [->,line width=1pt,branchout] (X2.south) arc (-10:-90:1cm) node [pos=0.3,left] {$f_{b_2}$};
         \draw [->,line width=1pt,branchout] (Xn.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_n}$};
