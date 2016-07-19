@@ -9,9 +9,9 @@
 
   %%%% upper pts
   \node[shape=coordinate,left=12mm of g6p.center] (ptsmid) {};
-  \node[metaboliteStyle,left=7mm of ptsmid,rectangle,draw=assimcol,rounded corners=2pt] (gluc) {gluc};
+  \node[metaboliteStyle,left=7mm of ptsmid] (gluc) {gluc};
   \node[metaboliteStyle,shift={(-7mm,-7mm)},gray] at (g6p.center) (pyr1) {pyr};
-  \draw[assimcol,line width=\assimwidth] (gluc) -- (ptsmid);
+  \draw[] (gluc) -- (ptsmid);
   \draw[->] (ptsmid) [out=0,in=90] to (pyr1);
 
   \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
@@ -24,7 +24,7 @@
   \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
   \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
   \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
-  \node[metaboliteStyle,below=of pyr.center,rectangle,draw=assimcol,rounded corners=2pt] (aca) {accoa};
+  \node[metaboliteStyle,below=of pyr.center] (aca) {accoa};
   \node[shape=coordinate,below=of aca] (dummyglta) {};
   \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
   \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
@@ -43,22 +43,6 @@
   \node[metaboliteStyle,above=of ru5p.center] (6pgc) {6pgc};
   \node[metaboliteStyle,] at (fbp.center -| s7p.center) (e4p) {e4p};
   \node[metaboliteStyle,] at(e4p.center -| r5p.center) (xu5p) {xu5p};
-  \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
-  \iftoggle{eddpathway}{
-      \node[metaboliteStyle,right=of ru5p] (kdg) {kdg};
-      \node[shape=coordinate,] at (fbamid -| kdg.center) (eddtop) {};
-      \node[shape=coordinate,] at ([yshift=-0.5mm]gap.center -| xu5p.center) (eddtopbr) {};
-      \node[shape=coordinate,] at (2pg.center -| kdg.center) (eddbottom) {};
-      \node[shape=coordinate,] at (pyr.center -| rub.center) (eddbottombr) {};
-      \draw[->] (6pgc) [out=0,in=90] to (kdg);
-      \draw[] (kdg) [out=-90,in=90] to (eddtop);
-      \draw[] (eddtop) [out=-90,in=0] to (eddtopbr);
-      \draw[->] (eddtopbr) [out=180,in=0] to ([yshift=-0.5mm]gap.east);
-      \draw[] (eddtop) [out=-90,in=90] to (eddbottom);
-      \draw[] (eddbottom) [out=-90,in=0] to (eddbottombr);
-      \draw[->] (eddbottombr) [out=180,in=0] to (pyr.east);
-    }{ }
-  \node[metaboliteStyle,rectangle,draw=assimcol,rounded corners=2pt] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
   \draw[->] (g6p) -- (f6p);
   \draw[->] ([xshift=0.1cm]f6p.south) -- ([xshift=0.1cm]fbp.north);
   \draw[<-] ([xshift=-0.1cm]f6p.south) -- ([xshift=-0.1cm]fbp.north);
@@ -73,7 +57,7 @@
   \draw[->] (pep) -- (pyr);
   \draw[->] (pyr) -- (aca);
   \draw[->] (oaa) -- (cit) node [pos=0.9] (midglta) {};
-  \draw [assimcol,line width=\assimwidth] (aca) [out=-70,in=180] to (midglta);
+  \draw [] (aca) [out=-70,in=180] to (midglta);
   \draw[->] (cit) -- (icit);
   \draw[->] (icit) -- (suc) node [pos=0.3] (midacea) {};
   \draw[->] (midacea) [out=220,in=0] to (glx);
@@ -84,7 +68,7 @@
   \draw[->] (fum) -- (mal);
   \draw[->] (glx) -- (mal) node [pos=0.9] (midaceb) {};
   \draw[->] (mal) -- (oaa);
-  \draw[assimcol,line width=\assimwidth] (aca) [out=-90,in=0] to (midaceb);
+  \draw[] (aca) [out=-90,in=0] to (midaceb);
   \draw[->] (g6p) -- (6pgi);
   \draw[->] (6pgi) -- (6pgc);
   \draw[->] (6pgc) -- (ru5p);
@@ -114,12 +98,36 @@
   \draw[] (ptsbottom) [in=-90,out=90] to (ptstop);
   \draw[] (ptstop) [in=180,out=90] to (ptsmid);
   \draw[->] (ptsmid) -- (g6p);
-  \draw[->] (ru5p) [out=-90,in=90] to (rub);
-  \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco); 
-  \draw[assimcol,line width=\assimwidth] (co2) [out=90,in=0] to (rubisco);
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
+  \iftoggle{eddpathway}{
+      \node[metaboliteStyle,right=of ru5p] (kdg) {kdg};
+      \node[shape=coordinate,] at (fbamid -| kdg.center) (eddtop) {};
+      \node[shape=coordinate,] at ([yshift=-0.5mm]gap.center -| xu5p.center) (eddtopbr) {};
+      \node[shape=coordinate,] at (2pg.center -| kdg.center) (eddbottom) {};
+      \node[shape=coordinate,] at (pyr.center -| ru5p.center) (eddbottombr) {};
+      \draw[->] (6pgc) [out=0,in=90] to (kdg);
+      \draw[] (kdg) [out=-90,in=90] to (eddtop);
+      \draw[] (eddtop) [out=-90,in=0] to (eddtopbr);
+      \draw[->] (eddtopbr) [out=180,in=0] to ([yshift=-0.5mm]gap.east);
+      \draw[] (eddtop) [out=-90,in=90] to (eddbottom);
+      \draw[] (eddbottom) [out=-90,in=0] to (eddbottombr);
+      \draw[->] (eddbottombr) [out=180,in=0] to (pyr.east);
+    }{
+      \node[metaboliteStyle,left=7mm of ptsmid,rectangle,draw=assimcol,rounded corners=2pt] (glucassim) {gluc};
+      \draw[assimcol,line width=\assimwidth] (gluc) -- (ptsmid);
+      \node[metaboliteStyle,below=of pyr.center,rectangle,draw=assimcol,rounded corners=2pt] (acaassim) {accoa};
+      \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
+      \node[metaboliteStyle,rectangle,draw=assimcol,rounded corners=2pt] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
+      \draw[->] (ru5p) [out=-90,in=90] to (rub);
+      \draw[->] (rub) -- (3pg) coordinate [pos=0.9] (rubisco);
+      \draw[assimcol,line width=\assimwidth] (co2) [out=90,in=0] to (rubisco);
+      \draw [assimcol,line width=\assimwidth] (aca) [out=-70,in=180] to (midglta);
+      \draw[assimcol,line width=\assimwidth] (aca) [out=-90,in=0] to (midaceb);
+    }
 
+
+  \iftoggle{eddpathway}{}{
   \draw[opacity=0.2,fill=ptsinit,rounded corners=\highlightrad,visible on=<3->] ([shift={(\highlightrad,\highlightrad)}]g6p.north east) -- ([xshift=\highlightrad] fbp.east) -- ([shift={(\highlightrad,\highlightrad)}]gap.north east)--([shift={(\highlightrad,-\highlightrad)}]pep.south east) -- (ptsbottomlimit) -- node[midway] (ptsshademid) {} ([yshift=-1.2cm]ptstoplimit) -- ([shift={(-1mm,\highlightrad)}]g6p.north -| ptsmid) -- cycle;
 
   \draw[very thick,dashed,cyan,->,visible on=<3->] (ptsshademid) -- ++(-1.5cm,0cm); 
@@ -249,6 +257,7 @@
     \node[color=gray] at (-30:\ptsierad) (pyrc) {pyr};
     \node at(130:\autocatalrad+2.5*\arcwidth) (acac) {gluc};
   \end{scope}
+} %ifedd
 
 
 \end{tikzpicture}
