@@ -1,17 +1,21 @@
 \section{Introduction}
-    Metabolism lies at the heart of living cells.
-    The key aim of a functioning metabolic network is to provide cells with the ability to consume available nutrients to produce biological building blocks and harvest energy.
+    An essential trait of a living system is its ability to reproduce.
+    This basic ability makes all living systems autocatalytic by definition.
+    It then follows that any essential component of a living system is autocatalytic, as it is required for reproduction, that leads to duplication of that component.
+    Specifically, the metabolic system of any living organism, composed of the intermediate metabolites and enzymes catalyzing its reactions, is autocatalytic as a whole and must enable both the excess production of each of its metabolites, as well as the production of all the precursor molecules needed in order for the translation-transcription machinary to synthesize new copies of its enzymes.
+    An autocatalytic system is inherently unstable as its operation changes the amount of its components.
 
-    Despite the essentiality of functioning metabolic networks, such networks often require the availability of certain metabolites, in addition to the nutrient consumed, in order to function, with the most common example being co-factors \cite{Kun2008-xg}.
+    In this work we focus on autocatalytic cycles in chemical reaction systems, and specifically in metabolic networks.
+    The components we consider are the metabolites of the system, and autocatalytic cycles are formed using the reactions of the metabolic network.
+    We show that general traits of autocatalytic cycles have specific implications in this context, implications that can be translated to concrete design principles and boundries on kinetic parameters of participating enzymes.
+
+    While the whole metabolic system is autocatalytic, and clearly, enzymes must be present in order for the metabolic system to function and generate the precursors needed for synthesis of new enzymes, metabolites may not obligatorily be present in the system in order for it to produce excess amounts of them, given input nutrients.
+    However, and despite the essentiality of functioning metabolic networks, such networks often do require the availability of certain metabolites, in addition to the nutrients consumed, in order to function, with the most common example being co-factors \cite{Kun2008-xg}.
     The requirement for availability of certain metabolites in order to consume nutrients implies metabolic processes must be finely controlled to prevent such essential metabolites from running out, as in such cases metabolism will stop and the organism will die.
-    As a key feature of living cells is their ability to grow and multiply, it follows that metabolism must not only preserve essential metabolites but rather increase their amount over time.
-
-    Autocatalysis is generally defined as a setup in which one of the products of a chemical reaction is also a reactant in the same, or coupled reaction (see, for example, \cite{Steinfeld1999-iw}).
-    Naively, one can then consider them as parts of the catalyst and not part of the reaction.
-    Therefore, metabolites that are required substrates in the metabolic process that increases their own amount using external nutrients are autocatalytic, and the set of reactions starting at the consumption of the required metabolite and ending by the production of an excess amount of it form an autocatalytic cycle.
     Surprisingly, autocatalytic cycles can be an essential building block of optimal metabolic networks \cite{Riehl2010-yh}.
 
-    Autocatalytic cycles present specific metabolic control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Fell1999,Reznik2010-te}.
+    Metabolic autocatalytic cycles present specific control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Fell1999,Reznik2010-te}.
+    The smaller and simpler an autocatalytic cycle is, the more concrete are the implications its function imposes on specific parameters connected to its operation.
     Understanding the unique constraints that operating metabolic autocatalytic cycles impose is therefore essential for realizing limitations of existing metabolic networks, as well as for the introduction of modifications to them in synthetic biology metabolic engineering applications.
 
     The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin-Benson-Bassham cycle (CBB) \cite{Benson1950-cl}.
@@ -20,7 +24,7 @@
     Some of the autocatalytic cycles we find are not usually considered as such.
     The wide span of autocatalytic cycles in central carbon metabolism suggests that important biological insights can be gained by understanding the constraints underlying their stable operation.
 
-    In this work we present the specific requirements autocatalytic cycles must meet in order to operate:
+    In this work we present the specific requirements metabolic autocatalytic cycles must meet in order to operate:
     (A) To be able to achieve at least one, non-zero, steady state of fluxes;
     (B) To be stable in respect to fluctuations of metabolites or enzymes levels close to the steady state point(s).
     The mathematical tools we use are widely known in dynamical systems theory, and applicable in various fields (see, for example \cite{Strogatz2014-hp}).
@@ -50,9 +54,9 @@ We find it useful to group the identified autocatalytic cycles in central carbon
 \begin{enumerate}
     \item The glyoxylate cycle within the TCA cycle, that can be used to produce two malate molecules from a single isocitrate molecule, assimilating acetyl-CoA, then converting the two malate molecules with extra acetyl-CoA into two isocitrate molecules \cite{Kornberg1966-lh} (Figure \ref{fig:realautocatal}, example II).
     \item Glycolysis based cycles using phosphoenolpyruvate (PEP) to transport sugar substrates using the phosphotransferase system (PTS), then converting the imported substrate into two PEP molecules (Figure \ref{fig:realautocatal}, example III).
-    \item Various parts of the pentose-phosphate pathway (PP) assimilating imported sugars that are incorporated into central carbon metabolism as the intermediate metabolites: ribose-5p, erythrose-4P, sedoheptulose-7P or xylulose-5p to later produce these carbon compounds at higher stoichiometries.
+    \item Various parts of the pentose-phosphate pathway (PP) assimilating imported sugars that are incorporated into central carbon metabolism as the intermediate metabolites: ribose-5p, erythrose-4P, sedoheptulose-7P or xylulose-5p to later produce these carbon compounds at higher stoichiometries (Figure \ref{fig:extrasamps}, example I).
     \item Cycles assimilating glycerone-phosphate and using the Entner-Doudoroff (ED) pathway \cite{Entner1952-xs}.
-        They first use the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose-1,6-bisphosphate from glyceraldehyde-3-phosphate, then convert the fructose back into two glyceraldehyde-3-phosphate.
+        They first use the fructose bisphosphate aldolase reaction in the reverse direction, producing fructose-1,6-bisphosphate from glyceraldehyde-3-phosphate, then convert the fructose back into two glyceraldehyde-3-phosphate (Figure \ref{fig:extrasamps}, example II).
 \end{enumerate}
 
 The ubiquity of autocatalytic cycles in central carbon metabolism suggests that unique features of autocatalytic cycles, as derived below, may constrain and shape the kinetic parameters of a broad set of enzymes central to metabolism.

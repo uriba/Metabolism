@@ -12,20 +12,20 @@
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
 \renewcommand\thesubsubsection{}
-\title{Design principles of autocatalytic cycles constrain kinetic parameters and force over expression of specific enzymes}
+\title{Design principles of autocatalytic cycles constrain kinetic parameters and force over expression of enzymes at flux branch points}
 \author{Uri Barenholz, Dan Davidi, Ed Reznik, Yinon Bar-On, Niv Antonovsky, Elad Noor, Ron Milo}
 \date{}
 \begin{document}
 \input{varsdefs.tex}
 \maketitle
 \abstract{
-    A metabolic system that requires the presence of a substance in order to synthesize more amount of that substance is an autocatalytic cycle.
-    Autocatalytic cycles are an important part of metabolic networks.
-    As the flux through autocatalytic cycles both depends on the concentration of intermediate metabolites and affects it, they present unique features and characteristics.
-    We show, by systematic search, that most reactions in central carbon metabolism either take part in autocatalytic cycles, or consume metabolites that are also intermediates of such cycles.
+    A system that requires the presence of a component in order to increase the amount of that component is an autocatalytic cycle with respect to that component.
+    Autocatalytic cycles are present in a wide range of domains, from the  chicken and egg metaphore, representing the essentiality of members of a spicies to exist in order to reproduce and increase the number of members of the spicies, through the essentiality of components of the central dogma such as DNA and ribosomes in order for a cell to multiply, thus increasing the amount of these components, all the way to the essentiality of specific substrates in metabolic networks to enable synthesis of excess amounts of those substrates, such as the essentiallity of ATP in glycolysis, for the synthesis of excess amounts of ATP.
+    Autocatalytic cycles present unique features with specific implications in the context of metabolic networks.
+    We show, by systematic search, that most reactions in central carbon metabolism either take part in metabolic autocatalytic cycles, or consume metabolites that are also intermediates of such cycles.
     Some of the autocatalytic cycles we identify are generally not considered as such.
-    Using the most simple form of autocatalytic cycle, we derive design principles necessary to enable stable fluxes through such a cycle.
-    We show that the principles we find, constraining kinetic parameters and expression levels of participating enzymes, are also relevant in the general case.
+    Using the most simple form of a metabolic autocatalytic cycle, we derive design principles necessary to enable stable fluxes through such a cycle.
+    We show that the principles we find, constraining kinetic parameters and expression levels of participating enzymes, are also relevant in more general cases.
     The constraints we find are that, for stable fluxes through an autocatalytic cycle to occur, the autocatalytic reactions, recycling the metabolites of the cycle, must have higher affinity and lower maximal flux than the reactions consuming metabolites of the cycle to generate biomass.
     These findings imply that stability of autocatalytic cycles limits the affinity of enzymes in the metabolic network and forces excess expression of enzymes that catalyse the reactions consuming metabolites of the cycle.
     We test these constraints using existing experimental measurements in vivo and find them to hold for functioning autocatalytic cycles for which data is available.
@@ -38,4 +38,7 @@ We would like to thank Arren Bar-Even, Katja Tummler, Daniel Segre, Matthias Hei
 %(Acknowledge tikz/latex/pgf/xcolor/stackexchange community for supporting free software tools)
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
+\section{Supplementary Information}
+\beginsupplement
+\input{autocatalytic-supplementary.tex}
 \end{document}

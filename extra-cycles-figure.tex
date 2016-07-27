@@ -1,0 +1,170 @@
+\begin{tikzpicture}
+ \colorlet{ptsinit}{cyan}
+  \colorlet{cbbinit}{yellow}
+  \colorlet{glyinit}{magenta}
+  \colorlet{fbainit}{cyan}
+  \colorlet{ppinit}{magenta}
+
+  \pgfmathsetlength{\assimwidth}{1.5pt};
+
+  \begin{scope}
+  \node[metaboliteStyle] (g6p) {g6p};
+
+
+  \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+  \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+  \node[metaboliteStyle,shape=coordinate,below=of fbp.center](fbamid) {};
+  \node[metaboliteStyle,below left=of fbamid.center,rectangle,draw=assimcol,rounded corners=2pt] (dhap) {dhap};
+  \node[metaboliteStyle]at([xshift=1.4cm]dhap -|fbamid.center) (gap) {gap};
+  \node[metaboliteStyle,below=of gap.center] (bpg) {bpg};
+  \node[metaboliteStyle,below=of bpg.center] (3pg) {3pg};
+  \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
+  \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
+  \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
+  \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+  \node[metaboliteStyle,right=of 6pgi] (6pgc) {6pgc};
+  \draw[<-] (g6p) -- (f6p);
+  \draw[<-] (f6p.south) -- (fbp.north);
+  \draw [assimcol,line width=\assimwidth] (fbamid) [out=-90,in=45] to (dhap);
+  \draw [] (fbamid) [out=-90,in=135] to (gap);
+  \draw[<-] (3pg) -- (2pg);
+  \draw[<-] (2pg) -- (pep);
+  \draw[<-] (pep) -- (pyr);
+  \draw[<-] (gap) -- (bpg);
+  \draw[<-] (bpg) -- (3pg);
+  \draw [<-] (fbp) [out=-90,in=90] to (fbamid);
+  \draw [dashed,->] (dhap) -- (gap);
+  \draw[->] (g6p) -- (6pgi);
+  \draw[->] (6pgi) -- (6pgc);
+  \node[metaboliteStyle,below=of 6pgc] (kdg) {kdg};
+  \node[shape=coordinate,] at (fbamid -| kdg.center) (eddtop) {};
+  \node[shape=coordinate,] at (2pg.center -| kdg.center) (eddbottom) {};
+  \draw[->] (6pgc) -- (kdg);
+  \draw[] (kdg) [out=-90,in=90] to (eddtop);
+  \draw[->] (eddtop) [out=-90,in=0] to (gap);
+  \draw[] (eddtop) [out=-90,in=90] to (eddbottom);
+  \draw[->] (eddbottom) [out=-90,in=0] to (pyr);
+  
+  \draw[opacity=0.2,fill=fbainit,rounded corners=\highlightrad,visible on=<3->] ([shift={(-\highlightrad,\highlightrad)}]g6p.north west) -- ([shift={(\highlightrad,\highlightrad)}] 6pgc.north east) -- ([shift={(\highlightrad,\highlightrad)}]kdg.north east)-- ([shift={(\highlightrad,-\highlightrad)}]2pg.south -| kdg.east) -- ([shift={(\highlightrad,-\highlightrad)}]pyr.south -| kdg.east) -- ([shift={(-\highlightrad,-\highlightrad)}] pyr.south west) -- node [midway] (fbashade) {} ([xshift=-\highlightrad] gap.west) -- ([shift={(-\highlightrad,-\highlightrad)}] fbamid.south -| g6p.west) -- cycle;
+
+  \draw[very thick,dashed,fbainit,->,visible on=<4->] (fbashade) -- ++(-1.6cm,0cm); 
+  \end{scope}
+  \begin{scope} [xshift= -9cm]
+
+  \node[metaboliteStyle] (g6p) {g6p};
+
+
+  \node[metaboliteStyle,below=of g6p.center] (f6p) {f6p};
+  \node[metaboliteStyle,below=of f6p] (fbp) {fbp};
+  \node[metaboliteStyle,shape=coordinate,below=of fbp.center](fbamid) {};
+  \node[metaboliteStyle,below left=of fbamid.center] (dhap) {dhap};
+  \node[metaboliteStyle]at([xshift=1.4cm]dhap -|fbamid.center) (gap) {gap};
+  \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+  \node[metaboliteStyle,shape=coordinate,right=of f6p] (s7pspace) {};
+  \node[metaboliteStyle,right=of s7pspace] (s7p) {s7p};
+  \node[metaboliteStyle,] at (fbp.center -| s7p.center) (e4p) {e4p};
+  \node[metaboliteStyle,right=of e4p] (xu5p) {xu5p};
+  \node[metaboliteStyle,above right=of xu5p] (ru5p) {ru5p};
+  \node[metaboliteStyle,above=of ru5p.center] (6pgc) {6pgc};
+  \node[metaboliteStyle,above=of xu5p,yshift=2.5cm,rectangle,draw=assimcol,rounded corners=2pt] (r5p) {r5p};
+  \node[shape=coordinate] at ([shift={(-0.8cm,-5mm)}]s7p -|r5p) (midtkt1) {};
+  \path[] (e4p) -- (gap) coordinate [pos=0.4] (midtkt2) {};
+  \path[] (e4p) -- (s7pspace) coordinate [pos=0.5] (midtal) {};
+  \draw[<-] (g6p) -- (f6p);
+  \draw[<-] (f6p.south) -- (fbp.north);
+  \draw [] (fbamid) [out=-90,in=45] to (dhap);
+  \draw [] (fbamid) [out=-90,in=135] to (gap);
+  \draw[->] (ru5p) -- (xu5p);
+  \draw[-] (xu5p) [out=180,in=-90] to (midtkt1);
+  \draw[->] (midtkt1) [out=90,in=0] to (s7p);
+  \draw[assimcol,line width=\assimwidth] (r5p) [out=-110,in=90] to (midtkt1);
+  \draw[->] (midtkt1) [out=270,in=0] to ([yshift=1mm]gap.east);
+  \draw[] (e4p) [out=-60,in=0] to (midtkt2);
+  \draw[->] (midtkt2) [out=180,in=90] to (gap);
+  \draw[] (xu5p) [out=245,in=0] to (midtkt2);
+  \draw[->] (midtkt2) [out=180,in=-30] to (f6p);
+  \draw[->] (midtal) [out=90,in=0] to (f6p);
+  \draw[] (s7p) [out=180,in=90] to (midtal);
+  \draw[->] (midtal) [out=-90,in=180] to (e4p);
+  \draw[] (gap) [out=55,in=-90] to (midtal);
+  \draw [<-] (fbp) [out=-90,in=90] to (fbamid);
+  \draw [<-] (dhap) -- (gap);
+  \draw[->] (g6p) -- (6pgi);
+  \draw[->] (6pgi) -- (6pgc);
+  \draw[->] (6pgc) -- (ru5p);
+  \draw[<-,dashed] (ru5p) [out=180,in=-45] to (r5p);
+  
+  \draw[opacity=0.2,fill=ppinit,rounded corners=\highlightrad,visible on=<3->,even odd rule] ([shift={(\highlightrad,\highlightrad)}] 6pgc.north east) -- ([shift={(\highlightrad,-\highlightrad)}]ru5p.south -| 6pgc.east) -- ([xshift=5mm]dhap.south  -| gap.east) -- node [midway] (ppshade) {} (dhap.south west) -- (dhap.north west) -- ([xshift=-\highlightrad]fbamid  -| g6p.west) -- ([shift={(-\highlightrad,\highlightrad)}] g6p.north west)--cycle;
+
+  \draw[very thick,dashed,ppinit,->,visible on=<4->] (ppshade) -- ++(0cm,-1.1cm); 
+  \end{scope}
+
+  %% FBA cycle
+  \begin{scope} [shift={(-3.5cm,-9cm)},radius=2cm,visible on=<2->]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.1cm) rectangle +(5.1,4.6);
+
+  \iftoggle{article} {
+      \node at (-2cm,2.2cm) (II) {\large  \textbf {II}};
+  }{ }
+
+  \node[anchor=north] at(0cm,-2.2cm) (glyreac) {gap + dhap $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap};
+
+    \preassim{\arcwidth}{-90}{-270}{\autocatalrad}{fbainit}
+    \postassim{\arcwidth}{90}{-45}{\autocatalrad}{fbainit}{2}
+    \assim{\arcwidth}{90}{-30}{\autocatalrad}{2}
+    \arrowhead{\arcwidth}{-45}{\autocatalrad}{fbainit}
+
+    \node at (-37:\autocatalrad+3.5*\arcwidth) (gapp) {+gap};
+
+    \node at(127:\autocatalrad+2.5*\arcwidth) (dhap) {dhap};
+
+    \node at (-70:\autocatalrad) (gap) {gap};
+  \end{scope}
+
+  %% r5p cycle
+  \begin{scope} [shift={(-9.5cm,-9cm)},radius=2cm,visible on=<2->]
+  \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.1cm) rectangle +(5.1,4.6);
+
+  \iftoggle{article} {
+      \node at (-2cm,2.2cm) (I) {\large \textbf {I}};
+  }{ }
+
+  \node[anchor=north] at(0.3cm,-2.2cm) (glyreac) {{\fontfamily{cmss}\selectfont 4} xu5p + {\fontfamily{cmss}\selectfont 2} r5p $\rightarrow$ {\fontfamily{cmss}\selectfont 5} xu5p + {\fontfamily{cmss}\selectfont 5} \ce{CO2}};
+    \pgfmathsetlength{\ptsierad}{\autocatalrad*0.5};
+    \pgfmathsetlength{\ptsimrad}{\autocatalrad-0.5*\arcwidth};
+
+    \assim{2*\arcwidth}{100}{-30}{\ptsimrad}{3/2}
+    \arrowhead{2*\arcwidth}{-45}{\autocatalrad}{ppinit}
+
+    \pgfmathsetlength{\ptsesrad}{\autocatalrad+1/4*\arcwidth};
+    \pgfmathsetmacro{\startbranch}{-15}
+    \colorgradarc{5/2*\arcwidth}{40}{\startbranch}{\ptsesrad}{autocatacyc}{ppinit}
+
+
+    \draw[color=autocatacyc,line width=3*\arcwidth] (100:\autocatalrad) arc(100:40:\autocatalrad);
+
+    \draw[color=ppinit,line width=2*\arcwidth] (\startbranch:\autocatalrad) arc(\startbranch:-45:\autocatalrad);
+
+    \pgfmathsetlength{\ptsarcwidth}{\autocatalrad-\arcwidth/2};
+
+    \shadedarc[2*\arcwidth]{-95}{-260}{\autocatalrad}{\ptsarcwidth}{autocatacyc}{ppinit}
+
+
+    \shadedarc[\arcwidth/2]{40}{-15}{\ptsarcwidth-3/4*\arcwidth}{\ptsarcwidth-3/4*\arcwidth}{white}{autocatacyc}
+
+    \begin{scope}[shift={(\startbranch:2*\autocatalrad+5/4*\arcwidth)}]
+        \draw[color=ppinit,line width=\arcwidth/2] (\startbranch+180:\autocatalrad) arc (\startbranch+180:\startbranch+180+25:\autocatalrad);
+        \revarrowhead{\arcwidth/2}{190}{\autocatalrad}{ppinit}
+    \end{scope}
+
+    \node at (-37:\autocatalrad+3.5*\arcwidth) (xu5p) {+xu5p};
+
+    \node at(135:\autocatalrad+2.5*\arcwidth) (r5p) {{\fontfamily{cmss}\selectfont 2} r5p};
+
+    \node at (-70:\autocatalrad+\arcwidth/3) (xu5p) {{\fontfamily{cmss}\selectfont 4} xu5p};
+    \node[gray] at (-35:2*\arcwidth) (co2) {{\fontfamily{cmss}\selectfont 5} \ce{CO2}};
+  \end{scope}
+
+
+\end{tikzpicture}
+
