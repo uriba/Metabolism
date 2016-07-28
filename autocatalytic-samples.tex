@@ -20,7 +20,7 @@
   \node[metaboliteStyle,below=of 3pg.center] (2pg) {2pg};
   \node[metaboliteStyle,below=of 2pg.center] (pep) {pep};
   \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
-  \node[metaboliteStyle,below=of pyr.center] (aca) {accoa};
+  \node[metaboliteStyle,below=of pyr.center,rectangle,draw=assimcol,rounded corners=2pt] (aca) {accoa};
   \node[shape=coordinate,below=of aca] (dummyglta) {};
   \node[metaboliteStyle,left=of dummyglta] (oaa) {oaa};
   \node[metaboliteStyle,right=of dummyglta] (cit) {cit};
@@ -88,7 +88,7 @@
   %%%% upper pts
   \node[shape=coordinate,left=12mm of g6p.center] (ptsmid) {};
   \node[metaboliteStyle,shift={(-7mm,-7mm)},gray] at (g6p.center) (pyr1) {pyr};
-  \node[metaboliteStyle,left=7mm of ptsmid] (gluc) {gluc};
+  \node[metaboliteStyle,left=7mm of ptsmid,rectangle,draw=assimcol,rounded corners=2pt] (gluc) {gluc};
   \draw[] (gluc) -- (ptsmid);
   \draw[->] (ptsmid) [out=0,in=90] to (pyr1);
   \node[shape=coordinate,left=2.5cm of pep.center] (pts3) {};
@@ -102,9 +102,7 @@
   \draw[->] (ptsmid) -- (g6p);
   \node[shape=coordinate,shift={(-\highlightrad,-\highlightrad)}] at (pep.south -| ptsbottom) (ptsbottomlimit) {};
   \node[shape=coordinate,shift={(-\highlightrad,\highlightrad)}] at (g6p.north -| ptstop) (ptstoplimit) {};
-  \node[metaboliteStyle,left=7mm of ptsmid,rectangle,draw=assimcol,rounded corners=2pt] (glucassim) {gluc};
   \draw[assimcol,line width=\assimwidth] (gluc) -- (ptsmid);
-  \node[metaboliteStyle,below=of pyr.center,rectangle,draw=assimcol,rounded corners=2pt] (acaassim) {accoa};
   \node[metaboliteStyle,] at(3pg.center -| ru5p.center) (rub) {rubp};
   \node[metaboliteStyle,rectangle,draw=assimcol,rounded corners=2pt] at(2pg -| xu5p.center) (co2) {\ce{CO2}};
   \draw[->] (ru5p) [out=-90,in=90] to (rub);
