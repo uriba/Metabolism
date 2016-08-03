@@ -161,10 +161,10 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
       \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
     \end{equation}
     The analysis is straightforward for the case of $X^*=0$, yielding that $0$ is a stable steady state concentration if $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$, corresponding to the area above the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}$, resulting in cases (II) and (III), and is unstable otherwise.
-    The criteria that is of interest, however, is the criteria for stability of the non-zero steady state, $X^*=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}$.
+    The criterion that is of interest, however, is the criterion for stability of the non-zero steady state, $X^*=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}$.
     In this case, substituting $X^*$ in equation \ref{eq:stable} gives the opposite condition to that of $X^*=0$, namely that it is stable if $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$, corresponding to the magenta domain in figure \ref{fig:simplecycle}B, containing cases (I) and (IV), and unstable otherwise.
 
-    The stability criteria can be generally stated in metabolic control terms \cite{Fell1997-bp} using the notion of elasticity coefficients of reactions, defined as:
+    The stability criterion can be generally stated in metabolic control terms \cite{Fell1997-bp} using the notion of elasticity coefficients of reactions, defined as:
     \begin{equation*}
     \varepsilon^f_X=\frac{\partial f}{\partial X}\frac{X}{f}
     \end{equation*}
@@ -286,26 +286,26 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
       \sum_{i=1}^n f_{b_i}=f_{a_n} \Rightarrow \forall_i:\ f_{b_i} \leq f_{a_n}
     \end{equation*}
 
-    Deriving stability criteria for the multiple-reaction case, we get that the characteristic polynomial is:
+    Deriving stability criterion for the multiple-reaction case, we get that the characteristic polynomial is:
     \begin{equation}
         \label{eq:complex}
         0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
     \end{equation}
-    Again, in cases were for all $i$ it holds that $\beta_i\geq\alpha_i$, the eigenvalues will all have negative real values.
+    In this case if there exists $i$ such that $\beta_i\geq\alpha_i$, then the eigenvalues will all have negative real values (see methods).
     
     To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that:
     \begin{equation}
         \forall_i:\ f_{b_i} \leq f_{a_n} \leq f_{a_i}
       \label{eq:complexstst}
     \end{equation}
-    A sufficient condition for such a steady state point to be stable is that at the steady state point the derivatives of each branch reaction are larger than or equal to the derivatives of the equivalent autocatalytic reaction:
+    A sufficient condition for such a steady state point to be stable is that at the steady state point at least one of the derivatives of the branch reactions is larger than or equal to the derivative of the equivalent autocatalytic reaction:
     \begin{equation}
-      \forall_i:\ \beta_i \geq \alpha_i
+      \exists_i:\ \beta_i \geq \alpha_i
       \label{eq:complexstab}
     \end{equation}
-    Using the connection between derivatives of reactions and saturation levels (see Methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of every branch reaction will be lower than the saturation of the corresponding autocatalytic reaction:
+    Using the connection between derivatives of reactions and saturation levels (see Methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of a single branch reaction will be lower than the saturation of the corresponding autocatalytic reaction:
     \begin{equation}
-        \forall_i:\ S(f_{b_i}) \leq S(f_{a_i})
+        \exists_i:\ S(f_{b_i}) \leq S(f_{a_i})
       \label{eq:complexsat}
     \end{equation}
 
@@ -325,7 +325,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
 \end{figure}
     \subsubsection{Using different kinetics equations}
     Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
-    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point the combined derivatives of all the outgoing reactions out of the cycle should be higher than the derivatives of the autocatalytic reactions, as is implied by equation \ref{eq:complex}, to enforce stability in the presence of small perturbations.
+    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point at least one derivative of an outgoing reaction out of the cycle should be higher than the derivative of the corresponding autocatalytic reaction, as is implied by equation \ref{eq:complex}, to enforce stability in the presence of small perturbations.
     Therefore, these two conditions should be explicitly evaluated for every case with different kinetic equations and autocatalytic cycles topologies to assert whether it can carry stable fluxes or not.
 
     \subsection{Testing the predictions of the analysis with experimental data on functioning autocatalytic cycles}
@@ -460,6 +460,65 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
 
   The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that is valid in central carbon metabolism, but not in metabolic networks in general.
   
+  \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
+  Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
+  \ldots
+  The characteristic polynomial of this matrix is given in Equation \ref{eq:complex}.
+  To extract the conditions under which all the roots of the characteristic polynomial have negative real parts we use Rouche's theorem.
+  We pick a large parameter $R$, such that $R>3\max_j(\alpha_j+\beta_j)$.
+  We look at the closed half circle contour, $K$, composed of the segment $[(0,-iR),(0,iR)]$ and the half circle arc $(x,iy)$ such that $x\leq 0$ and $x^2+y^2=R^2$.
+  We define 
+  \begin{equation*}
+      g(\lambda)=2\prod_{j=1}^n\alpha_j
+  \end{equation*}
+  noting that it is constant over all of $\mathbb{C}$ and specifically over $K$.
+  We define
+  \begin{equation*}
+      f(\lambda)=\prod_{j=1}^n(\lambda+\alpha_j+\beta_j)
+  \end{equation*}
+  noting that all of $f$'s roots lie inside $K$ as the roots are $0>-(\alpha_j+\beta_j)>-R$ for all $j$.
+  We check the conditions under which $|f(\lambda)|>|g(\lambda)|$ over the contour $K$.
+
+  For the arc we note that, as for complex numbers it holds that $|xy|=|x||y|$, then 
+  \begin{equation*}
+      |f(\lambda)|=\prod_{j=1}^n|\lambda+\alpha_j+\beta_j|
+  \end{equation*}
+  From the triangle inequality we know that $|x+y|>|x|-|y|$ and therefore for all $j$ it holds that 
+  \begin{equation*}
+      |\lambda+\alpha_j+\beta_j|>R-(\alpha_j+\beta_j)
+  \end{equation*}
+  As we picked $R$ such that $R>3\max_j(\alpha_j+\beta_j)$ we get that 
+  \begin{equation*}
+      R-(\alpha_j+\beta_j)>2(\alpha_j+\beta_j)
+  \end{equation*}
+  and therefore 
+  \begin{equation*}
+      \prod_{j=1}^n|\lambda+\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j|>|g(\lambda)|
+  \end{equation*}
+  concluding that over the arc, $|f(\lambda)|>|g(\lambda)|$.
+
+  For the part of $K$ on the imaginary axis we note that $\lambda=iy$ where $y\in[-R,R]$.
+For this segment we therefore get that
+\begin{equation*}
+    |f(\lambda)|=\prod_{j=1}^n|\alpha_j+\beta_j+iy|=\sqrt{\prod_{j=1}^n((\alpha_j+\beta_j)^2+y^2)} \geq \sqrt{\prod_{j=1}^n(\alpha_j+\beta_j)^2}
+ \end{equation*} 
+ and, as before, that
+ \begin{equation*}
+     |g(\lambda)|=2\sqrt{\prod_{j=1}^n\alpha_j^2}
+ \end{equation*}
+ To meet the condition that $|f(\lambda)|>|g(\lambda)|$, which is equivalent to: $\frac{|f(\lambda)|}{|g(\lambda)|}>1$, it is sufficient to find the conditions under which:
+ \begin{equation*}
+   \frac{\sqrt{\prod_{j=1}^n(\alpha_j+\beta_j)^2}}{2\sqrt{\prod_{j=1}^n\alpha_j^2}}>1
+ \end{equation*}
+ Simplifying this inequality gives:
+ \begin{equation*}
+     \frac{1}{2}\sqrt{\prod_{j=1}^n\frac{(\alpha_j+\beta_j)^2}{\alpha_j^2}}= \frac{1}{2}\prod_{j=1}^n\frac{\alpha_j+\beta_j}{\alpha_j}= \frac{1}{2}\prod_{j=1}^n(1+\frac{\beta_j}{\alpha_j})>1 \Rightarrow \prod_{j=1}^n(1+\frac{\beta_j}{\alpha_j})>2
+ \end{equation*}
+ A sufficient condition to satisfy this inequality, given that all the $\alpha_j$'s and $\beta_j$'s are positive, is that there exists $j$ such that $\beta_j \geq \alpha_j$.
+
+ We therefore get that if there exists $j$ such that  $\beta_j \geq \alpha_j$, then $|f(\lambda)|>|g(\lambda)|$ over the contour $K$.
+ In this case we can use Rouche's theorem to deduce that, as all of $f$'s roots lie inside $K$, then it follows that all of $f+g$'s roots lie inside $K$, concluding that the real part of all of the eigen values of the characteristic polynomial of the jacobian matrix of the complex autocatlytic cycle are negative, making any steady state that meets this criterion stable.
+
     \subsection{For Michaelis-Menten kinetics, relation of derivatives result in inverse relation of saturation levels}
     It turns out that for the Michaelis-Menten kinetics equations, the following useful lemma can be used to connect theoretical observations on the relations of derivatives to physiological observations on saturation levels.
 
