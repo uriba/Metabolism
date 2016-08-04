@@ -1,14 +1,17 @@
 \begin{tikzpicture}[>=latex',node distance = 2cm]
-    \node[shape=coordinate] (orig) {};
-    \node at (-45:1cm) (X) {$X$};
-    \draw [->,line width=1pt,autocatacyc] (X.south west) arc (300:-25:1cm) node [pos=0.63,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.5,shape=coordinate] (midauto) {};
-    \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$E$};
-    \draw [->,line width=1pt,branchout] (X.south east) arc (225:270:1cm) node [pos=0.75,above] {$f_b$};
-
-    \draw [<-,line width=1pt,magenta] (X.east) arc (-90:-30:1cm) node [pos=0.3,above] (fi) {$f_i$};
-    \iftoggle{article} {
-        \node [] at(150:3cm) (A) {(A)};
-    }{}
+  \begin{scope}[]
+        \node at (-60:1cm) (X) {$X$};
+        \node[shape=coordinate] (orig) {};
+        \draw [-,line width=1pt,autocatacyc] (X.south west) arc (285:0:1cm) node [pos=0.65,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {} node [pos=1,shape=coordinate] (endcommon) {};
+        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-25:-44:2cm);
+        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-5:-32:1.5cm);
+        \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$E$};
+        \draw [->,line width=1pt,branchout] (X.south east) arc (225:270:1cm) node [pos=0.75,above] {$f_b$};
+    \draw [<-,line width=1pt,magenta] (X.east) arc (-90:-30:1cm) node [pos=0.4,above] (fi) {$f_i$};
+        \iftoggle{article} {
+            \node at (-2.4cm,1.3cm) (A) {(A)};
+        }{}
+  \end{scope}
     \begin{customlegend}[legend entries={$f_a+f_i$,$f_b$,$\dot{X}=f_a+f_i-f_b$},legend style={right=3cm of orig,anchor=west,name=legend1}]
       \addlegendimage{autocatacyc,fill=black!50!red,sharp plot,line width=1pt}
       \addlegendimage{branchout,fill=black!50!red,sharp plot,line width=1pt}

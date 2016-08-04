@@ -33,7 +33,7 @@
     The importance of autocatalytic cycles in metabolism is demonstrated by one of its most prominent examples, the Calvin-Benson-Bassham cycle (CBB) \cite{Benson1950-cl}.
     The carbon fixation CBB cycle, fixing \ce{CO2} while transforming 5-carbon compounds to two 3-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
     The autocatalytic nature of the CBB cycle stems from the fact that for every five 5-carbon compounds the cycle consumes, six 5-carbon compounds are produced.
-    Beyond the CBB cycle, we show that most of the reactions and metabolites in central carbon metabolism are part of compact (i.e. consisting of around 10 reactions of less) metabolic autocatalytic cycles.
+    Beyond the CBB cycle, we show that most of the reactions and metabolites in central carbon metabolism are part of compact (i.e. consisting of around 10 reactions or less) metabolic autocatalytic cycles.
     Some of the autocatalytic cycles we find are not usually considered as such.
     The wide span of autocatalytic cycles in central carbon metabolism suggests that the constraints underlying their stable operation have network-wide biological consequences.
 
@@ -209,7 +209,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     Autocatalytic cycles are embedded in a larger metabolic network.
     Specifically, such cycles generally have some independent reactions with input flux to at least some of their intermediate metabolites, not requiring the use of the cycle intermediate metabolites.
     For example, in the glucose based, PTS-dependent autocatalytic cycle, the existence of alternative transporters can generate flux into the cycle without the use of PEP.
-    In the CBB cycle, input flux of fructose-6-phosphate from the catabolism of starch can be used to 'kick start' the cycle without using the intermediate metabolites of the cycle.
+    Another example is the CBB cycle, where input flux of fructose-6-phosphate from the catabolism of starch can be used to 'kick start' the cycle without using the intermediate metabolites of the cycle.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}) the steady state condition changes to include this flux, giving:
     \begin{equation*}
@@ -272,9 +272,10 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     \begin{equation*}
         (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
     \end{equation*}
-    The condition is strongly met if $\beta_1\geq \alpha_1$ and $\beta_2\geq\alpha_2$.
+    The condition is satisfied if $\beta_1\geq \alpha_1$ or $\beta_2\geq\alpha_2$.
     
     The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
+    We again arbitrarily assume that the autocatalytic reaction is the last reaction, $f_{a_n}$, and that the autocatalysis is in a $1:2$ ratio.
 
     In this case, steady state implies that the concentration of each intermediate metabolite is conserved, meaning that for all $i>1$:
     \begin{equation*}
@@ -286,13 +287,8 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
       \sum_{i=1}^n f_{b_i}=f_{a_n} \Rightarrow \forall_i:\ f_{b_i} \leq f_{a_n}
     \end{equation*}
 
-    Deriving stability criterion for the multiple-reaction case, we get that the characteristic polynomial is:
-    \begin{equation}
-        \label{eq:complex}
-        0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
-    \end{equation}
-    In this case if there exists $i$ such that $\beta_i\geq\alpha_i$, then the eigenvalues will all have negative real values (see methods).
-    
+    Deriving stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i\geq\alpha_i$ (see methods).
+
     To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that:
     \begin{equation}
         \forall_i:\ f_{b_i} \leq f_{a_n} \leq f_{a_i}
@@ -300,12 +296,12 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     \end{equation}
     A sufficient condition for such a steady state point to be stable is that at the steady state point at least one of the derivatives of the branch reactions is larger than or equal to the derivative of the equivalent autocatalytic reaction:
     \begin{equation}
-      \exists_i:\ \beta_i \geq \alpha_i
+      \exists i:\ \beta_i \geq \alpha_i
       \label{eq:complexstab}
     \end{equation}
     Using the connection between derivatives of reactions and saturation levels (see Methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of a single branch reaction will be lower than the saturation of the corresponding autocatalytic reaction:
     \begin{equation}
-        \exists_i:\ S(f_{b_i}) \leq S(f_{a_i})
+        \exists i:\ S(f_{b_i}) \leq S(f_{a_i})
       \label{eq:complexsat}
     \end{equation}
 
@@ -318,8 +314,8 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
      (A) A two reaction system.
      (B) A generic $n$-reaction system.
      The system is at steady state when the total consumption of intermediate metabolites by the branch reactions is equal to the flux through the autocatalytic reaction.
-     A sufficient condition for the stability of a steady state in these systems is that the derivative of each branch reaction with respect to the substrate concentration is larger than or equal to the derivative of the equivalent autocatalytic reaction at the steady state concentration.
-     Given the connection between derivatives of fluxes and saturation levels of reactions (see Methods), this condition implies that a sufficient condition for the stability of a steady state is that the saturation level of branch reactions is smaller than the saturation level of the corresponding autocatalytic reactions.
+     A sufficient condition for the stability of a steady state in these systems is that the derivative of at least one branch reaction with respect to the substrate concentration is larger than or equal to the derivative of the equivalent autocatalytic reaction at the steady state concentration.
+     Given the connection between derivatives of fluxes and saturation levels of reactions (see Methods), this condition implies that a sufficient condition for the stability of a steady state is that the saturation level of at least one branch reactions is smaller than the saturation level of the corresponding autocatalytic reaction.
  }
      \label{fig:multiple}
 \end{figure}
@@ -336,10 +332,10 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     the glyoxylate cycle carries significant flux at growth in galactose and acetate.
 
     The PP cycle variants do not carry flux in any of the measured conditions, which is expected given that growth on ribose was not measured.
-    The reverse FBA with ED pathway cycle also did not carry flux in any of the measured conditions.
+    The gluconeogenic FBA with ED pathway cycle also did not carry flux in any of the measured conditions.
     Although glycerol could have been a potential carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, as was indeed observed.
 
-    As noted above, a key design principle that functioning auto catalytic cycles require is that branch reactions should be less saturated than their corresponding autocatalytic reactions.
+    As noted above, a key design principle that functioning auto catalytic cycles require is that at least one branch reaction should be less saturated than the corresponding autocatalytic reaction.
     We stress again that this requirement is sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
     To evaluate the saturation level of a reaction under a given condition, two values must be obtained:
     \begin{enumerate}
@@ -351,15 +347,15 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     We used the data from \cite{Gerosa2015-oq} to identify the major branch points in each functioning cycle and the flux distributions in them under each of the relevant conditions.
     The results are presented in figure \ref{fig:branch}.
 
-    Our results show that for every functioning autocatalytic cycle, in at least one branch point the biomass generating branch reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction.
+    Our results show that for every functioning autocatalytic cycle, in at least one branch point the biomass generating branch reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction, in accordance with our predictions.
     Moreover, out of 9 branch points analyzed, in 6 branch points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branch points the saturation levels were similar, and only in one branch point the auto catalytic reaction was less saturated than the branching reaction.
 
-    The branch point that does not agree with our prediction is the branch point in fructose-1,6-bisphosphate at growth with fructose as the carbon source.
-    The disagreement arises as a large flux is reported for the fbp reaction, whereas the corresponding enzyme is not highly expressed.
-    This disagreement may result due to neglecting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in the data analysis in \cite{Gerosa2015-oq}.
-    We note that assuming $20\%$ of transported fructose is converted directly to f6p suffices in order to resolve the disagreement, resulting in equal saturation levels for the autocatalytic reaction and the branching reaction.
+    The branch point at which the autocatalytic reaction is less saturated than the branch reaction is the branch point in fructose-1,6-bisphosphate at growth with fructose as the carbon source.
+    The high saturation of the branch reaction arises as a large flux is reported for the fbp reaction, whereas the corresponding enzyme is not highly expressed.
+    This relation in saturation levels may result due to neglecting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in the data analysis in \cite{Gerosa2015-oq}.
+    We note that assuming $20\%$ of transported fructose is converted directly to f6p suffices in order to balance the saturation levels for the autocatalytic reaction and the branching reaction.
 
-    The lower saturation values of biomass generating branch reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
+    The consistently lower saturation values of biomass generating branch reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
     Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their derivatives are higher, ensuring stable operation of the cycle.
 
     Another demonstration of the autocatalytic mechanism being at play is in the CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available.
@@ -411,7 +407,7 @@ This observation may also highlight the importance of seemingly redundant reacti
 While autocatalytic cycles are usually considered a small part of metabolism, we find that such cycles are at the heart of central carbon metabolism.
 The examples of autocatalytic cycles we provide, as well as our verified predictions on the usage of enzymes catalyzing reactions branching out of such cycles, suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may constrain the parameters of a broad set of enzymes central to metabolism.
 
-  Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and the production in glycolysis), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
+  Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and production in glycolysis), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
   The analysis we present here can thus be of wider relevance for the design and analysis of metabolic networks.
 
   \section{Methods}
@@ -458,12 +454,26 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
         \end{enumerate}
   \end{enumerate}
 
-  The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that is valid in central carbon metabolism, but not in metabolic networks in general.
+  The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that holds for the core model of \emph{E.coli}, but not in metabolic networks in general.
   
   \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
   Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
-  \ldots
-  The characteristic polynomial of this matrix is given in Equation \ref{eq:complex}.
+  \begin{equation*}
+    J=
+    \begin{pmatrix}
+        -(\alpha_1+\beta_1) & 0 & \cdots & 0 & 2\alpha_n \\
+        \alpha_1 & -(\alpha_2+\beta_2) & \cdots & 0 & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & \cdots & -(\alpha_{n-1}+\beta_{n-1}) & 0\\
+        0 & 0 & \cdots & \alpha_{n-1} & -(\alpha_n+\beta_n)
+     \end{pmatrix}
+  \end{equation*}
+   The characteristic polynomial of this matrix is given by:
+    \begin{equation}
+        \label{eq:complex}
+        0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
+    \end{equation}
+
   To extract the conditions under which all the roots of the characteristic polynomial have negative real parts we use Rouche's theorem.
   We pick a large parameter $R$, such that $R>3\max_j(\alpha_j+\beta_j)$.
   We look at the closed half circle contour, $K$, composed of the segment $[(0,-iR),(0,iR)]$ and the half circle arc $(x,iy)$ such that $x\leq 0$ and $x^2+y^2=R^2$.
@@ -479,7 +489,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   noting that all of $f$'s roots lie inside $K$ as the roots are $0>-(\alpha_j+\beta_j)>-R$ for all $j$.
   We check the conditions under which $|f(\lambda)|>|g(\lambda)|$ over the contour $K$.
 
-  For the arc we note that, as for complex numbers it holds that $|xy|=|x||y|$, then 
+  For the arc segment we note that, as for complex numbers it holds that $|xy|=|x||y|$, then
   \begin{equation*}
       |f(\lambda)|=\prod_{j=1}^n|\lambda+\alpha_j+\beta_j|
   \end{equation*}
@@ -493,7 +503,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \end{equation*}
   and therefore 
   \begin{equation*}
-      \prod_{j=1}^n|\lambda+\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j|>|g(\lambda)|
+      \prod_{j=1}^n|\lambda+\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j| \geq |g(\lambda)|
   \end{equation*}
   concluding that over the arc, $|f(\lambda)|>|g(\lambda)|$.
 
@@ -517,7 +527,7 @@ For this segment we therefore get that
  A sufficient condition to satisfy this inequality, given that all the $\alpha_j$'s and $\beta_j$'s are positive, is that there exists $j$ such that $\beta_j \geq \alpha_j$.
 
  We therefore get that if there exists $j$ such that  $\beta_j \geq \alpha_j$, then $|f(\lambda)|>|g(\lambda)|$ over the contour $K$.
- In this case we can use Rouche's theorem to deduce that, as all of $f$'s roots lie inside $K$, then it follows that all of $f+g$'s roots lie inside $K$, concluding that the real part of all of the eigen values of the characteristic polynomial of the jacobian matrix of the complex autocatlytic cycle are negative, making any steady state that meets this criterion stable.
+ In this case, by Rouche's theorem, we deduce that, as all of $f$'s roots lie inside $K$, then it follows that all of $f-g$'s roots lie inside $K$, concluding that the real part of all of the eigen values of the characteristic polynomial of the jacobian matrix of the complex autocatlytic cycle are negative, making any steady state that meets this criterion stable.
 
     \subsection{For Michaelis-Menten kinetics, relation of derivatives result in inverse relation of saturation levels}
     It turns out that for the Michaelis-Menten kinetics equations, the following useful lemma can be used to connect theoretical observations on the relations of derivatives to physiological observations on saturation levels.
