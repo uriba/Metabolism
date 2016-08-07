@@ -2,9 +2,9 @@
   \begin{scope}[]
         \node at (-60:1cm) (X) {$X$};
         \node[shape=coordinate] (orig) {};
-        \draw [-,line width=1pt,autocatacyc] (X.south west) arc (285:0:1cm) node [pos=0.65,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {} node [pos=1,shape=coordinate] (endcommon) {};
-        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-25:-44:2cm);
-        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-5:-32:1.5cm);
+        \draw [-,line width=1pt,autocatacyc] (X.south west) arc (285:10:1cm) node [pos=0.65,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {} node [pos=1,shape=coordinate] (endcommon) {};
+        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-17:-46:1.5cm);
+        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (3:-35:1.2cm);
         \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$E$};
         \draw [->,line width=1pt,branchout] (X.south east) arc (225:270:1cm) node [pos=0.75,above] {$f_b$};
     \draw [<-,line width=1pt,magenta] (X.east) arc (-90:-30:1cm) node [pos=0.4,above] (fi) {$f_i$};
@@ -19,31 +19,31 @@
     \end{customlegend}
     \begin{scope}[shift={(-2.5cm,-6cm)},node distance = 1cm]
 
-        \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
-    \addplot[domain=0:4,autocatacyc,thick] {3*x/(0.5+x)+\influx};
+        \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-1.5,xmax=2.9,ymax=4.8,xlabel={[$X$]},ylabel={flux},samples=60,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+    \addplot[domain=0:4,autocatacyc,thick] {3*x/(0.5+x)+1.5*\influx};
     \addplot[domain=0:4,branchout,thick] {5*x/(1+x)};
-    \addplot[domain=0:4,sumcolor,thick,dashed] {3*x/(0.5+x)-5*x/(1+x)+\influx};
-    \addplot[dashed,gray,thick] coordinates {(1,0) (1,2.5)};
-    \node[right] (one) at (axis cs:0.1,5.5) {I};
-    \node[right,align=left] (onetext) at (axis cs:0.05,4.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
+    \addplot[domain=0:4,sumcolor,thick,dashed] {3*x/(0.5+x)-5*x/(1+x)+1.5*\influx};
+    \addplot[dashed,gray,thick] coordinates {(1.5,0) (1.5,3)};
+    \node[right] (one) at (axis cs:0.1,4.5) {I};
+    \node[right,align=left] (onetext) at (axis cs:0.05,3.7) {\scriptsize stable non-zero\\[-0.4em]\scriptsize steady state};
   \end{axis}
 
-  \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
-    \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)+\influx};
+  \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-1.5,xmax=2.9,ymax=4.8,xlabel={[$X$]},ylabel={flux},samples=60,at=(plot1.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+    \addplot[domain=0:4,autocatacyc,thick] {4.7*x/(1+x)+1.5*\influx};
     \addplot[domain=0:4,branchout,thick] {4*x/(1+x)};
-    \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-4*x/(1+x)+\influx};
-    \node[right] (two) at (axis cs:0.1,5.5) {II};
-    \node[right,align=left] (twotext) at (axis cs:0.05,5) {\scriptsize no steady state};
+    \addplot[domain=0:4,sumcolor,thick,dashed] {5*x/(1+x)-4*x/(1+x)+1.5*\influx};
+    \node[right] (two) at (axis cs:0.1,4.5) {II};
+    \node[right,align=left] (twotext) at (axis cs:0.05,4) {\scriptsize no steady state};
   \end{axis}
 
-  \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
+  \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-1.5,xmax=2.9,ymax=4.8,xlabel={[$X$]},ylabel={flux},samples=60,at=(plot2.right of south east),anchor=left of south west,width=5cm,height=6cm,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt}]
     \addplot[domain=0:4,autocatacyc,thick] {6*x/(2+x)+1.5*\influx};
     \addplot[domain=0:4,branchout,thick] {4*x/(0.4+x)};
     \addplot[domain=0:4,sumcolor,thick,dashed] {6*x/(2+x)-4*x/(0.4+x)+1.5*\influx};
     \addplot[dashed,gray,thick] coordinates {(1.2,0) (1.2,3)};
     \addplot[dashed,gray,thick] coordinates {(0.182,0) (0.182,1.25)};
-    \node[right] (three) at (axis cs:0.1,5.5) {III};
-    \node[right,align=left] (threetext) at (axis cs:0.05,4.7) {\scriptsize two non-zero\\[-0.4em]\scriptsize steady states};
+    \node[right] (three) at (axis cs:0.1,4.5) {III};
+    \node[right,align=left] (threetext) at (axis cs:0.05,3.7) {\scriptsize two non-zero\\[-0.4em]\scriptsize steady states};
   \end{axis}
     \end{scope}
 \end{tikzpicture}
