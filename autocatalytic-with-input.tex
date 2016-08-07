@@ -2,10 +2,10 @@
   \begin{scope}[]
         \node at (-60:1cm) (X) {$X$};
         \node[shape=coordinate] (orig) {};
-        \draw [-,line width=1pt,autocatacyc] (X.south west) arc (285:10:1cm) node [pos=0.65,above] (fa) {$f_a:$\small{$E+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {} node [pos=1,shape=coordinate] (endcommon) {};
+        \draw [-,line width=1pt,autocatacyc] (X.south west) arc (285:10:1cm) node [pos=0.65,above] (fa) {$f_a:$\small{$A+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {} node [pos=1,shape=coordinate] (endcommon) {};
         \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-17:-46:1.5cm);
         \draw [->,line width=1pt,autocatacyc] (endcommon) arc (3:-35:1.2cm);
-        \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$E$};
+        \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$A$};
         \draw [->,line width=1pt,branchout] (X.south east) arc (225:270:1cm) node [pos=0.75,above] {$f_b$};
     \draw [<-,line width=1pt,magenta] (X.east) arc (-90:-30:1cm) node [pos=0.4,above] (fi) {$f_i$};
         \iftoggle{article} {
