@@ -1,0 +1,28 @@
+\documentclass[a4page,notitlepage]{article}
+
+\input{preamble.tex}
+\toggletrue{article}
+\togglefalse{eddpathway}
+
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={}
+}
+
+\usepackage{adjustbox}
+\begin{document}
+\input{varsdefs.tex}
+\begin{figure}
+    \centering{
+\input{atp-cycle.tex}
+}
+\caption{
+ atp autocatalysis in glycolysis.
+ This autocatalytic cycle considers high energy phosphate bonds as the moiety that is required for the production of larger quantities of high energy phosphate bonds.
+ Cycle intermediates are black, external metabolites are gray.
+ The high energy bonds of adp are neglected.
+ The total autocatalytic reaction is: $2\text{atp}+\text{gluc}+2\text{p}_i+2\text{adp}\rightarrow 4\text{atp}+2\text{pyr}$ (neglecting the double nad $\rightarrow$ nadh reaction coupled to the gap $\rightarrow$ bpg reaction).
+ }
+\end{figure}
+
+\end{document}
