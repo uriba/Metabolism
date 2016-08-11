@@ -42,9 +42,11 @@
     We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as critical values that determine whether the cycle can stably operate.
     We show that the affinity of enzymes consuming intermediate metabolites of autocatalytic cycles must be limited to prevent drainage of these metabolites.
     Moreover, we show that stable operation of such cycles requires excess expression of these enzymes, resulting in a seemingly inefficient expression pattern that does not utilize the full catalytic capacity of such enzymes.
+    We point that, for enzymes consuming intermediate metabolites of autocatalytic cycles, there is a reverse relationship between the affinity of the enzyme and the flux it carries.
+    Therefore, for these enzymes, the lower the affinity to the substrate is, the higher the flux the reaction will carry, which is opposite to the normal relationship between affinities and fluxes.
     We use recent fluxomics and proteomics data to test these design principles.
     We find them to hold in cases at which autocatalytic cycles support flux.
-    Our analysis demonstrates how the requirement for stable operation of autocatalytic cycles results in design principles that are followed by autocatalytic cycles in vivo.
+    Our analysis demonstrates how the requirement for stable operation of autocatalytic cycles results in design principles that are followed by autocatalytic cycles in-vivo.
     The results and design principles presented here can further be used in synthetic metabolic engineering applications that require proper functioning of autocatalytic cycles.
 
 \section{Results}
@@ -55,7 +57,7 @@ A simple example of a metabolic autocatalytic cycle is shown in Figure \ref{fig:
 For stable operation, $\gamma$ copies have to branch out of the cycle, and this consumption must be robust to small fluctuations in enzyme levels and metabolite concentrations.
 For a formal, mathematical definition, see the methods section.
 
-\begin{figure}[h!]
+\begin{figure}[!htb]
     \centering{
         \input{autocatalytic-cycle.tex}}
 \caption{
@@ -76,7 +78,7 @@ Two additional examples are presented in Figures \ref{fig:extrasamps1} and \ref{
 
 The ubiquity of compact autocatalytic cycles in central carbon metabolism suggests that unique features of autocatalytic cycles, as derived below, may constrain and shape the kinetic parameters of a broad set of enzymes at the heart of metabolism.
 
-\begin{figure}[h!]
+\begin{figure}[!htb]
 \resizebox{1\linewidth}{!}{
   \input{autocatalytic-samples.tex}
 }
@@ -103,7 +105,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     Physiologically, these kinetic parameters must be positive.
     Using these simple forms allows us to obtain an analytic solution.
     We discuss more general cases below.
-    \begin{figure}[h!]
+    \begin{figure}[!htb]
       \input{simple-cycle-analysis-figure.tex}
       \caption{\label{fig:simplecycle}
         (A) A simple autocatalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
@@ -179,6 +181,14 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     The domains below the diagonal (cases (I) and (IV)) are the domains where $X^*=0$ is an unstable steady state concentration, so that if another steady state exists, it is stable, but in domain (IV) no positive steady state exists.
     The domains above the diagonal (cases (II) and (III)) are the domains where $X^*=0$ is a stable steady state concentration, so that the other steady state, if it exists, is unstable.
 
+    Aside from existence and stability, a quantitative relationship between the affinity of the biomass generating, branching reaction and the flux it carries can be obtained.
+    This relationship is reverse to the standard one, meaning that unlike the common case where $f\propto\frac{1}{K_M}$, in this case, when substituting the steady state concentration from Equation \ref{eq:xstst} into the flux equation for $f_b$, we get that:
+
+    \begin{equation*}
+        f_b=\frac{V_{\max,b}X}{K_{M,b}+X}=\frac{V_{\max,b}\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}}{K_{M,b}+\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}}=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{K_{M,a}-K_{M,b}}
+    \end{equation*}
+    which, for $K_{M,b}$ that satisfies the existence and stability conditions such that $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$, results in $f_b \propto K_{M,b}$.
+
     To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist (case (I)), two conditions must be satisfied:
     \begin{equation}
     \label{eq:stabconds}
@@ -187,9 +197,13 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
       & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}
     \end{dcases}
     \end{equation}
-    The first requirement states that the maximal flux of the biomass generating, branching reaction should be higher than the maximal flux of the autocatalytic reaction, ensuring a stable solution exists, as large concentrations of $X$ will result in its reduction by the branching reaction.
-    The second requirement states that at low concentrations of $X$, the autocatalytic reaction starts higher than the branch reaction (as can be inferred from the slopes), ensuring that the two fluxes will be equal for some positive concentration of $X$.
-    As this requirement implies that below the positive steady state the branch reaction will carry less flux than the autocatalytic reaction, it follows that small deviations of the concentration of $X$ below the steady state will result in an increase in its concentration by the autocatalytic reaction, driving it back to the steady state.
+    The first requirement states that the maximal flux of the biomass generating, branching reaction should be higher than the maximal flux of the autocatalytic reaction.
+    This requirement ensures a stable solution exists, as large concentrations of $X$ will result in its reduction by the branching reaction.
+    The second requirement states that at low concentrations of $X$, the autocatalytic reaction starts higher than the branch reaction (as can be inferred from the slopes).
+    This requirement implies that the two fluxes will be equal for some positive concentration of $X$, ensuring a positive steady state exists.
+    As this requirement further implies that below the positive steady state the branch reaction will carry less flux than the autocatalytic reaction, it follows that small deviations of the concentration of $X$ below the steady state will result in an increase in its concentration by the autocatalytic reaction, driving it back to the steady state.
+    Meeting the second constraint has another consequence.
+    Unlike the common case where higher affinity of an enzyme increases the flux through the reaction it catalyzes, in autocatalytic cycles, higher affinity of the branch reaction reduces the flux it carries due to reduction in the steady state concentration of the intermediate metabolite of the cycle.
 
     Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved.
     Specifically, changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$ only affect $V_{\max,a}$ and $V_{\max,b}$, and therefore do not suffice to attain a stable positive steady state.
@@ -222,6 +236,17 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     This case therefore differs from the case with no input flux analyzed above, as now a positive stable steady state can always be achieved by modifying only $V_{\max,a}$ and/or $V_{\max,b}$.
     In this setup, cells can therefore tune the expression levels of enzymes to meet the needs of a stable steady state flux.
 
+    \begin{figure}[!htb]
+        \centering{
+            \input{autocatalytic-with-input.tex}}
+      \caption{\label{fig:inputcycle}
+        (A) A simple autocatalytic cycle with a fixed input flux, $f_i$.
+        A steady state occurs when $f_a+f_i=f_b$.
+        If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
+        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
+      }
+    \end{figure}
+
     In cases where $V_{\max,b}<f_i+V_{\max,a}$ either no steady states exist (Figure \ref{fig:inputcycle} (II)), or two positive steady states exist (Figure \ref{fig:inputcycle} (III)).
     The latter case implies that there exists a positive concentration $X$ that satisfies:
     \begin{equation*}
@@ -238,21 +263,12 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
   In these two cases, these shortcuts relax the constraints imposed by strict use of the corresponding autocatalytic cycles as they prevent zero from being a stable steady state concentration.
     Another example of the effects of addition of an input flux to an autocatalytic cycle is the input flux of fructose-6-phosphate from the catabolism of starch into the CBB cycle.
     This input flux can be used to 'kick start' the cycle without using the intermediate metabolites of the cycle.
-    \begin{figure}[h!]
-        \centering{
-            \input{autocatalytic-with-input.tex}}
-      \caption{\label{fig:inputcycle}
-        (A) A simple autocatalytic cycle with a fixed input flux, $f_i$.
-        A steady state occurs when $f_a+f_i=f_b$.
-        If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
-        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
-      }
-    \end{figure}
     \subsubsection{Stability analysis for multiple-reaction cycles}
     It is useful to extend the simple criteria we derived to more complex autocatalytic cycles.
     In such cycles the criteria for existence of a steady state become complex and detail specific.
     We therefore focus on evaluating stability of such cycles, under the assumption that a non-zero steady state exists, which is often known from experimental measurements.
     The most straightforward extension is for cycles with more than one intermediate metabolite.
+
     We start by writing the relevant equations for the two-metabolite autocatalytic cycle depicted in figure \ref{fig:multiple}A.
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two branch reactions, $f_{b_1}$ and $f_{b_2}$.
     We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1:2$ ratio.
@@ -279,42 +295,9 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
         (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
     \end{equation*}
     which is satisfied if $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$.
-    
-    The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
-    We again arbitrarily assume that the autocatalytic reaction is the last reaction, $f_{a_n}$, and that the autocatalysis is in a $1:2$ ratio.
 
-    In this case, steady state implies that the concentration of each intermediate metabolite is conserved, meaning that for all $i>1$:
-    \begin{equation*}
-      \dot{X_i}=0 \Rightarrow f_{a_{i-1}}-f_{a_i}-f_{b_i}=0 \Rightarrow f_{a_{i-1}} \geq f_{a_i}
-    \end{equation*}
-    (for $i=1$, as $f_{a_n}$ is the autocatalytic reaction, we get that $2*f_{a_{n}} \geq f_{a_1}$).
-    Also, because at steady state the total outgoing flux from the cycle must balance the total incoming flux into the system, which is the amount of autocatalysis carried out by $f_{a_n}$, we get that:
-    \begin{equation*}
-      \sum_{i=1}^n f_{b_i}=f_{a_n}
-  \end{equation*}
-implying that for all $i$: $f_{b_i} \leq f_{a_n}$.
-
-    Deriving stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (see methods).
-
-    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that for all $i$:
-    \begin{equation}
-        f_{b_i} \leq f_{a_n} \leq f_{a_i}
-      \label{eq:complexstst}
-    \end{equation}
-    A sufficient condition for such a steady state point to be stable is that at the steady state point there exists at least one branching point $i$ at which the derivative of the branch reaction is larger than the derivative of the equivalent autocatalytic reaction:
-    \begin{equation}
-      \beta_i > \alpha_i
-      \label{eq:complexstab}
-    \end{equation}
-    Using the connection between derivatives of reactions and saturation levels (see Methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of a single branch reaction will be lower than the saturation of the corresponding autocatalytic reaction:
-    \begin{equation}
-        S(f_{b_i}) < S(f_{a_i})
-      \label{eq:complexsat}
-    \end{equation}
-
-
-\begin{figure}[h!]
-  \centering 
+\begin{figure}[!htb]
+  \centering
       \input{complex-autocatalytic-cycles.tex}
      \caption{
      Multiple-reaction autocatalytic cycles with a single assimilating reaction.
@@ -326,20 +309,60 @@ implying that for all $i$: $f_{b_i} \leq f_{a_n}$.
  }
      \label{fig:multiple}
 \end{figure}
+
+    The two-metabolites cycle case can be easily extended for a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
+    We again arbitrarily assume that the autocatalytic reaction is the last reaction, $f_{a_n}$, and that the autocatalysis is in a $1:2$ ratio.
+
+    In this case, steady state implies that the concentration of each intermediate metabolite is conserved, meaning that for all $i>1$:
+    \begin{equation}
+        \label{eq:complexdecrease}
+      \dot{X_i}=0 \Rightarrow f_{a_{i-1}}-f_{a_i}-f_{b_i}=0 \Rightarrow f_{a_{i-1}} \geq f_{a_i}
+    \end{equation}
+    (for $i=1$, as $f_{a_n}$ is the autocatalytic reaction, we get that $2*f_{a_{n}} \geq f_{a_1}$).
+    Also, because at steady state the total outgoing flux from the cycle must balance the total incoming flux into the system, which is the amount of autocatalysis carried out by $f_{a_n}$, we get that:
+    \begin{equation*}
+      \sum_{i=1}^n f_{b_i}=f_{a_n}
+  \end{equation*}
+implying that for all $i$:
+    \begin{equation}
+        \label{eq:complexsmallbranch}
+        f_{b_i} \leq f_{a_n}
+  \end{equation}
+
+    Deriving stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (see methods).
+
+    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that for all $i$:
+    \begin{equation}
+        f_{b_i} \leq f_{a_n} \leq f_{a_i}
+      \label{eq:complexstst}
+    \end{equation}
+    Where the left inequality is due to Equation \ref{eq:complexsmallbranch} and the right inequality is due to Equation \ref{eq:complexdecrease}.
+
+    A sufficient condition for such a steady state point to be stable is that at the steady state point there exists at least one branching point $i$ at which the derivative of the branch reaction is larger than the derivative of the equivalent autocatalytic reaction:
+    \begin{equation}
+      \beta_i > \alpha_i
+      \label{eq:complexstab}
+    \end{equation}
+    Using the connection between derivatives of reactions and saturation levels (see Methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of a single branch reaction, denoted $S(f)$, will be lower than the saturation of the corresponding autocatalytic reaction:
+    \begin{equation}
+        S(f_{b_i}) < S(f_{a_i})
+      \label{eq:complexsat}
+    \end{equation}
+    This condition also dictates that the affinity of the branch reaction to the intermediate metabolite of the cycle it consumes must be lower than the affinity of the corresponding recycling reaction of the cycle.
     \subsubsection{Using different kinetics equations}
     Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
-    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point at least one derivative of an outgoing reaction out of the cycle should be higher than the derivative of the corresponding autocatalytic reaction, as is implied by equation \ref{eq:complex}, to enforce stability in the presence of small perturbations.
+    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point at least one derivative of an outgoing reaction out of the cycle should be higher than the derivative of the corresponding autocatalytic reaction, as is implied by equation \ref{eq:complexstab}, to enforce stability in the presence of small perturbations.
     Therefore, these two conditions should be explicitly evaluated for every case with different kinetic equations and autocatalytic cycles topologies to assert whether it can carry stable fluxes or not.
 
     \subsection{Testing the predictions of the analysis with experimental data on functioning autocatalytic cycles}
-    To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux in vivo.
-    We used recent in-vivo flux measurements from \cite{Gerosa2015-oq}.  
+    To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux in-vivo.
+    We used recent in-vivo flux measurements in \emph{E.coli} from \cite{Gerosa2015-oq}.
     According to the data, two autocatalytic cycles carry substantial flux under at least one of the growth conditions measured:
-    a cycle using the PTS transport system carries significant fluxes at growth in glucose and fructose;
-    the glyoxylate cycle carries significant flux at growth in galactose and acetate.
+    a cycle using the PTS transport system carries significant fluxes in growth on glucose and on fructose;
+    the glyoxylate cycle carries significant flux in growth on galactose and on acetate.
 
-    As noted above, a key design principle that functioning auto catalytic cycles require is that at least one branch reaction should be less saturated than the corresponding autocatalytic reaction.
-    We stress again that this requirement is sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
+    As noted above, we predict a key design principle for functioning autocatalytic cycles: that at least one branch reaction should be less saturated than the corresponding autocatalytic reaction.
+    This requirement is sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
     To evaluate the saturation level of a reaction under a given condition, two values must be obtained:
     \begin{enumerate}
       \item The maximal flux capacity of the reaction under the given condition, $V_{\max}$.
@@ -350,29 +373,7 @@ implying that for all $i$: $f_{b_i} \leq f_{a_n}$.
     We used the data from \cite{Gerosa2015-oq} to identify the major branch points in each functioning cycle and the flux distributions in them under each of the relevant conditions.
     The results are presented in figure \ref{fig:branch}.
 
-    Our results show that for any of the 4 functioning autocatalytic cycle cases, in at least one branch point the biomass generating branch reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction, in accordance with our predictions.
-    Moreover, out of 9 branch points analyzed, in 6 branch points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branch points the saturation levels were similar, and only in one branch point the auto catalytic reaction was less saturated than the branching reaction.
-
-    The branch point at which the autocatalytic reaction is less saturated than the branch reaction is the branch point in fructose-1,6-bisphosphate at growth with fructose as the carbon source.
-    The high saturation of the branch reaction arises as a large flux is reported for the fbp reaction, whereas the corresponding enzyme is not highly expressed.
-    This relation in saturation levels may result due to neglecting transport of fructose as fructose-6-phosphate, and not fructose-1,6-bisphosphate, which is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}, and which was neglected in the data analysis in \cite{Gerosa2015-oq}.
-    We note that assuming $20\%$ of transported fructose is converted directly to f6p suffices in order to balance the saturation levels for the autocatalytic reaction and the branching reaction.
-
-    The consistently lower saturation values of biomass generating branch reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
-    Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their derivatives are higher, ensuring stable operation of the cycle.
-
-    Another demonstration of the autocatalytic mechanism being at play is in the CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available.
-    This cycle has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovsky2016-jy}.
-    The experimentally observed key evolutionary event enabling the functioning of the CBB cycle, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, PRS, reducing its affinity to its substrate, ribose-5p.
-
-    The other examples of autocatalytic cycles we found did not carry flux in any of the conditions for which data was available.
-    The PP cycle variants do not carry flux in any of the measured conditions, which is expected given that growth on ribose was not measured.
-    The gluconeogenic FBA with ED pathway cycle also did not carry flux in any of the measured conditions.
-    Although glycerol could have been a potential carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, as was indeed observed.
-
-    To conclude, while thorough knowledge of the kinetic properties, concentrations and fluxes under various growth conditions is sparse, existing data supports predictions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
-
-\begin{figure}[h!]
+\begin{figure}[!htb]
 \centering
 \resizebox{1\linewidth}{!}{
     \input{experimental-fluxes.tex}
@@ -389,6 +390,32 @@ implying that for all $i$: $f_{b_i} \leq f_{a_n}$.
     \label{fig:branch}
 \end{figure}
 
+    Our results show that for any of the 4 functioning autocatalytic cycle cases, in at least one branch point the biomass generating branch reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction, in accordance with our predictions.
+    Moreover, out of 9 branch points analyzed, in 6 branch points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branch points the saturation levels were similar, and only in one branch point the auto catalytic reaction was less saturated than the branching reaction.
+
+    The branch point at which the autocatalytic reaction is less saturated than the branch reaction is the branch point from fructose-1,6-bisphosphate in growth on fructose as the carbon source.
+    The high saturation of the branch reaction arises as a large flux is reported for the fbp reaction, whereas the corresponding enzyme is not highly expressed under this condition.
+    The large reported flux through fbp arises due to assuming a single transport pathway for fructose, entering the cycle as fructose-1,6-bisphosphate.
+    However, an alternative fructose transport pathway is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}.
+    The alternative transport pathway produces fructose-6-phosphate from external fructose.
+    Therefore, any flux through the alternative transport pathway should be directly deduced from the flux through fbp.
+    Assuming $20\%$ of the consumed fructose uses this pathway suffices in order to balance the saturation levels at the fructose-1,6-bisphosphate branch point.
+
+    The consistently lower saturation values of biomass generating branch reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
+    Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their derivatives are higher, ensuring stable operation of the cycle.
+
+    Another demonstration of the autocatalytic mechanism being at play is in the CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available.
+    This cycle has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovsky2016-jy}.
+    The experimentally observed key evolutionary event enabling the functioning of the CBB cycle, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, PRS, reducing its affinity to its substrate, ribose-5p.
+    The observed reduction in affinity of PRS is directly in line with our predictions on the relationship between the affinity of branch reactions and the affinity of the corresponding autocatalytic reactions.
+
+    The other examples of autocatalytic cycles we found did not carry flux in any of the conditions for which data was available.
+    The penthose-phosphate cycle variants do not carry flux in any of the measured conditions, which is expected given that growth on ribose was not measured.
+    The gluconeogenic FBA with ED pathway cycle also did not carry flux in any of the measured conditions.
+    Although glycerol could have been a potential carbon source to use this pathway, the metabolic network allows for a more energy efficient growth by using the tpi reaction, as was indeed observed.
+
+    To conclude, existing data supports predictions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
+    This agreement between predictions and measurements is especially encouraging given the highly limited information on kinetic properties, concentrations, and fluxes under various growth conditions.
 
 \section{Discussion}
 Our study into the dynamics and stability of autocatalytic cycles suggests design principles applicable to both synthetic biology, in the effort to express novel heterologous cycles, and in the context of systems biology that aims to understand the function of natural networks.
@@ -402,8 +429,9 @@ Here we show that in the context of autocatalytic cycles, such a successful expr
 Specifically, changes to some of the kinetic parameters of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
 
 Another aspect of our findings is that while it is common to assume that high affinity and catalytic rate are desirable traits for enzymes, in the context of autocatalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in some of them deleterious for the functioning of the cycle.
+Furthermore, for reactions branching out of autocatalytic cycles, lower affinities increase the steady state concentration of intermediate metabolites, resulting in higher fluxes both through the cycle, and through the branch reaction, suggesting an unconventional strategy for optimizing fluxes through such reactions.
 
-A recent demonstration of these principles in vivo is the implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovsky2016-jy}.
+A recent demonstration of these principles in-vivo is the implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovsky2016-jy}.
 The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve successful operation of the cycle.
 Most changes occurred in branch points from the cycle.
 The change which was biochemically characterized in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for flux out of the CBB cycle, corresponding to the branch reaction in our simple model.

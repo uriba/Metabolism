@@ -35,7 +35,7 @@
 
     \pgfmathsetlength{\headlinedist}{0.3cm}
     %prediction
-  \begin{scope}[shift={(-6cm,0cm)}]
+  \begin{scope}[shift={(-2cm,0cm)}]
       \node[ratioRect] (prediction) {\textbf{Prediction:} $\mathbf{\color{branchout}XX\%}\leq\mathbf{\color{autocatacyc}YY\%}$};
   \end{scope}
   %Galactose
@@ -180,7 +180,7 @@
   \end{scope}
 
   %Glucose
-  \begin{scope}[shift={(2cm,0cm)},visible on=<3->,font=\fontsizedef]
+  \begin{scope}[shift={(8.5cm,-0.2cm)},visible on=<3->,font=\fontsizedef]
     \def\glucmaxflux{0.35mm}
     \def\glucpgi{5.7*\glucmaxflux}
     \def\gluccapvalpgi{100}
@@ -258,7 +258,7 @@
   \end{scope}
 
   %Fructose
-  \begin{scope}[shift={(8.5cm,0cm)},visible on=<3->,font=\fontsizedef]
+  \begin{scope}[shift={(2cm,-1.5cm)},visible on=<3->,font=\fontsizedef]
     \def\frucmaxflux{0.35mm}
     \def\frucfbp{2.46*\frucmaxflux}
     \def\fruccapvalfbp{100}
