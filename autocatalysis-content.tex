@@ -129,7 +129,8 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
       \dot X = \frac{dX}{dt} = 2f_a - (f_a + f_b) = 0
     \end{equation}
 
-    Expanding this condition we get:
+    Intuitively, at steady state, the branch reaction must consume all the excess intermediate metabolite that is produced by the autocatalytic reaction.
+    Indeed, expanding the condition above gives:
     \begin{equation*}
       f_a = f_b \Rightarrow \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
@@ -272,7 +273,12 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     We start by writing the relevant equations for the two-metabolite autocatalytic cycle depicted in figure \ref{fig:multiple}A.
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two branch reactions, $f_{b_1}$ and $f_{b_2}$.
     We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1:2$ ratio.
-    We note that in steady state, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, as the total outgoing flux must balance the total increase of intermediate metabolites due to autocatalysis.
+    The equations describing the dynamics of the system are thus:
+    \begin{align*}
+        \dot{X_1} & =2f_{a_2}-f_{a_1}-f_{b_1} \\
+        \dot{X_2} & =f_{a_1}-f_{a_2}-f_{b_2}
+    \end{align*}
+    We note that in steady state, where $0=\dot{X_1}=\dot{X_2}$, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, as the total outgoing flux must balance the total increase of intermediate metabolites due to autocatalysis.
     Given that a steady state of the system exists for some value $(X_1^*,X_2^*)$, we can evaluate the condition for stability.
     In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative.
     We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$.
@@ -295,6 +301,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
         (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
     \end{equation*}
     which is satisfied if $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$.
+    Therefore, if either $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$ at the steady state, then the steady state is stable.
 
 \begin{figure}[!htb]
   \centering
@@ -391,7 +398,7 @@ implying that for all $i$:
 \end{figure}
 
     Our results show that for any of the 4 functioning autocatalytic cycle cases, in at least one branch point the biomass generating branch reaction has a larger maximal flux capacity, and is considerably less saturated than the respective autocatalytic reaction, in accordance with our predictions.
-    Moreover, out of 9 branch points analyzed, in 6 branch points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branch points the saturation levels were similar, and only in one branch point the auto catalytic reaction was less saturated than the branching reaction.
+    Moreover, out of 9 branch points analyzed, in 6 branch points the branching reactions were significantly less saturated than the autocatalytic reactions, in 2 branch points the saturation levels were similar, and only in one branch point the autocatalytic reaction was less saturated than the branching reaction.
 
     The branch point at which the autocatalytic reaction is less saturated than the branch reaction is the branch point from fructose-1,6-bisphosphate in growth on fructose as the carbon source.
     The high saturation of the branch reaction arises as a large flux is reported for the fbp reaction, whereas the corresponding enzyme is not highly expressed under this condition.
@@ -421,30 +428,33 @@ implying that for all $i$:
 Our study into the dynamics and stability of autocatalytic cycles suggests design principles applicable to both synthetic biology, in the effort to express novel heterologous cycles, and in the context of systems biology that aims to understand the function of natural networks.
 
 Our autocatalytic modeling framework gives concrete predictions on saturation levels of branch reactions for operating autocatalytic cycles.
-These predictions are in line with existing fluxomics and proteomics data sets.
-    The model can therefore be used to shed more light on seemingly wasteful investment in the expression of enzymes the capacity of which is not fully utilized, as well as for highlighting at what metabolic branch points enzymes kinetic efficiency may be constrained due to stability requirements of a corresponding autocatalytic cycle.
+We find these predictions agree well with empirically measured fluxomics and proteomics data sets.
+    The model can be used to shed light on seemingly wasteful investment in the expression of enzymes whose capacity is not fully utilized.
+    The model can also highlight metabolic branch points at which the kinetic efficiency of  enzymes is constrained due to stability requirements of a corresponding autocatalytic cycle.
 
 A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in the target organism.
-Here we show that in the context of autocatalytic cycles, such a successful expression may not suffice.
-Specifically, changes to some of the kinetic parameters of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
+Here we show that in the context of autocatalytic cycles, such expression modulation may not suffice.
+Specifically, changes to the substrate affinity of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
 
-Another aspect of our findings is that while it is common to assume that high affinity and catalytic rate are desirable traits for enzymes, in the context of autocatalytic cycles, constraints may exist on the relations between these kinetic parameters across different enzymes rendering improvements in some of them deleterious for the functioning of the cycle.
+Another aspect of our findings is that while it is common to assume that high affinity and catalytic rate are desirable traits for enzymes, such seeming improvements may actually lead to instability and thus to non functional metabolic cycles.
 Furthermore, for reactions branching out of autocatalytic cycles, lower affinities increase the steady state concentration of intermediate metabolites, resulting in higher fluxes both through the cycle, and through the branch reaction, suggesting an unconventional strategy for optimizing fluxes through such reactions.
 
-A recent demonstration of these principles in-vivo is the implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovsky2016-jy}.
+An experimental demonstration of these principles in-vivo is the recent implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovsky2016-jy}.
 The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve successful operation of the cycle.
-Most changes occurred in branch points from the cycle.
-The change which was biochemically characterized in the evolutionary process was the decrease of the affinity of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for flux out of the CBB cycle, corresponding to the branch reaction in our simple model.
-This is beautifully in line with the predictions of our analysis that suggest that a decrease in the $\sfrac{K_{\text{cat}}}{K_M}$ of branch reactions is a change that can lead to the existence of a stable flux solution.
+Strikingly, most evolutionary changes occurred in branch points from the cycle.
+The change which was biochemically characterized in the evolutionary process was the decrease of the value of $\sfrac{k_{\text{cat}}}{K_M}$ of phosphoribosylpyrophosphate synthetase (PRS), one of the enzymes responsible for flux out of the CBB cycle, corresponding to the branch reaction in our simple model.
+This is beautifully in line with the predictions of our analysis that suggest that decreasing $\sfrac{V_{\max}}{K_M}$ of branch reactions can lead to the existence of a stable flux solution.
 
-Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle may provide some means to mitigate the stability issue in synthetic biology metabolic engineering setups, allowing for a pathway to gradually evolve towards sustainable, substantial flux.
-This observation may also highlight the importance of seemingly redundant reactions such as those catalyzed by tpi, at growth under glycerol, and by rpi, at growth under ribose.
+Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle can provide means to mitigate the stability issue in synthetic biology metabolic engineering setups.
+In such setups, conducting directed evolution under gradually decreasing input fluxes allows for a pathway to gradually evolve towards sustainable, substantial flux.
+This observation may also highlight the importance of seemingly redundant reactions such the one catalyzed by rpi, in growth on ribose.
 
 While autocatalytic cycles are usually considered a small part of metabolism, we find that such cycles are at the heart of central carbon metabolism.
-The examples of autocatalytic cycles we provide, as well as our verified predictions on the usage of enzymes catalyzing reactions branching out of such cycles, suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may constrain the parameters of a broad set of enzymes central to metabolism.
+We use recent measurements to support our predictions on the usage of enzymes catalyzing reactions branching out of such cycles.
+Our observations suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may limit the parameters of a broad set of enzymes central to metabolism.
 
   Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and production in glycolysis), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
-  The analysis we present here can thus be of wider relevance for the design and analysis of metabolic networks.
+  The analysis we present here can thus be of wide relevance for the design and analysis of metabolic networks.
 
   \section{Methods}
   \subsection{Formal definition of an autocatalytic metabolic cycle}
@@ -477,7 +487,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   The nodes of G are all the metabolites and all the reactions of the network.
   For each metabolite, $M$, and each reaction, $R$, if $M$ is a substrate of $R$ then the edge $(M,R)$ is added to the graph, and if $M$ is a product of $R$, then the edge $(R,M)$ is added to the graph.
     \item The Tarjan cycle identification algorithm is used to enumerate all the cycles in the graph \cite{Tarjan1973-gn}.
-    \item for every cycle identified by the Tarjan algorithm, $C$, the algorithm checks if the cycle can be the backbone of an auto catalytic cycle as follows:
+    \item for every cycle identified by the Tarjan algorithm, $C$, the algorithm checks if the cycle can be the backbone of an autocatalytic cycle as follows:
         \begin{enumerate}
             \item For every reaction in the cycle, $R$, the algorithm checks if it consumes more than one  intermediate metabolite of the cycle.
               If so, $C$ is assumed not to be autocatalytic and the algorithm continues to evaluate the next cycle.
@@ -511,7 +521,14 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
     \end{equation}
 
   To extract the conditions under which all the roots of the characteristic polynomial have negative real parts we use Rouche's theorem.
-  We pick a large parameter $R$, such that $R>3\max_j(\alpha_j+\beta_j)$.
+  Our strategy will be as follows:
+  We will define a contour that contains only numbers with negative real parts.
+  We will show that all the roots of the polynomial $0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)$ lie within the area this contour encloses.
+  We will find the conditions for which  $|\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)|>2\prod_{i=1}^n\alpha_i$ on the contour, satisfying the premise of Rouche's theorem.
+  We will then claim that under these conditions all the roots of the polynomial in Equation \ref{eq:complex} must also lie inside the contour, and therefore must have negative real parts.
+  Given that all the roots of this polynomial have negative real parts, we will conclude that the eigenvalues of the Jacobian matrix at the steady state point all have negative real parts, making the steady state point stable.
+
+  \paragraph{Proof:} We pick a large parameter $R$, such that $R>3\max_j(\alpha_j+\beta_j)$.
   We look at the closed half circle contour, $K$, composed of the segment $[(0,-iR),(0,iR)]$ and the half circle arc $(x,iy)$ such that $x\leq 0$ and $x^2+y^2=R^2$.
   We define 
   \begin{equation*}
