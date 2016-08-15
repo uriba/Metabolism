@@ -1,5 +1,6 @@
 \documentclass[a4page,notitlepage]{article}
 \input{preamble.tex}
+\usepackage{authblk}
 \toggletrue{article}
 \togglefalse{eddpathway}
 
@@ -12,20 +13,30 @@
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
 \renewcommand\thesubsubsection{}
-\title{Design principles of autocatalytic cycles constrain kinetic parameters and force over-expression of enzymes at flux branch points}
-\author{Uri Barenholz, Dan Davidi, Ed Reznik, Yinon Bar-On, Niv Antonovsky, Elad Noor, Ron Milo}
+\title{Design principles of autocatalytic cycles constrain enzyme kinetics and force over-expression at flux branch points}
+
+\author[1]{Uri Barenholz}
+\author[1]{Dan Davidi}
+\author[2,3]{Ed Reznik}
+\author[1]{Yinon Bar-On}
+\author[1]{Niv Antonovsky}
+\author[4]{Elad Noor}
+\author[1]{Ron Milo}
+\affil[1]{Department of Plant and Environmental Sciences, The Weizmann Institute of Science}
+\affil[2]{Computational Biology Program, Memorial Sloan Kettering Cancer Center}
+\affil[3]{Center for Molecular Oncology, Memorial Sloan Kettering Cancer Center}
+\affil[4]{Institue of Molecular Systems Biology, ETH Zurich}
 \date{}
 \begin{document}
 \input{varsdefs.tex}
 \maketitle
 \abstract{
-    A set of chemical reactions that require a metabolite in order to synthesize excess amount of that metabolite is an autocatalytic cycle.
-    We show that most reactions in central carbon metabolism take part in compact autocatalytic cycles.
-    Using the most simple form of a metabolic autocatalytic cycle, we derive design principles necessary to enable stable fluxes through such cycles.
-    We discuss extensions of the simple model including the effects of external fluxes into the cycle, showing their functional role.
-    We find that for stable fluxes through an autocatalytic cycle to occur, the recycling reactions of the cycle must have higher affinity and lower maximal flux than the affinity and maximal flux of at least one branching reaction that consumes the metabolites of the cycle to generate biomass.
-    We find these conditions to hold for functioning autocatalytic cycles in vivo, based on fluxomics and proteomics data.
-    These findings imply that stability of autocatalytic cycles limits the affinity of enzymes in the metabolic network and forces excess expression of enzymes that catalyze the reactions consuming metabolites of the cycle.
+A set of chemical reactions that require a metabolite to synthesize more of that metabolite is an autocatalytic cycle.
+Such metabolic designs must meet specific conditions to support stable fluxes, hence avoiding depletion of intermediate metabolites.
+Here we show that most of the reactions in central carbon metabolism are part of compact autocatalytic cycles.
+As such, they are subjected to constraints that may seem irrational: the enzymes of branch reactions out of the cycle must be overexpressed and the affinity of these enzymes to their substrates must be relatively low.
+We use recent quantitative proteomics and fluxomics measurements to show that the above conditions hold for all functioning cycles in central carbon metabolism of \emph{E.coli}.
+This work demonstrates that the topology of a metabolic network can shape kinetic parameters of enzymes and lead to apparently reduced enzyme efficiency.
 }
 \input{autocatalysis-content.tex}
 \section{Acknowledgments}
