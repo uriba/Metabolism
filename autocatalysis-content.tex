@@ -42,7 +42,7 @@
     We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as critical values that determine whether the cycle can stably operate.
     We show that the affinity of enzymes consuming intermediate metabolites of autocatalytic cycles must be limited to prevent drainage of these metabolites.
     Moreover, we show that stable operation of such cycles requires excess expression of these enzymes, resulting in a seemingly inefficient expression pattern that does not utilize the full catalytic capacity of such enzymes.
-    We point that, for enzymes consuming intermediate metabolites of autocatalytic cycles, there is a reverse relationship between the affinity of the enzyme and the flux it carries.
+    We point that for enzymes consuming intermediate metabolites of autocatalytic cycles there is a reverse relationship between the affinity of the enzyme and the flux it carries.
     Therefore, for these enzymes, the lower the affinity to the substrate is, the higher the flux the reaction will carry, which is opposite to the normal relationship between affinities and fluxes.
     We use recent fluxomics and proteomics data to test these design principles.
     We find them to hold in cases at which autocatalytic cycles support flux.
@@ -53,8 +53,8 @@
 \subsection{Autocatalytic cycles play important roles in central carbon metabolism}
 Different definitions exist for autocatalytic sets in the context of chemical reaction networks \cite{Hordijk2004-xe, Eigen2012-ti, Kun2008-xg}.
 Here we define an autocatalytic cycle as a set of reactions and metabolites that form a cycle, and that, when the reactions are applied to the substrates at appropriate ratios, increase the amount of the intermediate metabolites.
-A simple example of a metabolic autocatalytic cycle is shown in Figure \ref{fig:autocataldef}, where an internal metabolite joins with an external assimilated metabolite to give rise to $1+\gamma$ copies of the internal metabolite, representing an increase by $\gamma$ copies.
-For stable operation, $\gamma$ copies have to branch out of the cycle, and this consumption must be robust to small fluctuations in enzyme levels and metabolite concentrations.
+A simple example of a metabolic autocatalytic cycle is shown in Figure \ref{fig:autocataldef}, where an internal metabolite joins with an external assimilated metabolite to give rise to $1+\delta$ copies of the internal metabolite, representing an increase by $\delta$ copies.
+For stable operation, $\delta$ copies have to branch out of the cycle, and this consumption must be robust to small fluctuations in enzyme levels and metabolite concentrations.
 For a formal, mathematical definition, see the methods section.
 
 \begin{figure}[!htb]
@@ -62,7 +62,7 @@ For a formal, mathematical definition, see the methods section.
         \input{autocatalytic-cycle.tex}}
 \caption{
     \label{fig:autocataldef}
-  A basic autocatalytic cycle requires an internal metabolite to be present in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite by some amount, $\gamma$.}
+  A basic autocatalytic cycle requires an internal metabolite to be present in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite by some amount, $\delta$.}
 \end{figure}
  
 While rarely discussed as such, a systematic search in central carbon metabolism of \emph{E.coli} (see methods) shows the ubiquity of autocatalytic cycles.
@@ -124,6 +124,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     We note that knowing the concentration of $X$ suffices in order to calculate the fluxes originating from it, $f_a$ and $f_b$, thus fully defining the state of the system.
     A steady state of the system is defined as a concentration, $X^*$, which induces fluxes that keep the concentration constant, such that the total in-flux to $X$ is exactly equal to the total out-flux from it.
     In our example, the outgoing flux from $X$ is $f_a+f_b$ and the incoming flux to $X$ is $2f_a$, so at steady state it holds that:
+
     \begin{equation}
       \label{eq:xdyna}
       \dot X = \frac{dX}{dt} = 2f_a - (f_a + f_b) = 0
@@ -131,15 +132,18 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
 
     Intuitively, at steady state, the branch reaction must consume all the excess intermediate metabolite that is produced by the autocatalytic reaction.
     Indeed, expanding the condition above gives:
+
     \begin{equation*}
       f_a = f_b \Rightarrow \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
     which is satisfied either if $X=0$ or if:
+
     \begin{equation}
       \label{eq:xstst}
       X=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}
     \end{equation}
     The concentration of $X$ cannot be negative, and thus we get a constraint on the kinetic parameters for which a positive steady state exists:
+
     \begin{equation*}
       \frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{M,b}}-\frac{V_{\max,a}}{K_{M,a}}}{V_{\max,a}-V_{\max,b}}>0
     \end{equation*}
@@ -168,10 +172,12 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     This steady state is thus stable if $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$, corresponding to the magenta domain in figure \ref{fig:simplecycle}B, containing cases (I) and (IV), and unstable otherwise.
 
     The stability criterion can be generally stated in metabolic control terms \cite{Fell1997-bp} using the notion of elasticity coefficients of reactions, defined as:
+
     \begin{equation*}
     \varepsilon^f_X=\frac{\partial f}{\partial X}\frac{X}{f}
     \end{equation*}
     In these terms, stability is obtained if and only if the elasticity of the branch reaction at the positive steady state concentration is greater than the elasticity of the autocatalytic reaction:
+
     \begin{equation*}
         \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow \varepsilon^{f_b}_X>\varepsilon^{f_a}_X
     \end{equation*}
@@ -183,7 +189,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     The domains above the diagonal (cases (II) and (III)) are the domains where $X^*=0$ is a stable steady state concentration, so that the other steady state, if it exists, is unstable.
 
     Aside from existence and stability, a quantitative relationship between the affinity of the biomass generating, branching reaction and the flux it carries can be obtained.
-    This relationship is reverse to the standard one, meaning that unlike the common case where $f\propto\frac{1}{K_M}$, in this case, when substituting the steady state concentration from Equation \ref{eq:xstst} into the flux equation for $f_b$, we get that:
+    This relationship is opposite to the standard one, meaning that unlike the common case where $f\propto\frac{1}{K_M}$, in this case, when substituting the steady state concentration from Equation \ref{eq:xstst} into the flux equation for $f_b$, we get that:
 
     \begin{equation*}
         f_b=\frac{V_{\max,b}X}{K_{M,b}+X}=\frac{V_{\max,b}\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}}{K_{M,b}+\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}}=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{K_{M,a}-K_{M,b}}
@@ -214,14 +220,14 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     Our didactic exemplary analysis considered an autocatalytic reaction with $1:2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
     Real-world autocatalytic cycles may have different stoichiometries.
     For example, the CBB cycle has a stoichiometry of $5:6$ so that for every five molecules of 5-carbon sugars that the autocatalytic reaction consumes, six 5-carbon sugars are produced.
-    We can generalize our analysis by defining a positive $\gamma$ such that for every molecule of $X$ that $f_a$ consumes, it produces $1+\gamma$ molecules of $X$, where $\gamma$ may be a fraction.
+    We can generalize our analysis by defining a positive $\delta$ such that for every molecule of $X$ that $f_a$ consumes, it produces $1+\delta$ molecules of $X$, where $\delta$ may be a fraction.
     This extension implies that equation \eqref{eq:xdyna} becomes:
 
     \begin{equation*}
-      \dot X = \frac{dX}{dt} = (1+\gamma)f_a - (f_a + f_b) = 0 \Rightarrow \gamma f_a = f_b \Rightarrow \frac{\gamma V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
+      \dot X = \frac{dX}{dt} = (1+\delta)f_a - (f_a + f_b) = 0 \Rightarrow \delta f_a = f_b \Rightarrow \frac{\delta V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
 
-    Therefore, all of the results above can be extended to different stoichiometries by replacing $V_{\max,a}$ with $\gamma V_{\max,a}$.
+    Therefore, all of the results above can be extended to different stoichiometries by replacing $V_{\max,a}$ with $\delta V_{\max,a}$.
     As a result, the qualitative conditions and observations from the $1:2$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
 \subsubsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Autocatalytic cycles are embedded within a larger metabolic network.
@@ -229,6 +235,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     For example, in the glucose based, PTS-dependent autocatalytic cycle, the existence of alternative transporters can generate flux of glucose 6-phosphate into the cycle without the use of PEP \cite{Ferenci1996-nv}.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
+
     \begin{equation*}
       \dot X = \frac{dX}{dt} = f_i + f_a - f_b = 0
     \end{equation*}
@@ -237,11 +244,12 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     This case therefore differs from the case with no input flux analyzed above, as now a positive stable steady state can always be achieved by modifying only $V_{\max,a}$ and/or $V_{\max,b}$.
     In this setup, cells can therefore tune the expression levels of enzymes to meet the needs of a stable steady state flux.
 
+
     \begin{figure}[!htb]
         \centering{
             \input{autocatalytic-with-input.tex}}
       \caption{\label{fig:inputcycle}
-        (A) A simple autocatalytic cycle with a fixed input flux, $f_i$.
+        (A) The effect of a fixed input flux, $f_i$, on the possible steady states of a simple autocatalytic cycle.
         A steady state occurs when $f_a+f_i=f_b$.
         If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
         If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
@@ -250,6 +258,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
 
     In cases where $V_{\max,b}<f_i+V_{\max,a}$ either no steady states exist (Figure \ref{fig:inputcycle} (II)), or two positive steady states exist (Figure \ref{fig:inputcycle} (III)).
     The latter case implies that there exists a positive concentration $X$ that satisfies:
+
     \begin{equation*}
         \dot X = 0 \Rightarrow f_i + f_a(X) - f_b(X) = 0 \Rightarrow f_i+\frac{V_{\max,a}X}{K_{M,a}+X} = \frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
@@ -263,7 +272,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
   In the glycerone-phosphate assimilating cycle (Figure \ref{fig:extrasamps2}), the tpi reaction similarly serves as such a shortcut.
   In these two cases, these shortcuts relax the constraints imposed by strict use of the corresponding autocatalytic cycles as they prevent zero from being a stable steady state concentration.
     Another example of the effects of addition of an input flux to an autocatalytic cycle is the input flux of fructose-6-phosphate from the catabolism of starch into the CBB cycle.
-    This input flux can be used to 'kick start' the cycle without using the intermediate metabolites of the cycle.
+    This input flux can be used to 'kick start' the cycle even without using the intermediate metabolites of the cycle.
     \subsubsection{Stability analysis for multiple-reaction cycles}
     It is useful to extend the simple criteria we derived to more complex autocatalytic cycles.
     In such cycles the criteria for existence of a steady state become complex and detail specific.
@@ -274,16 +283,18 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two branch reactions, $f_{b_1}$ and $f_{b_2}$.
     We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1:2$ ratio.
     The equations describing the dynamics of the system are thus:
+
     \begin{align*}
         \dot{X_1} & =2f_{a_2}-f_{a_1}-f_{b_1} \\
         \dot{X_2} & =f_{a_1}-f_{a_2}-f_{b_2}
     \end{align*}
-    We note that in steady state, where $0=\dot{X_1}=\dot{X_2}$, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, as the total outgoing flux must balance the total increase of intermediate metabolites due to autocatalysis.
+    We note that in steady state, where $\dot{X_1}=\dot{X_2}=0$, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, as the total outgoing flux must balance the total increase of intermediate metabolites due to autocatalysis.
     Given that a steady state of the system exists for some value $(X_1^*,X_2^*)$, we can evaluate the condition for stability.
     In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative.
     We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$.
     We note that as we assume Michaelis Menten kinetics, $\alpha_i>0$ and $\beta_i \geq 0$, where $\beta_i=0$ is the case where there is no flux branching out at $i$.
     We then get that the Jacobian matrix is:
+
     \begin{equation*}
         J=
         \begin{pmatrix}
@@ -292,11 +303,13 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
         \end{pmatrix}
     \end{equation*}
     Solving for the characteristic polynomial gives:
+
     \begin{align*}
         0 & =(\lambda+\alpha_1+\beta_1)(\lambda+\alpha_2+\beta_2)-2\alpha_1\alpha_2 \\
         & = \lambda^2+(\alpha_1+\beta_1+\alpha_2+\beta_2)\lambda+(\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2
     \end{align*}
     that has two negative roots when:
+
     \begin{equation*}
         (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
     \end{equation*}
@@ -307,7 +320,7 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
   \centering
       \input{complex-autocatalytic-cycles.tex}
      \caption{
-     Multiple-reaction autocatalytic cycles with a single assimilating reaction.
+     Generalization of analysis to multiple-reaction autocatalytic cycles with a single assimilating reaction.
      (A) A two reaction system.
      (B) A generic $n$-reaction system.
      The system is at steady state when the total consumption of intermediate metabolites by the branch reactions is equal to the flux through the autocatalytic reaction.
@@ -327,10 +340,12 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     \end{equation}
     (for $i=1$, as $f_{a_n}$ is the autocatalytic reaction, we get that $2*f_{a_{n}} \geq f_{a_1}$).
     Also, because at steady state the total outgoing flux from the cycle must balance the total incoming flux into the system, which is the amount of autocatalysis carried out by $f_{a_n}$, we get that:
+
     \begin{equation*}
       \sum_{i=1}^n f_{b_i}=f_{a_n}
   \end{equation*}
 implying that for all $i$:
+
     \begin{equation}
         \label{eq:complexsmallbranch}
         f_{b_i} \leq f_{a_n}
@@ -339,6 +354,7 @@ implying that for all $i$:
     Deriving stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (see methods).
 
     To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that for all $i$:
+
     \begin{equation}
         f_{b_i} \leq f_{a_n} \leq f_{a_i}
       \label{eq:complexstst}
@@ -346,16 +362,19 @@ implying that for all $i$:
     Where the left inequality is due to Equation \ref{eq:complexsmallbranch} and the right inequality is due to Equation \ref{eq:complexdecrease}.
 
     A sufficient condition for such a steady state point to be stable is that at the steady state point there exists at least one branching point $i$ at which the derivative of the branch reaction is larger than the derivative of the equivalent autocatalytic reaction:
+
     \begin{equation}
       \beta_i > \alpha_i
       \label{eq:complexstab}
     \end{equation}
     Using the connection between derivatives of reactions and saturation levels (see Methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of a single branch reaction, denoted $S(f)$, will be lower than the saturation of the corresponding autocatalytic reaction:
+
     \begin{equation}
         S(f_{b_i}) < S(f_{a_i})
       \label{eq:complexsat}
     \end{equation}
     This condition also dictates that the affinity of the branch reaction to the intermediate metabolite of the cycle it consumes must be lower than the affinity of the corresponding recycling reaction of the cycle.
+
     \subsubsection{Using different kinetics equations}
     Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
     Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point at least one derivative of an outgoing reaction out of the cycle should be higher than the derivative of the corresponding autocatalytic reaction, as is implied by equation \ref{eq:complexstab}, to enforce stability in the presence of small perturbations.
@@ -504,6 +523,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   
   \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
   Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
+
   \begin{equation*}
     J=
     \begin{pmatrix}
@@ -515,6 +535,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
      \end{pmatrix}
   \end{equation*}
    The characteristic polynomial of this matrix is given by:
+
     \begin{equation}
         \label{eq:complex}
         0=\prod_{i=1}^n(\lambda+\alpha_i+\beta_i)-2\prod_{i=1}^n\alpha_i
@@ -531,11 +552,13 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \paragraph{Proof:} We pick a large parameter $R$, such that $R>3\max_j(\alpha_j+\beta_j)$.
   We look at the closed half circle contour, $K$, composed of the segment $[(0,-iR),(0,iR)]$ and the half circle arc $(x,iy)$ such that $x\leq 0$ and $x^2+y^2=R^2$.
   We define 
+
   \begin{equation*}
       g(\lambda)=2\prod_{j=1}^n\alpha_j
   \end{equation*}
   noting that it is constant over all of $\mathbb{C}$ and specifically over $K$.
   We define
+
   \begin{equation*}
       f(\lambda)=\prod_{j=1}^n(\lambda+\alpha_j+\beta_j)
   \end{equation*}
@@ -543,18 +566,22 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   We check the conditions under which $|f(\lambda)|>|g(\lambda)|$ over the contour $K$.
 
   For the arc segment we note that, as for complex numbers it holds that $|xy|=|x||y|$, then
+
   \begin{equation*}
       |f(\lambda)|=\prod_{j=1}^n|\lambda+\alpha_j+\beta_j|
   \end{equation*}
   From the triangle inequality we know that $|x+y| \geq |x|-|y|$ and therefore for all $j$ it holds that
+
   \begin{equation*}
       |\lambda+\alpha_j+\beta_j| \geq R-(\alpha_j+\beta_j)
   \end{equation*}
   As we picked $R$ such that $R>3\max_j(\alpha_j+\beta_j)$ we get that 
+
   \begin{equation*}
       R-(\alpha_j+\beta_j)>2(\alpha_j+\beta_j)
   \end{equation*}
   and therefore 
+
   \begin{equation*}
       \prod_{j=1}^n|\lambda+\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j| = |g(\lambda)|
   \end{equation*}
@@ -562,40 +589,47 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
 
   For the part of $K$ on the imaginary axis we note that $\lambda=iy$ where $y\in[-R,R]$.
 For this segment we therefore get that
+
 \begin{equation*}
     |f(\lambda)|=\prod_{j=1}^n|\alpha_j+\beta_j+iy|=\sqrt{\prod_{j=1}^n((\alpha_j+\beta_j)^2+y^2)} \geq \sqrt{\prod_{j=1}^n(\alpha_j+\beta_j)^2}
  \end{equation*} 
  and, as before, that
+
  \begin{equation*}
      |g(\lambda)|=2\sqrt{\prod_{j=1}^n\alpha_j^2}
  \end{equation*}
  To meet the condition that $|f(\lambda)|>|g(\lambda)|$, which is equivalent to: $\frac{|f(\lambda)|}{|g(\lambda)|}>1$, it is sufficient to find the conditions under which:
+
  \begin{equation*}
    \frac{\sqrt{\prod_{j=1}^n(\alpha_j+\beta_j)^2}}{2\sqrt{\prod_{j=1}^n\alpha_j^2}}>1
  \end{equation*}
  Simplifying this inequality gives:
+
  \begin{equation*}
      \frac{1}{2}\sqrt{\prod_{j=1}^n\frac{(\alpha_j+\beta_j)^2}{\alpha_j^2}}= \frac{1}{2}\prod_{j=1}^n\frac{\alpha_j+\beta_j}{\alpha_j}= \frac{1}{2}\prod_{j=1}^n(1+\frac{\beta_j}{\alpha_j})>1 \Rightarrow \prod_{j=1}^n(1+\frac{\beta_j}{\alpha_j})>2
  \end{equation*}
  A sufficient condition to satisfy this inequality, given that all the $\alpha_j$ are positive and all the $\beta_j$'s are non negative, is that there exists $j$ such that $\beta_j > \alpha_j$.
 
  We therefore get that if there exists $j$ such that  $\beta_j > \alpha_j$, then $|f(\lambda)|>|g(\lambda)|$ over the contour $K$.
- In this case, by Rouche's theorem, we deduce that, as all of $f$'s roots lie inside $K$, then it follows that all of $f-g$'s roots lie inside $K$, concluding that the real part of all of the eigen values of the characteristic polynomial of the jacobian matrix of the complex autocatalytic cycle are negative, making any steady state that meets this criterion stable.
+ In this case, by Rouche's theorem, we deduce that, as all of $f$'s roots lie inside $K$, then it follows that all of $f-g$'s roots lie inside $K$, concluding that the real part of all of the eigenvalues of the characteristic polynomial of the Jacobian matrix of the complex autocatalytic cycle are negative, making any steady state that meets this criterion stable.
 
     \subsection{The relationship between derivatives in Michaelis-Menten kinetics dictates an inverse relationship between affinities and saturation levels}
     It turns out that for the Michaelis-Menten kinetics equations, the following useful lemma can be used to connect theoretical observations on the relationships of derivatives to physiological observations on affinities and saturation levels.
 
     We define the saturation level of a reaction as the ratio between the flux it carries, and the maximal flux it can carry, given the expression level of the relevant enzyme, that is:
+
     \begin{equation*}
       S(X)=\frac{f(X)}{V_{\max}}=\frac{X}{K_M+X}
     \end{equation*}
 
     Given this definition we can show that if two Michaelis-Menten reactions consume the same metabolite, $X$, and at a given concentration, $X^*$, it holds that $f_a(X^*)\geq f_b(X^*)$, then if:
+
     \begin{equation}
         \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*}
         \label{eq:lemmapremise}
     \end{equation}
     then it follows that:
+
     \begin{equation*}
     \begin{dcases}
       & K_{M,b}>K_{M,a} \\
@@ -603,22 +637,26 @@ For this segment we therefore get that
     \end{dcases}
     \end{equation*}
     Proof: expanding the condition that $f_a(X^*)\geq f_b(X^*)$, we get that:
+
     \begin{equation}
         \frac{V_{\max,b}X^*}{K_{M,b}+X^*}\leq\frac{V_{\max,a}X^*}{K_{M,a}+X^*} \Rightarrow
          \frac{V_{\max,b}}{K_{M,b}+X^*}\leq\frac{V_{\max,a}}{K_{M,a}+X^*}
          \label{eq:firstmid}
      \end{equation}
      Expanding the premise of the lemma in equation \ref{eq:lemmapremise} gives us that:
+
      \begin{equation*}
         \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow
         \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2} > \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}
      \end{equation*}
      Because equation \ref{eq:firstmid} holds, it follows that:
+
      \begin{equation*}
          \frac{K_{M,b}}{K_{M,b}+X^*} > \frac{K_{M,a}}{K_{M,a}+X^*} \Rightarrow \frac{1}{1+\frac{X^*}{K_{M,b}}} > \frac{1}{1+\frac{X^*}{K_{M,a}}} \Rightarrow K_{M,b}>K_{M,a}
      \end{equation*}
     setting the affinity of the autocatalytic enzyme as a lower bound for the affinity of the branch enzyme.
     Finally, given this relation of affinities it follows that:
+
     \begin{equation*}
         K_{M,b}>K_{M,a} \Rightarrow X^*+K_{M,b}>X^*+K_{M,a} \Rightarrow \frac{X^*}{X^*+K_{M,b}}<\frac{X^*}{X^*+K_{M,a} } \Rightarrow S_b(X^*)<S_a(X^*)
     \end{equation*}

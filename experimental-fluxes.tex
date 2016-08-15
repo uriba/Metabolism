@@ -35,11 +35,11 @@
 
     \pgfmathsetlength{\headlinedist}{0.3cm}
     %prediction
-  \begin{scope}[shift={(-2cm,0cm)}]
-      \node[ratioRect] (prediction) {\textbf{Prediction:} $\mathbf{\color{branchout}XX\%}\leq\mathbf{\color{autocatacyc}YY\%}$};
+  \begin{scope}[shift={(-3cm,0cm)}]
+      \node[ratioRect,align=center] (prediction) {\textbf{Prediction:} $\mathbf{\color{branchout}XX\%} < \mathbf{\color{autocatacyc}YY\%}$ \\ for at least one branch reaction};
   \end{scope}
   %Galactose
-  \begin{scope}[shift={(-6cm,-7.5cm)},visible on=<3->,font=\fontsizedef]
+  \begin{scope}[shift={(5cm,-7.5cm)},visible on=<3->,font=\fontsizedef]
     \def\galmaxflux{0.5mm}
     \def\galglt{1.52*\galmaxflux}
     \def\galcapvalglt{20}
@@ -75,7 +75,7 @@
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
     \draw[line width=\galcapglt,autocatacyc!40] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta) ;
 
-    \node[ratioRect,anchor=east] at (oaa.west) (galb1) {\coloredRatio{\galcapvalpck}{\galcapvalglt}};
+    \node[anchor=east] at (oaa.west) (galb1) {\coloredRatio{\galcapvalpck}{\galcapvalglt}};
     \node[ratioRect,anchor=south] at (icit.north) (galb2) {\coloredRatio{\galcapvalicd}{\galcapvalacea}};
 
     \draw[line width=\galglt,autocatacycfl] ([yshift=-0.35*\galglt]oaa.east) -- ([yshift=-0.35*\galglt]midglta);
@@ -107,7 +107,7 @@
   \end{scope}
 
   %acetate
-  \begin{scope}[shift={(-6cm,-1.5cm)},node distance=\nodedist,font=\fontsizedef]
+  \begin{scope}[shift={(5cm,-1.5cm)},node distance=\nodedist,font=\fontsizedef]
     \def\acemaxflux{0.2mm}
     \def\aceglt{8.83*\acemaxflux}
     \def\acecapvalglt{70}
@@ -147,7 +147,7 @@
     \node[metaboliteStyle,right=of fum] (suc) {suc};
     \path[] (oaa) -- (cit) node [pos=0.85,shape=coordinate] (midglta) {};
     \draw[line width=\acecapglt,autocatacyc!40] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
-    \node[ratioRect,anchor=south east,visible on=<2->] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
+    \node[anchor=south east,visible on=<2->] at (oaa.north west) (aceb1) {\coloredRatio{\acecapvalpck}{\acecapvalglt}};
     \draw[line width=\aceglt,autocatacycfl] ([yshift=-0.25*\aceglt]oaa.east) -- ([yshift=-0.25*\aceglt]midglta);
     \draw[figArrowStyle,line width=\aceglt*1.5,autocatacycfl] (midglta) -- (cit);
     \draw[capArrowStyle=branchoutfl,line width=\acecappck,branchout!40] (oaa) -- (pep);
@@ -180,7 +180,7 @@
   \end{scope}
 
   %Glucose
-  \begin{scope}[shift={(8.5cm,-0.2cm)},visible on=<3->,font=\fontsizedef]
+  \begin{scope}[shift={(-9cm,-0.2cm)},visible on=<3->,font=\fontsizedef]
     \def\glucmaxflux{0.35mm}
     \def\glucpgi{5.7*\glucmaxflux}
     \def\gluccapvalpgi{100}
@@ -258,7 +258,7 @@
   \end{scope}
 
   %Fructose
-  \begin{scope}[shift={(2cm,-1.5cm)},visible on=<3->,font=\fontsizedef]
+  \begin{scope}[shift={(-2cm,-1.5cm)},visible on=<3->,font=\fontsizedef]
     \def\frucmaxflux{0.35mm}
     \def\frucfbp{2.46*\frucmaxflux}
     \def\fruccapvalfbp{100}
@@ -301,7 +301,7 @@
     \node[metaboliteStyle,right=of pep] (oaa) {oaa};
     \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
     \draw[figArrowStyle,line width=\frucfbp,branchoutfl] (fbp)-- (f6p) ;
-    \node[ratioRect,anchor=west] at (fbp.east) (frucb1) {\coloredRatio{\fruccapvalfbp}{\fruccapvalfba}};
+    \node[anchor=west] at (fbp.east) (frucb1) {\coloredRatio{\fruccapvalfbp}{\fruccapvalfba}};
     \node[at=(frucb1.north east)] (star) {*};
     \draw [line width=\fruccapfba,autocatacyc!40] (fbp) -- (fbamid);
     \draw [capArrowStyle,line width=\fruccapfba/2,autocatacyc!40] ([xshift=-\fruccapfba/4]fbamid) [out=-90,in=45] to (dhap);
