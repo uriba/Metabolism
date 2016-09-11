@@ -1,6 +1,9 @@
 \begin{figure}[h!]
+    \iftoggle{elifesubmission} { }
+    {
     \centering{
         \input{extra-cycles-figure1.tex}}
+    }
 \caption{
     \label{fig:extrasamps1}
     An autocatalytic cycle assimilating ribose-5-phosphate using the pentose phosphate pathway.
@@ -9,8 +12,11 @@
 }
 \end{figure}
 \begin{figure}[h!]
+    \iftoggle{elifesubmission} { }
+    {
     \centering{
         \input{extra-cycles-figure2.tex}}
+    }
 \caption{
     \label{fig:extrasamps2}
     An autocatalytic cycle assimilating dhap while consuming gap using the fba reaction in the gluconeogenic direction.
@@ -19,4 +25,3 @@
     A knockout strain where tpi reaction is eliminated, does not grow under glycerol despite having the theoretical ability to do so.
 }
 \end{figure}
- 

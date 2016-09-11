@@ -5,8 +5,6 @@
 \usepackage{pgfplots}
 \usepackage{lineno}
 \usepackage{setspace}
-\linenumbers
-\doublespacing
 \pgfplotsset{compat=1.12}
 \usepackage{stackengine,ifthen}
 \usetikzlibrary{arrows,positioning,calc,arrows.meta,patterns,fit}
@@ -20,6 +18,14 @@
 
 \newtoggle{article}
 \newtoggle{eddpathway}
+\newtoggle{elifesubmission}
+\togglefalse{elifesubmission}
+
+\iftoggle{elifesubmission} {
+\linenumbers
+\doublespacing
+}
+{}
 
 \tikzset{>=Latex}
 \newcommand\influx{0.5}

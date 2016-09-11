@@ -74,7 +74,11 @@ On top of the previously discussed CBB cycle (Figure \ref{fig:realautocatal}, ex
         This autocatalytic cycle therefore consumes PEP to transport sugar substrates using the phosphotransferase system (PTS), then converts the imported substrate into two PEP molecules (Figure \ref{fig:realautocatal}, example III).
 
 \end{itemize}
-Two additional examples are presented in Figures \ref{fig:extrasamps1} and \ref{fig:extrasamps2} and discussed below.
+    \iftoggle{elifesubmission} {
+        Two additional examples are presented in Figure \ref{fig:realautocatal}-figure supplements 1 and 2 and discussed below.
+    } {
+        Two additional examples are presented in Figures \ref{fig:extrasamps1} and \ref{fig:extrasamps2} and discussed below.
+    }
 
 The ubiquity of compact autocatalytic cycles in central carbon metabolism suggests that unique features of autocatalytic cycles, as derived below, may constrain and shape the kinetic parameters of a broad set of enzymes at the heart of metabolism.
 
@@ -267,9 +271,13 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
   To conclude, input fluxes change the steady state(s) of autocatalytic cycles.
   When an input flux is present, an autocatalytic cycle can always achieve a non zero, stable steady state by tuning the expression levels of the enzymes forming the cycle.
 
+    \iftoggle{elifesubmission} {
+  Interestingly, we find that in the two autocatalytic cycles shown in Figure \ref{fig:realautocatal}-figure supplements 1 and 2, reactions that generate direct input flux into the cycle exist.
+  In the ribose-5P assimilating autocatalytic cycle (Figure \ref{fig:realautocatal}-figure supplement 1), the rpi reaction serves as a shortcut, allowing input flux directly from ribose-5P into the cycle.
+  In the glycerone-phosphate assimilating cycle (Figure \ref{fig:realautocatal}-figure supplement 2), the tpi reaction similarly serves as such a shortcut.} {
   Interestingly, we find that in the two autocatalytic cycles shown in figures \ref{fig:extrasamps1} and \ref{fig:extrasamps2}, reactions that generate direct input flux into the cycle exist.
   In the ribose-5P assimilating autocatalytic cycle (Figure \ref{fig:extrasamps1}), the rpi reaction serves as a shortcut, allowing input flux directly from ribose-5P into the cycle.
-  In the glycerone-phosphate assimilating cycle (Figure \ref{fig:extrasamps2}), the tpi reaction similarly serves as such a shortcut.
+  In the glycerone-phosphate assimilating cycle (Figure \ref{fig:extrasamps2}), the tpi reaction similarly serves as such a shortcut.}
   In these two cases, these shortcuts relax the constraints imposed by strict use of the corresponding autocatalytic cycles as they prevent zero from being a stable steady state concentration.
     Another example of the effects of addition of an input flux to an autocatalytic cycle is the input flux of fructose-6-phosphate from the catabolism of starch into the CBB cycle.
     This input flux can be used to 'kick start' the cycle even without using the intermediate metabolites of the cycle.
