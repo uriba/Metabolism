@@ -13,25 +13,21 @@ We analyze the simple autocatalytic cycle, with a reversible branch reaction, pr
         \draw [<->,line width=1pt,magenta] (X.south east) arc (225:270:1cm) node [pos=0.6,above] {$f_r$} node [pos=1,right,black] (Y) {$Y$};
         \node[right=of Y, shape=coordinate] (out) {};
         \draw [->,line width=1pt,branchout] (Y) -- node [pos=0.5,above] {$f_b$}(out);
-%        \draw [->,line width=1pt,autocatacyc] (X.south) [out=-90,in=90] to  node [pos=0.5,above] (fa) {$f_a$} (X.north);
-        %\draw [->,line width=1pt,autocatacyc] (X2.north) [out=90,in=90] to node [pos=0.5,shape=coordinate,yshift=0.5pt] (assimpt) {} node [pos=0.6,above] (fa2) {$f_{a_2}$} (X1.north);
-        %\draw [line width=1pt,assimcol] (assimpt) arc (-90:-140:0.7cm) node [pos=1,above] (e) {$A$};
-        %\draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
-        %\draw [->,line width=1pt,branchout] (X2.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_2}$};
     \end{scope}
 \end{tikzpicture}
      \caption{
          A simple autocatalytic cycle with a reversible branch reaction
+     \label{fig:reversible}
  }
 
-     \label{fig:reversible}
 \end{figure}
 
 \subsubsection{Steady state existance conditions}
 We assume that $K_{\text{eq}}=1$.
 As at a positive steady state, $f_r>0$, it follows that $X>Y$.
 Because at steady state it also holds that $f_a$=$f_b$, it follows that $f_b$ attains the same flux as $f_a$ under a lower concentration of its substrate.
-It must therefore hold that $V_{\max,a}/K_{M,a}<V_{\max,b}/K_{M,b}$.
+It must therefore hold that either $V_{\max,a}/K_{M,a}<V_{\max,b}/K_{M,b}$, or $V_{\max,a}<V_{\max,b}$ (or both).
+Visually, this implies that case (IV) in figure \ref{fig:simplecycle} is eliminated.
 
 The reversible Michaelis Menten equation (assuming $K_{\text{eq}}=1$)  states that:
 
@@ -99,15 +95,15 @@ So $X=0$ is a steady state and for the other solution we get:
 
 Where the solutions to this equation must yield $X>0$ and $Y>0$.
 
-Simplifying give:
-\begin{equation*}
-  K_{M,b}V_{\max,a}
-  V_{\max}K_{M,a}+
-  K_{M,b}V_{\max,a}
-  (V_{\max}+\frac{K_{M,X}V_{\max,a}}{K_{M,Y}})X=
-  (V_{\max,b}K_{M,a}+(V_{\max,b}-V_{\max,a})X)
-  (V_{\max}K_{M,a}-V_{\max,a}K_{M,X}+(V_{\max}-V_{\max,a})X)
-\end{equation*}
+%Simplifying give:
+%\begin{equation*}
+%  K_{M,b}V_{\max,a}
+%  V_{\max}K_{M,a}+
+%  K_{M,b}V_{\max,a}
+%  (V_{\max}+\frac{K_{M,X}V_{\max,a}}{K_{M,Y}})X=
+%  (V_{\max,b}K_{M,a}+(V_{\max,b}-V_{\max,a})X)
+%  (V_{\max}K_{M,a}-V_{\max,a}K_{M,X}+(V_{\max}-V_{\max,a})X)
+%\end{equation*}
 
 \subsubsection{Stability analysis of a steady state}
 For a steady state to be stable, the eigenvalues of the Jacobian matrix must have negative real values.
@@ -168,12 +164,14 @@ But, since $f_a(X)=f_b(X)$ at the steady state point we can simplify and get:
     \frac{K_{M,b}}{K_{M,b}+X}>\frac{K_{M,a}}{K_{M,a}+X} \Rightarrow \frac{1}{1+X/K_{M,b}}>\frac{1}{1+X/K_{M,a}} \Rightarrow K_{M,b}>K_{M,a}
 \end{equation*}
 From the fact that $\alpha<\gamma_x$ we can similarly get that:
-\begin{equation*}
+\begin{align*}
 \alpha<\gamma_x \Rightarrow
 \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2} < \frac{V_{\max}(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
-\Rightarrow \frac{V_{\max,a}XK_{M,a}}{(K_{M,a}+X)^2}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
-\Rightarrow f_r(X)\frac{K_{M,a}}{K_{M,a}+X}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
-\end{equation*}
+\Rightarrow \\
+\frac{V_{\max,a}XK_{M,a}}{(K_{M,a}+X)^2}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\Rightarrow \\
+f_r(X)\frac{K_{M,a}}{K_{M,a}+X}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\end{align*}
 So we get:
 \begin{equation*}
 \frac{V_{\max}(X-Y)}{K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}}}\frac{K_{M,a}}{K_{M,a}+X}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
@@ -189,8 +187,12 @@ And further to:
 \subsubsection{Conclusion}
 In this case for a positive steady state to exist it must hold that:
 \begin{align*}
-    &V_{\max,a}/K_{M,a}<V_{\max,b}/K_{M,b} \quad \text{and}, \\
     &\begin{dcases}
+        V_{\max,b} &> V_{\max,a} \quad \text{or}, \\
+        \frac{V_{\max,b}}{K_{M,b}} &>\frac{V_{\max,a}}{K_{M,a}}
+    \end{dcases}\\
+    &\text{and} \\
+  &\begin{dcases}
         V_{\max} &> V_{\max,a} \quad \text{or}, \\
         \frac{V_{\max}}{K_{M,X}} &>\frac{V_{\max,a}}{K_{M,a}}
     \end{dcases}

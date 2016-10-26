@@ -203,7 +203,8 @@
     \def\gluccapzwf{\gluczwf/\gluccapvalzwf*100}
     \def\glucpts{9.65*\glucmaxflux}
     \def\gluccapvalpts{100}
-    \def\gluccapvalcomp{\pgfmathparse{round((\glucppc+\glucpyk)/(\gluccapppc+\gluccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+    %\def\gluccapvalcomp{\pgfmathparse{round((\glucppc+\glucpyk)/(\gluccapppc+\gluccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+    \def\gluccapvalcomp{\pgfmathparse{round(0.43*20)*5}\pgfmathprintnumber{\pgfmathresult}}
     \def\gluccappts{\glucpts}
 
     \node[] (glucose) {\textbf{Glucose input}};
@@ -280,7 +281,8 @@
     \def\frucpts{8.33*\frucmaxflux}
     \def\fruccapvalpts{100}
     \def\fruccappts{\frucpts}
-    \def\fruccapvalcomp{\pgfmathparse{round((\frucppc+\frucpyk)/(\fruccapppc+\fruccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+    %\def\fruccapvalcomp{\pgfmathparse{round((\frucppc+\frucpyk)/(\fruccapppc+\fruccappyk)*20)*5}\pgfmathprintnumber{\pgfmathresult}}
+    \def\fruccapvalcomp{\pgfmathparse{round(0.28*20)*5}\pgfmathprintnumber{\pgfmathresult}}
 
 
     \node[] (fructose) {\textbf{Fructose input}};

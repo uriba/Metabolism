@@ -1,4 +1,4 @@
-\begin{figure}[h!]
+\begin{figure}[H]
     \iftoggle{elifesubmission} { }
     {
     \centering{
@@ -11,7 +11,7 @@
     A knockout strain where rpi is eliminated, does not grow under ribose despite having the theoretical ability to do so.
 }
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \iftoggle{elifesubmission} { }
     {
     \centering{
@@ -24,8 +24,22 @@
     Accurding to fluxomics data this cycle does not operate in vivo as a more energy efficient alternative in growth under glycerol is to use the tpi reaction and proceed in the glycolitic direction in the lower part of glycolysis.
     A knockout strain where tpi reaction is eliminated, does not grow under glycerol despite having the theoretical ability to do so.
 }
+\end{figure}
 \iftoggle{elifesubmission} { }
 {
-    \input{reversible.tex}}
+    \begin{figure}[H]
+    \centering{
+\input{atp-cycle.tex}
 }
+\caption{
+ ATP autocatalysis in glycolysis.
+ This autocatalytic cycle considers high energy phosphate bonds as the moiety that is required for the production of larger quantities of high energy phosphate bonds.
+ Cycle intermediates are black, external metabolites are gray.
+ The high energy bonds of ADP are neglected.
+ The total autocatalytic reaction is: $2\text{ATP}+\text{gluc}+2\text{P}_i+2\text{ADP}\rightarrow 4\text{ATP}+2\text{pyr}$ (neglecting the double nad $\rightarrow$ nadh reaction coupled to the gap $\rightarrow$ bpg reaction).
+ }
 \end{figure}
+\input{reversible.tex}
+\input{co2fixation-analysis.tex}
+
+}
