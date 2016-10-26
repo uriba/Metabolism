@@ -1,0 +1,206 @@
+\subsection{Analysis of a simple cycle with reversible branch reaction}
+We analyze the simple autocatalytic cycle, with a reversible branch reaction, presented in figure \ref{fig:reversible}.
+\begin{figure}[!htb]
+  \centering
+\begin{tikzpicture}[>=latex']
+    \begin{scope}%[node distance = 2cm]
+        \node at (-60:1cm) (X) {$X$};
+        \node[shape=coordinate] (orig) {};
+        \draw [-,line width=1pt,autocatacyc] (X.south west) arc (285:0:1cm) node [pos=0.65,above] (fa) {$f_a:$\small{$A+X\rightarrow2X$}} node [pos=0.45,shape=coordinate] (midauto) {} node [pos=1,shape=coordinate] (endcommon) {};
+        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-25:-44:2cm);
+        \draw [->,line width=1pt,autocatacyc] (endcommon) arc (-5:-32:1.5cm);
+        \draw [line width=1pt,assimcol] (midauto) arc (-60:-90:1cm) node [pos=1,left] (e) {$A$};
+        \draw [<->,line width=1pt,magenta] (X.south east) arc (225:270:1cm) node [pos=0.6,above] {$f_r$} node [pos=1,right,black] (Y) {$Y$};
+        \node[right=of Y, shape=coordinate] (out) {};
+        \draw [->,line width=1pt,branchout] (Y) -- node [pos=0.5,above] {$f_b$}(out);
+%        \draw [->,line width=1pt,autocatacyc] (X.south) [out=-90,in=90] to  node [pos=0.5,above] (fa) {$f_a$} (X.north);
+        %\draw [->,line width=1pt,autocatacyc] (X2.north) [out=90,in=90] to node [pos=0.5,shape=coordinate,yshift=0.5pt] (assimpt) {} node [pos=0.6,above] (fa2) {$f_{a_2}$} (X1.north);
+        %\draw [line width=1pt,assimcol] (assimpt) arc (-90:-140:0.7cm) node [pos=1,above] (e) {$A$};
+        %\draw [->,line width=1pt,branchout] (X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
+        %\draw [->,line width=1pt,branchout] (X2.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_2}$};
+    \end{scope}
+\end{tikzpicture}
+     \caption{
+         A simple autocatalytic cycle with a reversible branch reaction
+ }
+
+     \label{fig:reversible}
+\end{figure}
+
+\subsubsection{Steady state existance conditions}
+We assume that $K_{\text{eq}}=1$.
+As at a positive steady state, $f_r>0$, it follows that $X>Y$.
+Because at steady state it also holds that $f_a$=$f_b$, it follows that $f_b$ attains the same flux as $f_a$ under a lower concentration of its substrate.
+It must therefore hold that $V_{\max,a}/K_{M,a}<V_{\max,b}/K_{M,b}$.
+
+The reversible Michaelis Menten equation (assuming $K_{\text{eq}}=1$)  states that:
+
+\begin{equation*}
+  f(X,Y)=\frac{\frac{V_{\max}}{K_{M,X}}(X-Y)}{1+\frac{X}{K_{M,X}}+\frac{Y}{K_{M,Y}}} = \frac{V_{\max}(X-Y)}{K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}}} 
+\end{equation*}
+
+In this case, if the branch reaction is reversible, then for every concentration of the intermediate metabolite $X$, $Y$ must allow the reversible flux to balance the autocatalytic flux:
+\begin{equation*}
+  f_a(X)=f(X,Y)\Rightarrow \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max}(X-Y)}{K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}}}
+\end{equation*}
+
+which implies:
+
+\begin{equation*}
+  -\frac{V_{\max,a}X}{K_{M,a}+X}(K_{M,X}+X)+V_{\max}X=V_{\max}Y+\frac{V_{\max,a}X}{K_{M,a}+X}\frac{K_{M,X}Y}{K_{M,Y}}
+\end{equation*}
+That results in:
+\begin{equation*}
+  \frac{V_{\max}X-\frac{V_{\max,a}X}{K_{M,a}+X}(K_{M,X}+X)}{V_{\max}+\frac{K_{M,X}V_{\max,a}X}{K_{M,Y}(K_{M,a}+X)}}=Y
+\end{equation*}
+
+That is equal to:
+\begin{equation*}
+  \frac{V_{\max}X(K_{M,a}+X)-V_{\max,a}X(K_{M,X}+X)}{V_{\max}(K_{M,a}+X)+\frac{K_{M,X}V_{\max,a}X}{K_{M,Y}}}=Y
+\end{equation*}
+As $Y>0$ at the steady state, it follows that:
+\begin{equation*}
+  V_{\max}(K_{M,a}+X)-V_{\max,a}(K_{M,X}+X)>0 \Rightarrow \frac{V_{\max}}{K_{M,X}+X}>\frac{V_{\max,a}}{K_{M,a}+X}
+\end{equation*}
+which implies that at least one of the two inequations must hold for a solution to exist:
+\begin{align*}
+  V_{\max} &> V_{\max,a} \\
+  \frac{V_{\max}}{K_{M,X}} &>\frac{V_{\max,a}}{K_{M,a}}
+\end{align*}
+
+
+For a concentration to represent a steady state it must also hold that $f_b(Y)=f_a(X)$, so:
+\begin{equation*}
+    \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}Y}{K_{M,b}+Y}
+\end{equation*}
+which results in:
+\begin{equation*}
+    K_{M,b}\frac{V_{\max,a}X}{K_{M,a}+X}=Y(V_{\max,b}-\frac{V_{\max,a}X}{K_{M,a}+X})
+\end{equation*}
+That can be simplified to:
+\begin{equation*}
+    \frac{K_{M,b}V_{\max,a}X}{V_{\max,b}(K_{M,a}+X)-V_{\max,a}X}=Y
+\end{equation*}
+As here, again, $Y>0$, it follows that:
+\begin{equation*}
+  V_{\max,b}>\frac{V_{\max,a}X}{K_{M,a}+X}
+\end{equation*}
+
+
+Combining the two conditions yields that at steady state $X$ satisfies:
+\begin{equation*}
+    \frac{K_{M,b}V_{\max,a}X}{V_{\max,b}(K_{M,a}+X)-V_{\max,a}X}=\frac{XV_{\max}(K_{M,a}+X)-XV_{\max,a}(K_{M,X}+X)}{V_{\max}(K_{M,a}+X)+\frac{K_{M,X}V_{\max,a}X}{K_{M,Y}}}
+\end{equation*}
+
+So $X=0$ is a steady state and for the other solution we get:
+\begin{equation*}
+    \frac{K_{M,b}V_{\max,a}}{V_{\max,b}K_{M,a}+(V_{\max,b}-V_{\max,a})X}=\frac{V_{\max}K_{M,a}-V_{\max,a}K_{M,X}+(V_{\max}-V_{\max,a})X}{V_{\max}K_{M,a}+(V_{\max}+\frac{K_{M,X}V_{\max,a}}{K_{M,Y}})X}
+\end{equation*}
+
+Where the solutions to this equation must yield $X>0$ and $Y>0$.
+
+Simplifying give:
+\begin{equation*}
+  K_{M,b}V_{\max,a}
+  V_{\max}K_{M,a}+
+  K_{M,b}V_{\max,a}
+  (V_{\max}+\frac{K_{M,X}V_{\max,a}}{K_{M,Y}})X=
+  (V_{\max,b}K_{M,a}+(V_{\max,b}-V_{\max,a})X)
+  (V_{\max}K_{M,a}-V_{\max,a}K_{M,X}+(V_{\max}-V_{\max,a})X)
+\end{equation*}
+
+\subsubsection{Stability analysis of a steady state}
+For a steady state to be stable, the eigenvalues of the Jacobian matrix must have negative real values.
+In our system it holds that:
+    \begin{align*}
+        \dot{X} & =f_a-f_r \\
+        \dot{Y} & =f_r-f_b
+    \end{align*}
+We use the following notation:
+\begin{align*}
+  \alpha & =\frac{df_a}{dX}=\frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2} \\
+  \beta & =\frac{df_b}{dY}=\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X)^2} \\
+  \gamma_x & =\frac{\partial f_r}{\partial X}= \frac{V_{\max}(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\\
+  \gamma_y & =\frac{\partial f_r}{\partial Y}= \frac{-V_{\max}(K_{M,X}+X(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2} 
+\end{align*}
+
+We note that for MM kinetics and positive concentrations it holds that:
+    \begin{align*}
+        \alpha & >0 \\
+        \beta & >0 \\
+        \gamma_x & >0 \\
+        -\gamma_y & >\gamma_x \\
+    \end{align*}
+
+We can use this notation to write the Jacobian matrix as:
+   \begin{equation*}
+        J=
+        \begin{pmatrix}
+            \alpha-\gamma_x & -\gamma_y \\
+            \gamma_x & \gamma_y-\beta
+        \end{pmatrix}
+    \end{equation*}
+which gives a characteristic polynomial of:
+\begin{equation*}
+    (\alpha-\gamma_x-\lambda)(\gamma_y-\beta-\lambda)+\gamma_y\gamma_x=0
+\end{equation*}
+In order for the real values of the roots of the characteristic polynomial to be negative it must hold that $b>0$ and $c>0$, where $b$ and $c$ are the coefficients of the quadratic equation $a\lambda^2+b\lambda+c=0$.
+We therefore get that:
+\begin{align*}
+b & =\gamma_x-\alpha-\gamma_y+\beta>0\\
+c & =(\alpha-\gamma_x)(\gamma_y-\beta)+\gamma_y\gamma_x>0
+\end{align*}
+We note that as $\gamma_y\gamma_x<0$ and $\gamma_y-\beta<0$, it is a necessary, but not sufficient, condition that $\alpha-\gamma_x<0$ for the second inequality to hold.
+This is also a sufficient condition for the first inequality to hold.
+The sufficient condition for the second inequality to hold is that:
+\begin{equation*}
+  \gamma_x-\alpha>\gamma_y\gamma_x/(\gamma_y-\beta)=\frac{\gamma_x}{1-\frac{\beta}{\gamma_y}}\Rightarrow (1-\frac{\alpha}{\gamma_x})(1-\frac{\beta}{\gamma_y})>1
+\end{equation*}
+which implies that the smaller $\beta$ is, the larger the ratio between $\gamma_x$ and $\alpha$ needs to be in order to ensure stability.
+Moreover, as $-\gamma_y >\gamma_x$ it follows that $\beta>\alpha$.
+We can use the last inequality to get that:
+\begin{equation*}
+    \beta>\alpha \Rightarrow \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X)^2}>\frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2} \Rightarrow \frac{V_{\max,b}XK_{M,b}}{(K_{M,b}+X)^2}>\frac{V_{\max,a}XK_{M,a}}{(K_{M,a}+X)^2} \Rightarrow f_b(X)\frac{K_{M,b}}{K_{M,b}+X}>f_a(X)\frac{K_{M,a}}{K_{M,a}+X}
+\end{equation*}
+But, since $f_a(X)=f_b(X)$ at the steady state point we can simplify and get:
+\begin{equation*}
+    \frac{K_{M,b}}{K_{M,b}+X}>\frac{K_{M,a}}{K_{M,a}+X} \Rightarrow \frac{1}{1+X/K_{M,b}}>\frac{1}{1+X/K_{M,a}} \Rightarrow K_{M,b}>K_{M,a}
+\end{equation*}
+From the fact that $\alpha<\gamma_x$ we can similarly get that:
+\begin{equation*}
+\alpha<\gamma_x \Rightarrow
+\frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2} < \frac{V_{\max}(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\Rightarrow \frac{V_{\max,a}XK_{M,a}}{(K_{M,a}+X)^2}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\Rightarrow f_r(X)\frac{K_{M,a}}{K_{M,a}+X}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\end{equation*}
+So we get:
+\begin{equation*}
+\frac{V_{\max}(X-Y)}{K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}}}\frac{K_{M,a}}{K_{M,a}+X}<\frac{V_{\max}X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{(K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}})^2}
+\end{equation*}
+that can be simplified to:
+\begin{equation*}
+\frac{(X-Y)}{1}\frac{K_{M,a}}{K_{M,a}+X}<\frac{X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{K_{M,X}+X+\frac{K_{M,X}Y}{K_{M,Y}}}
+\end{equation*}
+And further to:
+\begin{equation*}
+    \frac{(X-Y)}{1}\frac{K_{M,a}}{V_{\max,a}X}<\frac{X(K_{M,X}+Y(1+\frac{K_{M,X}}{K_{M,Y}}))}{V_{\max}(X-Y)}
+\end{equation*}
+\subsubsection{Conclusion}
+In this case for a positive steady state to exist it must hold that:
+\begin{align*}
+    &V_{\max,a}/K_{M,a}<V_{\max,b}/K_{M,b} \quad \text{and}, \\
+    &\begin{dcases}
+        V_{\max} &> V_{\max,a} \quad \text{or}, \\
+        \frac{V_{\max}}{K_{M,X}} &>\frac{V_{\max,a}}{K_{M,a}}
+    \end{dcases}
+\end{align*}
+
+For the positive steady state to be stable, it must hold that:
+\begin{align*}
+(1-\frac{\alpha}{\gamma_x})(1-\frac{\beta}{\gamma_y})>1 \Rightarrow
+    \begin{dcases}
+        \alpha &< \gamma_x \\
+        \alpha &< \beta \Rightarrow K_{M,b}>K_{M,a}
+    \end{dcases}
+\end{align*}

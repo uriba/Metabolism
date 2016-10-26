@@ -1,4 +1,6 @@
 \begin{tikzpicture}[>=latex']
+    \iftoggle{poster} {}
+    {
     \iftoggle{article} {
     \begin{scope}[shift={(-5cm,0cm)},node distance = 2cm]
         \node (X1) {$X_1$};
@@ -10,6 +12,7 @@
         \draw [->,line width=1pt,branchout] (X2.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_2}$};
     \end{scope}}
     {}
+}
     \begin{scope}[shift={(0cm,0cm)},node distance = 1cm]
         \node (X1) {$X_1$};
         \node[below left=of X1]  (X2) {$X_2$};
@@ -22,9 +25,12 @@
         \draw [->,line width=1pt,branchout] (Xn.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_n}$};
         \draw [->,line width=1pt,autocatacyc,dashed] (X2.west) [out=180,in=-90] to ($(X1)+(-3,0)$) node [right] (fmid) {$f_{a_2}\dots f_{a_{n-1}}$} to [out=90,in=180] (Xn.west);
     \end{scope}
+    \iftoggle{poster} {}
+    {
     \iftoggle{article} {
         \node [shift={(-8cm,3cm)}] (A) {(A)};
         \node [right of=A,xshift=4cm] (B) {(B)};
     }{}
+}
 \end{tikzpicture}
 

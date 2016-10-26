@@ -1,0 +1,212 @@
+\documentclass[final,10pt]{beamer}
+
+\usepackage[orientation=portrait,size=a3,scale=1]{beamerposter}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{tcolorbox}
+
+\input{preamble.tex}
+
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={}
+}
+
+\usepackage{adjustbox}
+\toggletrue{article}
+\toggletrue{poster}
+\togglefalse{eddpathway}
+
+\tikzset{every picture/.style={font issue=Large},
+  font issue/.style={execute at begin picture={#1\selectfont}}
+}
+
+\setbeamercolor{block title}{bg=blue!20}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{footline}{}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+\setbeamertemplate{headline}{
+\leavevmode
+
+\begin{beamercolorbox}[wd=\paperwidth]{headline}
+    \begin{columns}[T]
+        \begin{column}{.05\paperwidth}
+        \end{column}
+        \begin{column}{.7\paperwidth}
+            \vskip16ex
+            {\centering{
+            \usebeamercolor{title in headline}{\color{fg}\textbf{\LARGE{\inserttitle}}\\[1ex]}
+        }}
+        \vskip8ex
+            \usebeamercolor{author in headline}{\color{fg}\large{\insertauthor}\\[1ex]}
+            \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}
+            \normalsize{Email: uri.barenholz@weizmann.ac.il}
+            \vskip1ex
+        \end{column}
+        \begin{column}{.25\paperwidth}
+            \vskip2cm
+            \begin{center}
+                \includegraphics[width=\textwidth]{weizmann_logo.pdf}
+            \end{center}
+            \vskip-0.5cm
+        \end{column}
+        \begin{column}{.03\paperwidth}
+        \end{column}
+    \end{columns}
+\end{beamercolorbox}
+
+\begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
+    \rule{0pt}{2pt}
+\end{beamercolorbox}
+\vskip-2cm
+}
+
+\setbeamertemplate{block begin}{
+    \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1ex]{block title}
+        \usebeamerfont*{block title}\insertblocktitle
+    \end{beamercolorbox}
+    \usebeamerfont{block body}
+    \begin{beamercolorbox}[rounded=true,vmode]{block body}
+    }
+\setbeamertemplate{block end}{
+    \end{beamercolorbox}
+}
+
+\title{\Huge Design principles of autocatalytic cycles constrain enzyme kinetics and force over-expression at flux branch points}
+\author{\underline{Uri Barenholz}, Dan Davidi, Ed Reznik, Yinon Bar-On, Niv Antonovsky, Elad Noor, Ron Milo}
+\institute{Department of Plant and Environmental Sciences, Weizmann Institute of Science}
+
+\begin{document}
+
+\input{varsdefs.tex}
+
+\begin{frame}{}
+    \vskip9ex
+    \begin{center}
+    \begin{minipage}{0.9\textwidth}
+       \begin{block}{\centering{Summary}}
+           \begin{columns}[t]
+    \begin{column}{0.66\textwidth}
+            \vskip1mm
+            A set of chemical reactions that require a metabolite to synthesize more of that metabolite is an autocatalytic cycle.
+            Such metabolic designs must meet specific conditions to support stable fluxes, hence avoiding depletion of intermediate metabolites.
+            We find that most of the reactions in central carbon metabolism are part of compact autocatalytic cycles.
+            As such, they are subjected to constraints that may seem irrational: the enzymes of branch reactions out of the cycle must be overexpressed and the affinity of these enzymes to their substrates must be relatively low.
+            Analysis of recent quantitative proteomics and fluxomics measurements shows that the above conditions hold for all functioning cycles in central carbon metabolism of \emph{E.coli}.
+            Therefore, the topology of metabolic networks can shape kinetic parameters of enzymes and lead to apparently reduced enzyme efficiency \cite{Barenholz2016-ze}.
+    \end{column}
+    \begin{column}{0.25\textwidth}
+        \vskip1ex
+            \begin{adjustbox}{max totalsize={0.8\textwidth}{\textheight},center}
+                \input{autocatalytic-cycle.tex}
+            \end{adjustbox}
+    \end{column}
+\end{columns}
+        \end{block}
+    \end{minipage}
+\end{center}
+
+\begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+        \begin{block}{\centering{Autocatalytic cycles present in central carbon metabolism}}
+            \begin{figure}
+            \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
+                \input{autocatalytic-samples.tex}
+            \end{adjustbox}
+        \caption{
+            \label{fig:realautocatal}
+        Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle (yellow); (II) The glyoxylate cycle (magenta); (III) A cycle using the PTS system to assimilate glucose (cyan).
+        Assimilation reactions are indicated in green.
+        Arrow width in panels represent relative carbon mass.
+        Two other potential autocatalytic cycles identified are: a cycle using the Pentose-Phosphate pathway to assimilate ribose, and a cycle using fba in the gluconeogenic direction with the Entner-Doudoroff pathway to assimilate glycerol.
+}
+\end{figure}
+    \end{block}
+         \begin{block}{\centering{A simple autocatalytic cycle model reveals constraints on the kinetic parameters of catalyzing enzymes}}
+             \begin{figure}
+            \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
+                \input{simple-cycle-analysis-figure.tex}
+            \end{adjustbox}
+       \caption{\label{fig:simplecycle}
+        (A) A simple autocatalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
+        These fluxes follow simple Michaelis Menten kinetics.
+        A steady state occurs when $f_a=f_b$, implying that $\dot{X}=0$.
+        The cycle always has a steady state at $X=0$.
+        The slope of each reaction at $X=0$ is $\sfrac{V_{\max}}{K_m}$.
+        A steady state is stable if at the steady state concentration $\frac{d\dot{X}}{dX}<0$.
+        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ determines two characteristics of the system: 
+        If $V_{\max,b}>V_{\max,a}$, then a stable steady state concentration must exist as for high concentrations of $X$ the branching reaction will reduce its concentration (cyan domain, cases (I) and (II)).
+        If $\sfrac{V_{\max,b}}{K_{M,b}}<\sfrac{V_{\max,a}}{K_{M,a}}$, implying that $\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$, then zero is a non-stable steady state concentration as if $X$ is slightly larger than zero, the autocatalytic reaction will carry higher flux, further increasing the concentration of $X$ (magenta domain, cases (I) and (IV)).
+    At the intersection of these two domains a non-zero, stable steady state concentration exists (I).}
+    \end{figure}
+    \textbf{Conclusion:} A steady state can only exist if $K_{M,b}>K_{M,a}$ and at the steady state, $f_b$ is not saturated.
+        \end{block}
+    \end{column}
+    \hspace{-.75cm}
+    \vrule
+    \hspace{.3cm}
+    \begin{column}{0.48\textwidth}
+        \begin{block}{\centering{Input fluxes into autocatalytic cycles stabilize them}}
+            \begin{figure}
+            \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
+                \input{autocatalytic-with-input.tex}
+            \end{adjustbox}
+      \caption{\label{fig:inputcycle}
+        (A) The effect of a fixed input flux, $f_i$, on the possible steady states of a simple autocatalytic cycle.
+        A steady state occurs when $f_a+f_i=f_b$.
+        If $V_{\max,b}>V_{\max,a}+f_i$ then there is always a single stable steady state (I).
+        If $V_{\max,b}<V_{\max,a}+f_i$ then there can either be no steady states (II), or two steady states where the smaller one is stable (III).
+        Therefore, an input flux relaxes the constraints on the kinetic parameters of $f_b$.
+        We find reactions catalyzing such fluxes in the form of alternative glucose transport mechanisms for the PTS autocatalytic cycle and in seemingly redundant reactions in the Pentose-Phosphate autocatalytic cycle.
+      }
+    \end{figure}
+
+    \end{block}
+    \begin{block}{\centering{Stability of multiple-reactions autocatalytic cycles also imposes constraints on kinetic parameters of branch enzymes}}
+        \begin{figure}
+            \begin{columns}
+            \column{0.66\linewidth}
+                \caption{
+             Steady state stability of multiple-reaction autocatalytic cycles with a single assimilating reaction is analytically tractable.
+             The system is at steady state when the total consumption of intermediate metabolites by the branch reactions is equal to the flux through the autocatalytic reaction.
+             A sufficient condition for the stability of a steady state in these systems is that the derivative of at least one branch reaction W.R.T. the substrate concentration is larger than the derivative of the equivalent autocatalytic reaction at the steady state concentration.
+                \label{fig:multiple}}
+            \column{0.25\linewidth}
+                \begin{adjustbox}{max totalsize={0.7\textwidth}{\textheight},center}
+                  \input{complex-autocatalytic-cycles.tex}
+                \end{adjustbox}
+            \end{columns}
+        \end{figure}
+\textbf{Conclusion:} As the derivatives of fluxes and saturation levels of reactions are inter-related, the stability condition implies that at a stable steady state the saturation level of at least one branch reactions is smaller than the saturation level of the corresponding autocatalytic reaction.
+
+    \vskip2ex
+        \end{block}
+        \begin{block}{\centering{Experimental data reveals operating autocatalytic cycles obay predicted restrictions}}
+\begin{figure}
+            \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
+              \input{experimental-fluxes.tex}
+            \end{adjustbox}
+\caption{
+  Major branch points and relative enzyme saturation in operating autocatalytic cycles.
+  Solid arrow width represents carbon flux per unit time.
+  Shaded arrow width represents maximal carbon flux capacity per unit time, given the expression level of the catalyzing enzyme.
+  In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
+  Only in one out of the 9 branch points observed (the branch point at fbp in growth under fructose, marked with *), the outgoing reaction is significantly more saturated than the autocatalytic reaction, which may result from neglecting fructose transport directly as f6p when deriving fluxes.
+}
+    \label{fig:branch}
+\end{figure}
+
+        \end{block}
+    \end{column}
+\end{columns}
+\begin{block}{References}
+    \vskip1ex
+    \footnotesize
+\bibliographystyle{ieeetr}
+\bibliography{library}
+\end{block}
+\end{frame}
+
+\end{document}
