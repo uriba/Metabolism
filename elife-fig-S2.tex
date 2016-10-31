@@ -1,0 +1,20 @@
+\documentclass{article}
+\input{preamble.tex}
+\toggletrue{article}
+
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={}
+}
+
+\usepackage{adjustbox}
+\begin{document}
+\input{varsdefs.tex}
+\beginsupplement
+\setcounter{figure}{1}
+\begin{figure}[h!]
+    \centering{
+        \input{extra-cycles-figure2.tex}}
+\end{figure}
+\end{document}
+ 

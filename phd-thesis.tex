@@ -5,6 +5,7 @@
 \input{plos_constants.tex}
 
 \toggletrue{article}
+\toggletrue{thesis}
 \togglefalse{eddpathway}
 
 \tikzset{
@@ -29,7 +30,7 @@
     They must function in the face of multiple challenges: varying temperatures, fluctuating food supply, competition with other species and more.
     To survive and prosper, such systems have complex designs, accompanied by extensive regulation mechanisms, fine tuning their operation to ensure proper function.
     My research focuses on the system wide effects, implications, and passive outcomes of both the system design and the regulatory mechanisms.
-    Specifically, I use simple models to extract testable, system wide implications emerging from the requirements of the models, then use multi-omix data to test the models predictions on living systems.
+    Specifically, I use simple models to extract testable, system wide implications emerging from the requirements of the models, then use multi-omics data to test the models predictions on living systems.
 
     This work spans two different domains of molecular biology: gene expression and metabolic network topology.
     In metabolism I focus on the dynamics of autocatalytic cycles, constructs that are more common than one might naively expect even in central carbon metabolism.
@@ -38,17 +39,48 @@
     These analyses help unveil the underlying principles and logic behind observed phenomena in these two domains, as well as predict the behavior of synthetically engineered biological systems, assisting in their design towards proper function.
 }
 \newpage
+\section*{Acknowledgments}
+\input{acknowledgements.tex}
+\newpage
 \tableofcontents
 \newpage
 \chapter{Autocatalytic cycles stability constrains kinetic parameters of enzymes}
 \input{autocatalysis-content.tex}
 \newpage
-\section{Supplementary Figures and analyses}
+\section{Appendices}
 \input{autocatalytic-supplementary.tex}
 \chapter[A Minimalistic Resource Allocation Model To Explain Ubiquitous Increase In Protein Expression With Growth Rate]{A Minimalistic Resource Allocation Model To Explain Ubiquitous Increase In Protein Expression With Growth Rate\footnote{published in \cite{Barenholz2016-ta}}}
 \input{plos_content.tex}
 \beginsupplement
 \input{plos_si.tex}
+\chapter{Conclusions and outlook}
+In this work we show how simple models capture key features of complex biological systems.
+The models we developed connect global traits of the system (stability, limited resources and specific growth rate) with specific, local characteristics and control mechanisms (kinetic parameters of specific enzymes, condition-specific regulation of subsets of genes).
+The connections our models reveal are intrinsic to the architecture of the system and do not require specific control or regulation mechanisms to be present.
+
+We tested to what extent predictions of the models hold using recent multi-omics data.
+The relative scarcity of high throughput relevant data, as well as measurement noise in existing data sets, allow for only limited validation.
+We find that existing data on expression levels of proteins across conditions matches our model prediction, given experimental noise, but that, due to the high level of noise, may result from different underlying phenomena.
+Available fluxomics data matches the predictions made by our analysis on the stability of autocatalytic cycles, supporting its validity.
+
+Both of the models presented here have only been tested against data of a single organism, \emph{E.coli}, although theoretically, both are expected to hold for other organisms as well.
+It will be interesting to evaluate these models against data from other organisms, if and when such data is published.
+
+Our work on autocatalytic cycles can be extend in many ways:
+\begin{itemize}
+    \item The algorithm for systematically identifying autocatalytic cycles, while being able to expose novel autocatalytic cycles in metabolic networks, is still incomplete and inefficient.
+A better algorithm will allow the discovery of more potential autocatalytic cycles in larger metabolic networks.
+\item Our work focused on carbon-based autocatalysis.
+    Other kinds of autocatalysis can exist in metabolism, relating to different chemical features.
+    Examples of such features are high-energy phosphate bonds, as is demonstrated in our scheme of ATP autocatalysis in glycolysis, oxidation/reduction states, and others.
+    Expanding our analysis to autocatalytic cycles of such features may result in further insights on the kinetic parameters of enzymes involved in these processes.
+\item The inherent autocatalytic nature of carbon-fixating pathways calls for specific analysis of synthetic carbon-fixation pathways using our framework to validate their applicability and suggest strategies to ensure their stable function.
+\item Lack of sufficient kinetic data prevented an evaluation of our analysis on the kinetic parameters of existing branch points enzymes.
+    Such an analysis is important and should be conducted, once the relevant kinetic data is obtained.
+\end{itemize}
+
+We believe our observations on autocatalytic network form a first, but not unique, demonstration of the possible connections between network topology and the kinetic parameters of enzymes.
+We expect future work to expose other mechanisms that connect network topology to reaction kinetics, expanding on the links between these two features of the metabolic network.
 \bibliography{library}{}
 \bibliographystyle{ieeetr}
 \end{document}
