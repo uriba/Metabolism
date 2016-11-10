@@ -100,7 +100,9 @@ This cycle has a single intermediate metabolite, $X$.
 We denote the flux through the autocatalytic reaction of the cycle by $f_a$, such that for any unit of $X$ consumed, it produces two units of $X$.
 The autocatalytic reaction assimilates an external metabolite (denoted $A$), which we assume to be at a constant concentration.
 We denote the flux through the reaction branching out of the cycle by $f_b$.
-For simplicity in the derivation, we assume irreversible Michaelis-Menten kinetics for the two reactions such that:
+For simplicity in the derivation, we assume irreversible Michaelis-Menten kinetics for the two reactions.
+We note that under the assumption of constant concentration of $A$, the bisubstrate velocity equation for $f_a$ can be reduced to a simple Michaelis-Menten equation the kinetic constants of which depend on the constant value of $A$ assumed (see methods).
+We therefore assume that:
     \begin{eqnarray*}
       f_a = \frac{V_{\max,a}X}{K_{M,a}+X} \\
       f_b = \frac{V_{\max,b}X}{K_{M,b}+X}
@@ -219,6 +221,11 @@ For simplicity in the derivation, we assume irreversible Michaelis-Menten kineti
     Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved.
     Specifically, changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$ only affect $V_{\max,a}$ and $V_{\max,b}$, and therefore do not suffice to attain a stable positive steady state.
     This indicates that stability of autocatalytic cycles depends on inherent kinetic properties of the enzymes involved and cannot always be achieved by modulating expression levels, a design principle that may be critical in metabolic engineering context.
+
+    In the analysis above, to keep the analysis concise, we neglected the bisubstrate nature of the autocatalytic reaction.
+    We note that, as is shown in the methods, bisubstrate reactions also take a Michaelis-Menten like form once the concentration of the assimilated metabolite is kept constant.
+    Moreover, to attain a stable steady state, the concentration of the assimilated metabolite must exceed a lower threshold, the exact value of which depends on the exact bisubstrate reaction scheme and the kinetic parameters of it, as is shown in the methods.
+    On the other hand, if the bisubstrate reaction is such that the internal metabolite $X$ binds first, then no strict constraints exist on the kinetic parameters of the reactions and a stable steady state solution can always be achieved by setting appropriate values to $V_{\max,a}$ and $V_{\max,b}$.
 \subsection{Extensions of the simple autocatalytic cycle model}
     \subsubsection{Generalizing for different autocatalytic stoichiometries}
     Our didactic exemplary analysis considered an autocatalytic reaction with $1:2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
@@ -529,6 +536,163 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
 
   The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that holds for the core model of \emph{E.coli}, but not in metabolic networks in general.
   
+  \subsection{Connecting the kinetic constants of bisubstrate reaction velocity equations, under constant substrate concentration assumption, with simple Michaelis-Menten kinetics constants}
+  Two standard equations are commonly used to describe the flux through irreversible bisubstrate reactions \cite{Leskovac2003-li}.
+  We show that, under the assumption that the assimilated metabolite maintains constant concentration, these equations reduce to simple Michaelis-Menten equations.
+  We derive the expressions for the apparent Michaelis-Menten constants, $K_M$ and $V_{\max}$, as functions of the kinetic constants of the bisubstrate reaction and the concentration of the assimilated metabolite.
+  While the substrates in these equations are generally denoted as $A$ and $B$, here, to keep the notation consistent, we will denote by $A$ the assimilated metabolite and by $X$ the internal metabolite of the cycle.
+
+  The first equation describing a bisubstrate reaction assumes random binding order of the two substrates.
+  As this equation is symmetric with respect to the two substrates, we can arbitrarily decide which of the two substrates is the assimilated metabolite, and which is the internal metabolite.
+  We get that the flux through the reaction is:
+  \begin{equation*}
+      f=\frac{V_{\max}'AX}{K_{i,A}K_X+K_XA+K_AX+AX}
+  \end{equation*}
+  Rearranging to get the dependence of the flux on $X$ in a Michaelis-Menten like form we get that:
+  \begin{equation*}
+      f=\frac{\frac{V_{\max}'A}{K_A+A}X}{\frac{K_{i,A}+A}{K_A+A}K_X+X}
+  \end{equation*}
+  which gives apparent Michaelis-Menten kinetic constants of:
+  \begin{align}
+  \begin{split}
+      \label{eq:paramssym}
+      V_{max}&=\frac{V_{\max}'A}{K_A+A} \\
+      K_M&=\frac{K_{i,A}+A}{K_A+A}K_X
+  \end{split}
+  \end{align}
+
+  The second equation describing a bisubstrate reaction assumes ordered binding of the substrates.
+  Because in ordered binding the equation is asymmetric with respect to the two substrates, analyzing this reaction is further split according to which of the two substrates is assumed to be the assimilated metabolite with constant concentration.
+
+  If the first binding metabolite is assumed to be the assimilated metabolite we get that:
+  \begin{equation*}
+      f=\frac{V_{\max}'AX}{K_{i,A}K_X+K_XA+AX}=\frac{V_{\max}'X}{\frac{K_{i,A}+A}{A}K_X+X}
+  \end{equation*}
+  which gives apparent Michaelis-Menten kinetic constants of:
+  \begin{align}
+  \begin{split}
+      \label{eq:paramsasymfst}
+      V_{max}&=V_{\max}' \\
+      K_M&=\frac{K_{i,A}+A}{A}K_X
+  \end{split}
+  \end{align}
+  
+  If the first binding metabolite is assumed to be the internal metabolite we get that:
+  \begin{equation*}
+      f=\frac{V_{\max}'AX}{K_{i,X}K_A+K_AX+AX}=\frac{\frac{V_{\max}'A}{K_A+A}X}{\frac{K_{i,X}K_A}{K_A+A}+X}
+  \end{equation*}
+  which gives apparent Michaelis-Menten kinetic constants of:
+  \begin{align}
+  \begin{split}
+      \label{eq:paramsasymsnd}
+      V_{max}&=\frac{V_{\max}'A}{K_A+A} \\
+      K_M&=\frac{K_{i,X}K_A}{K_A+A}
+  \end{split}
+  \end{align}
+
+  To summarize, the most common equations describing bisubstrate reactions reduce to equations of the same form as Michaelis-Menten equations, under the assumption that one of the metabolites maintains a constant concentration.
+  The apparent kinetic constants of the Michaelis-Menten equivalent equations depend on the kinetic constants of the bisubstrate reactions, as well as on the concentration of the assimilated metabolite.
+
+
+  \subsection{Mapping stability constraints on Michaelis-Menten kinetic constants to constraints on the concentration of the assimilated metabolite and the kinetic constants of bisubstrate reactions}
+  In equation \ref{eq:stabconds} we obtain constraints on the kinetic parameters of Michaelis-Menten reactions that ensure existence and stability of a positive steady state.
+  We observe that these constraints imply that even if the maximal rates of the two reactions can be easily modified, if $K_{M,b}<K_{M,a}$ then such changes cannot suffice in order to satisfy the existence and stability constraints.
+  
+  Here we map the same constraints from equation \ref{eq:stabconds} onto bisubstrate autocatalytic reactions.
+  This mapping results in constraints on the assimilated metabolite concentration, as well as on the kinetic parameters of the bisubstrate autocatalytic reactions.
+  We show that in all bisubstrate reaction schemes, there is a lower bound on the concentration of the assimilated metabolite, below which the system cannot attain a stable positive steady state.
+  We further show that the nature of the bisubstrate reaction qualitatively affects the ability to satisfy the stability constraints by changing expression levels alone.
+  In the case of random binding order and in the case of ordered binding, with the assimilated metabolite binding first, unless the kinetic parameters of the participating enzymes satisfy specific inequalities, changes to the maximal reaction rates alone cannot suffice in order to satisfy the existence and stability constraints.
+  However, in the case of ordered binding with the internal metabolite binding first, changes to the maximal reaction rates alone suffice in order to allow for stable steady state to occur, given high enough concentration of the assimilated metabolite.
+  We analyze each of the three possible bisubstrate reaction schemes separately below.
+
+  \paragraph{Random binding order}
+  In the case of random binding order, we can substitute equation \ref{eq:paramssym} into the conditions from equation \ref{eq:stabconds} to get:
+  \begin{equation}
+    \label{eq:stabcondsrandbind}
+    \begin{dcases}
+      & V_{\max,b}>\frac{V_{\max}'A}{K_A+A}=V_{\max}'\frac{A}{K_A+A} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'A}{(K_{i,A}+A)K_X}=\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}
+    \end{dcases}
+  \end{equation}
+
+  We first note that from the second inequality we get that:
+  \begin{equation}
+    \label{eq:assimlowerbound}
+      \frac{V_{\max,b}K_X}{K_{M,b}V_{\max}'}<\frac{A}{K_{i,A}+A} \rightarrow
+      \frac{K_{i,A}}{\frac{K_{M,b}V_{\max}'}{V_{\max,b}K_X}-1}<A
+  \end{equation}
+  Giving a lower bound on the concentration of the assimilated metabolite for which a stable steady state is attainable.
+
+  We now wish to obtain a lower bound on $K_{M,b}$.
+  In order to obtain such a lower bound, we need an upper bound on $V_{\max}'\frac{A}{K_{i,A}+A}$.
+  However, we only have an upper bound on $V_{\max}'\frac{A}{K_A+A}$.
+  We use the first inequality in equation \ref{eq:stabcondsrandbind} to get that:
+  \begin{equation*}
+      \begin{split}
+      V_{\max,b}&>V_{\max}'\frac{A}{K_A+A} \rightarrow \\
+      V_{\max,b}\frac{A}{K_{i,A}+A}&>V_{\max}'\frac{A}{K_A+A}\frac{A}{K_{i,A}+A} \rightarrow \\
+      V_{\max,b}\frac{K_A+A}{K_{i,A}+A}&>V_{\max}'\frac{A}{K_{i,A}+A}
+      \end{split}
+  \end{equation*}
+  We note that for positive $A$, $\frac{K_A+A}{K_{i,A}+A} < \max(1,K_A/K_{i,A})$ and therefore:
+  \begin{equation*}
+      V_{\max,b}\max(1,K_A/K_{i,A})>V_{\max}'\frac{A}{K_{i,A}+A}
+  \end{equation*}
+  Substituting this inequality in the second inequality of equation \ref{eq:stabcondsrandbind} therefore gives us that:
+  \begin{equation*}
+    \begin{split}
+      \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}&<\frac{V_{\max,b}\max(1,K_A/K_{i,A})}{K_X} \rightarrow\\
+      \frac{K_X}{\max(1,K_A/K_{i,A})}&<K_{M,b}
+    \end{split}
+  \end{equation*}
+  We have therefore obtained a lower bound on the affinity of the branch reaction, $K_{M,b}$ in this case.
+
+  For the random binding order we can thus conclude that, like in the single-substrate case, a lower bound exists on the affinity of the branch reaction, below which a positive steady state is not attainable, even if the expression levels of the enzymes, and the concentration of the assimilated metabolite are modified.
+  Furthermore, for any set of kinetic parameters, there is a lower bound on the concentration of $A$ for which a positive steady state is attainable.
+
+  \paragraph{Ordered binding with the assimilated metabolite binding first}
+  In the case of ordered binding, with the assimilated metabolite binding first, we can substitute equation \ref{eq:paramsasymfst} into the conditions from equation \ref{eq:stabconds} to get:
+  \begin{equation}
+    \label{eq:stabcondsordbindfst}
+    \begin{dcases}
+      & V_{\max,b}>V_{\max}' \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'A}{(K_{i,A}+A)K_X}=\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}
+    \end{dcases}
+  \end{equation}
+  As the second inequality is identical to the one in the random binding order case, we can immediately conclude that the same lower bound on the concentration of $A$ from equation \ref{eq:assimlowerbound} holds in this case as well.
+
+  Regarding a lower bound on $K_{M,b}$, following similar reasoning as in the previous case, we first note that for any value of $A$: 
+  \begin{equation*}
+    \frac{A}{K_{i,A}+A}<1
+  \end{equation*}
+  Therefore we can deduce, by using the first inequality from equation \ref{eq:stabcondsordbindfst} in the second inequality from that equation, that:
+  \begin{equation*}
+    \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}<\frac{V_{\max}'}{K_X}<\frac{V_{\max,b}}{K_X}
+  \end{equation*}
+  which immediately yields:
+  \begin{equation*}
+    K_X<K_{M,b}
+  \end{equation*}
+  setting an absolute lower bound on $K_{M,b}$.
+
+  We thus arrive at the same conclusions in this case, as we have arrived to in the previous case, namely that a lower bound exists on the affinity of the branch reaction, and that, for any set of kinetic parameters, there is a lower bound on the concentration of the assimilated metabolite, below which a positive stable steady state cannot be obtained.
+
+  \paragraph{Ordered binding with the internal metabolite binding first}
+  In the case of ordered binding, with the internal metabolite binding first, we can substitute equation \ref{eq:paramsasymsnd} into the conditions from equation \ref{eq:stabconds} to get:
+  \begin{equation}
+    \label{eq:stabcondsordbindsnd}
+    \begin{dcases}
+      & V_{\max,b}>\frac{V_{\max}'A}{K_A+A} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'A}{K_{i,X}K_A}
+    \end{dcases}
+  \end{equation}
+  As in the previous two cases, the second inequality can be used to obtain a lower bound on the concentration of $A$:
+  \begin{equation*}
+    \frac{V_{\max,b}K_{i,X}K_A}{K_{M,b}V_{\max}'}<A
+  \end{equation*}
+  However, unlike in the previous two cases, in this case if $V_{\max}'<V_{\max,b}$, then for any concentration of $A$ that is larger than its lower bound, the second inequality will be satisfied resulting in a stable steady state.
+  This case is therefore more robust than the other two cases as it allows for the conditions to be satisfied, at least for high concentrations of $A$, given any set of kinetic parameters.
   \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
   Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
 
