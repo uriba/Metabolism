@@ -47,9 +47,9 @@
     Such low saturation of enzymes has previously been suggested to represent requirements for minimal flux in reversible reactions, for example in glycolysis \cite{Staples1997-fq,Eanes2006-gh,Flamholz2013-bb}, safety factors in face of varying nutrient availability, for example in the brush-border of mouse intestine \cite{Weiss1998-gp}, or rapid shifts in demands from the metabolic network in low flux muscles \cite{Suarez1997-jo}.
     Low saturation has also been previously shown to contribute to fast response to pulses of oxidative load in erythrocytes, resulting from their adherence to phagocytes \cite{Salvador2003-fc}.
     We point that for enzymes consuming intermediate metabolites of autocatalytic cycles there is a reverse relationship between the affinity of the enzyme and the flux it carries.
-    Therefore, for these enzymes, the lower the affinity to the substrate is, the higher the flux the reaction will carry, which is opposite to the normal relationship between affinities and fluxes.
+    Namely, for these enzymes, the lower the affinity to the substrate, the higher the flux carried by the reaction, which is opposite to the normal relationship between affinities and fluxes.
     We use recent fluxomics and proteomics data to test these design principles.
-    We find them to hold in cases at which autocatalytic cycles support flux.
+    We find them to hold in all cases tested, where autocatalytic cycles support flux.
     Our analysis demonstrates how the requirement for stable operation of autocatalytic cycles results in design principles that are followed by autocatalytic cycles in-vivo.
     The results and design principles presented here can further be used in synthetic metabolic engineering applications that require proper functioning of autocatalytic cycles.
 
@@ -72,8 +72,8 @@ For a formal, mathematical definition, see the methods section.
 While rarely discussed as such, a systematic search in central carbon metabolism of \emph{E.coli} (see methods) shows the ubiquity of autocatalytic cycles.
 On top of the previously discussed CBB cycle (Figure \ref{fig:realautocatal}, example I), we show two other prominent examples:
 \begin{itemize}
-    \item The glyoxylate cycle within the TCA cycle, which turns an internal malate and two external acetyl CoA's into two malate molecules.
-        This is achieved by transforming malate to isocitrate, while assimilating acetyl CoA, and then splitting the isocitrate to produce two malate molecules, assimilating another acetyl-CoA \cite{Kornberg1966-lh} (Figure \ref{fig:realautocatal}, example II).
+    \item The glyoxylate cycle within the TCA cycle, which turns an internal malate and two external acetyl-CoA's into two malate molecules.
+        This is achieved by transforming malate to isocitrate, while assimilating acetyl-CoA, and then splitting the isocitrate to produce two malate molecules, assimilating another acetyl-CoA \cite{Kornberg1966-lh} (Figure \ref{fig:realautocatal}, example II).
     \item A widely known feature in bacteria that import a glucose molecule using phosphoenolpyruvate (PEP) as a co-factor, and then produce two PEP molecules via glycolysis.
         This autocatalytic cycle therefore consumes PEP to transport sugar substrates using the phosphotransferase system (PTS), then converts the imported substrate into two PEP molecules (Figure \ref{fig:realautocatal}, example III).
 
@@ -156,17 +156,26 @@ We therefore assume that:
       \label{eq:xstst}
       X=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}
     \end{equation}
-    The concentration of $X$ cannot be negative, and thus we get a constraint on the kinetic parameters for which a positive steady state exists:
-
+    implying that:
+    \begin{equation}
+      \label{eq:xststalt}
+      \frac{X}{K_{M,a}}=\frac{\frac{V_{\max,b}}{V_{\max,a}}-\frac{K_{M,b}}{K_{M,a}}}{1-\frac{V_{\max,b}}{V_{\max,a}}}
+    \end{equation}
+    The concentration of $X$ cannot be negative, and thus we get a constraint on the kinetic parameters for which a positive steady state exists, either both the numerator and the denominator of equation \ref{eq:xststalt} are negative, such that:
     \begin{equation*}
-      \frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{M,b}}-\frac{V_{\max,a}}{K_{M,a}}}{V_{\max,a}-V_{\max,b}}>0
+    1<\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{M,b}}{K_{M,a}}
     \end{equation*}
+    , or both are positive, such that:
+    \begin{equation*}
+    1>\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}
+    \end{equation*}
+    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B, cases (I) and (III).
+
     In order to gain intuition for this relationship we note that $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$.
     The constraint therefore implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
     Mathematically, the constraint states that if $V_{\max,b}<V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$.
     Alternatively, if $V_{\max,b}>V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$.
     This condition can be intuitively understood, as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$, compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will never intersect, which is the condition for a steady state.
-    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B, cases (I) and (III).
 
     While having a positive concentration steady state is an essential condition to sustain flux, it is not sufficient in terms of biological function.
     The positive concentration steady state must also be stable to small perturbations.
@@ -174,7 +183,7 @@ We therefore assume that:
     Mathematically, stability dictates that at $X=X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that upon a small deviation from the steady state: $X = X^*+\Delta X$ the net flux $\dot X$ will oppose the direction of the deviation.
     If $\Delta X$ is positive then $\dot X$ will be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
 
-    For the simple kinetics we chose the stability condition dictates that:
+    For the simple kinetics we chose, the stability condition dictates that:
     \begin{equation}
         \label{eq:stable}
       \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
@@ -203,12 +212,7 @@ We therefore assume that:
     The domains above the diagonal (cases (II) and (III)) are the domains where $X^*=0$ is a stable steady state concentration, so that the other steady state, if it exists, is unstable.
 
     Aside from existence and stability, a quantitative relationship between the affinity of the biomass generating, branching reaction and the flux it carries can be obtained.
-    This relationship is opposite to the standard one, meaning that unlike the common case where $f\propto\frac{1}{K_M}$, in this case, when substituting the steady state concentration from Equation \ref{eq:xstst} into the flux equation for $f_b$, we get that:
-
-    \begin{equation*}
-        f_b=\frac{V_{\max,b}X}{K_{M,b}+X}=\frac{V_{\max,b}\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}}{K_{M,b}+\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}}=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{K_{M,a}-K_{M,b}}
-    \end{equation*}
-    which, for $K_{M,b}$ that satisfies the existence and stability conditions such that $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$, results in $f_b \propto K_{M,b}$.
+    This relationship is opposite to the standard one, meaning that unlike the common case where $f\propto\frac{1}{K_M}$, in this case, noting that the steady state concentration increases with $K_{M,b}$ (equation \ref{eq:ststdep}), we get that $f_b \propto K_{M,b}$.
 
     To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist (case (I)), two conditions must be satisfied:
     \begin{equation}
@@ -232,7 +236,7 @@ We therefore assume that:
 
     \subsection{Integrating the bisubstrate nature of the autocatalytic reaction into the simple model}
     In the section above, to keep the analysis concise, we neglected the bisubstrate nature of the autocatalytic reaction.
-    There are generally two kind of bisubstrate reaction schemes; random binding order scheme, at which the two substrates can bind the relevant enzyme at any order, and ordered binding, at which one substrate must bind the enzyme first and only then can the second substrate bind and the reaction proceeds \cite{Leskovac2003-li}.
+    There are generally two kinds of bisubstrate reaction schemes; random binding order scheme, at which the two substrates can bind the relevant enzyme at any order, and ordered binding, at which one substrate must bind the enzyme first and only then can the second substrate bind and the reaction proceeds \cite{Leskovac2003-li}.
     Because in the ordered binding case, the equation that describes the reaction flux in asymmetric is the concentrations of the two substrates, two possible sub-cases exist; the assimilated metabolite can be the first-binding substrate, or the second-binding substrate.
 
     We note that, as is shown in the methods, all three bisubstrate reaction schemes take a Michaelis-Menten like form once the concentration of the assimilated metabolite is kept constant.
@@ -734,6 +738,21 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
 
   The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that holds for the core model of \emph{E.coli}, but not in metabolic networks in general.
   
+  \subsection{Dependence of the simple cycle steady state concentration on the kinetic parameters of the autocatalytic and branch reactions}
+  The simple cycle steady state concentration, $X^*$, is given in equation \ref{eq:xstst}.
+  Taking the derivative of this expression with respect to $K_{M,a}$, $K_{M,b}$, $V_{\max,a}$, and $V_{\max,b}$, under the assumption that the kinetic parameters satisfy the stability conditions in equation \ref{eq:stabconds} gives:
+  \begin{align}
+      \begin{split}
+          \label{eq:ststdep}
+    \frac{\partial X^*}{\partial K_{M,a}}&=\frac{V_{\max,b}}{V_{\max,a}-V_{\max,b}}<0 \\
+    \frac{\partial X^*}{\partial K_{M,b}}&=\frac{-V_{\max,a}}{V_{\max,a}-V_{\max,b}}>0 \\
+    \frac{\partial X^*}{\partial V_{\max,a}}&=\frac{V_{\max,b}(K_{M,b}-K_{M,a})}{(V_{\max,a}-V_{\max,b})^2}>0 \\
+    \frac{\partial X^*}{\partial V_{\max,b}}&=\frac{V_{\max,a}(K_{M,a}-K_{M,b})}{(V_{\max,a}-V_{\max,b})^2}<0
+      \end{split}
+  \end{align}
+  So that $X^*$ increases when $K_{M,a}$ decreases or $V_{\max,a}$ increases (or both) corresponding to activation of $f_a$.
+  On the other hand, $X^*$ decreases when $K_{M,b}$ decreases or $V_{\max,b}$ increases (or both) corresponding to activation of $f_b$.
+
   \subsection{Connecting the kinetic constants of bisubstrate reaction velocity equations, under constant substrate concentration assumption, with simple Michaelis-Menten kinetics constants}
   Two standard equations are commonly used to describe the flux through irreversible bisubstrate reactions \cite{Leskovac2003-li}.
   We show that, under the assumption that the assimilated metabolite maintains constant concentration, these equations reduce to simple Michaelis-Menten equations.
@@ -910,17 +929,6 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   Interestingly, in the first and last cases, if $V_{\max}'>V_{\max,b}$, then an upper bound on the concentration of $A$ also exists.
   As the concentration of $A$ approaches this upper bound, the denominator approaches $0$ resulting in an increase in the concentration of $X$ towards infinity.
 
-  \subsection{Dependence of the simple cycle steady state concentration on the kinetic parameters of the autocatalytic and branch reactions}
-  The simple cycle steady state concentration, $X^*$, is given in equation \ref{eq:xstst}.
-  Taking the derivative of this expression with respect to $K_{M,a}$, $K_{M,b}$, $V_{\max,a}$, and $V_{\max,b}$, under the assumption that the kinetic parameters satisfy the stability conditions in equation \ref{eq:stabconds} gives:
-  \begin{align*}
-    \frac{\partial X^*}{\partial K_{M,a}}&=\frac{V_{\max,b}}{V_{\max,a}-V_{\max,b}}<0 \\
-    \frac{\partial X^*}{\partial K_{M,b}}&=\frac{-V_{\max,a}}{V_{\max,a}-V_{\max,b}}>0 \\
-    \frac{\partial X^*}{\partial V_{\max,a}}&=\frac{-K_{M,b}(V_{\max,a}-V_{\max,b})+V_{\max,a}K_{M,b}-V_{\max,b}K_{M,a}}{(V_{\max,a}-V_{\max,b})^2}=\frac{V_{\max,b}(K_{M,b}-K_{M,a})}{(V_{\max,a}-V_{\max,b})^2}>0 \\
-    \frac{\partial X^*}{\partial V_{\max,b}}&=\frac{K_{M,a}(V_{\max,a}-V_{\max,b})+V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{(V_{\max,a}-V_{\max,b})^2}=\frac{V_{\max,a}(K_{M,a}-K_{M,b})}{(V_{\max,a}-V_{\max,b})^2}<0
-  \end{align*}
-  So that $X^*$ increases when $K_{M,a}$ decreases or $V_{\max,a}$ increases (or both) corresponding to activation of $f_a$.
-  On the other hand, $X^*$ decreases when $K_{M,b}$ decreases or $V_{\max,b}$ increases (or both) corresponding to activation of $f_b$.
   \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
   Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
 
