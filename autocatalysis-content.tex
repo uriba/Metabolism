@@ -327,18 +327,18 @@ We therefore assume that:
     Here we assume the branch reaction is reversible, and let $Y$ denote its product.
     For simplicity, we further assume that $K_{\text{eq}}=1$, noting that this assumption can always be satisfied by measuring the concentration of $Y$ in units of $K_{\text{eq}}X$.
     We recall that the reversible Michaelis-Menten equation states that:
-    \begin{equation*}
-        f_b=\frac{V_{\max,b}(X-Y)}{K_X+X+\frac{K_X}{K_Y}Y}
-    \end{equation*}
+   \begin{equation*}
+       f_b=\frac{V_{\max,b}(X-Y)}{K_X+X+\frac{K_X}{K_Y}Y}
+   \end{equation*}
 
-    We first note that if $Y$ is removed rapidly, such that $Y << X$, making the reversible reaction proceed far from equilibrium, then the system is identical to the irreversible case analyzed above, resulting in the same conditions on existence and stability of non-zero steady state.
-    Another observation is that for any positive constant concentration of $Y$, $X=0$ is not a steady state as the branch reaction will replenish $X$.
-    In this case, the system will always reach a steady state if $V_{\max,b}>V_{\max,a}$ as the concentration of $X$ will increase until $f_b=f_a$.
-    However, this case has limited biological relevance, as $Y$ most probably serves as the substrate of subsequent reactions.
+   We first note that if $Y$ is removed rapidly, such that $Y << X$, making the reversible reaction proceed far from equilibrium, then the system is identical to the irreversible case analyzed above, resulting in the same conditions on existence and stability of non-zero steady state.
+   Another observation is that for any positive constant concentration of $Y$, $X=0$ is not a steady state as the branch reaction will replenish $X$.
+   In this case, the system will always reach a steady state if $V_{\max,b}>V_{\max,a}$ as the concentration of $X$ will increase until $f_b=f_a$.
+   However, this case has limited biological relevance, as $Y$ most probably serves as the substrate of subsequent reactions.
 
-    The most biologically relevant case is therefore when a third reaction, $f_c$ irreversibly consumes $Y$.
-    While assuming $f_c$ follows irreversible Michaelis-Menten kinetics is analytically tractable, the analysis is much simpler and as informative under the assumption that $f_c=CY$ for some constant $C$.
-    This case is equivalent to assuming that $V_{\max,c} >> V_{\max,a},V_{\max,b}$.
+   The most biologically relevant case is therefore when a third reaction, $f_c$ irreversibly consumes $Y$.
+   While assuming $f_c$ follows irreversible Michaelis-Menten kinetics is analytically tractable, the analysis is much simpler and as informative under the assumption that $f_c=CY$ for some constant $C$.
+   This case is equivalent to assuming that $V_{\max,c} >> V_{\max,a},V_{\max,b}$.
 
     For this case we get that at steady state $f_a=f_c$ so that:
     \begin{equation}
