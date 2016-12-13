@@ -5,12 +5,12 @@
     Primitive autocatalytic metabolism is therefore considered to be one of the essential components of life \cite{Ganti2003-ch}.
     The metabolic system of any modern living organism, composed of the intermediate metabolites and enzymes catalyzing its reactions, is autocatalytic as a whole and must enable both the excess production of each of its metabolites, as well as the production of all the precursor molecules needed in order for the translation-transcription machinery to synthesize new copies of its enzymes.
 
-    Even though the whole metabolic system of an organism is part of the autocatalytic process of reproduction, this does not imply that it is composed of smaller autocatalytic components.
+    Even though the metabolic system of an organism is part of the autocatalytic process of reproduction, this does not imply that it is composed of smaller autocatalytic components.
     The metabolic system is composed of two classes of components, enzymes and metabolites.
     Because the metabolic system lacks the transcription-translation machinery, it does not produce enzymes.
     Therefore, while enzymes are an essential part of the metabolic system, they are not an autocatalytic component of this system.
-    Regarding intermediate metabolites, the metabolic system evidently produces them, but it is not a priory evident that specific intermediate metabolites must exist in order for the metabolic system to metabolize external nutrients.
-    Theoretically, all the intermediate metabolites of a metabolic system could be generated directly from external nutrients, not requiring existing internal metabolite pools.
+    Regarding intermediate metabolites, the metabolic system evidently produces them, but it is not a priori evident that specific intermediate metabolites must exist in order for the metabolic system to metabolize external nutrients.
+    Theoretically, all the intermediate metabolites of a metabolic system could be generated directly from external nutrients during catabolism, not requiring existing internal metabolite pools.
     However, and despite the essentiality of functioning metabolic networks, such networks often do require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
     The most common examples of obligatorily autocatalytic internal metabolites are ATP and co-factors \cite{Kun2008-xg}.
     The requirement for availability of certain metabolites in order to consume nutrients (also referred to as turbo design \cite{Teusink1998-he}) implies metabolic processes must be finely controlled to prevent such essential metabolites from running out, as in such cases metabolism will stop and the organism will die.
@@ -148,18 +148,18 @@ We therefore assume that:
     Indeed, expanding the condition above gives:
 
     \begin{equation*}
-      f_a = f_b \Rightarrow \frac{V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
+      f_a = f_b \Rightarrow \frac{V_{\max,a}X^*}{K_{M,a}+X^*}=\frac{V_{\max,b}X^*}{K_{M,b}+X^*}
     \end{equation*}
-    which is satisfied either if $X=0$ or if:
+    which is satisfied either if $X^*=0$ or if:
 
     \begin{equation}
       \label{eq:xstst}
-      X=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}
+      X^*=\frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}
     \end{equation}
     implying that:
     \begin{equation}
       \label{eq:xststalt}
-      \frac{X}{K_{M,a}}=\frac{\frac{V_{\max,b}}{V_{\max,a}}-\frac{K_{M,b}}{K_{M,a}}}{1-\frac{V_{\max,b}}{V_{\max,a}}}
+      \frac{X^*}{K_{M,a}}=\frac{\frac{V_{\max,b}}{V_{\max,a}}-\frac{K_{M,b}}{K_{M,a}}}{1-\frac{V_{\max,b}}{V_{\max,a}}}
     \end{equation}
     The concentration of $X$ cannot be negative, and thus we get a constraint on the kinetic parameters for which a positive steady state exists, either both the numerator and the denominator of equation \ref{eq:xststalt} are negative, such that:
     \begin{equation*}
@@ -186,7 +186,7 @@ We therefore assume that:
     For the simple kinetics we chose, the stability condition dictates that:
     \begin{equation}
         \label{eq:stable}
-      \frac{d\dot X}{dX}\Big\vert_{X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
+      \frac{d\dot X}{dX}\Big\vert_{X=X^*} = \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}-\frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2}<0
     \end{equation}
     The analysis is straightforward for the case of $X^*=0$, yielding that $0$ is a stable steady state concentration if $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$, corresponding to the area above the diagonal in figure \ref{fig:simplecycle}B, where $\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}$. These cases are denoted as cases (II) and (III).
     If the relation is reversed (i.e. $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$), then $0$ is an unstable steady state.
@@ -202,7 +202,7 @@ We therefore assume that:
     In these terms, stability is obtained if and only if the elasticity of the branch reaction at the positive steady state concentration is greater than the elasticity of the autocatalytic reaction:
 
     \begin{equation*}
-        \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow \varepsilon^{f_b}_X>\varepsilon^{f_a}_X
+        \frac{df_b}{dX}\Big\vert_{X=X^*}>\frac{df_a}{dX}\Big\vert_{X=X^*} \Rightarrow \varepsilon^{f_b}_X>\varepsilon^{f_a}_X
     \end{equation*}
     
     The complete analysis is summarized up in Figure \ref{fig:simplecycle}B.
@@ -317,7 +317,7 @@ We therefore assume that:
     Therefore, for any concentration of $A$, a concentration of $X$ exists such that $f_a(X)=0<f_b(X)$.
     It then follows that a sufficient condition for a positive steady state to exist is that at $X=0$, $\dot{X}>0$, which implies that 
     \begin{equation*}
-    \frac{\partial f_a}{\partial X}\Big\vert_{0}>\frac{V_{\max,b}}{K_{M,b}}
+    \frac{\partial f_a}{\partial X}\Big\vert_{X=0}>\frac{V_{\max,b}}{K_{M,b}}
     \end{equation*}
     which can always be satisfied by high expression of the autocatalytic enzyme, increasing $V_{\max,a}$.
     For this case it therefore follows that for any concentration of $A$, a minimal value for $V_{\max,a}$ exists, above which a positive steady state is achieved.
@@ -924,8 +924,8 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
       { V_{\max,b}-\frac{V_{\max}'A}{K_A+A} }
   \end{align}
 
-  Assuming the kinetic parameters satisfy the stable steady state conditions derived in equations \ref{eq:stabcondsrandbind}, \ref{eq:stabcondsordbindfst}, and \ref{eq:stabcondsordbindsnd}, we note that when $A$ is equal to its lower bound, the nominator in all three cases is $0$, resulting in $X=0$.
-  Furthermore, as $A$ decreases towards its lower bound, $X$ decreases resulting in a decrease in both $f_b$ and $f_a$ (for the two latter cases this is trivial to show, as the terms involving $A$ increase and decrease monotonically in accordance with their effect on $X$. In the first case, taking the derivative of the nominator w.r.t. $A$ shows the derivative is always positive, resulting in the same conclusion).
+  Assuming the kinetic parameters satisfy the stable steady state conditions derived in equations \ref{eq:stabcondsrandbind}, \ref{eq:stabcondsordbindfst}, and \ref{eq:stabcondsordbindsnd}, we note that when $A$ is equal to its lower bound, the numerator in all three cases is $0$, resulting in $X=0$.
+  Furthermore, as $A$ decreases towards its lower bound, $X$ decreases resulting in a decrease in both $f_b$ and $f_a$ (for the two latter cases this is trivial to show, as the terms involving $A$ increase and decrease monotonically in accordance with their effect on $X$. In the first case, taking the derivative of the numerator w.r.t. $A$ shows the derivative is always positive, resulting in the same conclusion).
   Interestingly, in the first and last cases, if $V_{\max}'>V_{\max,b}$, then an upper bound on the concentration of $A$ also exists.
   As the concentration of $A$ approaches this upper bound, the denominator approaches $0$ resulting in an increase in the concentration of $X$ towards infinity.
 
@@ -1050,7 +1050,7 @@ For this segment we therefore get that
     Given this definition we can show that if two Michaelis-Menten reactions consume the same metabolite, $X$, and at a given concentration, $X^*$, it holds that $f_a(X^*)\geq f_b(X^*)$, then if:
 
     \begin{equation}
-        \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*}
+        \frac{df_b}{dX}\Big\vert_{X=X^*}>\frac{df_a}{dX}\Big\vert_{X=X^*}
         \label{eq:lemmapremise}
     \end{equation}
     then it follows that:
@@ -1071,7 +1071,7 @@ For this segment we therefore get that
      Expanding the premise of the lemma in equation \ref{eq:lemmapremise} gives us that:
 
      \begin{equation*}
-        \frac{df_b}{dX}\Big\vert_{X^*}>\frac{df_a}{dX}\Big\vert_{X^*} \Rightarrow
+        \frac{df_b}{dX}\Big\vert_{X=X^*}>\frac{df_a}{dX}\Big\vert_{X=X^*} \Rightarrow
         \frac{V_{\max,b}K_{M,b}}{(K_{M,b}+X^*)^2} > \frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X^*)^2}
      \end{equation*}
      Because equation \ref{eq:firstmid} holds, it follows that:
