@@ -5,18 +5,11 @@
     Primitive autocatalytic metabolism is therefore considered to be one of the essential components of life \cite{Ganti2003-ch}.
     The metabolic system of any modern living organism, composed of the intermediate metabolites and enzymes catalyzing its reactions, is autocatalytic as a whole and must enable both the excess production of each of its metabolites, as well as the production of all the precursor molecules needed in order for the translation-transcription machinery to synthesize new copies of its enzymes.
 
-    Even though the metabolic system of an organism is part of the autocatalytic process of reproduction, this does not imply that it is composed of smaller autocatalytic components.
-    The metabolic system is composed of two classes of components, enzymes and metabolites.
-    Because the metabolic system lacks the transcription-translation machinery, it does not produce enzymes.
-    Therefore, while enzymes are an essential part of the metabolic system, they are not an autocatalytic component of this system.
-    Regarding intermediate metabolites, the metabolic system evidently produces them, but it is not a priori evident that specific intermediate metabolites must exist in order for the metabolic system to catabolize external nutrients.
-    Theoretically, all the intermediate metabolites of a metabolic system could be generated directly from external nutrients during catabolism, not requiring existing internal metabolite pools.
-    However, and despite the essentiality of functioning metabolic networks, such networks often do require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
+    Metabolic networks often require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
     The most common examples of obligatorily autocatalytic internal metabolites are ATP and co-factors \cite{Kun2008-xg}.
     The requirement for availability of certain metabolites in order to consume nutrients (also referred to as turbo design \cite{Teusink1998-he}) implies metabolic processes must be finely controlled to prevent such essential metabolites from running out, as in such cases metabolism will stop and the organism will die.
-    Therefore, from a robustness point of view, autocatalytic cycles seem to be a weakness in metabolism as they confer constraints on metabolite levels that would not have existed in the absence of autocatalysis.
-    The weaknesses and constraints autocatalysis imposes have been identified and modeled in the context of ATP activation in glycolysis \cite{Teusink1998-he}.
-    On the other hand, autocatalytic cycles are, in specific cases, optimal network topologies that minimize the number of reactions needed for the production of precursor molecules from different nutrients \cite{Riehl2010-yh}.
+    The constraints autocatalysis imposes have been identified and modeled in the context of ATP activation in glycolysis \cite{Teusink1998-he}.
+    Despite the constraints autocatalytic cycles impose on metabolism, such cycles are, in some cases, optimal network topologies that minimize the number of reactions needed for the production of precursor molecules from different nutrients \cite{Riehl2010-yh}.
 
     In this work we focus on autocatalytic cycles in chemical reaction systems, and specifically in metabolic networks.
     The components we consider are the metabolites of the system, with autocatalytic cycles being formed using the reactions of the metabolic network.
@@ -448,22 +441,26 @@ implying that for all $i$:
     While many allosteric regulation schemes exist \cite{Leskovac2003-li}, all of these schemes affect the affinity of the regulated enzyme, and some of these schemes also affect the maximal rate.
     We analyze the qualitative expected beneficial regulation motifs for autocatalytic cycles.
 
-    We consider three classes of regulating metabolites: the assimilated metabolite, internal metabolites of the cycle, and the products of the branch reactions out of the cycle.
-    We further consider three regulation targets: the enzymes catalyzing the recycling and autocatalytic reactions, the branch enzymes, and enzymes catalyzing reactions from branch reactions products back into the cycle.
-    We note that the last category of reactions, catalyzing reactions from products of branch reactions back into cycle intermediates, can intuitively be regarded as mirror images of the branch reactions as the net flux out of the cycle is the flux trough the branch reactions minus the flux trough these reverse reactions.
-    From equation \ref{eq:ststdep}, we get that the steady state concentration, $X^*$, increases as $K_{M,b}$ increases and $V_{\max,b}$ decreases, corresponding to inhibition of $f_b$, and that $X^*$ decreases as $K_{M,a}$ increases and $V_{\max,a}$ decreases, corresponding to inhibition of $f_a$.
-    Therefore, to increase $X^*$, and, as a result, to increase the autocatalytic and branch fluxes, the recycling and autocatalytic reactions should be activated, and the branch reactions should be inhibited.
-    On the other hand, to decrease $X^*$, and as a result the autocatalytic and branch fluxes, the autocatalytic reactions should be inhibited and the branch reactions should be activated.
+    From the perspective of the simple model, we recall that $\dot{X}=f_a-f_b$.
+    If the cycle is such that some steady state concentration, $X^*$, is optimal for biological function, then for levels of $X$ below $X^*$ convergence will be faster if $f_a$ is increased and $f_b$ is decreased, compared with their values at $X^*$.
+    Conversely, for levels of $X$ above $X^*$, convergence will be faster if $f_a$ is decreased and $f_b$ is increased, compared with their values at $X^*$.
+    Convergence to $X^*$ can therefore be accelerated if $X$ activates the branch reaction and inhibits the autocatalytic reaction.
 
-    To ensure stable, fast converging operation, we therefore expect the following interactions:
-    \begin{itemize}
-        \item High levels of the assimilated metabolite or the intermediate metabolites of the cycle should reduce autocatalytic flux and increase branch flux to avoid overflow of the cycle.
-            Conversely, low levels of the assimilated metabolite or the intermediate metabolites of the cycle should increase autocatalytic flux and decrease branch flux to avoid drainage.
-        \item High levels of branch products metabolites should reduce autocatalytic flux and increase branch reaction affinity and maximal flux, to reduce both the levels of the cycle intermediate metabolites and the flux branching out of the cycle.
-    \end{itemize}
+    The assimilated metabolite can also allosterically regulate the reactions of the cycle.
+    Assuming $X^*$ is optimal, and is attained for some constant concentration of the assimilated metabolite, $A^*$, it follows that because the autocatalytic activity is higher when $A>A^*$, then in order to maintain $X^*$ at its optimal level, when $A>A^*$, $f_a$ should be inhibited, and $f_b$ should be activated, but when $A<A^*$, $f_a$ should be activated, and $f_b$ should be inhibited.
+    Therefore, to increase the robustness of the steady state concentration to changes in the concentration of the assimilated metabolite, the assimilated metabolite should inhibit the cycle reactions and activate the branch reactions.
+
+    Another possible class of regulators are the products of the branch reactions.
+    If the level of $Y$, the product of a branch reaction is low, implying that the cycle does not carry sufficient flux to supply the demand for $Y$, regulation can be used to increase $X^*$. 
+    From equation \ref{eq:ststdep}, we get that the steady state concentration, $X^*$, increases as $K_{M,b}$ increases and $V_{\max,b}$ decreases, corresponding to inhibition of $f_b$, and that $X^*$ decreases as $K_{M,a}$ increases and $V_{\max,a}$ decreases, corresponding to inhibition of $f_a$.
+    So, to tune autocatalytic fluxes to match the demands of $Y$, regulation should increase $X^*$ when $Y$ is low, by activating the recycling and autocatalytic reactions and inhibiting the branch reactions.
+    On the other hand, regulation should decrease $X^*$ when $Y$ is high, by inhibiting the autocatalytic reactions and activating the branch reactions.
+    Therefore, to synchronize the demand of the cycle product with the cycle flux, the cycle branch products should inhibit the cycle reactions and activate the branch reactions.
+
+    Finally, we note that in the autocatalytic cycles we identify in central carbon metabolism, there are also reactions that operate in the reverse direction to the branch reactions, such that they consume products of the cycle and produce intermediate metabolites of the cycle.
+    As such reactions are mirror images of branch reactions, we expect them to be oppositely regulated to branch reactions.
 
     As we show below, these predictions hold for the PTS using cycle, that is known to be allosterically controlled, but not for the glyoxylate cycle, which is known to be transcriptionally controlled \cite{Gerosa2015-oq}.
-
     \subsection{Testing the predictions of the analysis with experimental data on functioning autocatalytic cycles}
     To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux in-vivo.
     We used recent in-vivo flux measurements in \emph{E.coli} from \cite{Gerosa2015-oq}.
@@ -541,7 +538,7 @@ implying that for all $i$:
     We evaluate the expected allosteric interactions that support fast convergence and stability of autocatalytic cycles, as we qualitatively derived above, against the allosteric regulation network of the two functioning autocatalytic cycles we identified, the PTS-using autocatalytic cycle and the glyoxylate cycle (see supplementary tables, regulation data was taken from \cite{Keseler2013-xn} and \cite{Schomburg2004-st}).
 
     For the PTS cycle we find that there are a total of 12 allosteric interactions, 7 inhibitions and 5 activations.
-    Out of these 12 interactions, 11 interactions follow our expectations in terms of the class of the regulator, the class of the regulated enzyme, and the direction of the regulation (activation or inhibition).
+    Out of these 12 interactions, 11 interactions follow our expectations in terms of the type of the regulating metabolite (assimilated metabolite, cycle intermediate, or branch product), the regulated reaction (cycle reaction, branch reaction, or the reverse of a branch reaction), and the direction of the regulation (activation or inhibition).
     One interaction, the activation of fba by pep, does not follow our expectation.
 
     For the glyoxylate cycle we find that there are a total of 13 interactions, 12 inhibitions and 1 activation.
@@ -830,8 +827,160 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   Interestingly, in the first and last cases, if $V_{\max}'>V_{\max,b}$, then an upper bound on the concentration of $A$ also exists.
   As the concentration of $A$ approaches this upper bound, the denominator approaches $0$ resulting in an increase in the concentration of $X$ towards infinity.
 
-\subsubsection{Reversible branch reaction analysis}
-  input{reversible-linear.tex}
+\subsection{Reversible branch reaction analysis}
+    The simple model assumed both the autocatalytic and the branch reactions are irreversible.
+    Here we assume the branch reaction is reversible, and let $Y$ denote its product.
+    For simplicity, we further assume that $K_{\text{eq}}=1$, noting that this assumption can always be satisfied by measuring the concentration of $Y$ in units of $K_{\text{eq}}X$.
+    We recall that the reversible Michaelis-Menten equation states that:
+   \begin{equation*}
+       f_b=\frac{V_{\max,b}(X-Y)}{K_X+X+\frac{K_X}{K_Y}Y}
+   \end{equation*}
+
+   We assume that a third reaction, $f_c$, irreversibly consumes $Y$.
+   While assuming $f_c$ follows irreversible Michaelis-Menten kinetics is analytically tractable, the analysis is simpler, and as informative, under the assumption that $f_c=DY$ for some constant $D$.
+   This simplification is equivalent to assuming $f_c$ follows Michaelis-Menten kinetics with $\frac{V_{\max,c}}{K_{M,c}} \approx D$, and $V_{\max,c} >> \max(V_{\max,a},V_{\max,b})$.
+
+   We start by deriving the necessary conditions for steady state existence.
+   Because at steady state $f_a=f_c$, it follows that:
+    \begin{equation}
+        \label{eq:branchrevy}
+        \frac{V_{\max,a}X^*}{K_{M,a}+X^*}=DY^* \Rightarrow Y^*=\frac{\frac{V_{\max,a}}{D}X^*}{K_{M,a}+X^*}
+    \end{equation}
+    Furthermore, as at the steady state $f_a=f_b$, we get that:
+    \begin{equation*}
+        \frac{V_{\max,a}X^*}{K_{M,a}+X^*}=\frac{V_{\max,b}(X^*-Y^*)}{K_X+X^*+\frac{K_X}{K_Y}Y^*}
+    \end{equation*}
+    Substituting $Y^*$ from equation \ref{eq:branchrevy} gives:
+    \begin{equation*}
+        \frac{V_{\max,a}X^*}{K_{M,a}+X^*}=\frac{V_{\max,b}(X^*-\frac{\frac{V_{\max,a}}{D}X^*}{K_{M,a}+X^*})}{K_X+X^*+\frac{K_X}{K_Y}\frac{\frac{V_{\max,a}}{D}X^*}{K_{M,a}+X^*}}
+    \end{equation*}
+    Which is satisfied when $X^*=0$ (implying that $X^*=Y^*=0$ is a steady state), or when $X^*$ satisfied the quadratic equation:
+    \begin{align*}
+        0=&(X^*)^2+\frac{2K_{M,a}V_{\max,b}-(K_{M,a}+K_X)V_{\max,a}-\frac{K_XV_{\max,a}^2}{K_YD}-\frac{V_{\max,a}V_{\max,b}}{D}}{V_{\max,b}-V_{\max,a}}X^*+\\
+        &\frac{K_{M,a}(V_{\max,b}K_{M,a}-V_{\max,a}K_X-\frac{V_{\max,a}V_{\max,b}}{D})}{V_{\max,b}-V_{\max,a}}
+    \end{align*}
+
+Albeit intimidating, this quadratic equation can be used to derive the conditions for existence of a positive steady state.
+Only if both of the roots of this equation are negative, no positive steady state exists.
+We recall that the two roots of a quadratic equation of the form $0=aX^2+bX+c$ are negative iff:
+\begin{align*}
+    \begin{dcases}
+        b&=\frac{2K_{M,a}V_{\max,b}-(K_{M,a}+K_X)V_{\max,a}-\frac{K_XV_{\max,a}^2}{K_YD}-\frac{V_{\max,a}V_{\max,b}}{D}}{V_{\max,b}-V_{\max,a}}>0 \\
+        c&=\frac{K_{M,a}(V_{\max,b}K_{M,a}-V_{\max,a}K_X-\frac{V_{\max,a}V_{\max,b}}{D})}{V_{\max,b}-V_{\max,a}}>0
+    \end{dcases}
+\end{align*}
+As in the irreversible case, the sign of $V_{\max,b}-V_{\max,a}$ determines the required condition on the numerators.
+We assume that $V_{\max,b}>V_{\max,a}$, noting that if $V_{\max,b}<V_{\max,a}$, a positive steady state cannot be globally stable because for $X$ such that $f_a(X)>V_{\max,b}$, the system will diverge regardless of the value of $Y$.
+
+Under the assumption that $V_{\max,b}>V_{\max,a}$, the denominator of both $b$ and $c$ is positive, meaning a positive steady state exists only if the nominators of $b$ or $c$ (or both) are negative.
+Thus, two options may arise.
+\begin{itemize}
+    \item If $K_{M,a}>V_{\max,a}/D$ (implying $D>V_{\max,a}/K_{M,a}$, qualitatively suggesting rapid removal of $Y$) then an upper bound on $V_{\max,b}$ exists, above which the two solutions are negative, implying no positive steady state exists.
+    A sufficient condition for existence in this case is that $\frac{V_{\max,b}}{K_X}<\frac{V_{\max,a}}{K_{M,a}}$, ensuring that $c<0$.
+    This condition is equivalent to the condition in the irreversible case.
+    We further show below that for large enough $D$, the resulting steady state is stable.
+    \item If $D<V_{\max,a}/K_{M,a}$, then for any $V_{\max,b}>V_{\max,a}$, $c<0$ implying a positive steady state exists.
+    As we show below, in this case both when $V_{\max,b}\rightarrow V_{\max,a}$, and when $V_{\max,b}\rightarrow \infty$, the steady state is stable.
+\end{itemize}
+
+We now turn to analyze the stability of the steady state.
+For a steady state to be stable, the eigenvalues of the Jacobian matrix must have negative real values.
+In our system it holds that
+\begin{align*}
+    \dot{X} & =f_a-f_b \\
+    \dot{Y} & =f_b-f_c
+\end{align*}
+
+We use the following notation:
+\begin{align*}
+  \alpha & =\frac{df_a}{dX}=\frac{V_{\max,a}K_{M,a}}{(K_{M,a}+X)^2} \\
+  \beta_x & =\frac{\partial f_b}{\partial X}= \frac{V_{\max,b}(K_X+Y(1+\frac{K_X}{K_Y}))}{(K_X+X+\frac{K_XY}{K_Y})^2}
+\\
+  \beta_y & =\frac{\partial f_b}{\partial Y}= \frac{-V_{\max,b}(K_X+X(1+\frac{K_X}{K_Y}))}{(K_X+X+\frac{K_XY}{K_Y})^2} \\
+  \frac{df_c}{dY}&=D
+\end{align*}
+
+We can use this notation to write the Jacobian matrix as:
+   \begin{equation*}
+        J=
+        \begin{pmatrix}
+            \alpha-\beta_x & -\beta_y \\
+            \beta_x & \beta_y-D
+        \end{pmatrix}
+    \end{equation*}
+which gives a characteristic polynomial of:
+\begin{equation*}
+    (\alpha-\beta_x-\lambda)(\beta_y-D-\lambda)+\beta_y\beta_x=0
+\end{equation*}
+
+ In order for the real values of the roots of the characteristic polynomial to be negative it must hold that $b>0$ and $c>0$, where $b$ and $c$ are now the coefficients of the quadratic equation $a\lambda^2+b\lambda+c=0$.
+We therefore get that:
+\begin{align*}
+    \begin{dcases}
+        b & =\beta_x-\alpha-\beta_y+D>0\\
+        c & =(\alpha-\beta_x)(\beta_y-D)+\beta_y\beta_x=\beta_x D+\alpha\beta_y-\alpha D >0
+    \end{dcases}
+\end{align*}
+
+We denote by $f^*$ the steady state flux in the system, such that $f^*=f_a=f_b=f_c$
+We note that for MM kinetics and positive concentrations it holds that:
+    \begin{align*}
+        \alpha & >0 \\
+        \beta_x & >0 \\
+        -\beta_y & >\beta_x \\
+        \beta_x+\beta_y & = -f^*\frac{1+\frac{K_X}{K_Y}}{K_X+X+\frac{K_XY}{K_Y}}\\
+    \end{align*}
+
+First we note that if $\alpha\geq\beta_x$ then the steady state cannot be stable as, looking at the value of $c$, we see that in such a case $(\beta_x -\alpha) D<0$ and since $\alpha\beta_y<0$, $c<0$ violating the stability conditions.
+However, because we assume that $V_{\max,b}>V_{\max,a}$, then for $Y=Y^*$, at $X=0$, $f_b<f_a$, but for $X\rightarrow\infty$, $f_b\rightarrow V_{\max,b}$ and $f_a \rightarrow V_{\max,a}$, so that $f_b>f_a$.
+It then follows that, because the two fluxes can only intersect once for positive $X$ and fixed $Y$, at the steady state point, where $f_a=f_b$, $\alpha<\beta_x$, so this condition is satisfied.
+We note that this condition is sufficient to ensure that $b>0$.
+We also note that as $\alpha<\beta_x$, a large enough value of $D$ exists at which the steady state is stable, concluding that if $D$ is large enough, then a stable steady state exists if:
+\begin{align*}
+    \begin{dcases}
+        &V_{\max,b}>V_{\max,a} \\
+        &\frac{V_{\max,b}}{K_X}<\frac{V_{\max,a}}{K_{M,a}}
+    \end{dcases}
+\end{align*}
+
+If $D$ is small, such that $D<V_{\max,a}/K_{M,a}$, and $V_{\max,b}>V_{\max,a}$ (implying that $\alpha<\beta_x$), we need to check what other conditions are necessary in order to ensure that $\beta_x D+\alpha\beta_y-\alpha D >0$.
+We look at the limit $V_{\max,b}\rightarrow\infty$.
+At this limit, the quadratic equation for $X^*$ converges to:
+\begin{equation*}
+        0=(X^*)^2+(2K_{M,a}-\frac{V_{\max,a}}{D})X^*+K_{M,a}^2-\frac{V_{\max,a}K_{M,a}}{D}
+\end{equation*}
+For this equation, $c<0$, implying that one of the roots is negative and one is positive.
+The positive root is:
+\begin{equation*}
+  X^*=\frac{V_{\max,a}}{D}-K_{M,a}
+\end{equation*}
+As this $X^*$ is finite, we get that when $V_{\max,b}\rightarrow\infty$, $Y^*$ also converges to $\frac{V_{\max,a}}{D}-K_{M,a}$.
+At this limit, $\beta_x$ increases infinitely and $\beta_y$ decreases infinitely, but $\beta_x+\beta_y$ converges to:
+\begin{equation*}
+  -f^*\frac{(1+\frac{K_X}{K_Y})}{K_X+(\frac{V_{\max,a}}{D}-K_{M,a})(1+\frac{K_X}{K_Y})}
+\end{equation*}
+that is constant.
+Therefore, rearranging c such that:
+\begin{equation*}
+c =(\beta_x+\beta_y) D - \beta_y(D-\alpha)-\alpha D >0
+\end{equation*}
+we note that as $V_{\max,b}$ increases, the dominant term becomes $-\beta_y(D-\alpha)>0$ ensuring that $c>0$ and therefore stability.
+
+On the other hand, when $V_{\max,b}\rightarrow V_{\max,a}$, we note that because $f_c<V_{\max,a}$, $Y^*$ is bounded by $Y^*<\frac{V_{\max,a}}{D}$, but $X^*\rightarrow \infty$.
+Thus, both $\alpha$ and $\beta_x$ diminish like $\frac{1}{X^*}^2$, and $\beta_y$ diminishes like $\frac{1}{X}$.
+The dominant term in $c=\beta_x D+\beta_y\alpha-\alpha D$ therefore becomes $(\beta_x-\alpha) D>0$ so again stability is maintained.
+
+Therefore, for small values of $D$, as long as $V_{\max,b}>V_{\max,a}$, a positive stable steady state exists both in the lower limit of $V_{\max,b}\rightarrow V_{\max,a}$, and in the upper limit of $V_{\max,b}\rightarrow\infty$.
+
+Our conclusions are therefore as follows:
+As in the irreversible case, $V_{\max,b}>V_{\max,a}$ is a necessary condition for existence of a globally stable steady state.
+For large values of $D$, the reversible reaction is far from equilibrium, resulting in an additional condition, equivalent to the condition we obtained for the irreversible case, namely that $V_{\max,b}/K_X$ is upper bounded by a term that is larger than $V_{\max,a}/K_{M,a}$, but approaches it as $D$ increases.
+This condition is sufficient for existence and stability of the steady state.
+For small values of $D$, a steady state always exists (given that $V_{\max,b}>V_{\max,a}$).
+We can show that this steady state is stable both when $V_{\max,b}\rightarrow \infty$, and when $V_{\max,b}\rightarrow V_{\max,a}$.
+We therefore conclude that in this case, no further restrictions apply on $K_X$, $K_Y$, or $K_{M,a}$ but rather that a steady state can always be achieved at most by changing $V_{\max,b}$.
+
+Qualitatively, the cases we analyze show that, on top of the required $V_{\max,b}>V_{\max,a}$ condition, the second condition is that either the slope of $f_c=D$ is smaller than $V_{\max,a}/K_{M,a}$, or that the maximal slope of $f_b$, $V_{\max,b}/K_X$, is smaller than $V_{\max,a}/K_{M,a}$.
   \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
   Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
 
