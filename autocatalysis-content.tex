@@ -1,7 +1,7 @@
 \section{Introduction}
     An essential trait of a living system is its ability to reproduce.
     This fundamental ability makes all living systems autocatalytic by definition.
-    It then follows that any essential component of a living system is autocatalytic, if it is required for reproduction, because  such a component is being used in the reproduction process that leads to the duplication of it.
+    It then follows that any essential component of a living system is autocatalytic, if it is required for reproduction, because  such a component is being used in the reproduction process that leads to the duplication of itself.
     Primitive autocatalytic metabolism is therefore considered to be one of the essential components of life \cite{Ganti2003-ch}.
     The metabolic system of any modern living organism, composed of the intermediate metabolites and enzymes catalyzing its reactions, is autocatalytic as a whole and must enable both the excess production of each of its metabolites, as well as the production of all the precursor molecules needed in order for the translation-transcription machinery to synthesize new copies of its enzymes.
 
@@ -37,7 +37,7 @@
     We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as critical values that determine whether the cycle can stably operate.
     We show that the affinity of enzymes consuming intermediate metabolites of autocatalytic cycles must be limited to prevent drainage of these metabolites.
     Moreover, we show that stable operation of such cycles requires low saturation, and thus excess expression, of these enzymes.
-    Such low saturation of enzymes has previously been suggested to represent requirements for minimal flux in reversible reactions, for example in glycolysis \cite{Staples1997-fq,Eanes2006-gh,Flamholz2013-bb}, safety factors in face of varying nutrient availability, for example in the brush-border of mouse intestine \cite{Weiss1998-gp}, or rapid shifts in demands from the metabolic network in low flux muscles \cite{Suarez1997-jo}.
+    Such low saturation of enzymes has previously been suggested to represent requirements for minimal flux in reversible reactions, for example in glycolysis \cite{Staples1997-fq,Eanes2006-gh,Flamholz2013-bb}, safety factors in face of varying nutrient availability, for example in the brush-border of the mouse intestine \cite{Weiss1998-gp}, or rapid shifts in demands from the metabolic network in low flux muscles \cite{Suarez1997-jo}.
     Low saturation has also been previously shown to contribute to fast response to pulses of oxidative load in erythrocytes, resulting from their adherence to phagocytes \cite{Salvador2003-fc}.
     We point that for enzymes consuming intermediate metabolites of autocatalytic cycles there is a reverse relationship between the affinity of the enzyme and the flux it carries.
     Namely, for these enzymes, the lower the affinity to the substrate, the higher the flux carried by the reaction, which is opposite to the normal relationship between affinities and fluxes.
@@ -231,17 +231,19 @@ We therefore assume that:
 
     \subsubsection{Integrating the bisubstrate nature of the autocatalytic reaction into the simple model}
     In the model above, to keep the analysis concise, we neglected the bisubstrate nature of the autocatalytic reaction.
-    There are generally two kinds of bisubstrate reaction schemes; random binding order scheme, at which the two substrates can bind the relevant enzyme at any order, and ordered binding, at which one substrate must bind the enzyme first and only then can the second substrate bind and the reaction proceeds \cite{Leskovac2003-li}.
+    There are generally to classes of bisubstrate reaction mechanisms; the ternary complex mechanisms, and the substituted enzyme (Ping Pong) mechanism \cite{Imperial2014-nw}.
+    Ternary complex mechanisms are further divided into two reaction schemes; random binding order scheme, at which the two substrates can bind the relevant enzyme at any order, and ordered binding, at which one substrate must bind the enzyme first and only then can the second substrate bind and the reaction proceeds \cite{Leskovac2003-li}.
     Because in the ordered binding case, the equation that describes the reaction flux is asymmetric in the concentrations of the two substrates, two possible sub-cases exist; the assimilated metabolite can be the first-binding substrate, or the second-binding substrate.
 
-    All three bisubstrate reaction schemes take a Michaelis-Menten like form once the concentration of the assimilated metabolite is kept constant (equations \ref{eq:birandmm}, \ref{eq:biordfstmm}, and \ref{eq:biordsndmm} in the methods section).
-    Moreover, for any set of kinetic parameters, under all three schemes, a lower bound on the concentration of $A$ exists, below which the conditions for existence and stability of a positive steady state cannot be satisfied (equations \ref{eq:assimlowerbound} and \ref{eq:assimlowerboundasym} in the methods section).
+    All four bisubstrate reaction schemes take a Michaelis-Menten like form once the concentration of the assimilated metabolite is kept constant (equations \ref{eq:pingpongmm}, \ref{eq:birandmm}, \ref{eq:biordfstmm}, and \ref{eq:biordsndmm} in the methods section).
+    Moreover, for any set of kinetic parameters, under all three ternary complex schemes, a lower bound on the concentration of $A$ exists, below which the conditions for existence and stability of a positive steady state cannot be satisfied (equations \ref{eq:assimlowerbound} and \ref{eq:assimlowerboundasym} in the methods section).
     The exact value of the minimal concentration of $A$ depends on the specific bisubstrate reaction scheme and the kinetic parameters of it, as is shown in the methods.
-    In the random binding case and in the ordered binding case when the assimilated metabolite binds first, we further find that a lower bound on $K_{M,b}$ exists (equations \ref{eq:randkbbound} and \ref{eq:ordkbbound} in the methods section), as in the simplified model analyzed above.
+    In the substituted enzyme mechanism, the random binding mechanism, and the ordered binding mechanism when the assimilated metabolite binds first, we further find that a lower bound on $K_{M,b}$ exists (equations \ref{eq:stabcondspingpong}, \ref{eq:randkbbound}, and \ref{eq:ordkbbound} in the methods section), as in the simplified model analyzed above.
     On the other hand, if the bisubstrate reaction is ordered with the internal metabolite binding first, then no strict constraints exist on $K_{M,b}$ and a stable steady state solution can always be achieved by setting appropriate values to $V_{\max,b}$ and $V_{\max}'$, the maximal flux of the bisubstrate autocatalytic reaction.
     
-    Finally, regarding the dynamic behavior of the system when the concentration of $A$ varies, we note that in all three cases, as the concentration of $A$ approaches its lower bound, the steady state concentration of $X$ approaches $0$, reducing both the autocatalytic and the branch fluxes (equations \ref{eq:xststrand}, \ref{eq:xststordfst}, and \ref{eq:xststordsnd} in the methods section).
-    In the specific case that the maximal flux of the autocatalytic reaction is higher than the maximal flux of the branch reaction, an upper bound on the concentration of $A$ may also exist, to satisfy the condition that $V_{\max,a}<V_{\max,b}$.
+    Finally, regarding the dynamic behavior of the system when the concentration of $A$ varies, we note that in all three ternary cases, as the concentration of $A$ approaches its lower bound, the steady state concentration of $X$ approaches $0$, reducing both the autocatalytic and the branch fluxes (equations \ref{eq:xststrand}, \ref{eq:xststordfst}, and \ref{eq:xststordsnd} in the methods section).
+    In the substituted enzyme mechanism, the lower bound on the concentration of $A$ is 0, at which the steady state concentration of $X$ is trivially 0 as well.
+    In all cases, if the maximal flux of the autocatalytic reaction is higher than the maximal flux of the branch reaction, an upper bound on the concentration of $A$ may also exist, to satisfy the condition that $V_{\max,a}<V_{\max,b}$.
     However, this bound can be removed by increasing $V_{\max,b}$ or reducing $V_{\max}'$.
 \subsection{Extensions of the simple autocatalytic cycle model}
     \subsubsection{Generalizing for different autocatalytic stoichiometries}
@@ -309,7 +311,7 @@ We therefore assume that:
     \subsubsection{Reversible autocatalytic reaction allows enzyme expression level tuning to always achieve positive stable steady state}
     The simple model assumed both the autocatalytic and the branch reactions are irreversible.
     If the autocatalytic reaction is reversible, then it must be driven by the displacement from thermodynamic equilibrium of the concentration of $A$ versus the concentration of $X$.
-    Therefore, for any concentration of $A$, a concentration of $X$ exists such that $f_a(X)=0<f_b(X)$.
+    Therefore, for any fixed concentration of $A$, $A'$, a concentration of $X$ exists such that $f_a(X,A')=0<f_b(X)$.
     It then follows that a sufficient condition for a positive steady state to exist is that at $X=0$, $\dot{X}>0$, which implies that 
     \begin{equation*}
     \frac{\partial f_a}{\partial X}\Big\vert_{X=0}>\frac{V_{\max,b}}{K_{M,b}}
@@ -445,7 +447,7 @@ implying that for all $i$:
     From the perspective of the simple model, we recall that $\dot{X}=f_a-f_b$.
     If the cycle is such that some steady state concentration, $X^*$, is optimal for biological function, then for levels of $X$ below $X^*$ convergence will be faster if $f_a$ is increased and $f_b$ is decreased, compared with their values at $X^*$.
     Conversely, for levels of $X$ above $X^*$, convergence will be faster if $f_a$ is decreased and $f_b$ is increased, compared with their values at $X^*$.
-    Convergence to $X^*$ can therefore be accelerated if $X$ activates the branch reaction and inhibits the autocatalytic reaction.
+    Convergence to $X^*$ can therefore be accelerated if $X$ activates the branch reactions and inhibits the cycle reactions.
 
     The assimilated metabolite can also allosterically regulate the reactions of the cycle.
     Assuming $X^*$ is optimal, and is attained for some constant concentration of the assimilated metabolite, $A^*$, it follows that because the autocatalytic activity is higher when $A>A^*$, then in order to maintain $X^*$ at its optimal level, when $A>A^*$, $f_a$ should be inhibited, and $f_b$ should be activated, but when $A<A^*$, $f_a$ should be activated, and $f_b$ should be inhibited.
@@ -471,7 +473,7 @@ implying that for all $i$:
 
     As noted above, we predict a key design principle for functioning autocatalytic cycles: that at least one branch reaction should be less saturated than the corresponding autocatalytic reaction.
     This requirement is sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
-    Moreover, having more than one branch point at which the branch reaction is less saturated than the autocatalytic reaction increases the robustness of the steady state flux in the cycle.
+    Moreover, having more than one branch point at which the branch reaction is less saturated than the autocatalytic reaction increases the robustness of the steady state flux in the cycle as is shown in the methods section.
     To evaluate the saturation level of a reaction under a given condition, two values must be obtained:
     \begin{enumerate}
       \item The maximal flux capacity of the reaction under the given condition, $V_{\max}$.
@@ -516,7 +518,7 @@ implying that for all $i$:
     Second, we searched for branch points out of non-autocatalytic cycles and tested whether in such points branch reactions are also consistently less saturated than their corresponding cycle reactions.
     We found two flux-carrying cycles: the TCA cycle, carrying flux in glucose, fructose, and glycerol growth, and a cycle consisting of the pentose-phosphate pathway combined with gluconeogenesis, carrying flux in acetate, glycerol, and succinate growth.
     Out of the total 6 conditions-branch points cases, in 3 the branch reaction was less saturated than the cycle reaction, and in 3 the cycle reaction was less saturated than the branch reaction (see supplementary tables).
-    We therefore conclude that, for cases that do not involve autocatalysis, the saturation of branch versus cycle reactions seems uniform.
+    We therefore conclude that, for cases that do not involve autocatalysis, the saturation of branch versus cycle reactions seems evenly distributed.
     
 
     The consistently lower saturation values of biomass generating branch reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
@@ -565,7 +567,7 @@ Specifically, changes to the substrate affinity of enzymes at branch points of t
 
 Another aspect of our findings is that while it is common to assume that high affinity and catalytic rate are desirable traits for enzymes, such seeming improvements may actually lead to instability and thus to non functional metabolic cycles.
 Furthermore, for reactions branching out of autocatalytic cycles, lower affinities increase the steady state concentration of intermediate metabolites, resulting in higher fluxes both through the cycle, and through the branch reaction, suggesting an unconventional strategy for optimizing fluxes through such reactions.
-We show that allosteric regulation can potentially overcome the affinity restriction on branch reactions and find that in one out of the two native autocatalytic cycles that we find to function in vivo, known allosteric interactions agree with our predicted direction of interaction (activation of inhibition).
+We note that allosteric regulation can potentially overcome the affinity restriction on branch reactions and show that in one out of the two native autocatalytic cycles that we find to function in vivo, known allosteric interactions agree with our predicted direction of interaction (activation of inhibition).
 
 An experimental demonstration of these principles in-vivo is the recent implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovsky2016-jy}.
 The successful introduction of the genes did not suffice to make the cycle function, and further directed evolution was needed in order to achieve successful operation of the cycle.
@@ -582,8 +584,8 @@ We use recent measurements to support our predictions on the usage of enzymes ca
 Our observations suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may limit the parameters of a broad set of enzymes central to metabolism.
 
 Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and production in glycolysis \cite{Teusink1998-he}), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
-  Moreover, as autocatalysis is often studied with relation to the origin of life, our analysis may be useful in studying synthetic autocatalytic systems \cite{Semenov2016-ol} and 
-  The analysis we present here can thus be of wide relevance for the design and analysis of metabolic networks.
+  As autocatalysis is also often studied with relation to the origin of life, our analysis may be useful in studying synthetic autocatalytic systems such as the one recently described in \cite{Semenov2016-ol}.
+  The analysis we present here can thus be of wide relevance for the design and analysis of metabolic networks both in existing organisms and in novel synthetic systems.
 
   \section{Methods}
   \subsection{Formal definition of an autocatalytic metabolic cycle}
@@ -647,13 +649,34 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   On the other hand, $X^*$ decreases when $K_{M,b}$ decreases or $V_{\max,b}$ increases (or both) corresponding to activation of $f_b$.
 
   \subsection{Connecting the kinetic constants of bisubstrate reaction velocity equations, under constant substrate concentration assumption, with simple Michaelis-Menten kinetics constants}
-  Two standard equations are commonly used to describe the flux through irreversible bisubstrate reactions \cite{Leskovac2003-li}.
+  Three standard equations are commonly used to describe the flux through irreversible bisubstrate reactions \cite{Leskovac2003-li}.
   We show that, under the assumption that the assimilated metabolite maintains constant concentration, these equations reduce to simple Michaelis-Menten equations.
   We derive the expressions for the apparent Michaelis-Menten constants, $K_M$ and $V_{\max}$, as functions of the kinetic constants of the bisubstrate reaction and the concentration of the assimilated metabolite.
   While the substrates in these equations are generally denoted as $A$ and $B$, here, to keep the notation consistent, we will denote by $A$ the assimilated metabolite and by $X$ the internal metabolite of the cycle.
 
-  The first equation describing a bisubstrate reaction assumes random binding order of the two substrates.
+  The simplest equation describing a bisubstrate reaction assumes substituted enzyme (Ping Pong) mechanism.
   As this equation is symmetric with respect to the two substrates, we can arbitrarily decide which of the two substrates is the assimilated metabolite, and which is the internal metabolite.
+  We get that the flux through the reaction is:
+  \begin{equation*}
+      f=\frac{V_{\max}'AX}{K_XA+K_{A}X+AX}
+  \end{equation*}
+  Rearranging to get the dependence of the flux on $X$ in a Michaelis-Menten like form we get that:
+  \begin{equation}
+      \label{eq:pingpongmm}
+      f=\frac{\frac{V_{\max}'A}{K_A+A}X}{\frac{K_XA}{K_A+A}+X}
+  \end{equation}
+  which gives apparent Michaelis-Menten kinetic constants of:
+  \begin{align}
+  \begin{split}
+      \label{eq:paramsping}
+      V_{max}&=\frac{V_{\max}'A}{K_A+A} \\
+      K_M&=\frac{K_XA}{K_A+A}
+  \end{split}
+  \end{align}
+
+  
+  The second bisubstrate reaction mechanism we consider is the ternary enzyme complex with random binding order of the two substrates.
+  As this equation is also symmetric with respect to the two substrates, we can again arbitrarily decide which of the two substrates is the assimilated metabolite, and which is the internal metabolite.
   We get that the flux through the reaction is:
   \begin{equation*}
       f=\frac{V_{\max}'AX}{K_{i,A}K_X+K_XA+K_AX+AX}
@@ -672,7 +695,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \end{split}
   \end{align}
 
-  The second equation describing a bisubstrate reaction assumes ordered binding of the substrates.
+  The other equation describing a ternary enzyme complex  bisubstrate reaction assumes ordered binding of the substrates.
   Because in ordered binding the equation is asymmetric with respect to the two substrates, analyzing this reaction is further split according to which of the two substrates is assumed to be the assimilated metabolite with constant concentration.
 
   If the first binding metabolite is assumed to be the assimilated metabolite we get that:
@@ -706,18 +729,31 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   To summarize, the most common equations describing bisubstrate reactions reduce to equations of the same form as Michaelis-Menten equations, under the assumption that one of the metabolites maintains a constant concentration.
   The apparent kinetic constants of the Michaelis-Menten equivalent equations depend on the kinetic constants of the bisubstrate reactions, as well as on the concentration of the assimilated metabolite.
 
-
   \subsection{Mapping stability constraints on Michaelis-Menten kinetic constants to constraints on the concentration of the assimilated metabolite and the kinetic constants of bisubstrate reactions}
   In equation \ref{eq:stabconds} we obtain constraints on the kinetic parameters of Michaelis-Menten reactions that ensure existence and stability of a positive steady state.
   We observe that these constraints imply that even if the maximal rates of the two reactions can be easily modified, if $K_{M,b}<K_{M,a}$ then such changes cannot suffice in order to satisfy the existence and stability constraints.
   
   Here we map the same constraints from equation \ref{eq:stabconds} onto bisubstrate autocatalytic reactions.
   This mapping results in constraints on the assimilated metabolite concentration, as well as on the kinetic parameters of the bisubstrate autocatalytic reactions.
-  We show that in all bisubstrate reaction schemes, there is a lower bound on the concentration of the assimilated metabolite, below which the system cannot attain a stable positive steady state.
+  We show that in all ternary enzyme complex bisubstrate reaction schemes, there is a lower bound on the concentration of the assimilated metabolite, below which the system cannot attain a stable positive steady state.
   We further show that the nature of the bisubstrate reaction qualitatively affects the ability to satisfy the stability constraints by changing expression levels alone.
-  In the case of random binding order and in the case of ordered binding, with the assimilated metabolite binding first, unless the kinetic parameters of the participating enzymes satisfy specific inequalities, changes to the maximal reaction rates alone cannot suffice in order to satisfy the existence and stability constraints.
-  However, in the case of ordered binding with the internal metabolite binding first, changes to the maximal reaction rates alone suffice in order to allow for stable steady state to occur, given high enough concentration of the assimilated metabolite.
-  We analyze each of the three possible bisubstrate reaction schemes separately below.
+  In the cases of substituted enzyme mechanism, random binding order ternary complex, and ordered binding ternary complex, with the assimilated metabolite binding first, unless the kinetic parameters of the participating enzymes satisfy specific inequalities, changes to the maximal reaction rates alone cannot suffice in order to satisfy the existence and stability constraints.
+  However, in the case of ordered binding ternary complex with the internal metabolite binding first, changes to the maximal reaction rates alone suffice in order to allow for stable steady state to occur, given high enough concentration of the assimilated metabolite.
+  We analyze each of the four possible bisubstrate reaction schemes separately below.
+
+  \paragraph{Substituted enzyme (Ping Pong) mechanism}
+  The case of substituted enzyme mechanism is the simplest case to analyze.
+  We can substitute equation \ref{eq:paramsping} into the conditions from equation \ref{eq:stabconds} to get:
+  \begin{equation}
+    \label{eq:stabcondspingpong}
+    \begin{dcases}
+      & V_{\max,b}>\frac{V_{\max}'A}{K_A+A}=V_{\max}'\frac{A}{K_A+A} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'}{K_X}
+    \end{dcases}
+  \end{equation}
+  As $\frac{A}{K_A+A}<1$, the first inequality can always be satisfied if $V_{\max,b}>V_{\max}'$, which is equivalent to the first condition in equation \ref{eq:stabconds}.
+  The second condition is identical to the second condition from equation \ref{eq:stabconds}.
+  Therefore, this case imposes equivalent conditions to those derived for the simple, single substrate case.
 
   \paragraph{Random binding order}
   In the case of random binding order, we can substitute equation \ref{eq:paramssym} into the conditions from equation \ref{eq:stabconds} to get:
@@ -808,7 +844,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
     \frac{V_{\max,b}K_{i,X}K_A}{K_{M,b}V_{\max}'}<A
   \end{equation}
   However, unlike in the previous two cases, in this case if $V_{\max}'<V_{\max,b}$, then the first inequality in equation \ref{eq:stabcondsordbindsnd} holds for any concentration of $A$, and, for any concentration of $A$ that is larger than its lower bound, the second inequality is also satisfied, resulting in a stable steady state.
-  This case is therefore more robust than the other two cases as it allows for the conditions to be satisfied, at least for high concentrations of $A$, given any set of kinetic parameters.
+  This case is therefore more robust than the other cases as it allows for the conditions to be satisfied, at least for high concentrations of $A$, given any set of kinetic parameters.
   \subsection{Dependence of steady state concentration on the concentration of the assimilated metabolite}
   Equation \ref{eq:xstst} shows the dependency between the concentration of $X$, the internal metabolite, and the kinetic parameters of the reactions in the system.
   Substituting the dependencies of the apparent kinetic parameters from equations \ref{eq:paramssym}, \ref{eq:paramsasymfst}, and \ref{eq:paramsasymsnd} into equation \ref{eq:xstst} gives the dependency of $X$ on the kinetic parameters of the bisubstrate reactions and the concentration of the assimilated metabolite, $A$.
@@ -1082,13 +1118,14 @@ For this segment we therefore get that
  We denote by $\vec{X^*}$ the steady state vector of the concentrations of the intermediate metabolites.
  We denote by $\vec{X}=\vec{X^*}+\Delta X_j$ a state where for all the intermediate metabolites that are not $X_j$, their concentration is the same as the steady state concentration, and $X_j$ differs by a small amount, $\Delta X_j$, from its steady state concentration.
  We let $F$ denote the fluxes function of the system such that $F(X)=\dot{X}\vert_{\vec{X}}$.
- Evaluating the dynamics of the system at $\vec{X}$ by noting that $F(\vec{X})\approx F(\vec{X^*})+J*\Delta X_j=J*\Delta X_j$ (where $F(\vec{X^*})=0$ as $\vec{X^*}$ is a steady state) results in $F(\vec{X})_k=0$ for all $k\neq j,j+1$.
+ Evaluating the dynamics of the system at $\vec{X}$ by noting that $F(\vec{X})\approx F(\vec{X^*})+J\cdot\Delta X_j=J\cdot\Delta X_j$ (where $F(\vec{X^*})=0$ as $\vec{X^*}$ is a steady state) results in $F(\vec{X})_k=0$ for all $k\neq j,j+1$.
  For $X_j$ such that $j\neq n$ we get $F(\vec{X})_j\approx -(\alpha_j+\beta_j)\Delta X_j$ and for $X_{j+1}$ we get $F(\vec{X})_{j+1}\approx \alpha_{j}\Delta X_j$.
  Therefore, the difference from the steady state decreases proportionally to $\beta_j$ (and cycles to the next intermediate metabolite, $X_{j+1}$).
  For $j=n$, we get that $F(\vec{X})_j\approx -(\alpha_j+\beta_j)\Delta X_j$, as for $j\neq n$, but $F(\vec{X})_{1}\approx 2\alpha_{j}\Delta X_j$ where the factor of $2$ is due to the effect of the assimilating reaction, that causes an amplification of the deviation from steady state (an amplification that is dampened by subsequent reactions along the cycle if the conditions for stable steady state are satisfied).
 
  It therefore follows that any increase in $\beta_j$, for any $j$, increases the speed of convergence to steady state and reduces the propagation of deviations from steady state for $X_j$.
- Thus, to keep deviations from steady state at check, it is beneficial to increase $b_j$, for all $j$, which implies decreasing the saturation of $f_{b_j}$.
+ Because of the linearity of matrix multiplication, an arbitrary deviation from $\vec{X^*}$ can always be decomposed to individual deviations with respect to every intermediate metabolite, making the analysis above valid for such deviations as well.
+ Thus, to keep deviations from steady state at check, it is beneficial to increase $\beta_j$, for all $j$, which implies decreasing the saturation of $f_{b_j}$.
 
 
     \subsection{The relationship between derivatives in Michaelis-Menten kinetics dictates an inverse relationship between affinities and saturation levels}
