@@ -1,11 +1,7 @@
 \documentclass[aspectratio=169]{beamer}
 \input{preamble.tex}
-\usepackage{hanging}
-\setbeamertemplate{footnote}{%
-      \hangpara{2em}{1}%
-        \makebox[2em][l]{\insertfootnotemark}\footnotesize\insertfootnotetext\par%
-    }
 
+\renewcommand{\footnoterule}{}
 \tikzset{
   invisible/.style={opacity=0},
   visible on/.style={alt={#1{}{ invisible}}},
@@ -18,6 +14,7 @@
 \usepackage{adjustbox}
 \togglefalse{article}
 \togglefalse{eddpathway}
+\togglefalse{elifesubmission}
 \setbeamertemplate{footline}[frame number]
 
 \newcommand{\backupbegin}{
@@ -30,11 +27,12 @@
 }
 
 \title{Stability of autocatalytic cycles imposes constraints on kinetic parameters of enzymes}
-\subtitle{PhD defence}
+\subtitle{PhD defense}
 \author{Uri Barenholz\\
 Adviser: Prof. Ron Milo}
 \institute{Department of Plant \& Environmental Sciences\\
 Weizmann Institute of Science}
+\date{December 18, 2016}
 \begin{document}
 
 \input{varsdefs.tex}
@@ -137,7 +135,7 @@ Weizmann Institute of Science}
 }
 
 \frame{\frametitle{Analysis of experimental fluxomics data\footnote{Gerosa et. al., Cell Systems 2015} and proteomics data\footnote{Schmidt et. al., Nature Biotechnology 2016} shows branch reactions are consistently less saturated than autocatalytic reactions}
-    \begin{adjustbox}{max totalsize={\textwidth}{0.7\textheight},center}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.69\textheight},center}
       \input{experimental-fluxes.tex}
     \end{adjustbox}
 }
@@ -195,8 +193,6 @@ Weizmann Institute of Science}
 \end{itemize}
 Thank You!
 }
-
-%acknowledgements
 
 \backupbegin
 \frame{\frametitle{Supplementary figures}

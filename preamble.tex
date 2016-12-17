@@ -4,7 +4,6 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{lineno}
-\usepackage{setspace}
 \pgfplotsset{compat=1.12}
 \usepackage{stackengine,ifthen}
 \usepackage{float}
@@ -26,6 +25,7 @@
 %\toggletrue{elifesubmission}
 
 \iftoggle{elifesubmission} {
+\usepackage{setspace}
 \linenumbers
 \doublespacing
 }
