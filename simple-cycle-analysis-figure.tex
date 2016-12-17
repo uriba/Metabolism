@@ -50,6 +50,8 @@
         \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
         \node[right,align=left,visible on=<5->] (onetext) at (axis cs:0.05,4.7) {\scriptsize \textbf{stable non-zero}\\[-0.4em]\scriptsize \textbf{steady state}};
       \end{axis}
+      \node[visible on=<2-3>,color=blue,at=(plot1.left of north west),anchor=north east,scale=1.5,xshift=-1cm,yshift=-0.5cm] (fa){$f_a=\frac{V_{\max,a}X}{K_{M,a}+X}$};
+      \node[visible on=<2-3>,color=red,below=of fa,scale=1.5,yshift=0.7cm] (fb) {$f_b=\frac{V_{\max,b}X}{K_{M,b}+X}$};
       \node[draw,fit=(plot1) (ylabel1),line width=2pt, fill=none,rounded corners=3pt,cyan!50!magenta,opacity=0.6,visible on=<6->]{};
 
         \begin{customlegend}[legend entries={$f_a$,$V_{\max,b}>V_{\max,a}$,$f_b$,$\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$,$\dot{X}=f_a-f_b$},legend style={above=1cm of plot1.north east,anchor=south east,name=legend1,visible on=<3->},legend columns=2]

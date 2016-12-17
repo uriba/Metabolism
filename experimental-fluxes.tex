@@ -184,7 +184,7 @@
     \def\glucmaxflux{0.35mm}
     \def\glucpgi{5.7*\glucmaxflux}
     \def\gluccapvalpgi{75}
-    \def\gluccappgi{\glucpgi}
+    \def\gluccappgi{\glucpgi/\gluccapvalpgi*100}
     \def\glucpfk{7.06*\glucmaxflux}
     \def\glucfba{7.06*\glucmaxflux}
     \def\gluctpi{7.06/2*\glucmaxflux}
@@ -226,6 +226,7 @@
     \node[metaboliteStyle,right=of pep] (oaa) {oaa};
     \node[metaboliteStyle,below=of pep.center] (pyr) {pyr};
     \node[metaboliteStyle,right=of g6p] (6pgi) {6pgi};
+    \draw[capArrowStyle,line width=\gluccappgi,autocatacycfl!40] (g6p) -- (f6p);
     \draw[figArrowStyle,line width=\glucpgi,autocatacycfl] (g6p) -- (f6p);
     \draw[figArrowStyle,line width=\glucpfk,autocatacycfl] (f6p.south) -- (fbp.north);
     \draw [line width=\glucfba,autocatacycfl] (fbp) [out=-90,in=90] to (fbamid);

@@ -5,6 +5,7 @@
       \hangpara{2em}{1}%
         \makebox[2em][l]{\insertfootnotemark}\footnotesize\insertfootnotetext\par%
     }
+
 \tikzset{
   invisible/.style={opacity=0},
   visible on/.style={alt={#1{}{ invisible}}},
@@ -29,7 +30,7 @@
 }
 
 \title{Stability of autocatalytic cycles imposes constraints on kinetic parameters of enzymes}
-%\subtitle{Final report presentation}
+\subtitle{PhD defence}
 \author{Uri Barenholz\\
 Adviser: Prof. Ron Milo}
 \institute{Department of Plant \& Environmental Sciences\\
@@ -63,14 +64,35 @@ Weizmann Institute of Science}
     \end{adjustbox}
 }
 
-\frame{\frametitle{Directed evolution towards function of the CBB cycle required changes in kinetic parameters of main branch reaction }
+\frame{\frametitle{Conclusions drawn from the simple model apply under various extensions}
+\begin{itemize}
+    \item Using bisubstrate reaction schemes for the autocatalytic reaction
+        \begin{itemize}
+            \item Critical lower concentration of the assimilated metabolite exists
+            \item Upper bound on the affinity of the branch reaction remains in most schemes
+        \end{itemize}
+        \pause
+    \item Assuming the autocatalytic reaction is reversible
+        \begin{itemize}
+            \item Relaxes the constraint on the ratio of maximal fluxes between the autocatalytic and the branch reaction
+        \end{itemize}
+        \pause
+    \item Assuming the branch reaction is reversible
+        \begin{itemize}
+            \item Depending on the consumption of the branch reaction product, either the branch reaction, or the reaction downstream of it must have limited affinity
+        \end{itemize}
+\end{itemize}
+} 
+
+\frame{\frametitle{Directed evolution towards function of the CBB cycle required changes in kinetic parameters of main branch reactions }
 \begin{itemize}
     \item 3 Directed evolution repeats evolved functioning CBB cycle
-    \item Single common mutation: The major branching reaction gene, PRS
+    \item Single common mutation: The major branch reaction gene, PRS
         \begin{itemize}
             \item With other, different mutations in each strain
         \end{itemize}
     \item In all cases $\sfrac{K_{\text{cat}}}{K_M}$ of PRS decreased
+    \item Minimal changes required for CBB function include mutations in other major branch reactions
     \end{itemize}
 } 
 
@@ -127,6 +149,28 @@ Weizmann Institute of Science}
 \end{itemize}
 }
 
+\frame{\frametitle{Allosteric regulation can accelerate convergence to steady state and increase robustness in fluctuating environment}
+\begin{itemize}
+    \item Convergence to steady state is faster when the differences between the cycle flux and the branch flux are larger
+    \begin{itemize}
+        \item Intermediate metabolites activate branch reactions and inhibit cycle reactions
+    \end{itemize}
+    \pause
+    \item Adaptation of steady state fluxes to nutrient availability is achieved by allosteric regulation of the assimilated metabolite
+    \begin{itemize}
+        \item The assimilated metabolite should activate branch reactions and inhibit cycle reactions
+    \end{itemize}
+    \pause
+    \item Adaptation of steady state fluxes to demand of cycle products is achieved by allosteric regulation of the branch products
+    \begin{itemize}
+        \item Branch products should activate branch reactions and inhibit cycle reactions
+    \end{itemize}
+    \pause
+    \item For the PTS using cycle, 11 out of 12 allosteric interactions agree with these predictions
+
+\end{itemize}
+}
+
 \frame{\frametitle{Conclusions}
 \begin{itemize}
     \item Autocatalytic cycles play a major role in central carbon metabolism
@@ -147,7 +191,7 @@ Weizmann Institute of Science}
 \begin{itemize}
     \item Efficient algorithm for identification of autocatalytic cycles in large metabolic networks
     \item Experimental exploration of different autocatalytic cycles function in-vivo
-    \item Extend formal connection between response and saturation of reactions
+    \item Explore possible other uses of passive control of metabolic fluxes due to kinetic parameters
 \end{itemize}
 Thank You!
 }
@@ -155,10 +199,61 @@ Thank You!
 %acknowledgements
 
 \backupbegin
+\frame{\frametitle{Supplementary figures}
+}
+
 \frame{\frametitle{Input flux increases the range of parameters for which stable fluxes exist}
     \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
         \input{autocatalytic-with-input.tex}
     \end{adjustbox}
+}
+
+\frame{\frametitle{Additional autocatalytic cycles in central carbon metabolism}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{extra-cycles-figure1.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Additional autocatalytic cycles in central carbon metabolism}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{extra-cycles-figure2.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{ATP autocatalysis in glycolysis}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{atp-cycle.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Supplementary equations}
+}
+
+\frame{\frametitle{Bisubstrate reaction equations}
+\begin{itemize} 
+    \item Substituted enzyme
+        \begin{equation*}
+              f=\frac{V_{\max}AX}{K_XA+K_{A}X+AX}
+        \end{equation*}
+    \item Random binding ternary complex
+        \begin{equation*}
+          f=\frac{V_{\max}AX}{K_{i,A}K_X+K_XA+K_AX+AX}
+        \end{equation*}
+    \item Ordered binding ternary complex, assimilated metabolite binding first
+        \begin{equation*}
+            f=\frac{V_{\max}AX}{K_{i,A}K_X+K_XA+AX}
+        \end{equation*}
+    \item Ordered binding ternary complex, internal metabolite binding first
+        \begin{equation*}
+            f=\frac{V_{\max}AX}{K_{i,X}K_A+K_AX+AX}
+        \end{equation*}
+\end{itemize}
+}
+
+\frame{\frametitle{Reversible reaction equation}
+   \begin{equation*}
+       f_b=\frac{V_{\max,b}(X-Y)}{K_X+X+\frac{K_X}{K_Y}Y}
+   \end{equation*}
 }
 
 \backupend

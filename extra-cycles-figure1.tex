@@ -50,13 +50,13 @@
   \draw[->] ([yshift=-1mm] 6pgc) [out=-90,in=180] to (co2);
   \draw[<-,dashed] (ru5p) [out=180,in=-45] to (r5p);
   
-  \draw[opacity=0.2,fill=ppinit,rounded corners=\highlightrad,visible on=<3->,even odd rule] ([shift={(\highlightrad,\highlightrad)}] 6pgc.north east) -- ([shift={(\highlightrad,-\highlightrad)}]ru5p.south -| 6pgc.east) -- ([xshift=5mm]dhap.south  -| gap.east) -- node [midway] (ppshade) {} (dhap.south west) -- (dhap.north west) -- ([xshift=-\highlightrad]fbamid  -| g6p.west) -- ([shift={(-\highlightrad,\highlightrad)}] g6p.north west)--cycle;
+  \draw[opacity=0.2,fill=ppinit,rounded corners=\highlightrad,even odd rule] ([shift={(\highlightrad,\highlightrad)}] 6pgc.north east) -- ([shift={(\highlightrad,-\highlightrad)}]ru5p.south -| 6pgc.east) -- ([xshift=5mm]dhap.south  -| gap.east) -- node [midway] (ppshade) {} (dhap.south west) -- (dhap.north west) -- ([xshift=-\highlightrad]fbamid  -| g6p.west) -- ([shift={(-\highlightrad,\highlightrad)}] g6p.north west)--cycle;
 
   %\draw[very thick,dashed,ppinit,->,visible on=<4->] (ppshade) -- ++(0cm,-1.1cm); 
   \end{scope}
 
   %% r5p cycle
-  \begin{scope} [shift={(-5cm,-2cm)},radius=2cm,visible on=<2->]
+  \begin{scope} [shift={(-5cm,-2cm)},radius=2cm]
   \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.1cm) rectangle +(5.1,4.6);
 
   \node[anchor=north] at(0.3cm,-2.2cm) (glyreac) {{\fontfamily{cmss}\selectfont 4} xu5p + {\fontfamily{cmss}\selectfont 2} r5p $\rightarrow$ {\fontfamily{cmss}\selectfont 5} xu5p + {\fontfamily{cmss}\selectfont 5} \ce{CO2}};

@@ -41,13 +41,13 @@
   \draw[] (eddtop) [out=-90,in=90] to (eddbottom);
   \draw[->] (eddbottom) [out=-90,in=0] to (pyr);
   
-  \draw[opacity=0.2,fill=fbainit,rounded corners=\highlightrad,visible on=<3->] ([shift={(-\highlightrad,\highlightrad)}]g6p.north west) -- ([shift={(\highlightrad,\highlightrad)}] 6pgc.north east) -- ([shift={(\highlightrad,\highlightrad)}]kdg.north east)-- ([shift={(\highlightrad,-\highlightrad)}]2pg.south -| kdg.east) -- ([shift={(\highlightrad,-\highlightrad)}]pyr.south -| kdg.east) -- ([shift={(-\highlightrad,-\highlightrad)}] pyr.south west) -- node [midway] (fbashade) {} ([xshift=-\highlightrad] gap.west) -- ([shift={(-\highlightrad,-\highlightrad)}] fbamid.south -| g6p.west) -- cycle;
+  \draw[opacity=0.2,fill=fbainit,rounded corners=\highlightrad] ([shift={(-\highlightrad,\highlightrad)}]g6p.north west) -- ([shift={(\highlightrad,\highlightrad)}] 6pgc.north east) -- ([shift={(\highlightrad,\highlightrad)}]kdg.north east)-- ([shift={(\highlightrad,-\highlightrad)}]2pg.south -| kdg.east) -- ([shift={(\highlightrad,-\highlightrad)}]pyr.south -| kdg.east) -- ([shift={(-\highlightrad,-\highlightrad)}] pyr.south west) -- node [midway] (fbashade) {} ([xshift=-\highlightrad] gap.west) -- ([shift={(-\highlightrad,-\highlightrad)}] fbamid.south -| g6p.west) -- cycle;
 
 %  \draw[very thick,dashed,fbainit,->,visible on=<4->] (fbashade) -- ++(-1.6cm,0cm); 
   \end{scope}
 
   %% FBA cycle
-  \begin{scope} [shift={(-3.5cm,-9cm)},radius=2cm,visible on=<2->]
+  \begin{scope} [shift={(-3.5cm,-9cm)},radius=2cm]
   \draw[lightgray,rounded corners=\highlightrad] (-2.4cm,-2.1cm) rectangle +(5.1,4.6);
 
   \node[anchor=north] at(0cm,-2.2cm) (glyreac) {gap + dhap $\rightarrow$ {\fontfamily{cmss}\selectfont 2} gap};
