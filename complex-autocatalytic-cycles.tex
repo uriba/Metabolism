@@ -21,9 +21,9 @@
         \draw [->,line width=1pt,autocatacyc] (Xn.east) [out=0,in=90] to node [pos=0.4,shape=coordinate] (assimpt) {} node [pos=0.4,right,xshift=1mm] (fan) {$f_{a_n}$}(X1.north);
         \draw [line width=1pt,assimcol] (assimpt) arc (-120:-170:0.7cm) node [pos=1,above] (e) {$A$};
         \draw [->,line width=1pt,branchout] ([xshift=0.1cm]X1.south) arc (190:270:1cm) node [pos=0.3,right,xshift=1mm] {$f_{b_1}$};
-        \draw [->,line width=1pt,branchout] (X2.south) arc (-10:-90:1cm) node [pos=0.3,left] {$f_{b_2}$};
+        \draw [->,line width=1pt,branchout] ([yshift=-0.5mm]X2.west) arc (90:180:1cm) node [pos=0.3,below,xshift=1mm] {$f_{b_2}$};
         \draw [->,line width=1pt,branchout] (Xn.north) arc (10:90:1cm) node [pos=0.3,left] {$f_{b_n}$};
-        \draw [->,line width=1pt,autocatacyc,dashed] (X2.west) [out=180,in=-90] to ($(X1)+(-3,0)$) node [right] (fmid) {$f_{a_2}\dots f_{a_{n-1}}$} to [out=90,in=180] (Xn.west);
+        \draw [->,line width=1pt,autocatacyc,dashed] ([yshift=0.5mm]X2.west) [out=180,in=-90] to ($(X1)+(-3,0)$) node [right] (fmid) {$f_{a_2}\dots f_{a_{n-1}}$} to [out=90,in=180] (Xn.west);
     \end{scope}
     \iftoggle{poster} {}
     {
