@@ -1,5 +1,5 @@
 \section{Introduction}
-    An essential trait of a living system is its ability to reproduce.
+    An essential trait of living systems is their ability to reproduce.
     This fundamental ability makes all living organisms autocatalytic by definition.
     Moreover, autocatalytic metabolism is considered to be one of the essential components of life \cite{Ganti2003-ch}.
 
@@ -8,35 +8,35 @@
     An illustrative example for a metabolic autocatalytic cycle is glycolysis.
     In glycolysis, 2 ATP molecules are consumed in the priming phase, in order to produce 4 ATP molecules in the pay off phase.
     Therefore, in order to produce ATP in glycolysis, ATP must already be present in the cell.
-    Subsequently, autocatalysis of ATP in glycolysis (also referred to as ``turbo design'') causes sensitivity to mutations in seemingly irrelevant enzymes \cite{Teusink1998-he}.
+    Subsequently, autocatalysis of ATP in glycolysis (also referred to as ``turbo design'') results in metabolic sensitivity to mutations in seemingly irrelevant enzymes \cite{Teusink1998-he}.
 
-    Autocatalytic cycles have been shown to be optimal network topologies that minimize the number of reactions needed for the production of precursor molecules from different nutrients \cite{Riehl2010-yh}.
+    Autocatalytic cycles have been shown to be optimal network topologies that minimize the number of reactions needed for the production of precursor molecules from different nutrient sources \cite{Riehl2010-yh}.
     Thus, metabolic networks often require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
     Examples of obligatorily autocatalytic internal metabolites in different organisms, on top of ATP, are NAD, coenzyme A and tetrahydrofolate \cite{Kun2008-xg}.
-    The requirement for availability of certain metabolites in order to consume nutrients implies metabolic processes must be finely controlled to prevent such essential metabolites from running out, as in such cases metabolism will come to a halt.
+    The requirement for availability of certain metabolites in order to consume nutrients implies metabolic processes must be finely controlled to prevent such essential metabolites from running out; in such cases metabolism will come to a halt.
     Autocatalytic cycles therefore present control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Teusink1998-he,Fell1999,Reznik2010-te}.
     The stability criteria typically represent one constraint among the parameters of the cycle enzymes.
     For large cycles, such as the whole metabolic network, one such constraint adds little information.
     For compact autocatalytic cycles embedded within metabolism, one such constraint is much more informative.
     We thus focus our efforts on analyzing small autocatalytic cycles.
-    Finding the unique constraints that metabolic autocatalytic cycles impose is essential for understanding the limitations of existing metabolic networks, as well as for modifying them in synthetic biology and metabolic engineering applications.
+    Finding the unique constraints that metabolic autocatalytic cycles impose is essential for understanding the limitations of existing metabolic networks, as well as for modifying them for synthetic biology and metabolic engineering applications.
 
     A key example of an autocatalytic cycle in carbon metabolism is the Calvin-Benson-Bassham cycle (CBB) \cite{Benson1950-cl}.
-    The carbon fixation CBB cycle, fixing \ce{CO2} while transforming five-carbon compounds to 2 three-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
-    The autocatalytic nature of the CBB cycle stems from the fact that for every 5 five-carbon compounds the cycle consumes, 6 five-carbon compounds are produced (by the fixation of 6 \ce{CO2} molecules).
-    Beyond the CBB cycle, we show that most of the reactions and metabolites in central carbon metabolism are part of compact (i.e. consisting of around 10 reactions or less) metabolic autocatalytic cycles.
+    The carbon fixation CBB cycle, which fixes \ce{CO2} while transforming five-carbon compounds into 2 three-carbon compounds, serves as the main gateway for converting inorganic carbon to organic compounds in nature \cite{Raven2012-le}.
+    The autocatalytic nature of the CBB cycle stems from the fact that for every 5 five-carbon compounds the cycle consumes, 6 five-carbon compounds are produced (by the fixation of 5 \ce{CO2} molecules).
+    Beyond the CBB cycle, we show that most of the reactions and metabolites in central carbon metabolism are part of compact (i.e. consisting of around 10 reactions or fewer) metabolic autocatalytic cycles.
     Some of the autocatalytic cycles we find are not usually considered as such.
     The wide span of autocatalytic cycles in central carbon metabolism suggests that the constraints underlying their stable operation have network-wide biological consequences.
 
-    In this study we present the specific requirements metabolic autocatalytic cycles must meet in order to achieve at least one, non-zero, steady state which is stable in respect to fluctuations of metabolites or levels of enzymes close to the steady state point.
+    In this study we present the specific requirements metabolic autocatalytic cycles must meet in order to achieve at least one, non-zero, steady state which is stable in respect to fluctuations of either metabolites or enzyme levels close to the steady state point.
     The mathematical tools we use are part of dynamical systems theory \cite{Strogatz2014-hp}.
-    We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as critical values that determine whether the cycle can stably operate.
-    We show that the affinity of enzymes consuming intermediate metabolites of autocatalytic cycles must be limited to prevent drainage of these metabolites.
-    Moreover, we show that stable operation of such cycles requires low saturation, and thus excess expression, of these enzymes.
-    Low saturation of enzymes has previously been suggested to stem from various reasons in different contexts:
+    We identify the kinetic parameters of enzymes at metabolic branch points out of an autocatalytic cycle as critical values that determine whether the cycle can operate stably.
+    We show that the affinity of enzymes consuming intermediate metabolites of autocatalytic cycles must be limited to prevent depletion of these metabolites.
+    Moreover, we show that the stable operation of such cycles requires low saturation, and thus excess expression, of these enzymes.
+    Low saturation of enzymes has previously been suggested to stem from a number of reasons in different contexts:
     (A) to achieve a desired flux in reactions close to equilibrium, for example in glycolysis \cite{Staples1997-fq,Eanes2006-gh,Flamholz2013-bb};
-    (B) to provide safety factors in face of varying nutrient availability, for example in the brush-border of the mouse intestine \cite{Weiss1998-gp};
-    (C) to accommodate rapid shifts in demands from the metabolic network in muscles with low glycolytic flux \cite{Suarez1997-jo};
+    (B) to provide safety factors in the face of varying nutrient availability, for example in the brush-border of the mouse intestine \cite{Weiss1998-gp};
+    (C) to accommodate rapid shifts in demand from the metabolic networks in muscles with low glycolytic flux \cite{Suarez1997-jo};
     (D) fast response times, for example to pulses of oxidative load in erythrocytes, resulting from their adherence to phagocytes \cite{Salvador2003-fc}.
     Our findings add to these reasons the essential stabilizing effect of low saturation of branch reactions on the stability of fluxes through autocatalytic cycles.
 
@@ -102,7 +102,8 @@ While not obligatorily such, in the cycles we find the branch reactions provide 
 We therefore also consider $f_b$ to represent biomass generation.
 
 For simplicity in the derivation, we assume irreversible Michaelis-Menten kinetics for the two reactions.
-Even though $f_a$ should follow bisubstrate velocity equation, assuming constant concentration of $A$ reduces the bisubstrate equation to a simple Michaelis-Menten equation the apparent kinetic constants of which depend on the constant value of $A$ assumed (see methods).
+Even though $f_a$ should follow bisubstrate velocity equation, assuming constant concentration of $A$ reduces the bisubstrate equation to a simple Michaelis-Menten equation.
+The apparent kinetic constants of the equation depend on the constant value of $A$ (see methods).
 We extend our analysis to bisubstrate reaction equations below.
 We therefore assume that:
     \begin{eqnarray*}
@@ -164,16 +165,16 @@ We therefore assume that:
     \begin{equation*}
     1>\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}
     \end{equation*}
-    This constraint is graphically illustrated in Figure \ref{fig:simplecycle}B, cases (I) and (III).
+    These constraints are graphically illustrated in Figure \ref{fig:simplecycle}B, cases (I) and (III).
 
     In order to gain intuition for this relationship we note that $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$.
     The constraint therefore implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
     Mathematically, the constraint states that if $V_{\max,b}<V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$.
     Alternatively, if $V_{\max,b}>V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$.
-    This condition can be intuitively understood, as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$, compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will never intersect, which is the condition for a steady state.
+    This condition can be intuitively understood, as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$ compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will never intersect (see Figure \ref{fig:simplecycle}B).
 
-    While having a positive concentration steady state is an essential condition to sustain flux, it is not sufficient in terms of biological function.
-    The positive concentration steady state must also be stable to small perturbations.
+    While having a steady state at positive concentration is an essential condition to sustain flux, it is not sufficient in terms of biological function.
+    The steady state at positive concentration must also be stable to small perturbations.
     Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$.
     Mathematically, stability dictates that at $X=X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that upon a small deviation from the steady state: $X = X^*+\Delta X$ the net flux $\dot X$ will oppose the direction of the deviation.
     If $\Delta X$ is positive then $\dot X$ will be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
