@@ -60,7 +60,7 @@ For a formal, mathematical definition, see the methods section.
     \label{fig:autocataldef}
   A basic autocatalytic cycle requires an internal metabolite to be present in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite by some amount, $\delta$.}
 \end{figure}
- 
+
 While rarely discussed as such, a systematic search in central carbon metabolism of \emph{E.coli} (see methods) shows the ubiquity of compact autocatalytic cycles.
 On top of the previously discussed CBB cycle (Figure \ref{fig:realautocatal}, example I), we show two other prominent examples:
 \begin{itemize}
@@ -85,7 +85,7 @@ The ubiquity of compact autocatalytic cycles in central carbon metabolism motiva
 }
 \caption{
     \label{fig:realautocatal}
-Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle (yellow); (II) The glyoxylate cycle (magenta); (III) A cycle using the PTS system to assimilate glucose (cyan).
+Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle (yellow); (II) The glyoxylate cycle (magenta); (III) A cycle using the phosphotransferase system (PTS) to assimilate glucose (cyan).
 Assimilation reactions are indicated in green.
 Arrow width in panels represent relative carbon mass.
 }
@@ -98,7 +98,7 @@ We denote the flux through the autocatalytic reaction of the cycle by $f_a$, suc
 The autocatalytic reaction assimilates an external metabolite (denoted $A$), which we assume to be at a constant concentration.
 We denote the flux through the reaction branching out of the cycle by $f_b$.
 Biologically, $f_b$ represents the consumption of the intermediate metabolite $X$.
-While not obligatorily such, in the cycles we find the branch reactions provide precursors that support growth through subsequent reactions.
+While not obligatorily such, in the cycles we find, the branch reactions provide precursors that support growth through subsequent reactions.
 We therefore also consider $f_b$ to represent biomass generation.
 
 For simplicity in the derivation, we assume irreversible Michaelis-Menten kinetics for the two reactions.
@@ -123,7 +123,7 @@ We therefore assume that:
         The cycle always has a steady state at $X=0$.
         The slope of each reaction at $X=0$ is $\sfrac{V_{\max}}{K_m}$.
         A steady state is stable if at the steady state concentration $\frac{d\dot{X}}{dX}<0$.
-        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ determines two characteristics of the system: 
+        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ determines two characteristics of the system:
         If $V_{\max,b}>V_{\max,a}$, then a stable steady state concentration must exist as for high concentrations of $X$ the branching reaction will reduce its concentration (cyan domain, cases (I) and (II)).
         If $\sfrac{V_{\max,b}}{K_{M,b}}<\sfrac{V_{\max,a}}{K_{M,a}}$, implying that $\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$, then zero is a non-stable steady state concentration as if $X$ is slightly higher than zero, the autocatalytic reaction will carry higher flux, further increasing the concentration of $X$ (magenta domain, cases (I) and (IV)).
     At the intersection of these two domains a non-zero, stable steady state concentration exists (I).}
@@ -157,27 +157,32 @@ We therefore assume that:
       \frac{X^*}{K_{M,a}}=\frac{\frac{V_{\max,b}}{V_{\max,a}}-\frac{K_{M,b}}{K_{M,a}}}{1-\frac{V_{\max,b}}{V_{\max,a}}}
     \end{equation}
     The concentration of $X$ cannot be negative, and thus we get a constraint on the kinetic parameters for which a positive steady state exists.
-    Either both the numerator and the denominator of equation \ref{eq:xststalt} are negative, such that:
-    \begin{equation*}
-    1<\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{M,b}}{K_{M,a}}
-    \end{equation*}
-    , or both are positive, such that:
+    Either both the numerator and the denominator of equation \ref{eq:xststalt} are positive, such that:
     \begin{equation*}
     1>\frac{V_{\max,b}}{V_{\max,a}}>\frac{K_{M,b}}{K_{M,a}}
     \end{equation*}
-    These constraints are graphically illustrated in Figure \ref{fig:simplecycle}B, cases (I) and (III).
+    , or both are negative, such that:
+    \begin{equation*}
+    1<\frac{V_{\max,b}}{V_{\max,a}}<\frac{K_{M,b}}{K_{M,a}}
+    \end{equation*}
+    These constraints are graphically illustrated in Figure \ref{fig:simplecycle}B, cases (III) and (I).
 
     In order to gain intuition for this relationship we note that $\frac{V_{\max}}{K_m}$ is the slope of the Michaelis Menten function at $X=0$.
-    The constraint therefore implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
-    Mathematically, the constraint states that if $V_{\max,b}<V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}>\frac{V_{\max,a}}{K_{M,a}}$.
-    Alternatively, if $V_{\max,b}>V_{\max,a}$ then $\frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max,a}}{K_{M,a}}$.
+    The existence of a positive steady state can be used to get that:
+    \begin{equation*}
+      X^*>0 \Rightarrow \frac{V_{\max,b}K_{M,a}-V_{\max,a}K_{M,b}}{V_{\max,a}-V_{\max,b}}>0 \Rightarrow \frac{\frac{V_{\max,b}}{K_{M,b}}-\frac{V_{\max,a}}{K_{M,a}}}{V_{\max,a}-V_{\max,b}}>0
+    \end{equation*}
+
+    The last inequality above implies that in order for a positive steady state to exist, the reaction with higher maximal flux must have a shallower slope at $X=0$.
+    Mathematically, the constraint states that if $V_{\max,a}>V_{\max,b}$ then $\frac{V_{\max,a}}{K_{M,a}}<\frac{V_{\max,b}}{K_{M,b}}$.
+    Alternatively, if $V_{\max,a}<V_{\max,b}$ then $\frac{V_{\max,a}}{K_{M,a}}>\frac{V_{\max,b}}{K_{M,b}}$.
     This condition can be intuitively understood, as the reaction with shallower slope at $X=0$ has smaller fluxes for small values of $X$ compared with the other reaction, so unless it has higher fluxes than the other reaction for large values of $X$ (meaning that its maximal flux is higher), the two will never intersect (see Figure \ref{fig:simplecycle}B).
 
     While having a steady state at positive concentration is an essential condition to sustain flux, it is not sufficient in terms of biological function.
     The steady state at positive concentration must also be stable to small perturbations.
-    Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$.
-    Mathematically, stability dictates that at $X=X^*$ it holds that $\frac{d\dot X}{dX} <0$, as this  implies that upon a small deviation from the steady state: $X = X^*+\Delta X$ the net flux $\dot X$ will oppose the direction of the deviation.
-    If $\Delta X$ is positive then $\dot X$ will be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will be positive, increasing $X$ back to $X^*$.
+    Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$ (at which $\dot X=0$).
+    Assuming $X = X^*+\Delta X$, stability implies that if $\Delta X$ is positive then $\dot X$ needs to be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will need to be positive, increasing $X$ back to $X^*$.
+    It then follows that in order for $X^*$ to be stable, $\frac{d\dot X}{dX} <0$ at $X=X^*$, implying that upon a small deviation from the steady state $X^*$ (where $\dot X=0$), the net flux $\dot X$ will oppose the direction of the deviation.
 
     For the simple kinetics we chose, the stability condition dictates that:
     \begin{equation}
@@ -200,7 +205,7 @@ We therefore assume that:
     \begin{equation*}
         \frac{df_b}{dX}\Big\vert_{X=X^*}>\frac{df_a}{dX}\Big\vert_{X=X^*} \Rightarrow \varepsilon^{f_b}_X>\varepsilon^{f_a}_X
     \end{equation*}
-    
+
     The complete analysis is summarized up in Figure \ref{fig:simplecycle}B.
     Domain (I) is the only domain where a positive, stable steady state exists.
     Domains (I) and (III) are the domains at which a positive steady state concentration exists, but in domain (III) that steady state is not stable.
@@ -208,7 +213,7 @@ We therefore assume that:
     The domains above the diagonal (cases (II) and (III)) are the domains where $X^*=0$ is a stable steady state concentration, so that the other steady state, if it exists, is unstable.
 
     Aside from existence and stability, a quantitative relationship between the affinity of the biomass generating, branching reaction and the flux it carries can be obtained.
-    This relationship is opposite to the standard one, meaning that unlike the common case where $f\propto\frac{1}{K_M}$, in this case, noting that the steady state concentration increases with $K_{M,b}$ (equation \ref{eq:ststdep}), we get that $f_b \propto K_{M,b}$.
+    This relationship is opposite to the standard one, meaning that unlike the common case where the flux $f$ increases when the affinity becomes stronger, in this case, because the steady state concentration increases when $K_{M,b}$ becomes weaker (equation \ref{eq:ststdep}), $f_b$ also increases when $K_{M,b}$ becomes weaker.
 
     To conclude, for this simple cycle, we get that in order for a positive-concentration stable steady state to exist (case (I)), two conditions must be satisfied:
     \begin{equation}
@@ -219,47 +224,47 @@ We therefore assume that:
     \end{dcases}
     \end{equation}
     The first requirement states that the maximal flux of the biomass generating, branching reaction should be higher than the maximal flux of the autocatalytic reaction.
-    This requirement ensures a stable solution exists, as large concentrations of $X$ will result in its reduction by the branching reaction.
-    The second requirement states that at low concentrations of $X$, the autocatalytic reaction starts higher than the branch reaction (as can be inferred from the slopes).
+    This requirement ensures a stable solution exists, as large concentrations of $X$ will result in its reduction by the branch reaction.
+    The second requirement states that for concentrations of $X$ that are close enough to $0$, the autocatalytic reaction is higher than the branch reaction (as can be inferred from the slopes).
     This requirement implies that the two fluxes will be equal for some positive concentration of $X$, ensuring a positive steady state exists.
     As this requirement further implies that below the positive steady state the branch reaction will carry less flux than the autocatalytic reaction, it follows that small deviations of the concentration of $X$ below the steady state will result in an increase in its concentration by the autocatalytic reaction, driving it back to the steady state.
     Meeting the second constraint has another consequence.
-    Unlike the common case where higher affinity of an enzyme increases the flux through the reaction it catalyzes, in autocatalytic cycles, higher affinity of the branch reaction reduces the flux it carries due to reduction in the steady state concentration of the intermediate metabolite of the cycle.
+    Unlike the common case where a stronger affinity of an enzyme to the substrate increases the flux through the reaction it catalyzes, in autocatalytic cycles, a stronger affinity of the branch reaction to the substrate reduces the flux it carries due to reduction in the steady state concentration of the intermediate metabolite of the cycle.
 
     Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved.
     Specifically, changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$ only affect $V_{\max,a}$ and $V_{\max,b}$, and therefore do not suffice to attain a stable positive steady state.
-    This indicates that stability of autocatalytic cycles depends on inherent kinetic properties of the enzymes involved and cannot always be achieved by modulating expression levels, a design principle that may be critical in metabolic engineering context.
+    This indicates that stability of autocatalytic cycles depends on inherent kinetic properties of the enzymes involved and cannot always be achieved by modulating expression levels, a design principle that may be critical in metabolic engineering.
 
     \subsubsection{Integrating the bisubstrate nature of the autocatalytic reaction into the simple model}
     In the model above, to keep the analysis concise, we neglected the bisubstrate nature of the autocatalytic reaction.
-    There are generally to classes of bisubstrate reaction mechanisms; the ternary complex mechanisms, and the substituted enzyme (Ping Pong) mechanism \cite{Imperial2014-nw}.
-    Ternary complex mechanisms are further divided into two reaction schemes; random binding order scheme, at which the two substrates can bind the relevant enzyme at any order, and ordered binding, at which one substrate must bind the enzyme first and only then can the second substrate bind and the reaction proceeds \cite{Leskovac2003-li}.
-    Because in the ordered binding case, the equation that describes the reaction flux is asymmetric in the concentrations of the two substrates, two possible sub-cases exist; the assimilated metabolite can be the first-binding substrate, or the second-binding substrate.
+    We extend the analysis to the most common classes of bisubstrate reaction mechanisms in the methods section.
+    All bisubstrate reaction schemes analyzed take a Michaelis-Menten like form once the concentration of the assimilated metabolite is kept constant (equations \ref{eq:pingpongmm}, \ref{eq:birandmm}, \ref{eq:biordfstmm}, and \ref{eq:biordsndmm} in the methods section).
 
-    All four bisubstrate reaction schemes take a Michaelis-Menten like form once the concentration of the assimilated metabolite is kept constant (equations \ref{eq:pingpongmm}, \ref{eq:birandmm}, \ref{eq:biordfstmm}, and \ref{eq:biordsndmm} in the methods section).
-    Moreover, for any set of kinetic parameters, under all three ternary complex schemes, a lower bound on the concentration of $A$ exists, below which the conditions for existence and stability of a positive steady state cannot be satisfied (equations \ref{eq:assimlowerbound} and \ref{eq:assimlowerboundasym} in the methods section).
-    The exact value of the minimal concentration of $A$ depends on the specific bisubstrate reaction scheme and the kinetic parameters of it, as is shown in the methods.
-    In the substituted enzyme mechanism, the random binding mechanism, and the ordered binding mechanism when the assimilated metabolite binds first, we further find that a lower bound on $K_{M,b}$ exists (equations \ref{eq:stabcondspingpong}, \ref{eq:randkbbound}, and \ref{eq:ordkbbound} in the methods section), as in the simplified model analyzed above.
-    On the other hand, if the bisubstrate reaction is ordered with the internal metabolite binding first, then no strict constraints exist on $K_{M,b}$ and a stable steady state solution can always be achieved by setting appropriate values to $V_{\max,b}$ and $V_{\max}'$, the maximal flux of the bisubstrate autocatalytic reaction.
-    
-    Finally, regarding the dynamic behavior of the system when the concentration of $A$ varies, we note that in all three ternary cases, as the concentration of $A$ approaches its lower bound, the steady state concentration of $X$ approaches $0$, reducing both the autocatalytic and the branch fluxes (equations \ref{eq:xststrand}, \ref{eq:xststordfst}, and \ref{eq:xststordsnd} in the methods section).
+    For any set of kinetic parameters, under all ternary enzyme complex schemes, a lower bound on the concentration of $A$ exists, below which the conditions for existence and stability of a positive steady state cannot be satisfied (equations \ref{eq:assimlowerbound} and \ref{eq:assimlowerboundasym}).
+    The exact value of the minimal concentration of $A$ depends on the specific bisubstrate reaction scheme and the kinetic parameters of it.
+
+    In the simplified model analyzed above, stability implied the affinity of the branch reaction towards its substrate was limited.
+    A similar limit exists in most cases of bisubstrate reaction schemes (equations \ref{eq:stabcondspingpong}, \ref{eq:randkbbound}, and \ref{eq:ordkbbound}).
+    Interestingly, if the bisubstrate reaction is ordered with the internal metabolite binding first, then no strict constraints exist on $K_{M,b}$ and a stable steady state solution can always be achieved by setting appropriate values to $V_{\max,b}$ and $V_{\max}$, the maximal flux of the bisubstrate autocatalytic reaction.
+
+    Finally, regarding the dynamic behavior of the system when the concentration of $A$ varies, we note that in all three ternary enzyme complex cases, as the concentration of $A$ approaches its lower bound, the steady state concentration of $X$ approaches $0$, reducing both the autocatalytic and the branch fluxes (equations \ref{eq:xststrand}, \ref{eq:xststordfst}, and \ref{eq:xststordsnd}).
     In the substituted enzyme mechanism, the lower bound on the concentration of $A$ is 0, at which the steady state concentration of $X$ is trivially 0 as well.
     In all cases, if the maximal flux of the autocatalytic reaction is higher than the maximal flux of the branch reaction, an upper bound on the concentration of $A$ may also exist, to satisfy the condition that $V_{\max,a}<V_{\max,b}$.
-    However, this bound can be removed by increasing $V_{\max,b}$ or reducing $V_{\max}'$.
+    However, this bound can be removed by increasing $V_{\max,b}$ or reducing $V_{\max}$.
 \subsection{Extensions of the simple autocatalytic cycle model}
     \subsubsection{Generalizing for different autocatalytic stoichiometries}
-    Our didactic exemplary analysis considered an autocatalytic reaction with $1:2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
+    Our didactic analysis considered an autocatalytic reaction with $1\mathbin{:}2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
     Real-world autocatalytic cycles may have different stoichiometries.
-    For example, the CBB cycle has a stoichiometry of $5:6$ so that for every five molecules of 5-carbon sugars that the autocatalytic reaction consumes, six 5-carbon sugars are produced.
+    For example, the CBB cycle has a stoichiometry of $5\mathbin{:}6$ so that for every 5 molecules of five-carbon sugar that the autocatalytic reaction consumes, 6 five-carbon molecules are produced.
     We can generalize our analysis by defining a positive $\delta$ such that for every molecule of $X$ that $f_a$ consumes, it produces $1+\delta$ molecules of $X$, where $\delta$ may be a fraction.
     This extension implies that equation \eqref{eq:xdyna} becomes:
 
     \begin{equation*}
-      \dot X = \frac{dX}{dt} = (1+\delta)f_a - (f_a + f_b) = 0 \Rightarrow \delta f_a = f_b \Rightarrow \frac{\delta V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
+      \dot X = \frac{dX}{dt} = (1+\delta)f_a - (f_a + f_b) = 0 \Rightarrow \delta \cdot f_a = f_b \Rightarrow \frac{\delta \cdot V_{\max,a}X}{K_{M,a}+X}=\frac{V_{\max,b}X}{K_{M,b}+X}
     \end{equation*}
 
-    Therefore, all of the results above can be extended to different stoichiometries by replacing $V_{\max,a}$ with $\delta V_{\max,a}$.
-    As a result, the qualitative conditions and observations from the $1:2$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
+    Therefore, all of the results above can be extended to different stoichiometries by replacing $V_{\max,a}$ with $\delta \cdot V_{\max,a}$.
+    As a result, the qualitative conditions and observations from the $1\mathbin{:}2$ stoichiometry case remain valid but with a constant factor that changes the quantitative relations according to the relevant stoichiometry.
 \subsubsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Autocatalytic cycles are embedded within a larger metabolic network.
     Specifically, such cycles may have independent input fluxes to some of their intermediate metabolites, not requiring the use of other intermediate metabolites of the cycle.
@@ -312,40 +317,39 @@ We therefore assume that:
     \subsubsection{Reversible autocatalytic reaction allows enzyme expression level tuning to always achieve positive stable steady state}
     The simple model assumed both the autocatalytic and the branch reactions are irreversible.
     If the autocatalytic reaction is reversible, then it must be driven by the displacement from thermodynamic equilibrium of the concentration of $A$ versus the concentration of $X$.
-    Therefore, for any fixed concentration of $A$, $A'$, a concentration of $X$ exists such that $f_a(X,A')=0<f_b(X)$.
-    It then follows that a sufficient condition for a positive steady state to exist is that at $X=0$, $\dot{X}>0$, which implies that 
+    Therefore, for any fixed concentration of $A$, $\hat{A}$, a concentration of $X$ exists such that $f_a(X,\hat{A})=0<f_b(X)$.
+    It then follows that a sufficient condition for a positive steady state to exist is that at $X=0$, $\dot{X}(\hat{A})>0$, which implies that
     \begin{equation*}
-    \frac{\partial f_a}{\partial X}\Big\vert_{X=0}>\frac{V_{\max,b}}{K_{M,b}}
+    \frac{\partial f_a}{\partial X}\Big\vert_{X=0,A=\hat{A}}>\frac{V_{\max,b}}{K_{M,b}}
     \end{equation*}
     This condition can always be satisfied by high expression of the autocatalytic enzyme, increasing $V_{\max,a}$.
     For this case it therefore follows that for any concentration of $A$, a minimal value for $V_{\max,a}$ exists, above which a positive steady state is achieved.
-    \subsubsection{Reversible branch reaction can either be out of equilibrium, resulting in the simple case, or near equilibrium, pushing the stability conditions down the branch pathway}
+    \subsubsection{Reversible branch reaction can either be far from equilibrium, resulting in the simple case, or near equilibrium, pushing the stability conditions down the branch pathway}
     The simple model assumed both the autocatalytic and the branch reactions are irreversible.
-    Assuming the branch reaction, $f_b$, is reversible, with a product $Y$, the system can be analyzed in two complementing cases.
+    Assuming the branch reaction, $f_b$, can be reversible, with a product $Y$, the system can be analyzed in two extreme cases.
 
-    If $Y$ is consumed rapidly by subsequent reactions, keeping its concentration low, then $f_b$ operates far from equilibrium.
+    If $Y$ is consumed very rapidly by subsequent reactions, keeping its concentration low, then $f_b$ operates far from equilibrium.
     In this case, the reversible reaction equation reduces to an irreversible Michaelis-Menten equation, resulting in the same constraints as in the simple, irreversible case analyzed above.
 
-    If $Y$ is consumed slowly, keeping it relatively stable, and if the consumption of $Y$ is not saturated, then, as long as $V_{\max,b}>V_{\max,a}$, a stable steady state exists both when  $V_{\max,b}\rightarrow\infty$, making $f_b$ operate near equilibrium, and when $V_{\max,b}\rightarrow V_{\max,a}$.
+    If $Y$ is consumed very slowly, and if the maximal consumption of $Y$ is larger than $V_{\max,a}$, then, as long as $V_{\max,b}>V_{\max,a}$, a stable steady state exists both when  $V_{\max,b}\rightarrow\infty$, making $f_b$ operate near equilibrium, and when $V_{\max,b}\rightarrow V_{\max,a}$.
     A mathematical analysis is provided in the methods section.
-    The assumptions on the consumption of $Y$ in this case are analogous to the constraints in equation \ref{eq:stabconds}, namely that the reaction downstream of $Y$ is not saturated, and that it consumes $Y$ at a lower rate than the rate at which the autocatalytic reaction produces $X$ near $X=0$.
+    The assumptions on the consumption of $Y$ in this case are analogous to the constraints in equation \ref{eq:stabconds}, namely that the reaction downstream of $Y$ is less saturated than the autocatalytic reaction, and that it consumes $Y$ at a lower rate than the rate at which the autocatalytic reaction produces $X$ near $X=0$.
 
    \subsubsection{Stability analysis for multiple-reaction cycles}
     It is useful to extend the simple criteria we derived to more complex autocatalytic cycles.
     In such cycles the criteria for existence of a steady state become complex and detail specific.
     We therefore focus on evaluating stability of such cycles, under the assumption that a non-zero steady state exists, which is often known from experimental measurements.
-    The most straightforward extension is for cycles with more than one intermediate metabolite.
 
-    We start by writing the relevant equations for the two-metabolite autocatalytic cycle depicted in figure \ref{fig:multiple}A.
+    We start by writing the relevant equations for the autocatalytic cycle depicted in figure \ref{fig:multiple}A.
     In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two branch reactions, $f_{b_1}$ and $f_{b_2}$.
-    We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1:2$ ratio.
+    We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1\mathbin{:}2$ ratio.
     The equations describing the dynamics of the system are thus:
 
     \begin{align*}
         \dot{X_1} & =2f_{a_2}-f_{a_1}-f_{b_1} \\
         \dot{X_2} & =f_{a_1}-f_{a_2}-f_{b_2}
     \end{align*}
-    We note that in steady state, where $\dot{X_1}=\dot{X_2}=0$, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, as the total outgoing flux must balance the total increase of intermediate metabolites due to autocatalysis.
+    We note that in steady state, where $\dot{X_1}=\dot{X_2}=0$, because the autocatalysis is in a $1\mathbin{:}2$ ratio, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, meaning the total outgoing flux balances the total increase of intermediate metabolites due to autocatalysis.
     Given that a steady state of the system exists for some value $(X_1^*,X_2^*)$, we can evaluate the condition for stability.
     In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative.
     We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$.
@@ -368,7 +372,7 @@ We therefore assume that:
     that has two negative roots when:
 
     \begin{equation*}
-        (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0
+        (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0 \Rightarrow (1+\frac{\beta_1}{\alpha_1})(1+\frac{\beta_2}{\alpha_2})>2
     \end{equation*}
     which is satisfied if $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$.
     Therefore, if either $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$ at the steady state, then the steady state is stable.
@@ -380,109 +384,53 @@ We therefore assume that:
      Generalization of analysis to multiple-reaction autocatalytic cycles with a single assimilating reaction.
      (A) A two reaction system.
      (B) A generic $n$-reaction system.
-     The system is at steady state when the total consumption of intermediate metabolites by the branch reactions is equal to the flux through the autocatalytic reaction.
+     The system is at steady state when the total consumption of intermediate metabolites by the branch reactions is equal to the flux through the autocatalytic reaction, because the autocatalysis is in a $1\mathbin{:}2$ ratio.
      A sufficient condition for the stability of a steady state in these systems is that the derivative of at least one branch reaction with respect to the substrate concentration is larger than the derivative of the equivalent autocatalytic reaction at the steady state concentration.
-     Given the connection between derivatives of fluxes and saturation levels of reactions (see methods), this condition implies that a sufficient condition for the stability of a steady state is that the saturation level of at least one branch reactions is smaller than the saturation level of the corresponding autocatalytic reaction.
+     Given the connection between derivatives of fluxes and saturation levels of reactions (see methods), this condition implies that at a stable steady state, the saturation level of at least one branch reactions is smaller than the saturation level of the corresponding autocatalytic reaction.
  }
      \label{fig:multiple}
 \end{figure}
 
     The two-metabolites cycle case can be easily extended to a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
-    We again arbitrarily assume that the autocatalytic reaction is the last reaction, $f_{a_n}$, and that the autocatalysis is in a $1:2$ ratio.
+    The analysis for a larger number of intermediate metabolites and reactions is given in the methods.
+    We stress that the analysis and its conclusions are only valid for autocatalytic ratios smaller than or equal to $1\mathbin{:}2$, which is the case for all the autocatalytic cycles we identify.
+    Deriving a stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (where $i$ can now be any number in the range $1\dots n$).
 
-    In this case, steady state implies that the concentration of each intermediate metabolite is conserved, meaning that for all $i>1$:
-    \begin{equation}
-        \label{eq:complexdecrease}
-      \dot{X_i}=0 \Rightarrow f_{a_{i-1}}-f_{a_i}-f_{b_i}=0 \Rightarrow f_{a_{i-1}} \geq f_{a_i}
-    \end{equation}
-    (for $i=1$, as $f_{a_n}$ is the autocatalytic reaction, we get that $2*f_{a_{n}} \geq f_{a_1}$).
-    Also, because at steady state the total outgoing flux from the cycle must balance the total incoming flux into the system, which is the amount of autocatalysis carried out by $f_{a_n}$, we get that:
-
-    \begin{equation*}
-      \sum_{i=1}^n f_{b_i}=f_{a_n}
-  \end{equation*}
-implying that for all $i$:
-
-    \begin{equation}
-        \label{eq:complexsmallbranch}
-        f_{b_i} \leq f_{a_n}
-  \end{equation}
-    Deriving a stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (see methods).
-
-    To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that for all $i$:
-
-    \begin{equation}
-        f_{b_i} \leq f_{a_n} \leq f_{a_i}
-      \label{eq:complexstst}
-    \end{equation}
-    Where the left inequality is due to Equation \ref{eq:complexsmallbranch} and the right inequality is due to Equation \ref{eq:complexdecrease}.
-
-    A sufficient condition for such a steady state point to be stable is that at the steady state point there exists at least one branching point $i$ at which the derivative of the branch reaction is larger than the derivative of the equivalent autocatalytic reaction:
-
-    \begin{equation}
-      \beta_i > \alpha_i
-      \label{eq:complexstab}
-    \end{equation}
-    Using the connection between derivatives of reactions and saturation levels (see methods), we conclude that a sufficient condition for stable autocatalytic fluxes is that the saturation of a single branch reaction, denoted $S(f)$, will be lower than the saturation of the corresponding autocatalytic reaction:
+   Using the connection between derivatives of reactions and saturation levels (see methods), we conclude that if $\beta_i > \alpha_i$ for some $i$ at the steady state point, then the saturation of the branch reaction, denoted $S(f)$, must be lower than the saturation of the corresponding cycle reaction at $X_i$:
 
     \begin{equation}
         S(f_{b_i}) < S(f_{a_i})
       \label{eq:complexsat}
     \end{equation}
-    This condition also dictates that the affinity of the branch reaction to the intermediate metabolite of the cycle it consumes must be lower than the affinity of the corresponding recycling reaction of the cycle.
+    This condition also dictates that the affinity of the branch reaction to the intermediate metabolite of the cycle it consumes must be weaker than the affinity of the corresponding recycling reaction of the cycle.
 
-    While having a single branch point for which equation \ref{eq:complexsat} holds is a sufficient condition for stability, we note that the larger the amount of branch points satisfying equation \ref{eq:complexsat}, the more robust the steady state point will be to perturbations, as such branch points reduce the propagation of deviations along the cycle (see methods).
+    While having a single branch point at which $\beta_i > \alpha_i$ is a sufficient condition for stability, we note that the larger the number of branch points satisfying this condition, the more robust the steady state point will be to perturbations, as such branch points reduce the propagation of deviations along the cycle (see methods).
     As we show below, these predictions hold for functioning autocatalytic cycles.
-    \subsubsection{Using different kinetics equations}
+    \subsubsection{Using different kinetic equations}
     Although we utilized the widely-used irreversible Michaelis-Menten kinetics equation to model enzyme kinetics, our results can be extended to different kinetic equations.
-    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state of fluxes, and, (B) at the steady state point at least one derivative of an outgoing reaction out of the cycle should be higher than the derivative of the corresponding autocatalytic reaction, as is implied by equation \ref{eq:complexstab}, to enforce stability in the presence of small perturbations.
+    Generally, two conditions must be met for a stable flux through an autocatalytic cycle to exist: (A) there should be a positive concentration of the intermediate metabolites for which the outgoing fluxes balance the autocatalytic fluxes, resulting in a steady state, and, (B) at the steady state point at least one derivative of an outgoing reaction out of the cycle should be higher than the derivative of the corresponding cycle reaction, as is implied by equation \ref{eq:complexstab}, to enforce stability in the presence of small perturbations.
     Therefore, these two conditions should be explicitly evaluated for every case with different kinetic equations and autocatalytic cycles topologies to assert whether it can carry stable fluxes or not.
 
 
-    \subsection{Allosteric regulation affecting the affinities of enzymes can optimize network performance}
-    The limit on the affinity of the branch reaction imposed by the stability requirement may be suboptimal under other flux modes.
-    Furthermore, allosteric regulation can be used to accelerate the rate at which an autocatalytic cycle converges to its stable steady state mode.
-    While many allosteric regulation schemes exist \cite{Leskovac2003-li}, all of these schemes affect the affinity of the regulated enzyme, and some of these schemes also affect the maximal rate.
-    We analyze the qualitative expected beneficial regulation motifs for autocatalytic cycles.
-
-    From the perspective of the simple model, we recall that $\dot{X}=f_a-f_b$.
-    If the cycle is such that some steady state concentration, $X^*$, is optimal for biological function, then for levels of $X$ below $X^*$ convergence will be faster if $f_a$ is increased and $f_b$ is decreased, compared with their values at $X^*$.
-    Conversely, for levels of $X$ above $X^*$, convergence will be faster if $f_a$ is decreased and $f_b$ is increased, compared with their values at $X^*$.
-    Convergence to $X^*$ can therefore be accelerated if $X$ activates the branch reactions and inhibits the cycle reactions.
-
-    The assimilated metabolite can also allosterically regulate the reactions of the cycle.
-    Assuming $X^*$ is optimal, and is attained for some constant concentration of the assimilated metabolite, $A^*$, it follows that because the autocatalytic activity is higher when $A>A^*$, then in order to maintain $X^*$ at its optimal level, when $A>A^*$, $f_a$ should be inhibited, and $f_b$ should be activated, but when $A<A^*$, $f_a$ should be activated, and $f_b$ should be inhibited.
-    Therefore, to increase the robustness of the steady state concentration to changes in the concentration of the assimilated metabolite, the assimilated metabolite should inhibit the cycle reactions and activate the branch reactions.
-
-    Another possible class of regulators are the products of the branch reactions.
-    If the level of $Y$, the product of a branch reaction is low, implying that the cycle does not carry sufficient flux to supply the demand for $Y$, regulation can be used to increase $X^*$. 
-    From equation \ref{eq:ststdep}, we get that the steady state concentration, $X^*$, increases as $K_{M,b}$ increases and $V_{\max,b}$ decreases, corresponding to inhibition of $f_b$, and that $X^*$ decreases as $K_{M,a}$ increases and $V_{\max,a}$ decreases, corresponding to inhibition of $f_a$.
-    So, to tune autocatalytic fluxes to match the demands of $Y$, regulation should increase $X^*$ when $Y$ is low, by activating the recycling and autocatalytic reactions and inhibiting the branch reactions.
-    On the other hand, regulation should decrease $X^*$ when $Y$ is high, by inhibiting the autocatalytic reactions and activating the branch reactions.
-    Therefore, to synchronize the demand of the cycle product with the cycle flux, the cycle branch products should inhibit the cycle reactions and activate the branch reactions.
-
-    Finally, we note that in the autocatalytic cycles we identify in central carbon metabolism, there are also reactions that operate in the reverse direction to the branch reactions, such that they consume products of the cycle and produce intermediate metabolites of the cycle.
-    As such reactions are mirror images of branch reactions, we expect them to be oppositely regulated to branch reactions.
-
-    As we show below, these predictions hold for the PTS using cycle, that is known to be allosterically controlled, but not for the glyoxylate cycle, which is known to be transcriptionally controlled \cite{Gerosa2015-oq}.
     \subsection{Testing the predictions of the analysis with experimental data on functioning autocatalytic cycles}
     To evaluate the validity of our analysis of autocatalytic cycles we searched for growth conditions under which the autocatalytic cycles we identified in central carbon metabolism carry substantial flux in-vivo.
     We used recent in-vivo flux measurements in \emph{E.coli} from \cite{Gerosa2015-oq}.
     According to the data, two autocatalytic cycles carry substantial flux under at least one of the growth conditions measured:
-    a cycle using the PTS transport system carries significant fluxes in growth on glucose and on fructose;
-    the glyoxylate cycle carries significant flux in growth on galactose and on acetate.
+    a cycle using the PTS carries significant fluxes in growth on glucose and on fructose;
+    the glyoxylate cycle carries significant flux in growth on acetate and on galactose.
 
-    As noted above, we predict a key design principle for functioning autocatalytic cycles: that at least one branch reaction should be less saturated than the corresponding autocatalytic reaction.
+    As noted above, we predict a design principle for functioning autocatalytic cycles: that at least one branch reaction should have a steeper response than the corresponding autocatalytic reaction at steady state.
     This requirement is sufficient, but not necessary, for the autocatalytic cycle to be at a stable steady state point.
-    Moreover, having more than one branch point at which the branch reaction is less saturated than the autocatalytic reaction increases the robustness of the steady state flux in the cycle as is shown in the methods section.
-    To evaluate the saturation level of a reaction under a given condition, two values must be obtained:
+    Moreover, having more than one branch point at which the branch reaction has a steeper response than the autocatalytic reaction increases the robustness of the steady state flux in the cycle as shown in the methods section.
+    An outcome of the relationship between the steepness's of responses is a reverse relationship between the saturation levels of the corresponding reactions (equation \ref{eq:complexaffcond}).
+    In order to evaluate the saturation level of a reaction under a given condition, two values must be obtained:
     \begin{enumerate}
       \item The maximal flux capacity of the reaction under the given condition, $V_{\max}$.
         \item The actual flux through the reaction at the steady state, $f$.
     \end{enumerate}
 
     To estimate the maximal capacity of a reaction we followed the procedure described in \cite{Davidi2016-ga} (see methods).
-    We used the data from \cite{Gerosa2015-oq} to identify the major branch points in each functioning cycle and the flux distributions in them under each of the relevant conditions.
+    We used the data from \cite{Gerosa2015-oq} to identify the major branch points in each functioning cycle and the actual flux in them under each of the relevant conditions.
     The results are presented in figure \ref{fig:branch} and are provided, with the relevant calculations, in the supplementary tables.
 
 \begin{figure}[!htb]
@@ -495,7 +443,7 @@ implying that for all $i$:
   Solid arrow width represents carbon flux per unit time.
   Shaded arrow width represents maximal carbon flux capacity per unit time, given the expression level of the catalyzing enzyme.
   In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
-  A $4\%$ flux from pep to biomass was neglected in growth under glucose and fructose.
+  A $4\%$ flux from PEP to biomass was neglected in growth under glucose and fructose.
   Only in one out of the 9 branch points observed (the branch point at fbp in growth under fructose), the outgoing reaction is significantly more saturated than the autocatalytic reaction.
   (*) A branch point at which the branching reaction is more saturated than the autocatalytic reaction, which may result from neglecting fructose transport directly as f6p when deriving fluxes (see text).
 }
@@ -508,9 +456,9 @@ implying that for all $i$:
     The branch point at which the autocatalytic reaction is less saturated than the branch reaction is the branch point from fructose-1,6-bisphosphate in growth on fructose as the carbon source.
     The high saturation of the branch reaction arises as a large flux is reported for the fbp reaction, whereas the corresponding enzyme is not highly expressed under this condition.
     The large reported flux through fbp arises due to assuming a single transport pathway for fructose, entering the cycle as fructose-1,6-bisphosphate.
-    However, an alternative fructose transport pathway is known to occur in the concentration at which the measurements were made \cite{Kornberg1990-ft}.
+    However, an alternative fructose transport pathway is known to occur for the concentration at which the measurements were made \cite{Kornberg1990-ft}.
     The alternative transport pathway produces fructose-6-phosphate from external fructose.
-    Therefore, any flux through the alternative transport pathway should be directly deduced from the flux through fbp.
+    Therefore, any flux through the alternative transport pathway should be directly deducted from the flux through fbp.
     Assuming $20\%$ of the consumed fructose uses this pathway suffices in order to balance the saturation levels at the fructose-1,6-bisphosphate branch point.
 
     We made two negative control analyses to examine whether other reasons do not underlie the trend we find.
@@ -520,15 +468,15 @@ implying that for all $i$:
     We found two flux-carrying cycles: the TCA cycle, carrying flux in glucose, fructose, and glycerol growth, and a cycle consisting of the pentose-phosphate pathway combined with gluconeogenesis, carrying flux in acetate, glycerol, and succinate growth.
     Out of the total 6 conditions-branch points cases, in 3 the branch reaction was less saturated than the cycle reaction, and in 3 the cycle reaction was less saturated than the branch reaction (see supplementary tables).
     We therefore conclude that, for cases that do not involve autocatalysis, the saturation of branch versus cycle reactions seems evenly distributed.
-    
+
 
     The consistently lower saturation values of biomass generating branch reactions demonstrate that the expressed enzymes have enough capacity to prevent the autocatalytic cycle from increasing the concentration of intermediate metabolites infinitely.
     Moreover, the lower saturation values of the biomass generating reactions suggest that at the steady state point their derivatives are higher, ensuring stable operation of the cycle.
 
     Another demonstration of the autocatalytic mechanism being at play is in the CBB cycle, which is not a part of the metabolic network of wild type \emph{E.coli}, and for which no flux measurements are available.
     This cycle has been recently introduced synthetically into \emph{E.coli} and was shown to carry flux in it, given further metabolic engineering of central carbon metabolism \cite{Antonovsky2016-jy}.
-    The experimentally observed key evolutionary event enabling the functioning of the CBB cycle, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, prs, reducing its affinity to its substrate, ribose-5p.
-    The observed reduction in affinity of prs is directly in line with our predictions on the relationship between the affinity of branch reactions and the affinity of the corresponding autocatalytic reactions.
+    The experimentally observed key evolutionary event enabling the functioning of the CBB cycle, was a mutation affecting the kinetic properties of the main branching reaction out of the CBB pathway, prs, weakening its affinity to its substrate, ribose-5p.
+    The observed weakening of affinity of prs is directly in line with our predictions on the relationship between the affinity of branch reactions and the affinity of the corresponding cycle reactions (see methods section of \cite{Antonovsky2016-jy}).
 
     The other examples of autocatalytic cycles we found did not carry flux in any of the conditions for which data was available.
     The pentose-phosphate cycle variants do not carry flux in any of the measured conditions, which is expected given that growth on ribose was not measured.
@@ -538,35 +486,35 @@ implying that for all $i$:
     To conclude, existing data supports predictions made by our model, given the requirement for stable steady state operation of autocatalytic cycles.
     This agreement between predictions and measurements is especially encouraging given the highly limited information on kinetic properties, concentrations, and fluxes under various growth conditions.
 
-    \subsection{Allosteric regulation data matches predicted regulation in PTS-using cycle, but not in the glyoxylate cycle}
-    We evaluate the expected allosteric interactions that support fast convergence and stability of autocatalytic cycles, as we qualitatively derived above, against the allosteric regulation network of the two functioning autocatalytic cycles we identified, the PTS-using autocatalytic cycle and the glyoxylate cycle (see supplementary tables, regulation data was taken from \cite{Keseler2013-xn} and \cite{Schomburg2004-st}).
+    \subsection{Allosteric regulation data supports predicted regulation in PTS-using cycle, but not in the glyoxylate cycle}
+    We analyze potential allosteric interactions that can support fast convergence and stability of autocatalytic cycles in the methods section.
+    We compare the expected beneficial allosteric interactions against the allosteric regulation network of the two functioning autocatalytic cycles we identified, the PTS-using autocatalytic cycle and the glyoxylate cycle (see supplementary tables, regulation data was taken from \cite{Keseler2013-xn} and \cite{Schomburg2004-st}).
 
     For the PTS cycle we find that there are a total of 12 allosteric interactions, 7 inhibitions and 5 activations.
     Out of these 12 interactions, 11 interactions follow our expectations in terms of the type of the regulating metabolite (assimilated metabolite, cycle intermediate, or branch product), the regulated reaction (cycle reaction, branch reaction, or the reverse of a branch reaction), and the direction of the regulation (activation or inhibition).
-    One interaction, the activation of fba by pep, does not follow our expectation.
+    One interaction, the activation of fba by PEP, does not follow our expectation.
 
     For the glyoxylate cycle we find that there are a total of 13 interactions, 12 inhibitions and 1 activation.
     Out of these 13 interactions, 8 interactions follow our expectations and 5 do not.
     The lack of agreement between the expected regulation direction and the actual regulation found for this cycle correlates with the observation in \cite{Gerosa2015-oq} that TCA cycle fluxes are regulated mainly by transcription and not by reactants levels.
- 
+
     It is important to note that allosteric regulation serves many roles, and that the metabolic network faces many more challenges than just the support of stable autocatalysis.
-    Therefore, the agreement we find between existing allosteric interactions and the expected regulation scheme supporting autocatalysis does not suggest that the autocatalytic nature of the PTS system is the underlying reason for these allosteric interactions.
-    Nevertheless, these interactions support optimal autocatalytic function.
+    Therefore, the agreement we find between existing allosteric interactions and the expected regulation scheme supporting autocatalysis does not suggest that the autocatalytic nature of the PTS is the only, or even main underlying reason for these allosteric interactions.
 \section{Discussion}
 Our study into the dynamics and stability of autocatalytic cycles suggests design principles applicable to both synthetic biology, in the effort to express novel heterologous cycles, and in the context of systems biology that aims to understand the function of natural networks.
 
 Our autocatalytic modeling framework gives concrete predictions on saturation levels of branch reactions for operating autocatalytic cycles.
 We find these predictions agree well with empirically measured fluxomics and proteomics data sets.
-To rule out the possibility that other reasons (such as those reported in \cite{Staples1997-fq,Weiss1998-gp,Suarez1997-jo}) underlie the low saturation of branch reactions that we find, we compare the saturation levels of branch reactions versus their corresponding cycle reactions both under conditions when the autocatalytic cycle does not function, and for branch points out of non-autocatalytic cycles.
-Both tests show no bias towards low saturation of branch reactions, contrary to the clear trend we find for reactions branching out of autocatalytic cycles.
-Our findings thus support the notion that many, often differing causes can underlie seemingly wasteful expression of enzymes \cite{Salvador2003-fc, Salvador2006-yx}, and adds stability of intermediate metabolites of autocatalytic cycles to this list of possible causes.
+Given that there are other suggestions (such as those reported in \cite{Staples1997-fq,Weiss1998-gp,Suarez1997-jo}) that may underlie the low saturation of branch reactions that we find, we compare the saturation levels of branch reactions versus their corresponding cycle reactions both under conditions when the autocatalytic cycle does not function, and for branch points out of non-autocatalytic cycles.
+Both tests show no bias towards low saturation of branch reactions out of non-autocatalytic cycles, contrary to the clear trend we find for reactions branching out of autocatalytic cycles.
+Our findings thus support the addition of stability of intermediate metabolites of autocatalytic cycles to the many, often differing causes that can underlie seemingly wasteful expression of enzymes \cite{Salvador2003-fc, Salvador2006-yx}.
 The model we present can also highlight metabolic branch points at which the kinetic efficiency of enzymes is constrained due to stability requirements of a corresponding autocatalytic cycle.
 
 A common concept in synthetic biology is that the successful implementation of novel pathways requires the expression of functional enzymes in the correct amounts in the target organism.
 Here we show that in the context of autocatalytic cycles, such expression modulation may not suffice.
 Specifically, changes to the substrate affinity of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
 
-Another aspect of our findings is that while it is common to assume that high affinity and catalytic rate are desirable traits for enzymes, such seeming improvements may actually lead to instability and thus to non functional metabolic cycles.
+Another aspect of our findings is that while it is common to assume that strong affinity and catalytic rate are desirable traits for enzymes, such seeming improvements may actually lead to instability and thus to non functional metabolic cycles.
 Furthermore, for reactions branching out of autocatalytic cycles, lower affinities increase the steady state concentration of intermediate metabolites, resulting in higher fluxes both through the cycle, and through the branch reaction, suggesting an unconventional strategy for optimizing fluxes through such reactions.
 We note that allosteric regulation can potentially overcome the affinity restriction on branch reactions and show that in one out of the two native autocatalytic cycles that we find to function in vivo, known allosteric interactions agree with our predicted direction of interaction (activation of inhibition).
 
@@ -578,19 +526,20 @@ This is beautifully in line with the predictions of our analysis that suggest th
 
 Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle can provide means to mitigate the stability issue in synthetic biology metabolic engineering setups.
 In such setups, conducting directed evolution under gradually decreasing input fluxes allows for a pathway to gradually evolve towards sustainable, substantial flux.
-This observation may also highlight the importance of seemingly redundant reactions such the one catalyzed by rpi, in growth on ribose.
+This observation may also highlight the importance of seemingly redundant reactions such as the one catalyzed by rpi, in growth on ribose.
 
-While autocatalytic cycles are usually considered a small part of metabolism, we find that such cycles are at the heart of central carbon metabolism.
-We use recent measurements to support our predictions on the usage of enzymes catalyzing reactions branching out of such cycles.
-Our observations suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may limit the parameters of a broad set of enzymes central to metabolism.
+While autocatalytic cycles are often overlooked in the study of metabolism, we find that such cycles are at the heart of central carbon metabolism.
+We use recent measurements to test our predictions on the usage of enzymes catalyzing reactions branching out of such cycles.
+Our observations suggest that the constraints we find on the kinetic parameters of enzymes involved in autocatalytic cycles may limit the parameters of enzymes central to metabolism.
 
 Finally, while our work focuses on cycles increasing the amount of carbon in the system, we note that autocatalysis can be defined with respect to other quantities such as energy (e.g. ATP investment and production in glycolysis \cite{Teusink1998-he}), non-carbon atoms, reducing power, or other moieties \cite{Reich1981-qd}.
-  As autocatalysis is also often studied with relation to the origin of life, our analysis may be useful in studying synthetic autocatalytic systems such as the one recently described in \cite{Semenov2016-ol}.
-  The analysis we present here can thus be of wide relevance for the design and analysis of metabolic networks both in existing organisms and in novel synthetic systems.
+  As autocatalysis is often studied with relation to the origin of life, our analysis may be useful in studying synthetic autocatalytic systems such as the one recently described in \cite{Semenov2016-ol}.
+  The analysis we present here can thus be of relevance for the design and analysis of metabolic networks both in existing organisms and in novel synthetic systems.
 
   \section{Methods}
   \subsection{Formal definition of an autocatalytic metabolic cycle}
   Given a metabolic network composed of a set of reactions and metabolites, the following criteria can be used to define a subset of the network that is an autocatalytic cycle:
+  First we define a metabolic cycle.
 A set of irreversible reactions (for reversible reactions only one direction can be included in the set) and metabolites forms a cycle if every metabolite of the set can be converted, by sequential application of reactions in the set (where two reactions can be chained if a metabolite in the set is a product of the first reaction and a substrate of the second reaction), to every other metabolite in the set.
 A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
 
@@ -602,6 +551,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
     \item Every metabolite in $M'$ is a substrate of at least one reaction in $R'$, and a product of at least one reaction in $R'$.
     \item Every reaction in $R'$ has at least one substrate from $M'$ and at least one product from $M'$.
     \item There is a set of positive integers, $i_1\cdots i_k$ such that the total reaction vector $R^*=\sum_{l=1}^k i_lR_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range.
+    \item The condition that the total reaction vector $R^*=\sum_{l=1}^k i_lR_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range cannot be satisfied by a set of non-negative integers, $i_1\cdots i_k$, if this set includes values that are $0$ (this conditions eliminates the addition of disjoint cycles to an autocatalytic cycle).
 \end{enumerate}
 
   \subsection{Systematic identification of autocatalytic cycles in metabolic networks}
@@ -633,7 +583,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \end{enumerate}
 
   The algorithm assumes reactions consume exactly one molecule of any of their substrates and produce exactly one molecule of any of their products, an assumption that holds for the core model of \emph{E.coli}, but not in metabolic networks in general.
-  
+
   \subsection{Dependence of the simple cycle steady state concentration on the kinetic parameters of the autocatalytic and branch reactions}
   The simple cycle steady state concentration, $X^*$, is given in equation \ref{eq:xstst}.
   Taking the derivative of this expression with respect to $K_{M,a}$, $K_{M,b}$, $V_{\max,a}$, and $V_{\max,b}$, under the assumption that the kinetic parameters satisfy the stability conditions in equation \ref{eq:stabconds} gives:
@@ -655,44 +605,44 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   We derive the expressions for the apparent Michaelis-Menten constants, $K_M$ and $V_{\max}$, as functions of the kinetic constants of the bisubstrate reaction and the concentration of the assimilated metabolite.
   While the substrates in these equations are generally denoted as $A$ and $B$, here, to keep the notation consistent, we will denote by $A$ the assimilated metabolite and by $X$ the internal metabolite of the cycle.
 
-  The simplest equation describing a bisubstrate reaction assumes substituted enzyme (Ping Pong) mechanism.
+  The simplest equation describing a bisubstrate reaction assumes substituted enzyme (Ping Pong) mechanism \cite{Imperial2014-nw}.
   As this equation is symmetric with respect to the two substrates, we can arbitrarily decide which of the two substrates is the assimilated metabolite, and which is the internal metabolite.
   We get that the flux through the reaction is:
   \begin{equation*}
-      f=\frac{V_{\max}'AX}{K_XA+K_{A}X+AX}
+      f=\frac{V_{\max}AX}{K_XA+K_{A}X+AX}
   \end{equation*}
   Rearranging to get the dependence of the flux on $X$ in a Michaelis-Menten like form we get that:
   \begin{equation}
       \label{eq:pingpongmm}
-      f=\frac{\frac{V_{\max}'A}{K_A+A}X}{\frac{K_XA}{K_A+A}+X}
+      f=\frac{\frac{V_{\max}A}{K_A+A}X}{\frac{K_XA}{K_A+A}+X}
   \end{equation}
   which gives apparent Michaelis-Menten kinetic constants of:
   \begin{align}
   \begin{split}
       \label{eq:paramsping}
-      V_{max}&=\frac{V_{\max}'A}{K_A+A} \\
-      K_M&=\frac{K_XA}{K_A+A}
+      \tilde{V}_{max}&=\frac{V_{\max}A}{K_A+A} \\
+      \tilde{K}_M&=\frac{K_XA}{K_A+A}
   \end{split}
   \end{align}
 
-  
+
   The second bisubstrate reaction mechanism we consider is the ternary enzyme complex with random binding order of the two substrates.
   As this equation is also symmetric with respect to the two substrates, we can again arbitrarily decide which of the two substrates is the assimilated metabolite, and which is the internal metabolite.
   We get that the flux through the reaction is:
   \begin{equation*}
-      f=\frac{V_{\max}'AX}{K_{i,A}K_X+K_XA+K_AX+AX}
+      f=\frac{V_{\max}AX}{K_{i,A}K_X+K_XA+K_AX+AX}
   \end{equation*}
   Rearranging to get the dependence of the flux on $X$ in a Michaelis-Menten like form we get that:
   \begin{equation}
       \label{eq:birandmm}
-      f=\frac{\frac{V_{\max}'A}{K_A+A}X}{\frac{K_{i,A}+A}{K_A+A}K_X+X}
+      f=\frac{\frac{V_{\max}A}{K_A+A}X}{\frac{K_{i,A}+A}{K_A+A}K_X+X}
   \end{equation}
   which gives apparent Michaelis-Menten kinetic constants of:
   \begin{align}
   \begin{split}
       \label{eq:paramssym}
-      V_{max}&=\frac{V_{\max}'A}{K_A+A} \\
-      K_M&=\frac{K_{i,A}+A}{K_A+A}K_X
+      \tilde{V}_{max}&=\frac{V_{\max}A}{K_A+A} \\
+      \tilde{K}_M&=\frac{K_{i,A}+A}{K_A+A}K_X
   \end{split}
   \end{align}
 
@@ -702,28 +652,28 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   If the first binding metabolite is assumed to be the assimilated metabolite we get that:
   \begin{equation}
       \label{eq:biordfstmm}
-      f=\frac{V_{\max}'AX}{K_{i,A}K_X+K_XA+AX}=\frac{V_{\max}'X}{\frac{K_{i,A}+A}{A}K_X+X}
+      f=\frac{V_{\max}AX}{K_{i,A}K_X+K_XA+AX}=\frac{V_{\max}X}{\frac{K_{i,A}+A}{A}K_X+X}
   \end{equation}
   which gives apparent Michaelis-Menten kinetic constants of:
   \begin{align}
   \begin{split}
       \label{eq:paramsasymfst}
-      V_{max}&=V_{\max}' \\
-      K_M&=\frac{K_{i,A}+A}{A}K_X
+      \tilde{V}_{max}&=V_{\max} \\
+      \tilde{K}_M&=\frac{K_{i,A}+A}{A}K_X
   \end{split}
   \end{align}
-  
+
   If the first binding metabolite is assumed to be the internal metabolite we get that:
   \begin{equation}
       \label{eq:biordsndmm}
-      f=\frac{V_{\max}'AX}{K_{i,X}K_A+K_AX+AX}=\frac{\frac{V_{\max}'A}{K_A+A}X}{\frac{K_{i,X}K_A}{K_A+A}+X}
+      f=\frac{V_{\max}AX}{K_{i,X}K_A+K_AX+AX}=\frac{\frac{V_{\max}A}{K_A+A}X}{\frac{K_{i,X}K_A}{K_A+A}+X}
   \end{equation}
   which gives apparent Michaelis-Menten kinetic constants of:
   \begin{align}
   \begin{split}
       \label{eq:paramsasymsnd}
-      V_{max}&=\frac{V_{\max}'A}{K_A+A} \\
-      K_M&=\frac{K_{i,X}K_A}{K_A+A}
+      \tilde{V}_{max}&=\frac{V_{\max}A}{K_A+A} \\
+      \tilde{K}_M&=\frac{K_{i,X}K_A}{K_A+A}
   \end{split}
   \end{align}
 
@@ -733,7 +683,7 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \subsection{Mapping stability constraints on Michaelis-Menten kinetic constants to constraints on the concentration of the assimilated metabolite and the kinetic constants of bisubstrate reactions}
   In equation \ref{eq:stabconds} we obtain constraints on the kinetic parameters of Michaelis-Menten reactions that ensure existence and stability of a positive steady state.
   We observe that these constraints imply that even if the maximal rates of the two reactions can be easily modified, if $K_{M,b}<K_{M,a}$ then such changes cannot suffice in order to satisfy the existence and stability constraints.
-  
+
   Here we map the same constraints from equation \ref{eq:stabconds} onto bisubstrate autocatalytic reactions.
   This mapping results in constraints on the assimilated metabolite concentration, as well as on the kinetic parameters of the bisubstrate autocatalytic reactions.
   We show that in all ternary enzyme complex bisubstrate reaction schemes, there is a lower bound on the concentration of the assimilated metabolite, below which the system cannot attain a stable positive steady state.
@@ -748,11 +698,11 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \begin{equation}
     \label{eq:stabcondspingpong}
     \begin{dcases}
-      & V_{\max,b}>\frac{V_{\max}'A}{K_A+A}=V_{\max}'\frac{A}{K_A+A} \\
-      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'}{K_X}
+      & V_{\max,b}>\frac{V_{\max}A}{K_A+A}=V_{\max}\frac{A}{K_A+A} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}}{K_X}
     \end{dcases}
   \end{equation}
-  As $\frac{A}{K_A+A}<1$, the first inequality can always be satisfied if $V_{\max,b}>V_{\max}'$, which is equivalent to the first condition in equation \ref{eq:stabconds}.
+  As $\frac{A}{K_A+A}<1$, the first inequality can always be satisfied if $V_{\max,b}>V_{\max}$, which is equivalent to the first condition in equation \ref{eq:stabconds}.
   The second condition is identical to the second condition from equation \ref{eq:stabconds}.
   Therefore, this case imposes equivalent conditions to those derived for the simple, single substrate case.
 
@@ -761,39 +711,39 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \begin{equation}
     \label{eq:stabcondsrandbind}
     \begin{dcases}
-      & V_{\max,b}>\frac{V_{\max}'A}{K_A+A}=V_{\max}'\frac{A}{K_A+A} \\
-      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'A}{(K_{i,A}+A)K_X}=\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}
+      & V_{\max,b}>\frac{V_{\max}A}{K_A+A}=V_{\max}\frac{A}{K_A+A} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}A}{(K_{i,A}+A)K_X}=\frac{V_{\max}\frac{A}{K_{i,A}+A}}{K_X}
     \end{dcases}
   \end{equation}
 
   We first note that from the second inequality we get that:
   \begin{equation}
     \label{eq:assimlowerbound}
-      \frac{V_{\max,b}K_X}{K_{M,b}V_{\max}'}<\frac{A}{K_{i,A}+A} \rightarrow
-      \frac{K_{i,A}}{\frac{K_{M,b}V_{\max}'}{V_{\max,b}K_X}-1}<A
+      \frac{V_{\max,b}K_X}{K_{M,b}V_{\max}}<\frac{A}{K_{i,A}+A} \rightarrow
+      \frac{K_{i,A}}{\frac{K_{M,b}V_{\max}}{V_{\max,b}K_X}-1}<A
   \end{equation}
   Giving a lower bound on the concentration of the assimilated metabolite for which a stable steady state is attainable.
 
   We now wish to obtain a lower bound on $K_{M,b}$.
-  In order to obtain such a lower bound, we need an upper bound on $V_{\max}'\frac{A}{K_{i,A}+A}$.
-  However, we only have an upper bound on $V_{\max}'\frac{A}{K_A+A}$.
+  In order to obtain such a lower bound, we need an upper bound on $V_{\max}\frac{A}{K_{i,A}+A}$.
+  However, we only have an upper bound on $V_{\max}\frac{A}{K_A+A}$.
   We use the first inequality in equation \ref{eq:stabcondsrandbind} to get that:
   \begin{equation*}
       \begin{split}
-      V_{\max,b}&>V_{\max}'\frac{A}{K_A+A} \rightarrow \\
-      V_{\max,b}\frac{A}{K_{i,A}+A}&>V_{\max}'\frac{A}{K_A+A}\frac{A}{K_{i,A}+A} \rightarrow \\
-      V_{\max,b}\frac{K_A+A}{K_{i,A}+A}&>V_{\max}'\frac{A}{K_{i,A}+A}
+      V_{\max,b}&>V_{\max}\frac{A}{K_A+A} \rightarrow \\
+      V_{\max,b}\frac{A}{K_{i,A}+A}&>V_{\max}\frac{A}{K_A+A}\frac{A}{K_{i,A}+A} \rightarrow \\
+      V_{\max,b}\frac{K_A+A}{K_{i,A}+A}&>V_{\max}\frac{A}{K_{i,A}+A}
       \end{split}
   \end{equation*}
   We note that for positive $A$, $\frac{K_A+A}{K_{i,A}+A} < \max(1,K_A/K_{i,A})$ and therefore:
   \begin{equation*}
-      V_{\max,b}\max(1,K_A/K_{i,A})>V_{\max}'\frac{A}{K_{i,A}+A}
+      V_{\max,b}\max(1,K_A/K_{i,A})>V_{\max}\frac{A}{K_{i,A}+A}
   \end{equation*}
   Substituting this inequality in the second inequality of equation \ref{eq:stabcondsrandbind} therefore gives us that:
   \begin{equation}
     \label{eq:randkbbound}
     \begin{split}
-      \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}&<\frac{V_{\max,b}\max(1,K_A/K_{i,A})}{K_X} \rightarrow\\
+      \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}\frac{A}{K_{i,A}+A}}{K_X}&<\frac{V_{\max,b}\max(1,K_A/K_{i,A})}{K_X} \rightarrow\\
       \frac{K_X}{\max(1,K_A/K_{i,A})}&<K_{M,b}
     \end{split}
   \end{equation}
@@ -807,19 +757,19 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \begin{equation}
     \label{eq:stabcondsordbindfst}
     \begin{dcases}
-      & V_{\max,b}>V_{\max}' \\
-      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'A}{(K_{i,A}+A)K_X}=\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}
+      & V_{\max,b}>V_{\max} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}A}{(K_{i,A}+A)K_X}=\frac{V_{\max}\frac{A}{K_{i,A}+A}}{K_X}
     \end{dcases}
   \end{equation}
   As the second inequality is identical to the one in the random binding order case, we can immediately conclude that the same lower bound on the concentration of $A$ from equation \ref{eq:assimlowerbound} holds in this case as well.
 
-  Regarding a lower bound on $K_{M,b}$, following similar reasoning as in the previous case, we first note that for any value of $A$: 
+  Regarding a lower bound on $K_{M,b}$, following similar reasoning as in the previous case, we first note that for any value of $A$:
   \begin{equation*}
     \frac{A}{K_{i,A}+A}<1
   \end{equation*}
   Therefore we can deduce, by using the first inequality from equation \ref{eq:stabcondsordbindfst} in the second inequality from that equation, that:
   \begin{equation*}
-    \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'\frac{A}{K_{i,A}+A}}{K_X}<\frac{V_{\max}'}{K_X}<\frac{V_{\max,b}}{K_X}
+    \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}\frac{A}{K_{i,A}+A}}{K_X}<\frac{V_{\max}}{K_X}<\frac{V_{\max,b}}{K_X}
   \end{equation*}
   which immediately yields:
   \begin{equation}
@@ -835,35 +785,35 @@ With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reac
   \begin{equation}
     \label{eq:stabcondsordbindsnd}
     \begin{dcases}
-      & V_{\max,b}>\frac{V_{\max}'A}{K_A+A} \\
-      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}'A}{K_{i,X}K_A}
+      & V_{\max,b}>\frac{V_{\max}A}{K_A+A} \\
+      & \frac{V_{\max,b}}{K_{M,b}}<\frac{V_{\max}A}{K_{i,X}K_A}
     \end{dcases}
   \end{equation}
   As in the previous two cases, the second inequality can be used to obtain a lower bound on the concentration of $A$:
   \begin{equation}
       \label{eq:assimlowerboundasym}
-    \frac{V_{\max,b}K_{i,X}K_A}{K_{M,b}V_{\max}'}<A
+    \frac{V_{\max,b}K_{i,X}K_A}{K_{M,b}V_{\max}}<A
   \end{equation}
-  However, unlike in the previous two cases, in this case if $V_{\max}'<V_{\max,b}$, then the first inequality in equation \ref{eq:stabcondsordbindsnd} holds for any concentration of $A$, and, for any concentration of $A$ that is larger than its lower bound, the second inequality is also satisfied, resulting in a stable steady state.
+  However, unlike in the previous two cases, in this case if $V_{\max}<V_{\max,b}$, then the first inequality in equation \ref{eq:stabcondsordbindsnd} holds for any concentration of $A$, and, for any concentration of $A$ that is larger than its lower bound, the second inequality is also satisfied, resulting in a stable steady state.
   This case is therefore more robust than the other cases as it allows for the conditions to be satisfied, at least for high concentrations of $A$, given any set of kinetic parameters.
   \subsection{Dependence of steady state concentration on the concentration of the assimilated metabolite}
-  Equation \ref{eq:xstst} shows the dependency between the concentration of $X$, the internal metabolite, and the kinetic parameters of the reactions in the system.
-  Substituting the dependencies of the apparent kinetic parameters from equations \ref{eq:paramssym}, \ref{eq:paramsasymfst}, and \ref{eq:paramsasymsnd} into equation \ref{eq:xstst} gives the dependency of $X$ on the kinetic parameters of the bisubstrate reactions and the concentration of the assimilated metabolite, $A$.
+  Equation \ref{eq:xstst} shows the dependency between the steady state concentration of the internal metabolite $X$, $X^*$, and the kinetic parameters of the reactions in the system.
+  Substituting the dependencies of the apparent kinetic parameters from equations \ref{eq:paramssym}, \ref{eq:paramsasymfst}, and \ref{eq:paramsasymsnd} into equation \ref{eq:xstst} gives the dependency of $X^*$ on the kinetic parameters of the bisubstrate reactions and the concentration of the assimilated metabolite, $A$.
   We get for these 3 cases respectively that:
 
   \begin{align}
-      X &= \frac{\frac{V_{\max}'A}{K_A+A}K_{M,b}-V_{\max,b}\frac{K_{i,A}+A}{K_A+A}K_X}
-      {V_{\max,b}-\frac{V_{\max}'A}{K_A+A}} \label{eq:xststrand} \\
-      X &= \frac{V_{\max}'K_{M,b}-V_{\max,b}\frac{K_{i,A}+A}{A}K_X}
-      {V_{\max,b}-V_{\max}'}\label{eq:xststordfst} \\
-      X &= \frac{\frac{V_{\max}'A}{K_A+A}K_{M,b}-V_{\max,b}\frac{K_{i,X}K_A}{K_A+A} }
-      { V_{\max,b}-\frac{V_{\max}'A}{K_A+A} }\label{eq:xststordsnd}
+      X^* &= \frac{\frac{V_{\max}A}{K_A+A}K_{M,b}-V_{\max,b}\frac{K_{i,A}+A}{K_A+A}K_X}
+      {V_{\max,b}-\frac{V_{\max}A}{K_A+A}} \label{eq:xststrand} \\
+      X^* &= \frac{V_{\max}K_{M,b}-V_{\max,b}\frac{K_{i,A}+A}{A}K_X}
+      {V_{\max,b}-V_{\max}}\label{eq:xststordfst} \\
+      X^* &= \frac{\frac{V_{\max}A}{K_A+A}K_{M,b}-V_{\max,b}\frac{K_{i,X}K_A}{K_A+A} }
+      { V_{\max,b}-\frac{V_{\max}A}{K_A+A} }\label{eq:xststordsnd}
   \end{align}
 
-  Assuming the kinetic parameters satisfy the stable steady state conditions derived in equations \ref{eq:stabcondsrandbind}, \ref{eq:stabcondsordbindfst}, and \ref{eq:stabcondsordbindsnd}, we note that when $A$ is equal to its lower bound, the numerator in all three cases is $0$, resulting in $X=0$.
-  Furthermore, as $A$ decreases towards its lower bound, $X$ decreases resulting in a decrease in both $f_b$ and $f_a$ (for the two latter cases this is trivial to show, as the terms involving $A$ increase and decrease monotonically in accordance with their effect on $X$. In the first case, taking the derivative of the numerator w.r.t. $A$ shows the derivative is always positive, resulting in the same conclusion).
-  Interestingly, in the first and last cases, if $V_{\max}'>V_{\max,b}$, then an upper bound on the concentration of $A$ also exists.
-  As the concentration of $A$ approaches this upper bound, the denominator approaches $0$ resulting in an increase in the concentration of $X$ towards infinity.
+  Assuming the kinetic parameters satisfy the stable steady state conditions derived in equations \ref{eq:stabcondsrandbind}, \ref{eq:stabcondsordbindfst}, and \ref{eq:stabcondsordbindsnd}, we note that when $A$ is equal to its lower bound, the numerator in all three cases is $0$, resulting in $X^*=0$.
+  Furthermore, as $A$ decreases towards its lower bound, $X^*$ decreases resulting in a decrease in both $f_b$ and $f_a$ (for the two latter cases this is trivial to show, as the terms involving $A$ increase and decrease monotonically in accordance with their effect on $X^*$. In the first case, taking the derivative of the numerator w.r.t. $A$ shows the derivative is always positive, resulting in the same conclusion).
+  Interestingly, in the first and last cases, if $V_{\max}>V_{\max,b}$, then an upper bound on the concentration of $A$ also exists.
+  As the concentration of $A$ approaches this upper bound, the denominator approaches $0$ resulting in an increase in the concentration of $X^*$ towards infinity.
 
 \subsection{Reversible branch reaction analysis}
     The simple model assumed both the autocatalytic and the branch reactions are irreversible.
@@ -1019,6 +969,45 @@ We can show that this steady state is stable both when $V_{\max,b}\rightarrow \i
 We therefore conclude that in this case, no further restrictions apply on $K_X$, $K_Y$, or $K_{M,a}$ but rather that a steady state can always be achieved at most by changing $V_{\max,b}$.
 
 Qualitatively, the cases we analyze show that, on top of the required $V_{\max,b}>V_{\max,a}$ condition, the second condition is that either the slope of $f_c=D$ is smaller than $V_{\max,a}/K_{M,a}$, or that the maximal slope of $f_b$, $V_{\max,b}/K_X$, is smaller than $V_{\max,a}/K_{M,a}$.
+\subsection{Extending the two reaction cycle to multiple reaction cycle}
+    The two-metabolites cycle case can be easily extended to a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
+    For this extension, we again assume, without loss of generality, that the autocatalytic reaction is the last reaction, $f_{a_n}$, and that the autocatalysis is in a $1\mathbin{:}2$ ratio.
+
+    In this case, steady state implies that the concentration of each intermediate metabolite is conserved, meaning that for all $i>1$:
+    \begin{equation}
+        \label{eq:complexdecrease}
+      \dot{X_i}=0 \Rightarrow f_{a_{i-1}}-f_{a_i}-f_{b_i}=0 \Rightarrow f_{a_{i-1}} \geq f_{a_i}
+    \end{equation}
+    (for $i=1$, as $f_{a_n}$ is the autocatalytic reaction, we get that $2\cdot f_{a_{n}} \geq f_{a_1}$).
+    Also, because at steady state the total outgoing flux from the cycle must balance the total incoming flux into the system, which is the amount of autocatalysis carried out by $f_{a_n}$, we get that:
+
+    \begin{equation*}
+      \sum_{i=1}^n f_{b_i}=f_{a_n}
+  \end{equation*}
+ (due to our assumption of a $1\mathbin{:}2$ autocatalytic ratio) implying that for all $i$:
+
+    \begin{equation}
+        \label{eq:complexsmallbranch}
+        f_{b_i} \leq f_{a_n}
+  \end{equation}
+  We stress that equation \ref{eq:complexsmallbranch} is only valid if the autocatalysis is in up to a $1\mathbin{:}2$ ratio.
+  Deriving a stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (see section below).
+
+  To conclude, for the straightforward extension of the simple model to multiple reactions with a single autocatalytic reaction, steady state implies that for all $i$:
+
+    \begin{equation}
+        f_{b_i} \leq f_{a_n} \leq f_{a_i}
+      \label{eq:complexstst}
+    \end{equation}
+    Where the left inequality is due to Equation \ref{eq:complexsmallbranch} and the right inequality is due to Equation \ref{eq:complexdecrease}.
+
+    A sufficient condition for such a steady state point to be stable is that at the steady state point there exists at least one branching point $i$ at which the derivative of the branch reaction is larger than the derivative of the equivalent autocatalytic reaction:
+
+    \begin{equation}
+      \beta_i > \alpha_i
+      \label{eq:complexstab}
+    \end{equation}
+
   \subsection{Limits on derivatives of branch reactions for complex autocatalytic cycles}
   Stability analysis of a model complex autocatalytic cycle with $n$ reactions in the cycle results in the following Jacobian matrix:
 
@@ -1050,7 +1039,7 @@ Qualitatively, the cases we analyze show that, on top of the required $V_{\max,b
 
   \paragraph{Proof:} We pick a large parameter $R$, such that $R>3\max_j(\alpha_j+\beta_j)$.
   We look at the closed half circle contour, $K$, composed of the segment $[(0,-iR),(0,iR)]$ and the half circle arc $(x,iy)$ such that $x\leq 0$ and $x^2+y^2=R^2$.
-  We define 
+  We define
 
   \begin{equation*}
       g(\lambda)=2\prod_{j=1}^n\alpha_j
@@ -1074,12 +1063,12 @@ Qualitatively, the cases we analyze show that, on top of the required $V_{\max,b
   \begin{equation*}
       |\lambda+\alpha_j+\beta_j| \geq R-(\alpha_j+\beta_j)
   \end{equation*}
-  As we picked $R$ such that $R>3\max_j(\alpha_j+\beta_j)$ we get that 
+  As we picked $R$ such that $R>3\max_j(\alpha_j+\beta_j)$ we get that
 
   \begin{equation*}
       R-(\alpha_j+\beta_j)>2(\alpha_j+\beta_j)
   \end{equation*}
-  and therefore 
+  and therefore
 
   \begin{equation*}
       \prod_{j=1}^n|\lambda+\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j+\beta_j|>\prod_{j=1}^n2|\alpha_j| = |g(\lambda)|
@@ -1091,7 +1080,7 @@ For this segment we therefore get that
 
 \begin{equation*}
     |f(\lambda)|=\prod_{j=1}^n|\alpha_j+\beta_j+iy|=\sqrt{\prod_{j=1}^n((\alpha_j+\beta_j)^2+y^2)} \geq \sqrt{\prod_{j=1}^n(\alpha_j+\beta_j)^2}
- \end{equation*} 
+ \end{equation*}
  and, as before, that
 
  \begin{equation*}
@@ -1146,12 +1135,13 @@ For this segment we therefore get that
     \end{equation}
     then it follows that:
 
-    \begin{equation*}
+    \begin{equation}
+        \label{eq:complexaffcond}
     \begin{dcases}
       & K_{M,b}>K_{M,a} \\
       & S_b(X^*)<S_a(X^*)
     \end{dcases}
-    \end{equation*}
+    \end{equation}
     Proof: expanding the condition that $f_a(X^*)\geq f_b(X^*)$, we get that:
 
     \begin{equation}
@@ -1186,3 +1176,30 @@ For this segment we therefore get that
     We thus get a flux per enzyme estimate for the given reaction under each of the conditions.
     We define the enzyme maximal in-vivo catalytic rate as the maximum flux per unit enzyme it carries across all conditions (noting that this is actually only a lower bound on this rate).
     Multiplying the enzyme maximal catalytic rate by the enzyme amount at each condition therefore results in an estimate of the maximal possible flux through the given reaction under the relevant condition.
+
+    \subsection{Allosteric regulation affecting the affinities of enzymes can improve network performance}
+    The constraint on the affinity of the branch reaction imposed by the stability requirement (equation \ref{eq:complexaffcond}) may be suboptimal under other flux modes.
+    Furthermore, allosteric regulation can be used to accelerate the rate at which an autocatalytic cycle converges to its stable steady state mode.
+    While many allosteric regulation schemes exist \cite{Leskovac2003-li}, all of these schemes affect the affinity of the regulated enzyme, and some of these schemes also affect the maximal rate.
+    We qualitatively analyze the expected regulation benefits for autocatalytic cycles.
+
+    From the perspective of the simple model, we recall that $\dot{X}=f_a-f_b$.
+    If the cycle is such that some steady state concentration, $X^*$, is the desired value for biological function, then for levels of $X$ below $X^*$ convergence will be faster if $f_a$ is increased and $f_b$ is decreased, compared with their values at $X^*$.
+    Conversely, for levels of $X$ above $X^*$, convergence will be faster if $f_a$ is decreased and $f_b$ is increased, compared with their values at $X^*$.
+    Convergence to $X^*$ can therefore be accelerated if, for example, $X$ activates the branch reactions and inhibits the cycle reactions.
+
+    The assimilated metabolite can also allosterically regulate the reactions of the cycle.
+    Assuming $X^*$ is again the desired steady state, and is attained for some constant concentration of the assimilated metabolite, $A^*$, it follows that because the autocatalytic activity is higher when $A>A^*$, then in order to maintain $X^*$ close to its desired level, when $A>A^*$, $f_a$ should be inhibited, and $f_b$ should be activated, but when $A<A^*$, $f_a$ should be activated, and $f_b$ should be inhibited.
+    Therefore, to increase the robustness of the steady state concentration to changes in the concentration of the assimilated metabolite, the assimilated metabolite should inhibit the cycle reactions and activate the branch reactions.
+
+    Another possible class of regulators are the products of the branch reactions.
+    If the level of $Y$, the product of a branch reaction is low, implying that the cycle does not carry sufficient flux to supply the demand for $Y$, regulation can be used to increase $X^*$.
+    From equation \ref{eq:ststdep}, we get that the steady state concentration, $X^*$, increases as $K_{M,b}$ increases and $V_{\max,b}$ decreases, corresponding to inhibition of $f_b$, and that $X^*$ decreases as $K_{M,a}$ increases and $V_{\max,a}$ decreases, corresponding to inhibition of $f_a$.
+    So, to tune autocatalytic fluxes to match the demands of $Y$, regulation should increase $X^*$ when $Y$ is low, by activating the recycling and autocatalytic reactions and inhibiting the branch reactions.
+    On the other hand, regulation should decrease $X^*$ when $Y$ is high, by inhibiting the autocatalytic reactions and activating the branch reactions.
+    Therefore, to synchronize the demand of the cycle product with the cycle flux, the cycle branch products should inhibit the cycle reactions and activate the branch reactions.
+
+    Finally, we note that in the autocatalytic cycles we identify in central carbon metabolism, there are also reactions that operate in the reverse direction to the branch reactions, such that they consume products of the cycle and produce intermediate metabolites of the cycle.
+    As such reactions are mirror images of branch reactions, we expect them to be oppositely regulated to branch reactions.
+
+    As we show below, these predictions hold for the cycle using the PTS, that is known to be allosterically controlled, but not for the glyoxylate cycle, which is known to be transcriptionally controlled \cite{Gerosa2015-oq}.

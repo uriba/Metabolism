@@ -46,7 +46,7 @@
       \begin{axis}[name=plot1,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=\plotwidthanim,height=\plotheightanim,clip=false,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.right of north east),anchor=left of north west,ylabel style={name=ylabel1},xshift=\plotshift,visible on=<2->]%,axis background/.style={fill=cyan!50!magenta,opacity=0.3}]
         \addplot[domain=0:2.9,autocatacyc,thick] {3*x/(0.1+x)};
         \addplot[domain=0:2.9,branchout,thick,visible on=<3->] {5*x/(1+x)};
-        \addplot[domain=0:2.9,sumcolor,thick,dashed,visible on=<4->] {3*x/(0.1+x)-5*x/(1+x)};
+        \addplot[domain=0:2.9,sumcolor,thick,visible on=<4->] {3*x/(0.1+x)-5*x/(1+x)};
         \addplot[dashed,gray,thick,visible on=<4->] coordinates {(1.25,0) (1.25,2.77)};
         \node[right,align=left,visible on=<6->] (onetext) at (axis cs:0.05,4.7) {\scriptsize \textbf{stable non-zero}\\[-0.4em]\scriptsize \textbf{steady state}};
       \end{axis}
@@ -65,13 +65,13 @@
           \addlegendimage{vstyle,area legend,visible on=<5->}
           \addlegendimage{branchout,fill=black!50!red,sharp plot,line width=1pt}
           \addlegendimage{kstyle,area legend,visible on=<5->}
-          \addlegendimage{sumcolor,fill=black!50!red,sharp plot,dashed,line width=1pt}
+          \addlegendimage{sumcolor,fill=black!50!red,sharp plot,line width=1pt}
         \end{customlegend}
 
       \begin{axis}[name=plot2,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(phase.left of north west),anchor=right of north east,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},ylabel style={name=ylabel2},xshift=-1mm,visible on=<5->]%,axis background/.style=vstyle]
         \addplot[domain=0:4,autocatacyc,thick] {4*x/(1+x)};
         \addplot[domain=0:4,branchout,thick] {5*x/(0.2+x)};
-        \addplot[domain=0:4,sumcolor,thick,dashed,visible on=<6->] {4*x/(1+x)-5*x/(0.2+x)};
+        \addplot[domain=0:4,sumcolor,thick,visible on=<6->] {4*x/(1+x)-5*x/(0.2+x)};
         \node[right,align=left,visible on=<6->] (twotext) at (axis cs:0.0,5) {\scriptsize stable zero steady state};
       \end{axis}
      \iftoggle{article} {}
@@ -82,7 +82,7 @@
       \begin{axis}[name=plot3,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},at=(phase.left of south west),anchor=right of south east,ylabel style={name=ylabel3},xshift=-1mm,visible on=<5->]
         \addplot[domain=0:4,autocatacyc,thick] {5*x/(1+x)};
         \addplot[domain=0:4,branchout,thick] {3*x/(0.1+x)};
-        \addplot[domain=0:4,sumcolor,thick,dashed,visible on=<6->] {5*x/(1+x)-3*x/(0.1+x)};
+        \addplot[domain=0:4,sumcolor,thick,visible on=<6->] {5*x/(1+x)-3*x/(0.1+x)};
         \addplot[dashed,gray,thick] coordinates {(1.25,0) (1.25,2.77)};
         \node[right,align=left,visible on=<6->] (threetext) at (axis cs:0.05,4.7) {\scriptsize unstable non-zero\\[-0.4em]\scriptsize steady state};
       \end{axis}
@@ -94,7 +94,7 @@
       \begin{axis}[name=plot4,axis x line=middle,axis y line=left,xlabel near ticks,ylabel near ticks,xmin=0,ymin=-2.5,xmax=2.9,ymax=5.9,xlabel={[$X$]},ylabel={flux},samples=60,at=(phase.right of south east),anchor=left of south west,width=\plotwidth,height=\plotheight,yticklabels={,,},xticklabels={,,},tick label style={major tick length=0pt},ylabel style={name=ylabel4},xshift=1mm,visible on=<5->]%,axis background/.style=kstyle]
         \addplot[domain=0:2.9,autocatacyc,thick] {5*x/(0.2+x)};
         \addplot[domain=0:2.9,branchout,thick] {4*x/(1+x)};
-        \addplot[domain=0:2.9,sumcolor,thick,dashed,visible on=<6->] {5*x/(0.2+x)-4*x/(1+x)};
+        \addplot[domain=0:2.9,sumcolor,thick,visible on=<6->] {5*x/(0.2+x)-4*x/(1+x)};
         \node[right,align=left,visible on=<6->] (fourtext) at (axis cs:0.05,5) {\scriptsize  no stable steady state};
      \end{axis}
      \iftoggle{article} {}
