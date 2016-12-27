@@ -1189,11 +1189,14 @@ For this segment we therefore get that
     Convergence to $X^*$ can therefore be accelerated if, for example, $X$ activates the branch reactions and inhibits the cycle reactions.
 
     The assimilated metabolite can also allosterically regulate the reactions of the cycle.
-    Assuming $X^*$ is again the desired steady state, and is attained for some constant concentration of the assimilated metabolite, $A^*$, it follows that because the autocatalytic activity is higher when $A>A^*$, then in order to maintain $X^*$ close to its desired level, when $A>A^*$, $f_a$ should be inhibited, and $f_b$ should be activated, but when $A<A^*$, $f_a$ should be activated, and $f_b$ should be inhibited.
+    We naively assume that the desired steady state, denoted $\hat{X}$, does not depend on the concentration of the assimilated metabolite, $A$.
+    Under this assumption, we further assume that $\hat{X}$ is attained for some constant concentration of the assimilated metabolite, $\hat{A}$.
+    It then follows that because the autocatalytic activity is higher when $A>\hat{A}$, then in order to maintain $X^*$ close to its desired level, when $A>\hat{A}$, $f_a$ should be inhibited, and $f_b$ should be activated, but when $A<\hat{A}$, $f_a$ should be activated, and $f_b$ should be inhibited.
     Therefore, to increase the robustness of the steady state concentration to changes in the concentration of the assimilated metabolite, the assimilated metabolite should inhibit the cycle reactions and activate the branch reactions.
 
     Another possible class of regulators are the products of the branch reactions.
-    If the level of $Y$, the product of a branch reaction is low, implying that the cycle does not carry sufficient flux to supply the demand for $Y$, regulation can be used to increase $X^*$.
+    Taking a somewhat simplistic view, if the level of $Y$, the product of a branch reaction is low, this can indicate that the cycle does not carry sufficient flux to supply the demand for $Y$.
+    Regulation can then be used to increase $X^*$.
     From equation \ref{eq:ststdep}, we get that the steady state concentration, $X^*$, increases as $K_{M,b}$ increases and $V_{\max,b}$ decreases, corresponding to inhibition of $f_b$, and that $X^*$ decreases as $K_{M,a}$ increases and $V_{\max,a}$ decreases, corresponding to inhibition of $f_a$.
     So, to tune autocatalytic fluxes to match the demands of $Y$, regulation should increase $X^*$ when $Y$ is low, by activating the recycling and autocatalytic reactions and inhibiting the branch reactions.
     On the other hand, regulation should decrease $X^*$ when $Y$ is high, by inhibiting the autocatalytic reactions and activating the branch reactions.
