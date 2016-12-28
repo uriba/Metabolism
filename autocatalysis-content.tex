@@ -8,11 +8,11 @@
     An illustrative example for a metabolic autocatalytic cycle is glycolysis.
     In glycolysis, 2 ATP molecules are consumed in the priming phase, in order to produce 4 ATP molecules in the pay off phase.
     Therefore, in order to produce ATP in glycolysis, ATP must already be present in the cell.
-    Subsequently, autocatalysis of ATP in glycolysis (also referred to as ``turbo design'') results in metabolic sensitivity to mutations in seemingly irrelevant enzymes \cite{Teusink1998-he}.
+    Subsequently, autocatalysis of ATP in glycolysis (also referred to as ``turbo design'') results in sensitivity to mutations in seemingly irrelevant enzymes \cite{Teusink1998-he}.
+    Autocatalytic cycles have also been shown to be optimal network topologies that minimize the number of reactions needed for the production of precursor molecules from different nutrient sources \cite{Riehl2010-yh}.
 
-    Autocatalytic cycles have been shown to be optimal network topologies that minimize the number of reactions needed for the production of precursor molecules from different nutrient sources \cite{Riehl2010-yh}.
-    Thus, metabolic networks often require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
-    Examples of obligatorily autocatalytic internal metabolites in different organisms, on top of ATP, are NAD, coenzyme A and tetrahydrofolate \cite{Kun2008-xg}.
+    Metabolic networks often require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
+    Examples of obligatorily autocatalytic internal metabolites in different organisms, on top of ATP, are NADH, and coenzyme A \cite{Kun2008-xg}.
     The requirement for availability of certain metabolites in order to consume nutrients implies metabolic processes must be finely controlled to prevent such essential metabolites from running out; in such cases metabolism will come to a halt.
     Autocatalytic cycles therefore present control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Teusink1998-he,Fell1999,Reznik2010-te}.
     The stability criteria typically represent one constraint among the parameters of the cycle enzymes.
@@ -98,8 +98,8 @@ We denote the flux through the autocatalytic reaction of the cycle by $f_a$, suc
 The autocatalytic reaction assimilates an external metabolite (denoted $A$), which we assume to be at a constant concentration.
 We denote the flux through the reaction branching out of the cycle by $f_b$.
 Biologically, $f_b$ represents the consumption of the intermediate metabolite $X$.
-While not obligatorily such, in the cycles we find, the branch reactions provide precursors that support growth through subsequent reactions.
-We therefore also consider $f_b$ to represent biomass generation.
+In the cycles we find in central carbon metabolism, the branch reactions provide precursors that support growth through subsequent reactions.
+We thus also sometimes consider $f_b$ to represent biomass generation.
 
 For simplicity in the derivation, we assume irreversible Michaelis-Menten kinetics for the two reactions.
 Even though $f_a$ should follow bisubstrate velocity equation, assuming constant concentration of $A$ reduces the bisubstrate equation to a simple Michaelis-Menten equation.
@@ -251,6 +251,7 @@ We therefore assume that:
     In the substituted enzyme mechanism, the lower bound on the concentration of $A$ is 0, at which the steady state concentration of $X$ is trivially 0 as well.
     In all cases, if the maximal flux of the autocatalytic reaction is higher than the maximal flux of the branch reaction, an upper bound on the concentration of $A$ may also exist, to satisfy the condition that $V_{\max,a}<V_{\max,b}$.
     However, this bound can be removed by increasing $V_{\max,b}$ or reducing $V_{\max}$.
+
 \subsection{Extensions of the simple autocatalytic cycle model}
     \subsubsection{Generalizing for different autocatalytic stoichiometries}
     Our didactic analysis considered an autocatalytic reaction with $1\mathbin{:}2$ stoichiometry, such that for every substrate molecule consumed, two are produced.
@@ -314,16 +315,7 @@ We therefore assume that:
     Another example of the effects of addition of an input flux to an autocatalytic cycle is the input flux of fructose-6-phosphate from the catabolism of starch into the CBB cycle.
     This input flux can be used to 'kick start' the cycle even without using the intermediate metabolites of the cycle.
 
-    \subsubsection{Reversible autocatalytic reaction allows enzyme expression level tuning to always achieve positive stable steady state}
-    The simple model assumed both the autocatalytic and the branch reactions are irreversible.
-    If the autocatalytic reaction is reversible, then it must be driven by the displacement from thermodynamic equilibrium of the concentration of $A$ versus the concentration of $X$.
-    Therefore, for any fixed concentration of $A$, $\hat{A}$, a concentration of $X$ exists such that $f_a(X,\hat{A})=0<f_b(X)$.
-    It then follows that a sufficient condition for a positive steady state to exist is that at $X=0$, $\dot{X}(\hat{A})>0$, which implies that
-    \begin{equation*}
-    \frac{\partial f_a}{\partial X}\Big\vert_{X=0,A=\hat{A}}>\frac{V_{\max,b}}{K_{M,b}}
-    \end{equation*}
-    This condition can always be satisfied by high expression of the autocatalytic enzyme, increasing $V_{\max,a}$.
-    For this case it therefore follows that for any concentration of $A$, a minimal value for $V_{\max,a}$ exists, above which a positive steady state is achieved.
+    
     \subsubsection{Reversible branch reaction can either be far from equilibrium, resulting in the simple case, or near equilibrium, pushing the stability conditions down the branch pathway}
     The simple model assumed both the autocatalytic and the branch reactions are irreversible.
     Assuming the branch reaction, $f_b$, can be reversible, with a product $Y$, the system can be analyzed in two extreme cases.
@@ -335,47 +327,31 @@ We therefore assume that:
     A mathematical analysis is provided in the methods section.
     The assumptions on the consumption of $Y$ in this case are analogous to the constraints in equation \ref{eq:stabconds}, namely that the reaction downstream of $Y$ is less saturated than the autocatalytic reaction, and that it consumes $Y$ at a lower rate than the rate at which the autocatalytic reaction produces $X$ near $X=0$.
 
+
+    \subsubsection{Reversible autocatalytic reaction allows enzyme expression level tuning to always achieve positive stable steady state}
+    The simple model assumed both the autocatalytic and the branch reactions are irreversible under physiological conditions.
+    The autocatalytic reaction in the simple model represents the chaining of all of the reactions in autocatalytic cycles found in real metabolic networks.
+    In order for the combined autocatalytic reaction to be physiologically reversible, all of the reactions in the real metabolic network must be reversible under physiological conditions.
+    We note that this is not the case in any of the cycles we identify in central carbon metabolism.
+    Nevertheless, this case can be mathematically analyzed.
+
+    If the autocatalytic reaction is reversible, then it must be driven by the displacement from thermodynamic equilibrium of the concentration of $A$ versus the concentration of $X$.
+    Therefore, for any fixed concentration of $A$, $\hat{A}$, a concentration of $X$ exists such that $f_a(X,\hat{A})=0<f_b(X)$.
+    It then follows that a sufficient condition for a positive steady state to exist is that at $X=0$, $\dot{X}(\hat{A})>0$, which implies that
+    \begin{equation*}
+        \frac{\partial f_a}{\partial X}\Big\vert_{X=0,A=\hat{A}}>\frac{V_{\max,b}}{K_{M,b}}
+    \end{equation*}
+    This condition can always be satisfied by high expression of the autocatalytic enzyme, increasing $V_{\max,a}$.
+    For this case it therefore follows that for any concentration of $A$, a minimal value for $V_{\max,a}$ exists, above which a positive steady state is achieved.
+
    \subsubsection{Stability analysis for multiple-reaction cycles}
     It is useful to extend the simple criteria we derived to more complex autocatalytic cycles.
     In such cycles the criteria for existence of a steady state become complex and detail specific.
     We therefore focus on evaluating stability of such cycles, under the assumption that a non-zero steady state exists, which is often known from experimental measurements.
 
-    We start by writing the relevant equations for the autocatalytic cycle depicted in figure \ref{fig:multiple}A.
-    In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two branch reactions, $f_{b_1}$ and $f_{b_2}$.
-    We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1\mathbin{:}2$ ratio.
-    The equations describing the dynamics of the system are thus:
-
-    \begin{align*}
-        \dot{X_1} & =2f_{a_2}-f_{a_1}-f_{b_1} \\
-        \dot{X_2} & =f_{a_1}-f_{a_2}-f_{b_2}
-    \end{align*}
-    We note that in steady state, where $\dot{X_1}=\dot{X_2}=0$, because the autocatalysis is in a $1\mathbin{:}2$ ratio, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, meaning the total outgoing flux balances the total increase of intermediate metabolites due to autocatalysis.
-    Given that a steady state of the system exists for some value $(X_1^*,X_2^*)$, we can evaluate the condition for stability.
-    In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative.
-    We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$.
-    We note that as we assume Michaelis Menten kinetics, $\alpha_i>0$ and $\beta_i \geq 0$, where $\beta_i=0$ is the case where there is no flux branching out at $i$.
-    We then get that the Jacobian matrix is:
-
-    \begin{equation*}
-        J=
-        \begin{pmatrix}
-            -(\alpha_1+\beta_1) & 2\alpha_2 \\
-            \alpha_1 & -(\alpha_2+\beta_2)
-        \end{pmatrix}
-    \end{equation*}
-    Solving for the characteristic polynomial gives:
-
-    \begin{align*}
-        0 & =(\lambda+\alpha_1+\beta_1)(\lambda+\alpha_2+\beta_2)-2\alpha_1\alpha_2 \\
-        & = \lambda^2+(\alpha_1+\beta_1+\alpha_2+\beta_2)\lambda+(\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2
-    \end{align*}
-    that has two negative roots when:
-
-    \begin{equation*}
-        (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0 \Rightarrow (1+\frac{\beta_1}{\alpha_1})(1+\frac{\beta_2}{\alpha_2})>2
-    \end{equation*}
-    which is satisfied if $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$.
-    Therefore, if either $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$ at the steady state, then the steady state is stable.
+    We analyze the stability criteria for the autocatalytic cycles depicted in figure \ref{fig:multiple}A and B in the methods section.
+    We stress that the analysis and its conclusions are only valid for autocatalytic ratios smaller than or equal to $1\mathbin{:}2$, which is the case for all the autocatalytic cycles we identify.
+    We find that in the multiple reaction cases a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (where $i$ can be any number in the range $1\dots n$, $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$, and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$).
 
 \begin{figure}[!htb]
   \centering
@@ -390,11 +366,6 @@ We therefore assume that:
  }
      \label{fig:multiple}
 \end{figure}
-
-    The two-metabolites cycle case can be easily extended to a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
-    The analysis for a larger number of intermediate metabolites and reactions is given in the methods.
-    We stress that the analysis and its conclusions are only valid for autocatalytic ratios smaller than or equal to $1\mathbin{:}2$, which is the case for all the autocatalytic cycles we identify.
-    Deriving a stability criterion for the multiple-reaction case, we get that in this case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (where $i$ can now be any number in the range $1\dots n$).
 
    Using the connection between derivatives of reactions and saturation levels (see methods), we conclude that if $\beta_i > \alpha_i$ for some $i$ at the steady state point, then the saturation of the branch reaction, denoted $S(f)$, must be lower than the saturation of the corresponding cycle reaction at $X_i$:
 
@@ -487,7 +458,10 @@ We therefore assume that:
     This agreement between predictions and measurements is especially encouraging given the highly limited information on kinetic properties, concentrations, and fluxes under various growth conditions.
 
     \subsection{Allosteric regulation data supports predicted regulation in PTS-using cycle, but not in the glyoxylate cycle}
-    We analyze potential allosteric interactions that can support fast convergence and stability of autocatalytic cycles in the methods section.
+    Allosteric regulation can modulate the kinetic properties of enzymes at branch points, and of the cycle in general.
+    As such, the relevant condition for the existence of a stable positive steady state should hold for the updated kinetic properties as defined following the effect of allosteric regulation.
+
+    We further analyze the ability of specific allosteric interactions to support fast convergence and stability of autocatalytic cycles in the methods section.
     We compare the expected beneficial allosteric interactions against the allosteric regulation network of the two functioning autocatalytic cycles we identified, the PTS-using autocatalytic cycle and the glyoxylate cycle (see supplementary tables, regulation data was taken from \cite{Keseler2013-xn} and \cite{Schomburg2004-st}).
 
     For the PTS cycle we find that there are a total of 12 allosteric interactions, 7 inhibitions and 5 activations.
@@ -515,7 +489,7 @@ Here we show that in the context of autocatalytic cycles, such expression modula
 Specifically, changes to the substrate affinity of enzymes at branch points of the cycle may be required in order for the novel pathway to function.
 
 Another aspect of our findings is that while it is common to assume that strong affinity and catalytic rate are desirable traits for enzymes, such seeming improvements may actually lead to instability and thus to non functional metabolic cycles.
-Furthermore, for reactions branching out of autocatalytic cycles, lower affinities increase the steady state concentration of intermediate metabolites, resulting in higher fluxes both through the cycle, and through the branch reaction, suggesting an unconventional strategy for optimizing fluxes through such reactions.
+Furthermore, for reactions branching out of autocatalytic cycles, weaker affinities increase the steady state concentration of intermediate metabolites, resulting in higher fluxes both through the cycle, and through the branch reaction, suggesting an unconventional strategy for optimizing fluxes through such reactions.
 We note that allosteric regulation can potentially overcome the affinity restriction on branch reactions and show that in one out of the two native autocatalytic cycles that we find to function in vivo, known allosteric interactions agree with our predicted direction of interaction (activation of inhibition).
 
 An experimental demonstration of these principles in-vivo is the recent implementation of a functional CBB cycle in \emph{E.coli} by introducing the two genes missing for its function \cite{Antonovsky2016-jy}.
@@ -526,7 +500,6 @@ This is beautifully in line with the predictions of our analysis that suggest th
 
 Our observation regarding the stabilizing effect of input fluxes into an autocatalytic cycle can provide means to mitigate the stability issue in synthetic biology metabolic engineering setups.
 In such setups, conducting directed evolution under gradually decreasing input fluxes allows for a pathway to gradually evolve towards sustainable, substantial flux.
-This observation may also highlight the importance of seemingly redundant reactions such as the one catalyzed by rpi, in growth on ribose.
 
 While autocatalytic cycles are often overlooked in the study of metabolism, we find that such cycles are at the heart of central carbon metabolism.
 We use recent measurements to test our predictions on the usage of enzymes catalyzing reactions branching out of such cycles.
@@ -969,7 +942,45 @@ We can show that this steady state is stable both when $V_{\max,b}\rightarrow \i
 We therefore conclude that in this case, no further restrictions apply on $K_X$, $K_Y$, or $K_{M,a}$ but rather that a steady state can always be achieved at most by changing $V_{\max,b}$.
 
 Qualitatively, the cases we analyze show that, on top of the required $V_{\max,b}>V_{\max,a}$ condition, the second condition is that either the slope of $f_c=D$ is smaller than $V_{\max,a}/K_{M,a}$, or that the maximal slope of $f_b$, $V_{\max,b}/K_X$, is smaller than $V_{\max,a}/K_{M,a}$.
-\subsection{Extending the two reaction cycle to multiple reaction cycle}
+\subsection{Extending the stability analysis from the single reaction cycle to multiple reaction cycles}
+    We analyze the stability criteria for the autocatalytic cycles depicted in figure \ref{fig:multiple}A and B.
+    We start by writing the relevant equations for the autocatalytic cycle depicted in figure \ref{fig:multiple}A.
+    In this system there are two intermediate metabolites, $X_1$ and $X_2$, two reactions that form the cycle, $f_{a_1}$ and $f_{a_2}$, and two branch reactions, $f_{b_1}$ and $f_{b_2}$.
+    We assume, without loss of generality, that the autocatalytic reaction (the reaction that increases the amount of carbon in the cycle) is $f_{a_2}$ and that the autocatalysis is in a $1\mathbin{:}2$ ratio.
+    The equations describing the dynamics of the system are thus:
+
+    \begin{align*}
+        \dot{X_1} & =2f_{a_2}-f_{a_1}-f_{b_1} \\
+        \dot{X_2} & =f_{a_1}-f_{a_2}-f_{b_2}
+    \end{align*}
+    We note that in steady state, where $\dot{X_1}=\dot{X_2}=0$, because the autocatalysis is in a $1\mathbin{:}2$ ratio, it must hold that $f_{b_1}+f_{b_2}=f_{a_2}$, meaning the total outgoing flux balances the total increase of intermediate metabolites due to autocatalysis.
+    Given that a steady state of the system exists for some value $(X_1^*,X_2^*)$, we can evaluate the condition for stability.
+    In multi-variable systems, stability dictates that the real part of the eigenvalues of the Jacobian matrix must all be negative.
+    We define $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$ and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$ for $i=1,2$.
+    We note that as we assume Michaelis Menten kinetics, $\alpha_i>0$ and $\beta_i \geq 0$, where $\beta_i=0$ is the case where there is no flux branching out at $i$.
+    We then get that the Jacobian matrix is:
+
+    \begin{equation*}
+        J=
+        \begin{pmatrix}
+            -(\alpha_1+\beta_1) & 2\alpha_2 \\
+            \alpha_1 & -(\alpha_2+\beta_2)
+        \end{pmatrix}
+    \end{equation*}
+    Solving for the characteristic polynomial gives:
+
+    \begin{align*}
+        0 & =(\lambda+\alpha_1+\beta_1)(\lambda+\alpha_2+\beta_2)-2\alpha_1\alpha_2 \\
+        & = \lambda^2+(\alpha_1+\beta_1+\alpha_2+\beta_2)\lambda+(\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2
+    \end{align*}
+    that has two negative roots when:
+
+    \begin{equation*}
+        (\alpha_1+\beta_1)(\alpha_2+\beta_2)-2\alpha_1\alpha_2>0 \Rightarrow (1+\frac{\beta_1}{\alpha_1})(1+\frac{\beta_2}{\alpha_2})>2
+    \end{equation*}
+    which is satisfied if $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$.
+    Therefore, if either $\beta_1 > \alpha_1$ or $\beta_2 > \alpha_2$ at the steady state, then the steady state is stable.
+
     The two-metabolites cycle case can be easily extended to a larger number of intermediate metabolites and reactions, as is depicted in figure \ref{fig:multiple}B.
     For this extension, we again assume, without loss of generality, that the autocatalytic reaction is the last reaction, $f_{a_n}$, and that the autocatalysis is in a $1\mathbin{:}2$ ratio.
 
