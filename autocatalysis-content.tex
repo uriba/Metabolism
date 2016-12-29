@@ -13,8 +13,9 @@
 
     Metabolic networks often require the availability of certain intermediate metabolites, in addition to the nutrients consumed, in order to function.
     Examples of obligatorily autocatalytic internal metabolites in different organisms, on top of ATP, are NADH, and coenzyme A \cite{Kun2008-xg}.
+    We find that other central metabolites, such as phospho-sugars and organic acids, are autocatalytic under common growth conditions.
     The requirement for availability of certain metabolites in order to consume nutrients implies metabolic processes must be finely controlled to prevent such essential metabolites from running out; in such cases metabolism will come to a halt.
-    Autocatalytic cycles therefore present control challenges as their inherent feed-back nature makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Teusink1998-he,Fell1999,Reznik2010-te}.
+    Autocatalytic cycles present control challenges because the inherent feed-back nature of autocatalytic cycles makes them susceptible to instabilities such as divergence or drainage of their intermediate metabolites \cite{Teusink1998-he,Fell1999,Reznik2010-te}.
     The stability criteria typically represent one constraint among the parameters of the cycle enzymes.
     For large cycles, such as the whole metabolic network, one such constraint adds little information.
     For compact autocatalytic cycles embedded within metabolism, one such constraint is much more informative.
@@ -26,7 +27,7 @@
     The autocatalytic nature of the CBB cycle stems from the fact that for every 5 five-carbon compounds the cycle consumes, 6 five-carbon compounds are produced (by the fixation of 5 \ce{CO2} molecules).
     Beyond the CBB cycle, we show that most of the reactions and metabolites in central carbon metabolism are part of compact (i.e. consisting of around 10 reactions or fewer) metabolic autocatalytic cycles.
     Some of the autocatalytic cycles we find are not usually considered as such.
-    The wide span of autocatalytic cycles in central carbon metabolism suggests that the constraints underlying their stable operation have network-wide biological consequences.
+    The span of autocatalytic cycles in central carbon metabolism suggests that the constraints underlying their stable operation have network-wide biological consequences.
 
     In this study we present the specific requirements metabolic autocatalytic cycles must meet in order to achieve at least one, non-zero, steady state which is stable in respect to fluctuations of either metabolites or enzyme levels close to the steady state point.
     The mathematical tools we use are part of dynamical systems theory \cite{Strogatz2014-hp}.
@@ -41,7 +42,7 @@
     Our findings add to these reasons the essential stabilizing effect of low saturation of branch reactions on the stability of fluxes through autocatalytic cycles.
 
     We use recent fluxomics and proteomics data to test the predictions we make.
-    We find them to hold in all cases tested, where autocatalytic cycles support flux.
+    We find them to hold in all cases tested where autocatalytic cycles support flux.
     Our analysis demonstrates how the requirement for stable operation of autocatalytic cycles results in design principles that are followed by autocatalytic cycles in-vivo.
     The results and design principles presented here can be further used in synthetic metabolic engineering applications that require proper functioning of autocatalytic cycles.
 
@@ -66,9 +67,9 @@ On top of the previously discussed CBB cycle (Figure \ref{fig:realautocatal}, ex
 \begin{itemize}
     \item The glyoxylate cycle within the TCA cycle, which turns an internal malate and two external acetyl-CoAs into two malate molecules.
         This is achieved by transforming malate to isocitrate, while assimilating acetyl-CoA, and then splitting the isocitrate to produce two malate molecules, assimilating another acetyl-CoA \cite{Kornberg1966-lh} (Figure \ref{fig:realautocatal}, example II).
-    \item A cycle formed by the widely known glucose phosphotransferase system (PTS) in bacteria.
-      This transport system imports a glucose molecule using phosphoenolpyruvate (PEP) as a co-factor.
-      The imported glucose is further catabolized, producing two PEP molecules via glycolysis (Figure \ref{fig:realautocatal}, example III).
+    \item A cycle formed by the glucose phosphotransferase system (PTS) in bacteria.
+      This transport system imports a glucose molecule using phosphoenolpyruvate (pep) as a co-factor.
+      The imported glucose is further catabolized, producing two pep molecules via glycolysis (Figure \ref{fig:realautocatal}, example III).
 
 \end{itemize}
     \iftoggle{elifesubmission} {
@@ -87,7 +88,7 @@ The ubiquity of compact autocatalytic cycles in central carbon metabolism motiva
     \label{fig:realautocatal}
 Three representative autocatalytic cycles in central carbon metabolism: (I) The Calvin-Benson-Bassham cycle (yellow); (II) The glyoxylate cycle (magenta); (III) A cycle using the phosphotransferase system (PTS) to assimilate glucose (cyan).
 Assimilation reactions are indicated in green.
-Arrow width in panels represent relative carbon mass.
+Arrow width in panels represent relative carbon flux.
 }
 \end{figure}
 
@@ -104,7 +105,7 @@ We thus also sometimes consider $f_b$ to represent biomass generation.
 For simplicity in the derivation, we assume irreversible Michaelis-Menten kinetics for the two reactions.
 Even though $f_a$ should follow bisubstrate velocity equation, assuming constant concentration of $A$ reduces the bisubstrate equation to a simple Michaelis-Menten equation.
 The apparent kinetic constants of the equation depend on the constant value of $A$ (see methods).
-We extend our analysis to bisubstrate reaction equations below.
+We extend our analysis to bisubstrate reaction equations in the next section.
 We therefore assume that:
     \begin{eqnarray*}
       f_a = \frac{V_{\max,a}X}{K_{M,a}+X} \\
@@ -120,13 +121,13 @@ We therefore assume that:
         (A) A simple autocatalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
         These fluxes follow simple Michaelis Menten kinetics.
         A steady state occurs when $f_a=f_b$, implying that $\dot{X}=0$.
-        The cycle always has a steady state at $X=0$.
+        The cycle always has a steady state (i.e. $\dot{X}=0$) at $X=0$.
         The slope of each reaction at $X=0$ is $\sfrac{V_{\max}}{K_m}$.
         A steady state is stable if at the steady state concentration $\frac{d\dot{X}}{dX}<0$.
-        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ determines two characteristics of the system:
-        If $V_{\max,b}>V_{\max,a}$, then a stable steady state concentration must exist as for high concentrations of $X$ the branching reaction will reduce its concentration (cyan domain, cases (I) and (II)).
+        (B) Each set of kinetic parameters, $V_{\max,a},V_{\max,b},K_{M,a},K_{M,b}$ determines two dynamical properties of the system:
+        If $V_{\max,b}>V_{\max,a}$, then a stable steady state concentration must exist, as for high concentrations of $X$ the branching reaction will reduce the concentration of $X$ (cyan domain, cases (I) and (II)).
         If $\sfrac{V_{\max,b}}{K_{M,b}}<\sfrac{V_{\max,a}}{K_{M,a}}$, implying that $\sfrac{V_{\max,b}}{V_{\max,a}}<\sfrac{K_{M,b}}{K_{M,a}}$, then zero is a non-stable steady state concentration as if $X$ is slightly higher than zero, the autocatalytic reaction will carry higher flux, further increasing the concentration of $X$ (magenta domain, cases (I) and (IV)).
-    At the intersection of these two domains a non-zero, stable steady state concentration exists (I).}
+    At the intersection of these two domains a non-zero, stable steady state concentration exists, case (I).}
     \end{figure}
 
     We characterize the metabolic state of this system by the concentration of the metabolite $X$.
@@ -180,7 +181,7 @@ We therefore assume that:
 
     While having a steady state at positive concentration is an essential condition to sustain flux, it is not sufficient in terms of biological function.
     The steady state at positive concentration must also be stable to small perturbations.
-    Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$ (at which $\dot X=0$).
+    Stability with respect to small perturbations is determined by the response of the system to small deviations from the steady state, $X^*$ (at which, by definition $\dot X=0$).
     Assuming $X = X^*+\Delta X$, stability implies that if $\Delta X$ is positive then $\dot X$ needs to be negative at $X^*+\Delta X$, reducing $X$ back to $X^*$, and if $\Delta X$ is negative, $\dot X$ will need to be positive, increasing $X$ back to $X^*$.
     It then follows that in order for $X^*$ to be stable, $\frac{d\dot X}{dX} <0$ at $X=X^*$, implying that upon a small deviation from the steady state $X^*$ (where $\dot X=0$), the net flux $\dot X$ will oppose the direction of the deviation.
 
@@ -229,11 +230,11 @@ We therefore assume that:
     This requirement implies that the two fluxes will be equal for some positive concentration of $X$, ensuring a positive steady state exists.
     As this requirement further implies that below the positive steady state the branch reaction will carry less flux than the autocatalytic reaction, it follows that small deviations of the concentration of $X$ below the steady state will result in an increase in its concentration by the autocatalytic reaction, driving it back to the steady state.
     Meeting the second constraint has another consequence.
-    Unlike the common case where a stronger affinity of an enzyme to the substrate increases the flux through the reaction it catalyzes, in autocatalytic cycles, a stronger affinity of the branch reaction to the substrate reduces the flux it carries due to reduction in the steady state concentration of the intermediate metabolite of the cycle.
 
     Interestingly, these conditions imply that if $K_{M,b}<K_{M,a}$ then no positive stable steady state can be achieved.
     Specifically, changes to the expression levels of the enzymes catalyzing $f_a$ and $f_b$ only affect $V_{\max,a}$ and $V_{\max,b}$, and therefore do not suffice to attain a stable positive steady state.
-    This indicates that stability of autocatalytic cycles depends on inherent kinetic properties of the enzymes involved and cannot always be achieved by modulating expression levels, a design principle that may be critical in metabolic engineering.
+    This indicates that stability of autocatalytic cycles, that are represented by the model analyzed above, depends on inherent kinetic properties of the enzymes involved and cannot always be achieved by modulating expression levels.
+    We suggest this property to be a design principle that can be critical in metabolic engineering.
 
     \subsubsection{Integrating the bisubstrate nature of the autocatalytic reaction into the simple model}
     In the model above, to keep the analysis concise, we neglected the bisubstrate nature of the autocatalytic reaction.
@@ -269,7 +270,7 @@ We therefore assume that:
 \subsubsection{Input flux increases the range of parameters for which a stable steady state solution exists}
     Autocatalytic cycles are embedded within a larger metabolic network.
     Specifically, such cycles may have independent input fluxes to some of their intermediate metabolites, not requiring the use of other intermediate metabolites of the cycle.
-    For example, in the glucose based, PTS-dependent autocatalytic cycle, the existence of alternative transporters can generate flux of glucose 6-phosphate into the cycle without the use of PEP \cite{Ferenci1996-nv}.
+    For example, in the glucose based, PTS-dependent autocatalytic cycle, the existence of alternative transporters can generate flux of glucose 6-phosphate into the cycle without the use of pep \cite{Ferenci1996-nv}.
 
     When adding a constant input flux, $f_i$ to our simple system (Figure \ref{fig:inputcycle}A) the steady state condition changes to include this flux, giving:
 
@@ -414,7 +415,7 @@ We therefore assume that:
   Solid arrow width represents carbon flux per unit time.
   Shaded arrow width represents maximal carbon flux capacity per unit time, given the expression level of the catalyzing enzyme.
   In all cases there is enough excess capacity in the branching reactions to prevent the cycle from overflowing.
-  A $4\%$ flux from PEP to biomass was neglected in growth under glucose and fructose.
+  A $4\%$ flux from pep to biomass was neglected in growth under glucose and fructose.
   Only in one out of the 9 branch points observed (the branch point at fbp in growth under fructose), the outgoing reaction is significantly more saturated than the autocatalytic reaction.
   (*) A branch point at which the branching reaction is more saturated than the autocatalytic reaction, which may result from neglecting fructose transport directly as f6p when deriving fluxes (see text).
 }
@@ -466,11 +467,11 @@ We therefore assume that:
 
     For the PTS cycle we find that there are a total of 12 allosteric interactions, 7 inhibitions and 5 activations.
     Out of these 12 interactions, 11 interactions follow our expectations in terms of the type of the regulating metabolite (assimilated metabolite, cycle intermediate, or branch product), the regulated reaction (cycle reaction, branch reaction, or the reverse of a branch reaction), and the direction of the regulation (activation or inhibition).
-    One interaction, the activation of fba by PEP, does not follow our expectation.
+    One interaction, the activation of fba by pep, does not follow our expectation.
 
     For the glyoxylate cycle we find that there are a total of 13 interactions, 12 inhibitions and 1 activation.
     Out of these 13 interactions, 8 interactions follow our expectations and 5 do not.
-    The lack of agreement between the expected regulation direction and the actual regulation found for this cycle correlates with the observation in \cite{Gerosa2015-oq} that TCA cycle fluxes are regulated mainly by transcription and not by reactants levels.
+    The lack of significant agreement between the expected regulation direction and the actual regulation found for this cycle is consistent with the observation in \cite{Gerosa2015-oq} that TCA cycle fluxes are regulated mainly by transcription and not by reactants levels.
 
     It is important to note that allosteric regulation serves many roles, and that the metabolic network faces many more challenges than just the support of stable autocatalysis.
     Therefore, the agreement we find between existing allosteric interactions and the expected regulation scheme supporting autocatalysis does not suggest that the autocatalytic nature of the PTS is the only, or even main underlying reason for these allosteric interactions.
@@ -510,6 +511,13 @@ Finally, while our work focuses on cycles increasing the amount of carbon in the
   The analysis we present here can thus be of relevance for the design and analysis of metabolic networks both in existing organisms and in novel synthetic systems.
 
   \section{Methods}
+  \renewcommand\thesubsection{\arabic{subsection}}
+\mtcsettitle{secttoc}{Contents}
+\mtcsetpagenumbers{secttoc}{off}
+\mtcsetrules{secttoc}{off}
+\mtcsetoffset{secttoc}{-4.0em}
+\mtcsetformat{secttoc}{tocrightmargin}{-4.0em}
+  \secttoc
   \subsection{Formal definition of an autocatalytic metabolic cycle}
   Given a metabolic network composed of a set of reactions and metabolites, the following criteria can be used to define a subset of the network that is an autocatalytic cycle:
   First we define a metabolic cycle.
@@ -517,14 +525,13 @@ A set of irreversible reactions (for reversible reactions only one direction can
 A cycle is autocatalytic if the reactions of the cycle can be applied, each reaction at an appropriate, positive number of times, such that the resulting change in the amount of each of the metabolites forming the cycle is non-negative, with at least one metabolite of the cycle having a strictly positive change.
 
 The same definition can be stated in terms of reaction vectors and a stoichiometric matrix.
-If a metabolic network has $n$ metabolites, indicated by the numbers $1$ to $n$, then every reaction, $R$, in the network can be described as a vector $V_R$ in $\mathbb{Z}^n$, such that the $i$'th coordinate of $V_R$ specifies how much of metabolite $i$ the reaction $R$ produces (if $R$ consumes a metabolite, then the value at the coordinate representing the metabolite is negative).
+If a metabolic network has $n$ metabolites, indicated by the numbers $1$ to $n$, then every reaction, $r$, in the network can be described as a vector $V_r$ in $\mathbb{Z}^n$, such that the $i$'th coordinate of $V_r$ specifies how much of metabolite $i$ the reaction $r$ produces (if $r$ consumes a metabolite, then the value at the coordinate representing the metabolite is negative).
 
-With this notation, a set of metabolites: $M'={m_1\cdots m_j}$ and a set of reactions, $R'={r_1\cdots r_k}$ form an autocatalytic cycle if:
+With this notation, a set of metabolites: $M={m_1\cdots m_j}$ and a set of reactions, $R={r_1\cdots r_k}$ form an autocatalytic cycle if:
 \begin{enumerate}
-    \item Every metabolite in $M'$ is a substrate of at least one reaction in $R'$, and a product of at least one reaction in $R'$.
-    \item Every reaction in $R'$ has at least one substrate from $M'$ and at least one product from $M'$.
-    \item There is a set of positive integers, $i_1\cdots i_k$ such that the total reaction vector $R^*=\sum_{l=1}^k i_lR_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range.
-    \item The condition that the total reaction vector $R^*=\sum_{l=1}^k i_lR_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range cannot be satisfied by a set of non-negative integers, $i_1\cdots i_k$, if this set includes values that are $0$ (this conditions eliminates the addition of disjoint cycles to an autocatalytic cycle).
+    \item Every row and every column of the stoichiometric matrix have at least one positive and one negative number.
+    \item There is a set of positive integers, $i_1\cdots i_k$ such that the total reaction vector $r^*=\sum_{l=1}^k i_lr_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range.
+    \item The condition that the total reaction vector $r^*=\sum_{l=1}^k i_lr_l$ is non negative at all the coordinates $m_1\cdots m_j$ and is strictly positive for at least one coordinate in this range cannot be satisfied by a set of non-negative integers, $i_1\cdots i_k$, if this set includes values that are $0$ (this conditions eliminates the addition of disjoint cycles to an autocatalytic cycle).
 \end{enumerate}
 
   \subsection{Systematic identification of autocatalytic cycles in metabolic networks}
@@ -1217,3 +1224,5 @@ For this segment we therefore get that
     As such reactions are mirror images of branch reactions, we expect them to be oppositely regulated to branch reactions.
 
     As we show below, these predictions hold for the cycle using the PTS, that is known to be allosterically controlled, but not for the glyoxylate cycle, which is known to be transcriptionally controlled \cite{Gerosa2015-oq}.
+
+\renewcommand\thesubsection{}

@@ -13,6 +13,16 @@
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
 \renewcommand\thesubsubsection{}
+\usepackage{minitoc}
+
+\makeatletter
+\renewcommand*{\tableofcontents}{%
+  \begingroup
+    \let\@input\@gobble
+    \@starttoc{toc}%
+  \endgroup
+}
+\makeatother
 \title{Design principles of autocatalytic cycles constrain enzyme kinetics and force low substrate saturation at flux branch points}
 
 \author[1]{Uri Barenholz}
@@ -28,6 +38,8 @@
 \affil[4]{Institue of Molecular Systems Biology, ETH Zurich}
 \date{}
 \begin{document}
+\dosecttoc
+\tableofcontents
 \input{varsdefs.tex}
 \maketitle
 \abstract{
