@@ -511,12 +511,17 @@ Finally, while our work focuses on cycles increasing the amount of carbon in the
   The analysis we present here can thus be of relevance for the design and analysis of metabolic networks both in existing organisms and in novel synthetic systems.
 
   \section{Methods}
-  \renewcommand\thesubsection{\arabic{subsection}}
-\mtcsettitle{secttoc}{Contents}
+  \subsection*{Overview of methods}
+    \renewcommand\thesubsection{\arabic{subsection}}
+\renewcommand\stifont{\normalfont\small}
+\mtcsettitle{secttoc}{The methods section is composed of the following sections:}
 \mtcsetpagenumbers{secttoc}{off}
 \mtcsetrules{secttoc}{off}
 \mtcsetoffset{secttoc}{-4.0em}
 \mtcsetformat{secttoc}{tocrightmargin}{-4.0em}
+%\mtcsetfeature{secttoc}{open}{\vspace{-1.5cm}}
+\mtcsetfont{secttoc}{subsection}{\normalfont\small}
+\mtcsetfont{secttoc}{subsection}{\normalfont\small}
   \secttoc
   \subsection{Formal definition of an autocatalytic metabolic cycle}
   Given a metabolic network composed of a set of reactions and metabolites, the following criteria can be used to define a subset of the network that is an autocatalytic cycle:
