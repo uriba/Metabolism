@@ -15,14 +15,6 @@
 \renewcommand\thesubsubsection{}
 \usepackage{minitoc}
 
-\makeatletter
-\renewcommand*{\tableofcontents}{%
-  \begingroup
-    \let\@input\@gobble
-    \@starttoc{toc}%
-  \endgroup
-}
-\makeatother
 \title{Design principles of autocatalytic cycles constrain enzyme kinetics and force low substrate saturation at flux branch points}
 
 \author[1]{Uri Barenholz}
@@ -39,12 +31,12 @@
 \date{}
 \begin{document}
 \dosecttoc
-\tableofcontents
+\faketableofcontents
 \input{varsdefs.tex}
 \maketitle
 \abstract{
 A set of chemical reactions that require a metabolite to synthesize more of that metabolite is an autocatalytic cycle.
-Here we show that most of the reactions in central carbon metabolism are part of compact autocatalytic cycles.
+Here we show that most of the reactions in the core of central carbon metabolism are part of compact autocatalytic cycles.
 Such metabolic designs must meet specific conditions to support stable fluxes, hence avoiding depletion of intermediate metabolites.
 As such, they are subjected to constraints that may seem counter-intuitive: the enzymes of branch reactions out of the cycle must be overexpressed and the affinity of these enzymes to their substrates must be relatively weak.
 We use recent quantitative proteomics and fluxomics measurements to show that the above conditions hold for functioning cycles in central carbon metabolism of \emph{E.coli}.
