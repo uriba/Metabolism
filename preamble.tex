@@ -9,13 +9,6 @@
 \usepackage{float}
 \usetikzlibrary{arrows,positioning,calc,arrows.meta,patterns,fit}
 
-\newcommand{\beginsupplement}{%
-        \setcounter{table}{0}
-        \renewcommand{\thetable}{S\arabic{table}}%
-        \setcounter{figure}{0}
-        \renewcommand{\thefigure}{S\arabic{figure}}%
-    }
-
 \newtoggle{article}
 \newtoggle{poster}
 \newtoggle{eddpathway}
@@ -28,8 +21,22 @@
 \usepackage{setspace}
 \linenumbers
 \doublespacing
+\newcommand{\beginsupplement}{%
+        \setcounter{table}{0}
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0}
+        \renewcommand{\thefigure}{2-figure supplement \arabic{figure}}%
+    }
 }
-{}
+{
+\newcommand{\beginsupplement}{%
+        \setcounter{table}{0}
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0}
+        \renewcommand{\thefigure}{S\arabic{figure}}%
+    }
+}
+
 
 \tikzset{>=Latex}
 \newcommand\influx{0.5}

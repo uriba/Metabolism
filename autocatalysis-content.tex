@@ -55,8 +55,11 @@ For stable operation, $\delta$ copies have to branch out of the cycle, and this 
 For a formal, mathematical definition, see methods section \ref{sec:formaldefautocatal}.
 
 \begin{figure}[!htb]
+\iftoggle{elifesubmission} { }
+{
     \centering{
         \input{autocatalytic-cycle.tex}}
+}
 \caption{
     \label{fig:autocataldef}
   A basic autocatalytic cycle requires an internal metabolite to be present in order to assimilate the external metabolite into the cycle, increasing the amount of the internal metabolite by some amount, $\delta$.}
@@ -81,8 +84,10 @@ On top of the previously discussed CBB cycle (Figure \ref{fig:realautocatal}, ex
 The ubiquity of compact autocatalytic cycles in the core of central carbon metabolism motivates the study of unique features of autocatalytic cycles, as derived below, which may constrain and shape the kinetic parameters of a broad set of enzymes at the heart of metabolism.
 
 \begin{figure}[!htb]
+\iftoggle{elifesubmission} { }
+{
 \resizebox{1\linewidth}{!}{
-  \input{autocatalytic-samples.tex}
+  \input{autocatalytic-samples.tex}}
 }
 \caption{
     \label{fig:realautocatal}
@@ -116,7 +121,10 @@ We therefore assume that:
     Using these simple forms allows us to obtain an analytic solution.
     We discuss more general cases below.
     \begin{figure}[!htb]
+\iftoggle{elifesubmission} { }
+{
       \input{simple-cycle-analysis-figure.tex}
+}
       \caption{\label{fig:simplecycle}
         (A) A simple autocatalytic cycle induces two fluxes, $f_a$ and $f_b$ as a function of the concentration of $X$.
         These fluxes follow simple Michaelis Menten kinetics.
@@ -284,8 +292,11 @@ We therefore assume that:
 
 
     \begin{figure}[!htb]
+\iftoggle{elifesubmission} { }
+{
         \centering{
             \input{autocatalytic-with-input.tex}}
+        }
       \caption{\label{fig:inputcycle}
         (A) The effect of a fixed input flux, $f_i$, on the possible steady states of a simple autocatalytic cycle.
         A steady state occurs when $f_a+f_i=f_b$.
@@ -316,7 +327,7 @@ We therefore assume that:
     Another example of the effects of addition of an input flux to an autocatalytic cycle is the input flux of fructose-6-phosphate from the catabolism of starch into the CBB cycle.
     This input flux can be used to 'kick start' the cycle even without using the intermediate metabolites of the cycle.
 
-    
+
     \subsubsection{Reversible branch reaction can either be far from equilibrium, resulting in the simple case, or near equilibrium, pushing the stability conditions down the branch pathway}
     The simple model assumed both the autocatalytic and the branch reactions are irreversible.
     Assuming the branch reaction, $f_b$, can be reversible, with a product $Y$, the system can be analyzed in two extreme cases.
@@ -356,8 +367,11 @@ We therefore assume that:
     We find that in the multiple reaction case a steady state is stable if there exists $i$ such that $\beta_i > \alpha_i$ (where $i$ can be any number in the range $1\dots n$, $\alpha_i=\frac{\partial f_{a_i}}{\partial X_i}$, and $\beta_i=\frac{\partial f_{b_i}}{\partial X_i}$), methods section \ref{sec:complexderivatives}.
 
 \begin{figure}[!htb]
+\iftoggle{elifesubmission} { }
+{
   \centering
       \input{complex-autocatalytic-cycles.tex}
+  }
      \caption{
      Generalization of analysis to multiple-reaction autocatalytic cycles with a single assimilating reaction.
      (A) A two reaction system.
@@ -404,13 +418,17 @@ Using the connection between derivatives of reactions and saturation levels (met
 
     To estimate the maximal capacity of a reaction we followed the procedure described in \cite{Davidi2016-ga} (see methods section \ref{sec:calcsat}).
     We used the data from \cite{Gerosa2015-oq} to identify the major branch points in each functioning cycle and the actual flux in them under each of the relevant conditions.
-    The results are presented in figure \ref{fig:branch} and are provided, with the relevant calculations, in the supplementary tables.
+    The results are presented in figure \ref{fig:branch} and are provided, with the relevant calculations, in Supplementary File 1.
 
 \begin{figure}[!htb]
+\iftoggle{elifesubmission} { }
+{
 \centering
 \resizebox{1\linewidth}{!}{
     \input{experimental-fluxes.tex}
 }
+}
+
 \caption{
   Major branch points and relative enzyme saturation in operating autocatalytic cycles.
   Solid arrow width represents carbon flux per unit time.
@@ -436,10 +454,10 @@ Using the connection between derivatives of reactions and saturation levels (met
 
     We made two negative control analyses to examine whether other reasons do not underlie the trend we find.
     First, we compared the saturation levels at the same branch points in growth conditions at which the autocatalytic cycles do not function, but the reactions carry flux.
-    We find that for these cases, only 4 out of 9 cases satisfy the low branch saturation condition (see supplementary tables).
+    We find that for these cases, only 4 out of 9 cases satisfy the low branch saturation condition (Supplementary File 1).
     Second, we searched for branch points out of non-autocatalytic cycles and tested whether in such points branch reactions are also consistently less saturated than their corresponding cycle reactions.
     We found two flux-carrying cycles: the TCA cycle, carrying flux in glucose, fructose, and glycerol growth, and a cycle consisting of the pentose-phosphate pathway combined with gluconeogenesis, carrying flux in acetate, glycerol, and succinate growth.
-    Out of the total 6 conditions-branch points cases, in 3 the branch reaction was less saturated than the cycle reaction, and in 3 the cycle reaction was less saturated than the branch reaction (see supplementary tables).
+    Out of the total 6 conditions-branch points cases, in 3 the branch reaction was less saturated than the cycle reaction, and in 3 the cycle reaction was less saturated than the branch reaction (Supplementary File 1).
     We therefore conclude that, for cases that do not involve autocatalysis, the saturation of branch versus cycle reactions seems evenly distributed.
 
 
@@ -464,7 +482,7 @@ Using the connection between derivatives of reactions and saturation levels (met
     As such, the relevant condition for the existence of a stable positive steady state should hold for the updated kinetic properties as defined following the effect of allosteric regulation.
 
     We further analyze the ability of specific allosteric interactions to support fast convergence and stability of autocatalytic cycles in the methods section \ref{sec:allosteric}.
-    We compare the expected beneficial allosteric interactions against the allosteric regulation network of the two functioning autocatalytic cycles we identified, the PTS-using autocatalytic cycle and the glyoxylate cycle (see supplementary tables, regulation data was taken from \cite{Keseler2013-xn} and \cite{Schomburg2004-st}).
+    We compare the expected beneficial allosteric interactions against the allosteric regulation network of the two functioning autocatalytic cycles we identified, the PTS-using autocatalytic cycle and the glyoxylate cycle (Supplementary File 1, regulation data was taken from \cite{Keseler2013-xn} and \cite{Schomburg2004-st}).
 
     For the PTS cycle we find that there are a total of 12 allosteric interactions, 7 inhibitions and 5 activations.
     Out of these 12 interactions, 11 interactions follow our expectations in terms of the type of the regulating metabolite (assimilated metabolite, cycle intermediate, or branch product), the regulated reaction (cycle reaction, branch reaction, or the reverse of a branch reaction), and the direction of the regulation (activation or inhibition).
