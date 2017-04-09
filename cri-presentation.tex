@@ -1,0 +1,271 @@
+\documentclass[aspectratio=169]{beamer}
+\input{preamble.tex}
+
+\renewcommand{\footnoterule}{}
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt={#1{}{ invisible}}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} 
+  },
+}
+
+
+\usepackage{adjustbox}
+\togglefalse{article}
+\togglefalse{eddpathway}
+\togglefalse{elifesubmission}
+\setbeamertemplate{footline}[frame number]
+
+\newcommand{\backupbegin}{
+  \newcounter{finalframe}
+    \setcounter{finalframe}{\value{framenumber}}
+}
+
+\newcommand{\backupend}{
+  \setcounter{framenumber}{\value{finalframe}}
+}
+
+\title{Stability of autocatalytic cycles imposes constraints on kinetic parameters of enzymes}
+\author{Uri Barenholz}
+\institute{Prof. Ron Milo lab\\Department of Plant \& Environmental Sciences\\
+Weizmann Institute of Science, Rehovot, Israel}
+\date{April 14, 2017}
+\begin{document}
+
+\input{varsdefs.tex}
+
+\frame{
+  \titlepage
+}
+
+\frame{\frametitle{An autocatalytic cycle requires its internal metabolite to produce it}
+    \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
+        \input{autocatalytic-cycle.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Why do we care about autocatalytic cycles?}
+\begin{itemize}
+    \item The lab implements the Calvin-Benson-Bassham cycle in \emph{E.coli}\footnote{Antonovsky et. al., Cell 2016}
+    \item Two enzymes were introduced
+    \item It didn't work
+    \item Can we understand why?
+\end{itemize}
+}
+
+\frame{\frametitle{Stable flux through an autocatalytic cycle constrains the kinetic parameters of its enzymes}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{simple-cycle-analysis-figure.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Conclusions drawn from the simple model apply under various extensions}
+\begin{itemize}
+    \item Using bisubstrate reaction schemes for the autocatalytic reaction
+        \begin{itemize}
+            \item Critical lower concentration of the assimilated metabolite exists
+            \item Upper bound on the affinity of the branch reaction remains in most schemes
+        \end{itemize}
+        \pause
+    \item Assuming the autocatalytic reaction is reversible
+        \begin{itemize}
+            \item Relaxes the constraint on the ratio of maximal fluxes between the autocatalytic and the branch reaction
+        \end{itemize}
+        \pause
+    \item Assuming the branch reaction is reversible
+        \begin{itemize}
+            \item Depending on the consumption of the branch reaction product, either the branch reaction, or the reaction downstream of it must have limited affinity
+        \end{itemize}
+\end{itemize}
+} 
+
+\frame{\frametitle{Directed evolution towards function of the CBB cycle required changes in kinetic parameters of main branch reactions }
+\begin{itemize}
+    \item 3 Directed evolution repeats evolved functioning CBB cycle
+    \item Single common mutation: The major branch reaction gene, PRS
+        \begin{itemize}
+            \item With other, different mutations in each strain
+        \end{itemize}
+    \item In all cases $\sfrac{K_{\text{cat}}}{K_M}$ of PRS decreased
+    \item Minimal changes required for CBB function include mutations in other major branch reactions
+    \end{itemize}
+} 
+
+\frame{\frametitle{Why should you care about autocatalytic cycles?}
+\begin{itemize}
+    \item Key metabolic processes are autocatalytic
+    \begin{itemize}
+        \item In glycolysis ATP investment is required for the production of ATP
+    \end{itemize}
+    \item Systematic search reveals autocatalytic cycles are abundant in central carbon metabolism
+\end{itemize}
+}
+
+\frame{\frametitle{Autocatalytic cycles are abundant in central carbon metabolism}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{autocatalytic-samples.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Stability criteria of the simple model can be extended for complex cycles}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.6\textheight},center}
+      \input{complex-autocatalytic-cycles.tex}
+    \end{adjustbox}
+    \pause
+    \begin{itemize}
+        \item At steady state: $\sum f_{b_i}=f_{a_n}$
+        \pause
+    \item Sufficient condition for stability is: $\exists_i \quad \beta_i \geq \alpha_i$
+        
+        where $\beta_i=\frac{df_{b_i}}{dX_i}\Big\rvert_{X_i^*}$ and $\alpha_i=\frac{df_{a_i}}{dX_i}\Big\rvert_{X_i^*}$
+    \end{itemize}
+}
+
+\frame{\frametitle{Theoretical $\beta_i\geq\alpha_i$ constraint results in experimental prediction on reaction saturation level}
+    \begin{itemize}
+        \item Reaction saturation  is the ratio of the actual flux to the potential flux, given expression level and catalytic rate
+            \pause
+        \item For monotonically increasing, bounded, concave functions: saturation and derivative are inversely correlated
+            \pause
+        \item Therefore, $\beta_i\geq\alpha_i$ imply that branch reaction is less saturated than autocatalytic reaction
+    \end{itemize}
+}
+
+\frame{\frametitle{Analysis of experimental fluxomics data\footnote{Gerosa et. al., Cell Systems 2015} and proteomics data\footnote{Schmidt et. al., Nature Biotechnology 2016} shows branch reactions are consistently less saturated than autocatalytic reactions}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.69\textheight},center}
+      \input{experimental-fluxes.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Fructose PTS disagreement results from missing data on alternative transport pathways}
+\begin{itemize}
+    \item All fructose was assumed to be transported as fbp
+    \item Experimental evidence shows other transport pathways are functioning\footnote{Kornberg, 1990}
+\end{itemize}
+}
+
+\frame{\frametitle{Allosteric regulation can accelerate convergence to steady state and increase robustness in fluctuating environment}
+\begin{itemize}
+    \item Convergence to steady state is faster when the differences between the cycle flux and the branch flux are larger
+    \begin{itemize}
+        \item Intermediate metabolites activate branch reactions and inhibit cycle reactions
+    \end{itemize}
+    \pause
+    \item Adaptation of steady state fluxes to nutrient availability is achieved by allosteric regulation of the assimilated metabolite
+    \begin{itemize}
+        \item The assimilated metabolite should activate branch reactions and inhibit cycle reactions
+    \end{itemize}
+    \pause
+    \item Adaptation of steady state fluxes to demand of cycle products is achieved by allosteric regulation of the branch products
+    \begin{itemize}
+        \item Branch products should activate branch reactions and inhibit cycle reactions
+    \end{itemize}
+    \pause
+    \item For the PTS using cycle, 11 out of 12 allosteric interactions agree with these predictions
+
+\end{itemize}
+}
+
+\frame{\frametitle{Conclusions}
+\begin{itemize}
+    \item Autocatalytic cycles play a major role in central carbon metabolism
+    \item Proper function of autocatalytic cycles depends on kinetic parameters of enzymes
+    \begin{itemize}
+        \item Limits affinity of branch reactions
+    \end{itemize}
+    \item In metabolic engineering of autocatalytic cycles, native kinetic parameters can prohibit function
+    \item Stability of autocatalytic cycles depends on under-saturation of branch reactions
+    \begin{itemize}
+        \item Excess expression of branch reactions enzymes is required
+    \end{itemize}
+   \item Fluxomics data approves sub-optimality constraints are maintained in-vivo
+\end{itemize}
+}
+
+\frame{\frametitle{Acknowledgments}
+\begin{columns}
+    \begin{column}{0.7\textwidth}
+        \pgfimage[width=\textwidth]{lab_2016.png}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+        \pgfimage[width=0.5\textwidth]{eladnoor.png}
+
+        \pgfimage[width=0.5\textwidth]{ed.jpg}
+
+        \pgfimage[width=0.9\textwidth]{aeri.png}
+
+        \pgfimage[width=0.9\textwidth]{erc.jpg}
+    \end{column}
+\end{columns}
+}
+\frame{\frametitle{Outlook}
+\begin{itemize}
+    \item Efficient algorithm for identification of autocatalytic cycles in large metabolic networks
+    \item Experimental exploration of different autocatalytic cycles function in-vivo
+    \item Explore possible other uses of passive control of metabolic fluxes due to kinetic parameters
+\end{itemize}
+Thank You!
+}
+
+\backupbegin
+\frame{\frametitle{Supplementary figures}
+}
+
+\frame{\frametitle{Input flux increases the range of parameters for which stable fluxes exist}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{autocatalytic-with-input.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Additional autocatalytic cycles in central carbon metabolism}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{extra-cycles-figure1.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Additional autocatalytic cycles in central carbon metabolism}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{extra-cycles-figure2.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{ATP autocatalysis in glycolysis}
+    \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
+        \input{atp-cycle.tex}
+    \end{adjustbox}
+}
+
+\frame{\frametitle{Supplementary equations}
+}
+
+\frame{\frametitle{Bisubstrate reaction equations}
+\begin{itemize} 
+    \item Substituted enzyme
+        \begin{equation*}
+              f=\frac{V_{\max}AX}{K_XA+K_{A}X+AX}
+        \end{equation*}
+    \item Random binding ternary complex
+        \begin{equation*}
+          f=\frac{V_{\max}AX}{K_{i,A}K_X+K_XA+K_AX+AX}
+        \end{equation*}
+    \item Ordered binding ternary complex, assimilated metabolite binding first
+        \begin{equation*}
+            f=\frac{V_{\max}AX}{K_{i,A}K_X+K_XA+AX}
+        \end{equation*}
+    \item Ordered binding ternary complex, internal metabolite binding first
+        \begin{equation*}
+            f=\frac{V_{\max}AX}{K_{i,X}K_A+K_AX+AX}
+        \end{equation*}
+\end{itemize}
+}
+
+\frame{\frametitle{Reversible reaction equation}
+   \begin{equation*}
+       f_b=\frac{V_{\max,b}(X-Y)}{K_X+X+\frac{K_X}{K_Y}Y}
+   \end{equation*}
+}
+
+\backupend
+
+\end{document}
