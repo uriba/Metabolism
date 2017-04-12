@@ -31,18 +31,28 @@
 \institute{Prof. Ron Milo lab\\Department of Plant \& Environmental Sciences\\
 Weizmann Institute of Science, Rehovot, Israel}
 \date{April 14, 2017}
+\usepackage[absolute,overlay]{textpos}
+\newcommand\urltext{
+    \begin{textblock*}{\paperwidth}(0pt,\textheight)
+        \raggedright \small \url{https://git.io/vSodL} \hspace{.5em}
+    \end{textblock*}
+}
 \begin{document}
 
 \input{varsdefs.tex}
 
 \frame{
   \titlepage
+    \urltext
 }
 
 \frame{\frametitle{An autocatalytic cycle requires its internal metabolite to produce it}
     \begin{adjustbox}{max totalsize={\textwidth}{\textheight},center}
         \input{autocatalytic-cycle.tex}
     \end{adjustbox}
+    %presentation link on github
+    % https://git.io/vSodL
+    \urltext
 }
 
 \frame{\frametitle{Why do we care about autocatalytic cycles?}
@@ -58,6 +68,7 @@ Weizmann Institute of Science, Rehovot, Israel}
     \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
         \input{simple-cycle-analysis-figure.tex}
     \end{adjustbox}
+    \urltext
 }
 
 \frame{\frametitle{Conclusions drawn from the simple model apply under various extensions}
@@ -78,6 +89,7 @@ Weizmann Institute of Science, Rehovot, Israel}
             \item Depending on the consumption of the branch reaction product, either the branch reaction, or the reaction downstream of it must have limited affinity
         \end{itemize}
 \end{itemize}
+    \urltext
 } 
 
 \frame{\frametitle{Directed evolution towards function of the CBB cycle required changes in kinetic parameters of main branch reactions }
@@ -90,6 +102,7 @@ Weizmann Institute of Science, Rehovot, Israel}
     \item In all cases $\sfrac{K_{\text{cat}}}{K_M}$ of PRS decreased
     \item Minimal changes required for CBB function include mutations in other major branch reactions
     \end{itemize}
+    \urltext
 } 
 
 \frame{\frametitle{Why should you care about autocatalytic cycles?}
@@ -100,12 +113,14 @@ Weizmann Institute of Science, Rehovot, Israel}
     \end{itemize}
     \item Systematic search reveals autocatalytic cycles are abundant in central carbon metabolism
 \end{itemize}
+    \urltext
 }
 
 \frame{\frametitle{Autocatalytic cycles are abundant in central carbon metabolism}
     \begin{adjustbox}{max totalsize={\textwidth}{0.8\textheight},center}
         \input{autocatalytic-samples.tex}
     \end{adjustbox}
+    \urltext
 }
 
 \frame{\frametitle{Stability criteria of the simple model can be extended for complex cycles}
@@ -120,6 +135,7 @@ Weizmann Institute of Science, Rehovot, Israel}
         
         where $\beta_i=\frac{df_{b_i}}{dX_i}\Big\rvert_{X_i^*}$ and $\alpha_i=\frac{df_{a_i}}{dX_i}\Big\rvert_{X_i^*}$
     \end{itemize}
+    \urltext
 }
 
 \frame{\frametitle{Theoretical $\beta_i\geq\alpha_i$ constraint results in experimental prediction on reaction saturation level}
@@ -130,6 +146,7 @@ Weizmann Institute of Science, Rehovot, Israel}
             \pause
         \item Therefore, $\beta_i\geq\alpha_i$ imply that branch reaction is less saturated than autocatalytic reaction
     \end{itemize}
+    \urltext
 }
 
 \frame{\frametitle{Analysis of experimental fluxomics data\footnote{Gerosa et. al., Cell Systems 2015} and proteomics data\footnote{Schmidt et. al., Nature Biotechnology 2016} shows branch reactions are consistently less saturated than autocatalytic reactions}
@@ -165,6 +182,7 @@ Weizmann Institute of Science, Rehovot, Israel}
     \item For the PTS using cycle, 11 out of 12 allosteric interactions agree with these predictions
 
 \end{itemize}
+    \urltext
 }
 
 \frame{\frametitle{Conclusions}
@@ -181,6 +199,7 @@ Weizmann Institute of Science, Rehovot, Israel}
     \end{itemize}
    \item Fluxomics data approves sub-optimality constraints are maintained in-vivo
 \end{itemize}
+    \urltext
 }
 
 \frame{\frametitle{Acknowledgments}
@@ -203,9 +222,19 @@ Weizmann Institute of Science, Rehovot, Israel}
 \begin{itemize}
     \item Efficient algorithm for identification of autocatalytic cycles in large metabolic networks
     \item Experimental exploration of different autocatalytic cycles function in-vivo
-    \item Explore possible other uses of passive control of metabolic fluxes due to kinetic parameters
+    \item Possible other uses of passive control of metabolic fluxes due to kinetic parameters
+\end{itemize}
+References:
+\begin{itemize}
+    \item Carbon fixation in \emph{E.coli}: Antonovsky et. al., Cell 2016
+    \item Emergence of autocatalysis in metabolic networks: Riehl et. al., PLoS CB 2010
+    \item Algorithms for identifying autocatalytic cycles: Kun et. al., Genome Biology 2008
+    \item Calculating $k_\text{cat}$ from proteomics data: Davidi et. al., PNAS 2016
+    \item This work: Barenholz et. al., eLife 2017
+
 \end{itemize}
 Thank You!
+    \urltext
 }
 
 \backupbegin
